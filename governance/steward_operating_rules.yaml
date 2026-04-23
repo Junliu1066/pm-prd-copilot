@@ -1,0 +1,21 @@
+version: 0.1.0
+
+rules:
+  - id: chief-does-not-bypass-substeward
+    severity: warn
+    description: Chief steward should not directly call department skills once a sub-steward exists for that domain.
+  - id: mcp-data-only
+    severity: fail
+    description: MCP outputs must be source data or source traces, not product recommendations.
+  - id: skill-declared-artifacts-only
+    severity: fail
+    description: Skills can only write artifacts declared in registry/skills.yaml.
+  - id: no-memory-write-without-approval
+    severity: fail
+    description: Memory updates must remain proposals unless human approval is recorded.
+  - id: no-prd-before-mvp-gate
+    severity: warn
+    description: PRD drafting should not proceed before MVP scope is approved or marked as an assumption.
+  - id: external-sources-need-trace
+    severity: fail
+    description: External source data must include source URL, source type, collection time, extractor, confidence, and human verification requirement.

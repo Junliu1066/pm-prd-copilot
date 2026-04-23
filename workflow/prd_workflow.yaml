@@ -1,0 +1,88 @@
+version: 0.1.0
+name: prd_workflow
+
+stages:
+  intake:
+    allowed_actions:
+      - collect_sources
+      - normalize_requirement
+    required_outputs:
+      - source_brief
+    next: evidence
+
+  evidence:
+    allowed_actions:
+      - learn_prd_style_from_pdf
+      - collect_market_sources
+      - collect_user_feedback_sources
+    required_outputs: []
+    next: user_analysis
+
+  user_analysis:
+    allowed_actions:
+      - map_user_universe
+      - analyze_pain_needs
+    required_outputs:
+      - user_universe
+      - pain_needs
+    approval_required:
+      - target_user_priority
+    next: scenario_priority
+
+  scenario_priority:
+    allowed_actions:
+      - analyze_competitor_gap
+      - rank_scenarios_by_roi
+    required_outputs:
+      - scenario_ranking
+    approval_required:
+      - core_scenario
+    next: mvp_scope
+
+  mvp_scope:
+    allowed_actions:
+      - decide_mvp_scope
+    required_outputs:
+      - mvp_scope
+    approval_required:
+      - mvp_scope
+    next: prd_planning
+
+  prd_planning:
+    allowed_actions:
+      - plan_prd_structure
+      - design_success_metrics
+    required_outputs:
+      - prd_structure
+    approval_required:
+      - prd_structure
+    next: prd_drafting
+
+  prd_drafting:
+    allowed_actions:
+      - draft_prd
+      - write_user_stories
+      - design_tracking_plan
+    required_outputs:
+      - prd_document
+      - prd_markdown
+    next: review
+
+  review:
+    allowed_actions:
+      - review_prd_quality
+      - check_risks_edgecases
+      - generate_pre_dev_questions
+    required_outputs:
+      - prd_quality_report
+    next: learning
+
+  learning:
+    allowed_actions:
+      - extract_memory_learning_proposal
+      - propose_skill_upgrade
+    required_outputs: []
+    approval_required:
+      - memory_update
+      - skill_upgrade
+    next: done

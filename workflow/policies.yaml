@@ -1,0 +1,34 @@
+version: 0.1.0
+
+human_approval_required:
+  product_decisions:
+    - target_user_priority
+    - core_scenario
+    - mvp_scope
+    - prd_structure
+  governance_decisions:
+    - create_sub_steward
+    - split_sub_steward
+    - create_peer_chief_steward
+    - retire_steward
+  learning_decisions:
+    - memory_update
+    - skill_upgrade
+
+stage_gate_policy:
+  default_mode: advisory
+  strict_for:
+    - registry
+    - steward_contract
+    - source_trace
+
+source_policy:
+  external_data_is_signal_not_fact: true
+  require_human_verification_reminder: true
+  required_trace_fields:
+    - source_url
+    - source_type
+    - collected_at
+    - extracted_by
+    - confidence
+    - human_verification_required

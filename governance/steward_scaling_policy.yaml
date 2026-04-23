@@ -1,0 +1,38 @@
+version: 0.1.0
+description: Dynamic steward scaling rules for PM Copilot skill and MCP governance.
+
+direct_management:
+  max_skills: 5
+  max_mcps: 2
+  max_workflow_stages: 3
+
+create_sub_steward_when:
+  skill_count_gt: 5
+  mcp_count_gt: 2
+  domain_skill_count_gte: 3
+  workflow_stage_count_gt: 3
+
+sub_steward_capacity:
+  max_skills: 7
+  max_mcps: 3
+  max_contiguous_stages: 2
+
+split_sub_steward_when:
+  skill_count_gt: 7
+  mcp_count_gt: 3
+  responsibility_domains_gt: 1
+  repeated_contract_failures_gte: 2
+
+propose_peer_chief_when:
+  sub_steward_count_gt: 5
+  independent_workflows_gt: 2
+  cross_domain_conflicts_gte: 3
+  harness_failures_from_coordination_gte: 2
+
+human_approval_required:
+  - create_sub_steward
+  - split_sub_steward
+  - create_peer_chief_steward
+  - retire_steward
+
+default_mode: advisory

@@ -1,0 +1,8 @@
+{
+  "project_id": "demo-project",
+  "current_stage": "intake",
+  "completed_stages": [],
+  "approvals": [],
+  "assumption_overrides": {},
+  "last_run_id": "governance-baseline"
+}

@@ -10,6 +10,11 @@
 
 ```text
 .github/workflows/        GitHub Actions for daily intel, memory proposals, and regression
+agent.md                  Chief steward operating protocol
+governance/               Steward scaling and operating rules
+registry/                 Registered skills, MCP tools, stewards, and artifacts
+workflow/                 PRD workflow stages, actions, and approval policies
+harness/                  Governance validation for registry, contracts, gates, sources, and scaling
 pm-prd-copilot/           Stable skill, templates, memory, proposals, and evals
 ai-intel/                 AI source registry, raw snapshots, events, daily reports, decision docs
 shared/schemas/           Shared JSON schemas reused by PM workflows
@@ -36,6 +41,7 @@ python3 pm-prd-copilot/scripts/router.py init-project \
   --title "商家财务流水批量导出"
 python3 pm-prd-copilot/scripts/run_pipeline.py --base-dir . --project demo-project --stage all --mode rule
 python3 pm-prd-copilot/scripts/run_regression.py --base-dir . --strict
+python3 harness/run_harness.py --base-dir . --project demo-project --mode advisory
 ```
 
 ## Main production pipeline
@@ -84,5 +90,8 @@ python3 ai-intel/scripts/update_decision_matrix.py --base-dir .
 ## Review rules
 
 - AI intel outputs must include a reminder to verify the source, date, model name, API status, and pricing before use.
+- MCP outputs are source signals, not verified facts; source traces must be reviewed before being used as product evidence.
+- The chief steward manages skills directly only while the system stays below the scaling thresholds in `governance/steward_scaling_policy.yaml`.
+- Sub-stewards and peer chief stewards require human approval before they become active operating roles.
 - Memory and skill updates must be reviewed before merging.
 - Regression should pass before any stable-layer prompt or template change is accepted.

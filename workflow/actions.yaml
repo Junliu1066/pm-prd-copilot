@@ -1,0 +1,147 @@
+version: 0.1.0
+
+actions:
+  normalize_requirement:
+    steward: research-steward
+    skill: source-collector
+    stage: intake
+    inputs:
+      - raw_input
+    outputs:
+      - source_brief
+      - source_brief_markdown
+
+  learn_prd_style_from_pdf:
+    steward: research-steward
+    skill: pdf-prd-style-learner
+    stage: evidence
+    inputs:
+      - raw_external_data
+    outputs:
+      - prd_style_signals
+
+  map_user_universe:
+    steward: product-judgment-steward
+    skill: user-universe-mapper
+    stage: user_analysis
+    inputs:
+      - source_brief
+      - market_signals
+    outputs:
+      - user_universe
+
+  analyze_pain_needs:
+    steward: product-judgment-steward
+    skill: pain-needs-analyzer
+    stage: user_analysis
+    inputs:
+      - source_brief
+      - user_universe
+    outputs:
+      - pain_needs
+
+  analyze_competitor_gap:
+    steward: product-judgment-steward
+    skill: competitor-gap-analyzer
+    stage: scenario_priority
+    inputs:
+      - source_brief
+      - raw_external_data
+    outputs:
+      - competitor_gap
+
+  rank_scenarios_by_roi:
+    steward: product-judgment-steward
+    skill: scenario-roi-ranker
+    stage: scenario_priority
+    inputs:
+      - user_universe
+      - pain_needs
+      - competitor_gap
+    outputs:
+      - scenario_ranking
+
+  decide_mvp_scope:
+    steward: product-judgment-steward
+    skill: mvp-scope-decider
+    stage: mvp_scope
+    inputs:
+      - scenario_ranking
+      - competitor_gap
+      - pain_needs
+    outputs:
+      - mvp_scope
+
+  plan_prd_structure:
+    steward: prd-writing-steward
+    skill: prd-structure-planner
+    stage: prd_planning
+    inputs:
+      - source_brief
+      - mvp_scope
+      - prd_style_signals
+    outputs:
+      - prd_structure
+
+  draft_prd:
+    steward: prd-writing-steward
+    skill: prd-draft-writer
+    stage: prd_drafting
+    inputs:
+      - source_brief
+      - mvp_scope
+      - prd_structure
+    outputs:
+      - prd_document
+      - prd_markdown
+
+  write_user_stories:
+    steward: prd-writing-steward
+    skill: user-story-ac-generator
+    stage: prd_drafting
+    inputs:
+      - source_brief
+      - prd_document
+    outputs:
+      - user_stories
+
+  design_tracking_plan:
+    steward: prd-writing-steward
+    skill: tracking-plan-designer
+    stage: prd_drafting
+    inputs:
+      - source_brief
+      - prd_document
+    outputs:
+      - tracking_plan
+
+  check_risks_edgecases:
+    steward: review-steward
+    skill: risk-edgecase-checker
+    stage: review
+    inputs:
+      - source_brief
+      - prd_document
+    outputs:
+      - risk_report
+
+  review_prd_quality:
+    steward: review-steward
+    skill: prd-quality-reviewer
+    stage: review
+    inputs:
+      - prd_document
+      - prd_markdown
+      - source_brief
+    outputs:
+      - prd_quality_report
+
+  extract_memory_learning_proposal:
+    steward: learning-steward
+    skill: memory-learning-extractor
+    stage: learning
+    inputs:
+      - prd_markdown
+      - final_prd_markdown
+    outputs:
+      - memory_proposal

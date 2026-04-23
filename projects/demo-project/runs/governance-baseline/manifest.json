@@ -1,0 +1,8 @@
+{
+  "run_id": "governance-baseline",
+  "project_id": "demo-project",
+  "goal": "harness_validation",
+  "enabled_skills": [],
+  "enabled_mcps": [],
+  "required_outputs": []
+}

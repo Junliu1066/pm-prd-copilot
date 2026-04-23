@@ -1,0 +1,23 @@
+{
+  "requested_mode": "llm",
+  "used_mode": "llm",
+  "fallback_used": false,
+  "provider": "openai",
+  "model": "gpt-5.4",
+  "status": "completed",
+  "response_id": "resp_04a709ae838f57d40169e9cd835618819b824036c84200eeed",
+  "usage": {
+    "input_tokens": 917,
+    "input_tokens_details": {
+      "cached_tokens": 0
+    },
+    "output_tokens": 1493,
+    "output_tokens_details": {
+      "reasoning_tokens": 12
+    },
+    "total_tokens": 2410
+  },
+  "attempt": 1,
+  "generated_at": "2026-04-23T07:43:26.838145+00:00",
+  "stage": "brief"
+}

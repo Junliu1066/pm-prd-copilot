@@ -1,0 +1,216 @@
+version: 0.1.0
+
+skills:
+  source-collector:
+    status: candidate
+    steward: research-steward
+    stage: intake
+    description: Normalize raw inputs into source brief artifacts.
+    reads:
+      - raw_input
+    writes:
+      - source_brief
+      - source_brief_markdown
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - memory_proposal
+    requires_human_approval: false
+    requires_sources: false
+  pdf-prd-style-learner:
+    status: candidate
+    steward: research-steward
+    stage: evidence
+    description: Learn replaceable PRD structure and style preferences from historical PDFs.
+    reads:
+      - raw_external_data
+    writes:
+      - prd_style_signals
+    forbidden_outputs:
+      - prd_document
+      - memory_update
+    requires_human_approval: true
+    requires_sources: true
+  user-universe-mapper:
+    status: candidate
+    steward: product-judgment-steward
+    stage: user_analysis
+    description: Map all plausible target user groups before narrowing.
+    reads:
+      - source_brief
+      - market_signals
+    writes:
+      - user_universe
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+    requires_human_approval: false
+    requires_sources: false
+  pain-needs-analyzer:
+    status: candidate
+    steward: product-judgment-steward
+    stage: user_analysis
+    description: Analyze pain, needs, root causes, and desired time/cost savings for each user group.
+    reads:
+      - source_brief
+      - user_universe
+    writes:
+      - pain_needs
+    forbidden_outputs:
+      - prd_document
+      - memory_proposal
+    requires_human_approval: false
+    requires_sources: false
+  scenario-roi-ranker:
+    status: candidate
+    steward: product-judgment-steward
+    stage: scenario_priority
+    description: Rank usage scenarios by user value, cost, frequency, speed, and risk.
+    reads:
+      - user_universe
+      - pain_needs
+      - competitor_gap
+    writes:
+      - scenario_ranking
+    forbidden_outputs:
+      - prd_document
+      - memory_proposal
+    requires_human_approval: true
+    requires_sources: false
+  competitor-gap-analyzer:
+    status: candidate
+    steward: product-judgment-steward
+    stage: scenario_priority
+    description: Analyze competitor approaches, gaps, complaints, and opportunity areas from sourced evidence.
+    reads:
+      - source_brief
+      - raw_external_data
+      - app_reviews
+      - web_source
+    writes:
+      - competitor_gap
+    forbidden_outputs:
+      - prd_document
+      - memory_proposal
+    requires_human_approval: false
+    requires_sources: true
+  mvp-scope-decider:
+    status: candidate
+    steward: product-judgment-steward
+    stage: mvp_scope
+    description: Convert scenario ranking and product judgment into MVP, V1, Later, and non-goals.
+    reads:
+      - scenario_ranking
+      - competitor_gap
+      - pain_needs
+    writes:
+      - mvp_scope
+    forbidden_outputs:
+      - prd_document
+      - memory_proposal
+    requires_human_approval: true
+    requires_sources: false
+  prd-structure-planner:
+    status: candidate
+    steward: prd-writing-steward
+    stage: prd_planning
+    description: Select replaceable PRD modules for this project.
+    reads:
+      - source_brief
+      - mvp_scope
+      - prd_style_signals
+    writes:
+      - prd_structure
+    forbidden_outputs:
+      - prd_document
+      - memory_proposal
+    requires_human_approval: true
+    requires_sources: false
+  prd-draft-writer:
+    status: candidate
+    steward: prd-writing-steward
+    stage: prd_drafting
+    description: Draft a PRD from confirmed upstream artifacts.
+    reads:
+      - source_brief
+      - mvp_scope
+      - prd_structure
+    writes:
+      - prd_document
+      - prd_markdown
+    forbidden_outputs:
+      - memory_proposal
+    requires_human_approval: false
+    requires_sources: false
+  user-story-ac-generator:
+    status: candidate
+    steward: prd-writing-steward
+    stage: prd_drafting
+    description: Generate user stories, acceptance criteria, dependencies, and edge cases.
+    reads:
+      - source_brief
+      - prd_document
+    writes:
+      - user_stories
+    forbidden_outputs:
+      - memory_proposal
+    requires_human_approval: false
+    requires_sources: false
+  risk-edgecase-checker:
+    status: candidate
+    steward: review-steward
+    stage: review
+    description: Identify risks, edge cases, permissions, performance, rollout, and operational gaps.
+    reads:
+      - source_brief
+      - prd_document
+    writes:
+      - risk_report
+    forbidden_outputs:
+      - memory_proposal
+    requires_human_approval: false
+    requires_sources: false
+  tracking-plan-designer:
+    status: candidate
+    steward: prd-writing-steward
+    stage: prd_drafting
+    description: Design metrics, events, properties, triggers, and QA checks.
+    reads:
+      - source_brief
+      - prd_document
+    writes:
+      - tracking_plan
+    forbidden_outputs:
+      - memory_proposal
+    requires_human_approval: false
+    requires_sources: false
+  prd-quality-reviewer:
+    status: candidate
+    steward: review-steward
+    stage: review
+    description: Review PRD completeness, reasoning quality, missing modules, and likely review questions.
+    reads:
+      - prd_document
+      - prd_markdown
+      - source_brief
+    writes:
+      - prd_quality_report
+    forbidden_outputs:
+      - memory_proposal
+    requires_human_approval: false
+    requires_sources: false
+  memory-learning-extractor:
+    status: draft
+    steward: learning-steward
+    stage: learning
+    description: Extract supervised learning proposals from generated and final artifacts.
+    reads:
+      - prd_markdown
+      - final_prd_markdown
+    writes:
+      - memory_proposal
+    forbidden_outputs:
+      - memory_update
+      - skill_update
+    requires_human_approval: true
+    requires_sources: false

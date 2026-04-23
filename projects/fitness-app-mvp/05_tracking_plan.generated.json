@@ -1,0 +1,371 @@
+{
+  "project_id": "fitness-app-mvp",
+  "metrics": [
+    {
+      "name": "MVP核心功能周活跃使用用户数",
+      "metric_type": "north_star",
+      "definition": "在统计周期内，至少完成一次食物热量拍摄识别或一次组间歇计时启动的去重活跃用户数，用于验证双核心工具是否被真实使用。",
+      "formula": "去重用户数(event in [food_scan_submitted, timer_started])",
+      "baseline": "暂无基线，MVP上线后首周建立",
+      "target": "首周形成可观测样本，建议>100名去重用户或占激活用户20%以上",
+      "window": "7日"
+    },
+    {
+      "name": "食物热量拍摄功能使用渗透率",
+      "metric_type": "input",
+      "definition": "激活用户中，使用过至少一次食物拍照识别的用户占比，用于验证低门槛饮食记录价值。",
+      "formula": "去重用户数(food_scan_submitted) / 去重用户数(app_activated)",
+      "baseline": "暂无基线",
+      "target": "首期建议>=15%",
+      "window": "7日"
+    },
+    {
+      "name": "食物识别成功率",
+      "metric_type": "input",
+      "definition": "提交食物图片后，成功返回可展示结果的次数占总提交次数的比例，用于衡量识别链路可用性。",
+      "formula": "次数(food_scan_result_viewed where result_status='success') / 次数(food_scan_submitted)",
+      "baseline": "暂无基线",
+      "target": "建议>=70%",
+      "window": "7日"
+    },
+    {
+      "name": "食物结果保存率",
+      "metric_type": "input",
+      "definition": "用户在看到食物热量结果后，选择保存结果的比例，用于判断结果是否具备记录价值。",
+      "formula": "次数(food_result_saved) / 次数(food_scan_result_viewed where result_status='success')",
+      "baseline": "暂无基线",
+      "target": "建议>=30%",
+      "window": "7日"
+    },
+    {
+      "name": "组间歇计时启动率",
+      "metric_type": "input",
+      "definition": "进入训练计时页面的用户中，实际启动过一次计时的用户占比，用于验证计时入口与设定流程是否顺畅。",
+      "formula": "去重用户数(timer_started) / 去重用户数(timer_page_viewed)",
+      "baseline": "暂无基线",
+      "target": "建议>=40%",
+      "window": "7日"
+    },
+    {
+      "name": "计时完成率",
+      "metric_type": "input",
+      "definition": "已启动的计时中，最终自然完成并触发结束提醒的比例，用于衡量训练计时功能可用性与用户执行度。",
+      "formula": "次数(timer_completed) / 次数(timer_started)",
+      "baseline": "暂无基线",
+      "target": "建议>=60%",
+      "window": "7日"
+    },
+    {
+      "name": "功能使用后次日留存率",
+      "metric_type": "north_star",
+      "definition": "首次使用任一核心功能的新用户，在次日再次打开App并产生任一核心功能行为的比例，用于验证MVP工具价值的持续性。",
+      "formula": "去重用户数(day1存在app_open且event in [food_scan_submitted,timer_started]) / 去重用户数(day0首次使用核心功能用户)",
+      "baseline": "暂无基线",
+      "target": "建议>=20%",
+      "window": "次日"
+    },
+    {
+      "name": "识别失败率",
+      "metric_type": "guardrail",
+      "definition": "食物图片提交后，因模型失败、无结果、超时等原因未返回有效结果的比例。",
+      "formula": "次数(food_scan_failed) / 次数(food_scan_submitted)",
+      "baseline": "暂无基线",
+      "target": "建议<=30%",
+      "window": "7日"
+    },
+    {
+      "name": "计时提醒失败率",
+      "metric_type": "guardrail",
+      "definition": "已启动计时但在预期结束时未成功触发提醒或提醒回执异常的比例，用于监控系统能力稳定性。",
+      "formula": "次数(timer_alert_failed) / 次数(timer_started)",
+      "baseline": "暂无基线",
+      "target": "建议<=5%",
+      "window": "7日"
+    },
+    {
+      "name": "关键权限拒绝率",
+      "metric_type": "guardrail",
+      "definition": "进入相机、相册、通知等关键流程时，用户拒绝权限导致核心功能不可用的比例。",
+      "formula": "去重用户数(permission_denied) / 去重用户数(permission_requested)",
+      "baseline": "暂无基线",
+      "target": "建议<=20%",
+      "window": "7日"
+    }
+  ],
+  "events": [
+    {
+      "name": "app_activated",
+      "trigger": "用户首次完成App安装并首次打开进入可交互首页时触发。",
+      "linked_metric": "食物热量拍摄功能使用渗透率",
+      "owner": "客户端研发 / 数据",
+      "qa_method": "通过新装包真机测试，校验首次打开仅上报一次；对比安装激活看板与设备日志。",
+      "properties": [
+        "platform",
+        "app_version",
+        "channel",
+        "device_id",
+        "is_first_open",
+        "network_type"
+      ]
+    },
+    {
+      "name": "app_open",
+      "trigger": "用户每次启动App并进入前台可交互状态时触发。",
+      "linked_metric": "功能使用后次日留存率",
+      "owner": "客户端研发 / 数据",
+      "qa_method": "前后台切换场景联调，校验冷启动与热启动口径；抽样比对session日志。",
+      "properties": [
+        "platform",
+        "app_version",
+        "device_id",
+        "session_id",
+        "source",
+        "is_cold_start"
+      ]
+    },
+    {
+      "name": "food_entry_clicked",
+      "trigger": "用户从首页、导航或其他入口点击进入食物拍照功能时触发。",
+      "linked_metric": "食物热量拍摄功能使用渗透率",
+      "owner": "客户端研发 / 数据",
+      "qa_method": "检查各入口点击后均有上报；通过埋点调试面板验证entry_source取值完整。",
+      "properties": [
+        "entry_source",
+        "platform",
+        "app_version",
+        "device_id",
+        "session_id"
+      ]
+    },
+    {
+      "name": "camera_opened",
+      "trigger": "用户成功进入拍照页并拉起相机界面时触发。",
+      "linked_metric": "食物热量拍摄功能使用渗透率",
+      "owner": "客户端研发 / 数据",
+      "qa_method": "验证已授权、未授权、拒绝后重试三种分支均能正确上报permission状态。",
+      "properties": [
+        "entry_source",
+        "permission_status_camera",
+        "platform",
+        "app_version",
+        "device_id"
+      ]
+    },
+    {
+      "name": "photo_selected",
+      "trigger": "用户从相册选择单张图片用于热量识别时触发。",
+      "linked_metric": "食物热量拍摄功能使用渗透率",
+      "owner": "客户端研发 / 数据",
+      "qa_method": "验证仅支持单图时image_count恒为1；相册授权允许/拒绝路径均需覆盖。",
+      "properties": [
+        "source_type",
+        "permission_status_photos",
+        "image_count",
+        "platform",
+        "app_version",
+        "device_id"
+      ]
+    },
+    {
+      "name": "food_scan_submitted",
+      "trigger": "用户确认拍照或选图并提交图片进行识别时触发。",
+      "linked_metric": "食物识别成功率",
+      "owner": "客户端研发 / 数据",
+      "qa_method": "抓包或日志校验每次提交只记一次；弱网、重试、重复点击防重测试。",
+      "properties": [
+        "submit_source",
+        "image_source",
+        "file_size_bucket",
+        "network_type",
+        "platform",
+        "app_version",
+        "device_id",
+        "session_id"
+      ]
+    },
+    {
+      "name": "food_scan_result_viewed",
+      "trigger": "识别接口成功返回结果且结果页完成展示时触发。",
+      "linked_metric": "食物识别成功率",
+      "owner": "客户端研发 / 数据 / 算法或第三方接口对接",
+      "qa_method": "校验仅在结果页真正展示后上报；核对response_time_ms与接口日志一致；抽样校验food_label和结果字段非空。",
+      "properties": [
+        "result_status",
+        "food_label",
+        "calorie_value",
+        "calorie_range",
+        "response_time_ms",
+        "model_provider",
+        "confidence_bucket",
+        "platform",
+        "app_version",
+        "device_id"
+      ]
+    },
+    {
+      "name": "food_scan_failed",
+      "trigger": "识别失败、超时、无结果、图片不可识别或服务异常导致未返回有效结果时触发。",
+      "linked_metric": "识别失败率",
+      "owner": "客户端研发 / 后端 / 数据",
+      "qa_method": "构造超时、4xx/5xx、空结果、模糊图等异常场景，确认failure_reason分类稳定且互斥。",
+      "properties": [
+        "failure_reason",
+        "error_code",
+        "response_time_ms",
+        "model_provider",
+        "network_type",
+        "platform",
+        "app_version",
+        "device_id"
+      ]
+    },
+    {
+      "name": "food_result_saved",
+      "trigger": "用户在结果页点击保存并保存成功时触发。",
+      "linked_metric": "食物结果保存率",
+      "owner": "客户端研发 / 后端 / 数据",
+      "qa_method": "校验点击保存但失败与成功分开记录；与本地或服务端实际保存记录抽样对账。",
+      "properties": [
+        "food_label",
+        "calorie_value",
+        "save_target",
+        "result_status",
+        "platform",
+        "app_version",
+        "device_id",
+        "session_id"
+      ]
+    },
+    {
+      "name": "timer_page_viewed",
+      "trigger": "用户进入训练计时功能首页或设置页时触发。",
+      "linked_metric": "组间歇计时启动率",
+      "owner": "客户端研发 / 数据",
+      "qa_method": "覆盖首页入口、快捷入口、返回重进等路径，确保页面曝光口径一致。",
+      "properties": [
+        "entry_source",
+        "timer_mode_default",
+        "platform",
+        "app_version",
+        "device_id",
+        "session_id"
+      ]
+    },
+    {
+      "name": "timer_started",
+      "trigger": "用户完成参数设置并点击开始计时时触发。",
+      "linked_metric": "计时完成率",
+      "owner": "客户端研发 / 数据",
+      "qa_method": "单次倒计时与循环计时分别测试；校验参数值与UI设置一致；防止连续点击重复上报。",
+      "properties": [
+        "timer_mode",
+        "rest_duration_sec",
+        "work_duration_sec",
+        "round_count",
+        "alert_type",
+        "platform",
+        "app_version",
+        "device_id",
+        "session_id"
+      ]
+    },
+    {
+      "name": "timer_paused",
+      "trigger": "用户在计时过程中点击暂停时触发。",
+      "linked_metric": "计时完成率",
+      "owner": "客户端研发 / 数据",
+      "qa_method": "验证暂停后重复暂停不重复记；抽样校验remaining_sec随时钟一致。",
+      "properties": [
+        "timer_mode",
+        "elapsed_sec",
+        "remaining_sec",
+        "current_round",
+        "current_phase",
+        "platform",
+        "app_version",
+        "device_id"
+      ]
+    },
+    {
+      "name": "timer_resumed",
+      "trigger": "用户在暂停后点击继续计时时触发。",
+      "linked_metric": "计时完成率",
+      "owner": "客户端研发 / 数据",
+      "qa_method": "与暂停事件配对检查；校验恢复后完成链路不中断。",
+      "properties": [
+        "timer_mode",
+        "remaining_sec",
+        "current_round",
+        "current_phase",
+        "platform",
+        "app_version",
+        "device_id"
+      ]
+    },
+    {
+      "name": "timer_completed",
+      "trigger": "计时自然结束并触发结束提醒后触发。",
+      "linked_metric": "计时完成率",
+      "owner": "客户端研发 / 数据",
+      "qa_method": "前台、锁屏、后台受限场景分别验证；核对planned_duration与actual_duration偏差在可接受范围。",
+      "properties": [
+        "timer_mode",
+        "planned_duration_sec",
+        "actual_duration_sec",
+        "round_count",
+        "completed_rounds",
+        "alert_type",
+        "app_state",
+        "platform",
+        "app_version",
+        "device_id"
+      ]
+    },
+    {
+      "name": "timer_alert_failed",
+      "trigger": "计时到达结束时间但提醒未成功触发、系统通知失败或音震动调用异常时触发。",
+      "linked_metric": "计时提醒失败率",
+      "owner": "客户端研发 / 数据",
+      "qa_method": "通过关闭通知、静音模式、后台限制等场景构造异常；确认失败事件可回传且原因可归类。",
+      "properties": [
+        "timer_mode",
+        "failure_reason",
+        "app_state",
+        "notification_permission",
+        "alert_type",
+        "platform",
+        "app_version",
+        "device_id"
+      ]
+    },
+    {
+      "name": "permission_requested",
+      "trigger": "用户进入需要系统权限的流程并弹出相机、相册或通知权限请求时触发。",
+      "linked_metric": "关键权限拒绝率",
+      "owner": "客户端研发 / 数据",
+      "qa_method": "验证每类权限首次请求时上报；避免已授权状态重复记为requested。",
+      "properties": [
+        "permission_type",
+        "request_scene",
+        "platform",
+        "app_version",
+        "device_id"
+      ]
+    },
+    {
+      "name": "permission_denied",
+      "trigger": "用户明确拒绝相机、相册或通知权限，导致功能受限时触发。",
+      "linked_metric": "关键权限拒绝率",
+      "owner": "客户端研发 / 数据",
+      "qa_method": "覆盖首次拒绝、永久拒绝、系统设置关闭三类情况；校验deny_type定义清晰。",
+      "properties": [
+        "permission_type",
+        "request_scene",
+        "deny_type",
+        "platform",
+        "app_version",
+        "device_id"
+      ]
+    }
+  ]
+}

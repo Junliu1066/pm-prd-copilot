@@ -1,0 +1,63 @@
+version: 0.1.0
+
+artifacts:
+  source_brief:
+    path_pattern: projects/{project}/01_requirement_brief.json
+    type: json
+    owner_stage: intake
+  source_brief_markdown:
+    path_pattern: projects/{project}/01_requirement_brief.md
+    type: markdown
+    owner_stage: intake
+  user_universe:
+    path_pattern: projects/{project}/analysis/user_universe.json
+    type: json
+    owner_stage: user_analysis
+  pain_needs:
+    path_pattern: projects/{project}/analysis/pain_needs.json
+    type: json
+    owner_stage: user_analysis
+  competitor_gap:
+    path_pattern: projects/{project}/analysis/competitor_gap.json
+    type: json
+    owner_stage: scenario_priority
+  scenario_ranking:
+    path_pattern: projects/{project}/analysis/scenario_ranking.json
+    type: json
+    owner_stage: scenario_priority
+  mvp_scope:
+    path_pattern: projects/{project}/analysis/mvp_scope.json
+    type: json
+    owner_stage: mvp_scope
+  prd_structure:
+    path_pattern: projects/{project}/analysis/prd_structure.json
+    type: json
+    owner_stage: prd_planning
+  prd_document:
+    path_pattern: projects/{project}/02_prd.generated.json
+    type: json
+    owner_stage: prd_drafting
+  prd_markdown:
+    path_pattern: projects/{project}/02_prd.generated.md
+    type: markdown
+    owner_stage: prd_drafting
+  user_stories:
+    path_pattern: projects/{project}/03_user_stories.generated.json
+    type: json
+    owner_stage: prd_drafting
+  risk_report:
+    path_pattern: projects/{project}/04_risk_check.generated.json
+    type: json
+    owner_stage: review
+  tracking_plan:
+    path_pattern: projects/{project}/05_tracking_plan.generated.json
+    type: json
+    owner_stage: prd_drafting
+  prd_quality_report:
+    path_pattern: projects/{project}/review/prd_quality_report.json
+    type: json
+    owner_stage: review
+  memory_proposal:
+    path_pattern: pm-prd-copilot/proposals/memory/{project}_{date}.md
+    type: markdown
+    owner_stage: learning

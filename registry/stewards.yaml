@@ -1,0 +1,69 @@
+version: 0.1.0
+
+chief_stewards:
+  pm-copilot-chief:
+    status: active
+    responsibilities:
+      - workflow_state
+      - manifest_creation
+      - steward_assignment
+      - stage_gate_control
+      - harness_enforcement
+      - human_escalation
+    max_direct_skills: 5
+    max_direct_mcps: 2
+
+sub_stewards:
+  research-steward:
+    status: candidate
+    domain: research
+    responsibilities:
+      - source_collection
+      - prd_style_learning
+      - competitor_source_collection
+      - user_feedback_collection
+    allowed_stages:
+      - intake
+      - evidence
+  product-judgment-steward:
+    status: candidate
+    domain: product_judgment
+    responsibilities:
+      - user_universe_mapping
+      - pain_needs_analysis
+      - scenario_roi_ranking
+      - mvp_scope_recommendation
+    allowed_stages:
+      - user_analysis
+      - scenario_priority
+      - mvp_scope
+  prd-writing-steward:
+    status: candidate
+    domain: writing
+    responsibilities:
+      - prd_structure_planning
+      - prd_drafting
+      - flow_page_spec_writing
+      - user_story_generation
+      - tracking_plan_design
+    allowed_stages:
+      - prd_planning
+      - prd_drafting
+  review-steward:
+    status: candidate
+    domain: review
+    responsibilities:
+      - prd_quality_review
+      - risk_edgecase_review
+      - pre_dev_question_generation
+    allowed_stages:
+      - review
+  learning-steward:
+    status: draft
+    domain: learning
+    responsibilities:
+      - memory_learning_proposal
+      - skill_upgrade_proposal
+      - regression_review
+    allowed_stages:
+      - learning

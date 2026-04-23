@@ -1,0 +1,143 @@
+# 健身 APP MVP 需求梳理：食物热量拍摄计算 + 组间歇闹钟 - Tracking Plan
+
+请自行核验事件命名、属性定义、采集位置和统计口径后再用于正式开发。
+
+## Metrics
+- MVP核心功能周活跃使用用户数 (north_star)
+  - 定义：在统计周期内，至少完成一次食物热量拍摄识别或一次组间歇计时启动的去重活跃用户数，用于验证双核心工具是否被真实使用。
+  - 公式：去重用户数(event in [food_scan_submitted, timer_started])
+  - 观察窗口：7日
+- 食物热量拍摄功能使用渗透率 (input)
+  - 定义：激活用户中，使用过至少一次食物拍照识别的用户占比，用于验证低门槛饮食记录价值。
+  - 公式：去重用户数(food_scan_submitted) / 去重用户数(app_activated)
+  - 观察窗口：7日
+- 食物识别成功率 (input)
+  - 定义：提交食物图片后，成功返回可展示结果的次数占总提交次数的比例，用于衡量识别链路可用性。
+  - 公式：次数(food_scan_result_viewed where result_status='success') / 次数(food_scan_submitted)
+  - 观察窗口：7日
+- 食物结果保存率 (input)
+  - 定义：用户在看到食物热量结果后，选择保存结果的比例，用于判断结果是否具备记录价值。
+  - 公式：次数(food_result_saved) / 次数(food_scan_result_viewed where result_status='success')
+  - 观察窗口：7日
+- 组间歇计时启动率 (input)
+  - 定义：进入训练计时页面的用户中，实际启动过一次计时的用户占比，用于验证计时入口与设定流程是否顺畅。
+  - 公式：去重用户数(timer_started) / 去重用户数(timer_page_viewed)
+  - 观察窗口：7日
+- 计时完成率 (input)
+  - 定义：已启动的计时中，最终自然完成并触发结束提醒的比例，用于衡量训练计时功能可用性与用户执行度。
+  - 公式：次数(timer_completed) / 次数(timer_started)
+  - 观察窗口：7日
+- 功能使用后次日留存率 (north_star)
+  - 定义：首次使用任一核心功能的新用户，在次日再次打开App并产生任一核心功能行为的比例，用于验证MVP工具价值的持续性。
+  - 公式：去重用户数(day1存在app_open且event in [food_scan_submitted,timer_started]) / 去重用户数(day0首次使用核心功能用户)
+  - 观察窗口：次日
+- 识别失败率 (guardrail)
+  - 定义：食物图片提交后，因模型失败、无结果、超时等原因未返回有效结果的比例。
+  - 公式：次数(food_scan_failed) / 次数(food_scan_submitted)
+  - 观察窗口：7日
+- 计时提醒失败率 (guardrail)
+  - 定义：已启动计时但在预期结束时未成功触发提醒或提醒回执异常的比例，用于监控系统能力稳定性。
+  - 公式：次数(timer_alert_failed) / 次数(timer_started)
+  - 观察窗口：7日
+- 关键权限拒绝率 (guardrail)
+  - 定义：进入相机、相册、通知等关键流程时，用户拒绝权限导致核心功能不可用的比例。
+  - 公式：去重用户数(permission_denied) / 去重用户数(permission_requested)
+  - 观察窗口：7日
+
+## Events
+- app_activated
+  - 触发时机：用户首次完成App安装并首次打开进入可交互首页时触发。
+  - 属性：platform、app_version、channel、device_id、is_first_open、network_type
+  - 关联指标：食物热量拍摄功能使用渗透率
+  - QA：通过新装包真机测试，校验首次打开仅上报一次；对比安装激活看板与设备日志。
+- app_open
+  - 触发时机：用户每次启动App并进入前台可交互状态时触发。
+  - 属性：platform、app_version、device_id、session_id、source、is_cold_start
+  - 关联指标：功能使用后次日留存率
+  - QA：前后台切换场景联调，校验冷启动与热启动口径；抽样比对session日志。
+- food_entry_clicked
+  - 触发时机：用户从首页、导航或其他入口点击进入食物拍照功能时触发。
+  - 属性：entry_source、platform、app_version、device_id、session_id
+  - 关联指标：食物热量拍摄功能使用渗透率
+  - QA：检查各入口点击后均有上报；通过埋点调试面板验证entry_source取值完整。
+- camera_opened
+  - 触发时机：用户成功进入拍照页并拉起相机界面时触发。
+  - 属性：entry_source、permission_status_camera、platform、app_version、device_id
+  - 关联指标：食物热量拍摄功能使用渗透率
+  - QA：验证已授权、未授权、拒绝后重试三种分支均能正确上报permission状态。
+- photo_selected
+  - 触发时机：用户从相册选择单张图片用于热量识别时触发。
+  - 属性：source_type、permission_status_photos、image_count、platform、app_version、device_id
+  - 关联指标：食物热量拍摄功能使用渗透率
+  - QA：验证仅支持单图时image_count恒为1；相册授权允许/拒绝路径均需覆盖。
+- food_scan_submitted
+  - 触发时机：用户确认拍照或选图并提交图片进行识别时触发。
+  - 属性：submit_source、image_source、file_size_bucket、network_type、platform、app_version、device_id、session_id
+  - 关联指标：食物识别成功率
+  - QA：抓包或日志校验每次提交只记一次；弱网、重试、重复点击防重测试。
+- food_scan_result_viewed
+  - 触发时机：识别接口成功返回结果且结果页完成展示时触发。
+  - 属性：result_status、food_label、calorie_value、calorie_range、response_time_ms、model_provider、confidence_bucket、platform、app_version、device_id
+  - 关联指标：食物识别成功率
+  - QA：校验仅在结果页真正展示后上报；核对response_time_ms与接口日志一致；抽样校验food_label和结果字段非空。
+- food_scan_failed
+  - 触发时机：识别失败、超时、无结果、图片不可识别或服务异常导致未返回有效结果时触发。
+  - 属性：failure_reason、error_code、response_time_ms、model_provider、network_type、platform、app_version、device_id
+  - 关联指标：识别失败率
+  - QA：构造超时、4xx/5xx、空结果、模糊图等异常场景，确认failure_reason分类稳定且互斥。
+- food_result_saved
+  - 触发时机：用户在结果页点击保存并保存成功时触发。
+  - 属性：food_label、calorie_value、save_target、result_status、platform、app_version、device_id、session_id
+  - 关联指标：食物结果保存率
+  - QA：校验点击保存但失败与成功分开记录；与本地或服务端实际保存记录抽样对账。
+- timer_page_viewed
+  - 触发时机：用户进入训练计时功能首页或设置页时触发。
+  - 属性：entry_source、timer_mode_default、platform、app_version、device_id、session_id
+  - 关联指标：组间歇计时启动率
+  - QA：覆盖首页入口、快捷入口、返回重进等路径，确保页面曝光口径一致。
+- timer_started
+  - 触发时机：用户完成参数设置并点击开始计时时触发。
+  - 属性：timer_mode、rest_duration_sec、work_duration_sec、round_count、alert_type、platform、app_version、device_id、session_id
+  - 关联指标：计时完成率
+  - QA：单次倒计时与循环计时分别测试；校验参数值与UI设置一致；防止连续点击重复上报。
+- timer_paused
+  - 触发时机：用户在计时过程中点击暂停时触发。
+  - 属性：timer_mode、elapsed_sec、remaining_sec、current_round、current_phase、platform、app_version、device_id
+  - 关联指标：计时完成率
+  - QA：验证暂停后重复暂停不重复记；抽样校验remaining_sec随时钟一致。
+- timer_resumed
+  - 触发时机：用户在暂停后点击继续计时时触发。
+  - 属性：timer_mode、remaining_sec、current_round、current_phase、platform、app_version、device_id
+  - 关联指标：计时完成率
+  - QA：与暂停事件配对检查；校验恢复后完成链路不中断。
+- timer_completed
+  - 触发时机：计时自然结束并触发结束提醒后触发。
+  - 属性：timer_mode、planned_duration_sec、actual_duration_sec、round_count、completed_rounds、alert_type、app_state、platform、app_version、device_id
+  - 关联指标：计时完成率
+  - QA：前台、锁屏、后台受限场景分别验证；核对planned_duration与actual_duration偏差在可接受范围。
+- timer_alert_failed
+  - 触发时机：计时到达结束时间但提醒未成功触发、系统通知失败或音震动调用异常时触发。
+  - 属性：timer_mode、failure_reason、app_state、notification_permission、alert_type、platform、app_version、device_id
+  - 关联指标：计时提醒失败率
+  - QA：通过关闭通知、静音模式、后台限制等场景构造异常；确认失败事件可回传且原因可归类。
+- permission_requested
+  - 触发时机：用户进入需要系统权限的流程并弹出相机、相册或通知权限请求时触发。
+  - 属性：permission_type、request_scene、platform、app_version、device_id
+  - 关联指标：关键权限拒绝率
+  - QA：验证每类权限首次请求时上报；避免已授权状态重复记为requested。
+- permission_denied
+  - 触发时机：用户明确拒绝相机、相册或通知权限，导致功能受限时触发。
+  - 属性：permission_type、request_scene、deny_type、platform、app_version、device_id
+  - 关联指标：关键权限拒绝率
+  - QA：覆盖首次拒绝、永久拒绝、系统设置关闭三类情况；校验deny_type定义清晰。
+
+## Open Questions
+- 目标用户优先是谁：减脂人群、增肌人群，还是泛健身人群？
+- 首发平台是 iOS、Android，还是双端同时上线？
+- 食物热量计算是否仅支持拍照估算，还是还需支持手动修正、份量调整、历史记录？
+- 组间歇闹钟是否仅需简单倒计时，还是要支持训练计划联动、动作切换、语音提醒、后台运行？
+- 是否需要账号体系、训练记录、饮食记录、体重记录、会员付费等基础能力？
+- 第一期 MVP 只做两个核心功能，还是需要形成完整首页/训练页/饮食页闭环？
+- MVP 成功的核心指标是什么：下载、次日留存、拍照记录次数、训练计时使用次数，还是付费转化？
+- 食物热量估算的准确率容忍度和错误兜底方案是什么？
+- 组间歇闹钟是否需要支持锁屏、后台、耳机/手表/通知提醒等使用场景？

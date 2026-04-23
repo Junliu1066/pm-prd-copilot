@@ -1,0 +1,61 @@
+version: 0.1.0
+
+mcps:
+  github:
+    status: candidate
+    type: repository
+    allowed_stages:
+      - intake
+      - evidence
+      - learning
+    allowed_outputs:
+      - repository_metadata
+      - pull_request_metadata
+      - issue_metadata
+      - workflow_status
+    forbidden_outputs:
+      - product_recommendations
+      - prd_document
+      - memory_update
+    requires_source_trace: true
+  fetch:
+    status: candidate
+    type: external_data
+    allowed_stages:
+      - evidence
+    allowed_outputs:
+      - web_source
+      - raw_external_data
+    forbidden_outputs:
+      - product_recommendations
+      - mvp_scope
+      - prd_document
+    requires_source_trace: true
+  firecrawl:
+    status: candidate
+    type: external_data
+    allowed_stages:
+      - evidence
+    allowed_outputs:
+      - web_source
+      - competitor_source
+      - raw_external_data
+    forbidden_outputs:
+      - product_recommendations
+      - mvp_scope
+      - prd_document
+    requires_source_trace: true
+  apify:
+    status: candidate
+    type: external_data
+    allowed_stages:
+      - evidence
+    allowed_outputs:
+      - app_reviews
+      - reddit_threads
+      - raw_external_data
+    forbidden_outputs:
+      - product_recommendations
+      - mvp_scope
+      - prd_document
+    requires_source_trace: true

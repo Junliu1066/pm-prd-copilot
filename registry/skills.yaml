@@ -3,7 +3,8 @@ version: 0.1.0
 skills:
   source-collector:
     status: candidate
-    path: skills/source-collector
+    plugin: prd-analysis-suite
+    path: plugins/prd-analysis-suite/skills/source-collector
     steward: research-steward
     stage: intake
     description: Normalize raw inputs into source brief artifacts.
@@ -34,7 +35,8 @@ skills:
     requires_sources: true
   user-universe-mapper:
     status: candidate
-    path: skills/user-universe-mapper
+    plugin: prd-analysis-suite
+    path: plugins/prd-analysis-suite/skills/user-universe-mapper
     steward: product-judgment-steward
     stage: user_analysis
     description: Map all plausible target user groups before narrowing.
@@ -50,7 +52,8 @@ skills:
     requires_sources: false
   pain-needs-analyzer:
     status: candidate
-    path: skills/pain-needs-analyzer
+    plugin: prd-analysis-suite
+    path: plugins/prd-analysis-suite/skills/pain-needs-analyzer
     steward: product-judgment-steward
     stage: user_analysis
     description: Analyze pain, needs, root causes, and desired time/cost savings for each user group.
@@ -66,7 +69,8 @@ skills:
     requires_sources: false
   scenario-roi-ranker:
     status: candidate
-    path: skills/scenario-roi-ranker
+    plugin: prd-analysis-suite
+    path: plugins/prd-analysis-suite/skills/scenario-roi-ranker
     steward: product-judgment-steward
     stage: scenario_priority
     description: Rank usage scenarios by user value, cost, frequency, speed, and risk.
@@ -83,7 +87,8 @@ skills:
     requires_sources: false
   competitor-gap-analyzer:
     status: candidate
-    path: skills/competitor-gap-analyzer
+    plugin: prd-analysis-suite
+    path: plugins/prd-analysis-suite/skills/competitor-gap-analyzer
     steward: product-judgment-steward
     stage: scenario_priority
     description: Analyze competitor approaches, gaps, complaints, and opportunity areas from sourced evidence.
@@ -101,7 +106,8 @@ skills:
     requires_sources: true
   mvp-scope-decider:
     status: candidate
-    path: skills/mvp-scope-decider
+    plugin: prd-analysis-suite
+    path: plugins/prd-analysis-suite/skills/mvp-scope-decider
     steward: product-judgment-steward
     stage: mvp_scope
     description: Convert scenario ranking and product judgment into MVP, V1, Later, and non-goals.

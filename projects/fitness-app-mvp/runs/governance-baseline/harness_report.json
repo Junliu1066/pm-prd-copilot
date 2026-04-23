@@ -11,6 +11,12 @@
       "details": []
     },
     {
+      "check": "plugin_boundary",
+      "status": "pass",
+      "message": "No issues found.",
+      "details": []
+    },
+    {
       "check": "steward_contract",
       "status": "pass",
       "message": "No issues found.",

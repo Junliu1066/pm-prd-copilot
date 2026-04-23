@@ -45,9 +45,11 @@ Each governed run should create or update:
 - `projects/<project>/runs/<run_id>/harness_report.json`
 
 ## Skill File Management
-- Repository-managed candidate skills live under `skills/<skill_id>/SKILL.md`.
+- Repository-managed candidate skills should live inside detachable plugin bundles, for example `plugins/<plugin_id>/skills/<skill_id>/SKILL.md`.
 - If a skill is registered with `path` in `registry/skills.yaml`, the path must point to a real skill folder.
+- If a skill is registered with `plugin`, the path must stay under that plugin's `skills/` folder.
 - The chief steward must not treat a planned skill as implemented until the skill file exists and passes validation.
+- Plugin changes must not require editing the host pipeline unless the registry reference or harness contract changes.
 
 ## Stage Gates
 - Intake must produce a source brief before evidence or analysis stages.

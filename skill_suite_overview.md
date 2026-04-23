@@ -1,6 +1,8 @@
 # PRD Skill Suite Overview
 
 ## 当前主分析链路 Skill
+插件包：`plugins/prd-analysis-suite`
+
 1. source-collector
 2. user-universe-mapper
 3. pain-needs-analyzer

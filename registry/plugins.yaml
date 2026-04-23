@@ -1,0 +1,25 @@
+version: 0.1.0
+
+plugins:
+  prd-analysis-suite:
+    status: candidate
+    path: plugins/prd-analysis-suite
+    type: codex_plugin
+    detachable: true
+    owns_skills:
+      - source-collector
+      - user-universe-mapper
+      - pain-needs-analyzer
+      - competitor-gap-analyzer
+      - scenario-roi-ranker
+      - mvp-scope-decider
+    allowed_host_integrations:
+      - registry_reference
+      - harness_validation
+    forbidden_path_references:
+      - ../
+      - /Users/
+      - pm-prd-copilot/
+      - projects/
+      - .venv/
+      - .env

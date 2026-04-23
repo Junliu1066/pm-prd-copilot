@@ -13,9 +13,12 @@ def validate_registry(base_dir: Path) -> CheckResult:
     mcps = load_yaml(base_dir / "registry" / "mcps.yaml").get("mcps", {})
     stewards = load_yaml(base_dir / "registry" / "stewards.yaml")
     artifacts = load_yaml(base_dir / "registry" / "artifacts.yaml").get("artifacts", {})
+    plugins_path = base_dir / "registry" / "plugins.yaml"
+    plugins = load_yaml(plugins_path).get("plugins", {}) if plugins_path.exists() else {}
 
     known_stewards = set(stewards.get("chief_stewards", {}).keys()) | set(stewards.get("sub_stewards", {}).keys())
     known_artifacts = set(artifacts.keys())
+    known_plugins = set(plugins.keys())
 
     if not skills:
         issues.append("No skills registered.")
@@ -26,6 +29,9 @@ def validate_registry(base_dir: Path) -> CheckResult:
         status = skill.get("status")
         if status not in VALID_STATUSES:
             issues.append(f"Skill {skill_id} has invalid status: {status}")
+        plugin = skill.get("plugin")
+        if plugin and plugin not in known_plugins:
+            issues.append(f"Skill {skill_id} references unknown plugin: {plugin}")
         skill_path = skill.get("path")
         if skill_path:
             if isabs(str(skill_path)):

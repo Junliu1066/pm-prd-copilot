@@ -4,6 +4,7 @@ The harness validates PM Copilot governance before workflow stages advance.
 
 ## First-version checks
 - `registry`: skills, MCP tools, stewards, and artifacts are registered consistently.
+- `plugin_boundary`: plugin manifests, plugin-owned skill paths, and host dependency boundaries are valid.
 - `steward_contract`: trace entries do not call unregistered capabilities or produce undeclared artifacts.
 - `workflow_gate`: stage gates and human approvals are respected.
 - `source_trace`: MCP-derived external data includes trace fields and human verification requirement.

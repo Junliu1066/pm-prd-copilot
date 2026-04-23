@@ -7,6 +7,7 @@ from pathlib import Path
 
 from common import overall_status, read_json, write_json
 from efficiency_auditor import audit_efficiency
+from plugin_boundary_checker import check_plugin_boundaries
 from registry_validator import validate_registry
 from random_audit_inspector import inspect_random_audit
 from scaling_policy_checker import check_scaling_policy
@@ -82,6 +83,7 @@ def main() -> None:
 
     results = [
         validate_registry(base_dir),
+        check_plugin_boundaries(base_dir),
         check_steward_contracts(base_dir, args.project),
         check_workflow_gates(base_dir, args.project),
         check_source_traces(base_dir, args.project),

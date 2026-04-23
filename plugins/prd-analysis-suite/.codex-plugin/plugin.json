@@ -1,0 +1,37 @@
+{
+  "name": "prd-analysis-suite",
+  "version": "0.1.0",
+  "description": "Detachable PRD analysis skill suite for source normalization, user analysis, competitor gaps, scenario ranking, and MVP scope decisions.",
+  "author": {
+    "name": "Junliu1066",
+    "email": "not-provided",
+    "url": "https://github.com/Junliu1066"
+  },
+  "homepage": "https://github.com/Junliu1066/pm-prd-copilot",
+  "repository": "https://github.com/Junliu1066/pm-prd-copilot",
+  "license": "Private",
+  "keywords": [
+    "prd",
+    "product-management",
+    "market-research",
+    "mvp-scope"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "PRD Analysis Suite",
+    "shortDescription": "Detachable PRD analysis skills for PM workflows.",
+    "longDescription": "A detachable suite of governed PRD analysis skills that can normalize raw inputs, map users, analyze needs, compare competitors, rank scenarios, and decide MVP scope without depending on the host project.",
+    "developerName": "Junliu1066",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Map target users for this product idea.",
+      "Analyze competitor gaps before MVP scoping.",
+      "Rank scenarios by low cost and high user value."
+    ],
+    "brandColor": "#0F766E"
+  }
+}

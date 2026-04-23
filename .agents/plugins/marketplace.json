@@ -1,0 +1,20 @@
+{
+  "name": "pm-copilot-local",
+  "interface": {
+    "displayName": "PM Copilot Local Plugins"
+  },
+  "plugins": [
+    {
+      "name": "prd-analysis-suite",
+      "source": {
+        "source": "local",
+        "path": "./plugins/prd-analysis-suite"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+name: ai-intel-daily
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 1 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ai-intel-daily
+  cancel-in-progress: false
+
+jobs:
+  ai-intel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Fetch sources
+        run: python3 ai-intel/scripts/fetch_sources.py --base-dir .
+
+      - name: Normalize events
+        run: python3 ai-intel/scripts/normalize_events.py --base-dir .
+
+      - name: Summarize daily report
+        run: python3 ai-intel/scripts/summarize_daily.py --base-dir .
+
+      - name: Update decision docs
+        run: python3 ai-intel/scripts/update_decision_matrix.py --base-dir .
+
+      - name: Commit outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ai-intel
+          git diff --cached --quiet && exit 0
+          git commit -m "chore(ai-intel): daily update"
+          git push

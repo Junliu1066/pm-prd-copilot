@@ -1,0 +1,25 @@
+defaults:
+  provider: openai
+  mode: auto
+  model: gpt-5.4
+  base_url: http://127.0.0.1:8080/v1
+  endpoint: responses
+  timeout_seconds: 60
+  max_retries: 1
+  reasoning_effort: low
+  max_output_tokens: 4000
+  temperature: 0.2
+  api_key_env: OPENAI_API_KEY
+
+stages:
+  brief:
+    reasoning_effort: low
+    max_output_tokens: 2500
+  prd:
+    reasoning_effort: medium
+    max_output_tokens: 5000
+  stories:
+    reasoning_effort: low
+    max_output_tokens: 3500
+  risk:
+    reasoning_effort: medium

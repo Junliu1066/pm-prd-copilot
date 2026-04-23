@@ -1,0 +1,49 @@
+name: skill-upgrade-review
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 2 * * 1"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  skill-upgrade-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate skill-upgrade proposal
+        run: python3 pm-prd-copilot/scripts/propose_skill_patch.py --base-dir .
+
+      - name: Refresh demo pipeline outputs
+        run: python3 pm-prd-copilot/scripts/run_pipeline.py --base-dir . --project demo-project --stage all
+
+      - name: Run regression
+        run: python3 pm-prd-copilot/scripts/run_regression.py --base-dir . --strict
+
+      - name: Create draft PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: automation/skill-upgrade-review
+          commit-message: "chore(skill): weekly upgrade proposal"
+          title: "chore(skill): review weekly upgrade proposal"
+          body: |
+            This PR contains a proposed weekly skill-upgrade plan.
+
+            Required before merge:
+            - Confirm the proposal reflects true long-term preferences.
+            - Confirm regression results are acceptable.
+            - Apply stable-layer edits only with explicit approval.
+          draft: true

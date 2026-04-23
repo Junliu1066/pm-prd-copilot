@@ -1,0 +1,50 @@
+name: memory-proposal
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  memory-proposal:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Extract feedback
+        run: |
+          python3 pm-prd-copilot/scripts/extract_feedback.py \
+            --generated projects/demo-project/02_prd.generated.md \
+            --final projects/demo-project/02_prd.final.md \
+            --output /tmp/prd-diff-summary.json
+
+      - name: Create memory proposal
+        run: |
+          python3 pm-prd-copilot/scripts/update_memory_proposal.py \
+            --diff-summary /tmp/prd-diff-summary.json \
+            --output-dir pm-prd-copilot/proposals/memory
+
+      - name: Create draft PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: automation/memory-proposal
+          commit-message: "chore(memory): propose new preference signal"
+          title: "chore(memory): review new PM preference proposal"
+          body: |
+            This PR was generated automatically.
+
+            Review required:
+            - Confirm whether the proposed preference is long-term.
+            - Merge only after manual approval.
+          draft: true

@@ -1,0 +1,4 @@
+version: 1
+display_name: PM PRD Copilot
+short_description: Draft PRDs, learn approved PM preferences, and consult local AI intel decision docs.
+default_prompt: 帮我把当前需求整理成 requirement brief，并按模板起一版 PRD 初稿。

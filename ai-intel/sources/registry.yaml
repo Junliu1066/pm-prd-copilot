@@ -1,0 +1,31 @@
+sources:
+  - id: openai-model-release-notes
+    vendor: openai
+    category: release-notes
+    url: https://help.openai.com/en/articles/9624314-model-release-notes
+    notes: Official model release notes.
+  - id: openai-chatgpt-release-notes
+    vendor: openai
+    category: release-notes
+    url: https://help.openai.com/en/articles/6825453-chatgpt-release-notes
+    notes: Official ChatGPT release notes.
+  - id: anthropic-news
+    vendor: anthropic
+    category: newsroom
+    url: https://www.anthropic.com/news
+    notes: Official company news and model announcements.
+  - id: anthropic-model-deprecations
+    vendor: anthropic
+    category: deprecations
+    url: https://docs.anthropic.com/en/docs/about-claude/model-deprecations
+    notes: Official deprecation and retirement page.
+  - id: gemini-api-changelog
+    vendor: google
+    category: changelog
+    url: https://ai.google.dev/gemini-api/docs/changelog
+    notes: Official Gemini API changelog.
+  - id: gemini-api-deprecations
+    vendor: google
+    category: deprecations
+    url: https://ai.google.dev/gemini-api/docs/deprecations
+    notes: Official Gemini API deprecation page.

@@ -1,0 +1,14 @@
+{
+  "audit_id": "fitness-app-mvp-prd-analysis-suite-20260423-random-audit",
+  "run_id": "prd-analysis-suite-20260423",
+  "project_id": "fitness-app-mvp",
+  "status": "pass",
+  "sampled_items": [
+    {
+      "type": "skill_call",
+      "id": "skill:6:mvp-scope-decider",
+      "risk_score": 7
+    }
+  ],
+  "findings": []
+}

@@ -1,0 +1,122 @@
+{
+  "run_id": "prd-analysis-suite-20260423",
+  "project_id": "fitness-app-mvp",
+  "skill_calls": [
+    {
+      "skill": "source-collector",
+      "steward": "research-steward",
+      "stage": "intake",
+      "outputs": [
+        "source_brief",
+        "source_brief_markdown"
+      ]
+    },
+    {
+      "skill": "user-universe-mapper",
+      "steward": "product-judgment-steward",
+      "stage": "user_analysis",
+      "outputs": [
+        "user_universe"
+      ]
+    },
+    {
+      "skill": "pain-needs-analyzer",
+      "steward": "product-judgment-steward",
+      "stage": "user_analysis",
+      "outputs": [
+        "pain_needs"
+      ]
+    },
+    {
+      "skill": "competitor-gap-analyzer",
+      "steward": "product-judgment-steward",
+      "stage": "scenario_priority",
+      "outputs": [
+        "competitor_gap"
+      ]
+    },
+    {
+      "skill": "scenario-roi-ranker",
+      "steward": "product-judgment-steward",
+      "stage": "scenario_priority",
+      "outputs": [
+        "scenario_ranking"
+      ]
+    },
+    {
+      "skill": "mvp-scope-decider",
+      "steward": "product-judgment-steward",
+      "stage": "mvp_scope",
+      "outputs": [
+        "mvp_scope"
+      ]
+    }
+  ],
+  "mcp_calls": [],
+  "source_traces": [
+    {
+      "source_url": "https://support.myfitnesspal.com/hc/en-us/articles/360045761612-Meal-Scan-FAQ",
+      "source_type": "web",
+      "collected_at": "2026-04-23",
+      "extracted_by": "competitor-gap-analyzer",
+      "confidence": "medium",
+      "human_verification_required": true
+    },
+    {
+      "source_url": "https://apps.apple.com/us/app/cal-ai-calorie-counter/id6756399932",
+      "source_type": "web",
+      "collected_at": "2026-04-23",
+      "extracted_by": "competitor-gap-analyzer",
+      "confidence": "low",
+      "human_verification_required": true
+    },
+    {
+      "source_url": "https://apps.apple.com/us/app/cal-ai-calorie-tracker/id6754554881",
+      "source_type": "web",
+      "collected_at": "2026-04-23",
+      "extracted_by": "competitor-gap-analyzer",
+      "confidence": "low",
+      "human_verification_required": true
+    },
+    {
+      "source_url": "https://cronometer.com/features/track-food.html",
+      "source_type": "web",
+      "collected_at": "2026-04-23",
+      "extracted_by": "competitor-gap-analyzer",
+      "confidence": "medium",
+      "human_verification_required": true
+    },
+    {
+      "source_url": "https://support.cronometer.com/hc/en-us/articles/360020441392-Mobile-Scan-Food",
+      "source_type": "web",
+      "collected_at": "2026-04-23",
+      "extracted_by": "competitor-gap-analyzer",
+      "confidence": "medium",
+      "human_verification_required": true
+    },
+    {
+      "source_url": "https://play.google.com/store/apps/details?hl=en_US&id=com.simplevision.workout.tabata",
+      "source_type": "web",
+      "collected_at": "2026-04-23",
+      "extracted_by": "competitor-gap-analyzer",
+      "confidence": "medium",
+      "human_verification_required": true
+    },
+    {
+      "source_url": "https://play.google.com/store/apps/details?id=net.smartwod.timer",
+      "source_type": "web",
+      "collected_at": "2026-04-23",
+      "extracted_by": "competitor-gap-analyzer",
+      "confidence": "medium",
+      "human_verification_required": true
+    },
+    {
+      "source_url": "https://play.google.com/store/apps/details?hl=en_US&id=com.mdev.intervaltimer",
+      "source_type": "web",
+      "collected_at": "2026-04-23",
+      "extracted_by": "competitor-gap-analyzer",
+      "confidence": "medium",
+      "human_verification_required": true
+    }
+  ]
+}

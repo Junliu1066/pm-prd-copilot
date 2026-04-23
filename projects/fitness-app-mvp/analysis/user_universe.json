@@ -1,0 +1,203 @@
+{
+  "project_id": "fitness-app-mvp",
+  "artifact": "user_universe",
+  "created_at": "2026-04-23T00:00:00+08:00",
+  "skill": "user-universe-mapper",
+  "source_inputs": [
+    "projects/fitness-app-mvp/00_raw_input.md",
+    "projects/fitness-app-mvp/01_requirement_brief.md"
+  ],
+  "user_universe_table": [
+    {
+      "user_group": "健身房力量训练用户",
+      "trigger_situation": "做深蹲、卧推、划船等动作时需要按组休息，训练中频繁看表或凭感觉休息。",
+      "job_to_be_done": "在不分心的情况下控制组间休息，稳定训练强度和节奏。",
+      "pain_intensity": 5,
+      "frequency": 5,
+      "current_solution": "手机系统计时器、手表、健身房墙钟、凭感觉、第三方 interval timer。",
+      "decision_power": "high",
+      "acquisition_path": "健身房场景、力量训练内容、训练计划模板、Android 应用商店关键词。",
+      "product_fit_risk": "用户可能认为系统计时器或已有训练 App 已足够；需要做到启动更快、提醒更稳、训练中更少打扰。",
+      "evidence_level": "inferred"
+    },
+    {
+      "user_group": "减脂期饮食记录用户",
+      "trigger_situation": "吃饭前后需要记录热量，但不想搜索食物、称重、手动输入。",
+      "job_to_be_done": "用最低输入成本获得大致热量和宏量营养估算，帮助控制每日摄入。",
+      "pain_intensity": 5,
+      "frequency": 4,
+      "current_solution": "MyFitnessPal、薄荷健康、Cronometer、拍照留存、手动估算、完全不记。",
+      "decision_power": "high",
+      "acquisition_path": "减脂内容、热量计算、拍照识别食物、Android 应用商店关键词。",
+      "product_fit_risk": "热量估算准确性和份量识别信任门槛高，错误结果会降低持续使用。",
+      "evidence_level": "explicit"
+    },
+    {
+      "user_group": "增肌/塑形用户",
+      "trigger_situation": "需要控制蛋白质、总热量和训练休息，避免吃不够或训练强度不稳定。",
+      "job_to_be_done": "快速知道今天吃得是否够、训练是否按节奏执行。",
+      "pain_intensity": 4,
+      "frequency": 4,
+      "current_solution": "手动查食物、健身记录 App、笔记、计时器。",
+      "decision_power": "high",
+      "acquisition_path": "增肌、蛋白质、力量训练、训练计时内容。",
+      "product_fit_risk": "高阶用户对宏量营养和训练记录深度要求更高，MVP 可能显得太浅。",
+      "evidence_level": "inferred"
+    },
+    {
+      "user_group": "HIIT/Tabata/功能性训练用户",
+      "trigger_situation": "训练中需要工作/休息/循环提醒，不能频繁操作手机。",
+      "job_to_be_done": "用声音、震动、后台通知稳定执行间歇训练。",
+      "pain_intensity": 4,
+      "frequency": 4,
+      "current_solution": "Tabata Timer、SmartWOD Timer、Interval Timer、YouTube 跟练。",
+      "decision_power": "high",
+      "acquisition_path": "HIIT、Tabata、CrossFit、WOD timer、间歇训练关键词。",
+      "product_fit_risk": "独立计时器竞品成熟，单纯复制 timer 竞争力弱。",
+      "evidence_level": "external_signal"
+    },
+    {
+      "user_group": "健身新手/刚开始运动的人",
+      "trigger_situation": "刚开始健身，不知道吃多少、练多久、休息多久。",
+      "job_to_be_done": "用简单工具降低开始门槛，避免被复杂训练计划和饮食记录劝退。",
+      "pain_intensity": 4,
+      "frequency": 3,
+      "current_solution": "小红书/短视频跟练、朋友建议、系统计时器、随意吃。",
+      "decision_power": "medium",
+      "acquisition_path": "新手健身、减脂入门、健身 APP 推荐。",
+      "product_fit_risk": "需求宽泛、留存不稳定，容易需要内容、计划和陪伴能力支撑。",
+      "evidence_level": "inferred"
+    },
+    {
+      "user_group": "忙碌上班族健身人群",
+      "trigger_situation": "午休、下班后训练时间有限，希望减少记录、搜索和手动计时浪费。",
+      "job_to_be_done": "把训练和饮食记录压缩到最少操作步骤，节省时间。",
+      "pain_intensity": 4,
+      "frequency": 4,
+      "current_solution": "不记录、手动估算、计时器、已有饮食 App。",
+      "decision_power": "high",
+      "acquisition_path": "效率健身、下班健身、减脂打卡、Android 健康工具。",
+      "product_fit_risk": "如果两个功能入口割裂，无法体现节省时间的核心价值。",
+      "evidence_level": "inferred"
+    },
+    {
+      "user_group": "严肃饮食追踪/健美备赛用户",
+      "trigger_situation": "需要精确记录克重、宏量、微量营养和长期变化。",
+      "job_to_be_done": "获得高准确度营养数据和可追溯记录。",
+      "pain_intensity": 5,
+      "frequency": 5,
+      "current_solution": "Cronometer、MyFitnessPal、Excel、厨房秤、教练模板。",
+      "decision_power": "high",
+      "acquisition_path": "健美、备赛、macro tracking、精确饮食记录。",
+      "product_fit_risk": "拍照估算不够精确；MVP 不应把这类用户作为首要目标。",
+      "evidence_level": "inferred"
+    },
+    {
+      "user_group": "私教/小团课教练",
+      "trigger_situation": "带学员训练时需要控制组间休息和饮食建议，但不是自己记录。",
+      "job_to_be_done": "更快组织训练节奏，并给学员简单饮食记录入口。",
+      "pain_intensity": 3,
+      "frequency": 4,
+      "current_solution": "口头提醒、秒表、微信群、训练表格。",
+      "decision_power": "medium",
+      "acquisition_path": "教练工具、团课计时、私教会员管理。",
+      "product_fit_risk": "会引出多用户、课程、学员管理，超出个人 MVP。",
+      "evidence_level": "inferred"
+    },
+    {
+      "user_group": "医疗/慢病饮食控制用户",
+      "trigger_situation": "需要记录饮食以控制血糖、血脂或医生建议。",
+      "job_to_be_done": "准确记录食物和营养摄入，降低健康风险。",
+      "pain_intensity": 5,
+      "frequency": 5,
+      "current_solution": "医院建议、营养师、慢病管理 App、手动记录。",
+      "decision_power": "medium",
+      "acquisition_path": "慢病管理、血糖、营养记录。",
+      "product_fit_risk": "准确性、合规和医疗责任风险高，不适合作为首发目标。",
+      "evidence_level": "inferred"
+    }
+  ],
+  "segment_clusters": [
+    {
+      "cluster": "首发优先：健身房力量训练 + 时间敏感用户",
+      "included_groups": [
+        "健身房力量训练用户",
+        "忙碌上班族健身人群",
+        "增肌/塑形用户"
+      ],
+      "rationale": "组间歇计时高频、低实现成本、场景明确；饮食拍照可作为训练日饮食闭环的轻量辅助。"
+    },
+    {
+      "cluster": "验证辅助：减脂期饮食记录用户",
+      "included_groups": [
+        "减脂期饮食记录用户",
+        "健身新手/刚开始运动的人"
+      ],
+      "rationale": "拍照估算价值高，但准确性和信任风险高，适合做估算和手动修正验证，不适合一开始承诺精确。"
+    },
+    {
+      "cluster": "暂缓：专业/教练/医疗用户",
+      "included_groups": [
+        "严肃饮食追踪/健美备赛用户",
+        "私教/小团课教练",
+        "医疗/慢病饮食控制用户"
+      ],
+      "rationale": "需求深、准确性或协作要求高，会显著放大 MVP 范围。"
+    }
+  ],
+  "priority_candidates": [
+    {
+      "user_group": "健身房力量训练用户",
+      "why_priority": "组间休息是高频刚需，MVP 成本低，能最快验证工具价值。"
+    },
+    {
+      "user_group": "忙碌上班族健身人群",
+      "why_priority": "对节省时间敏感，与两个功能的共同价值一致。"
+    },
+    {
+      "user_group": "减脂期饮食记录用户",
+      "why_priority": "拍照热量估算价值强，但首期需要控制准确性预期。"
+    }
+  ],
+  "discarded_or_low_priority_segments": [
+    {
+      "user_group": "医疗/慢病饮食控制用户",
+      "reason": "准确性和责任风险高，MVP 不应覆盖医疗建议。"
+    },
+    {
+      "user_group": "私教/小团课教练",
+      "reason": "容易引出多用户管理和课程能力，偏离个人工具 MVP。"
+    },
+    {
+      "user_group": "严肃饮食追踪/健美备赛用户",
+      "reason": "对营养数据精度要求高，拍照估算难以满足。"
+    }
+  ],
+  "narrowing_rationale": {
+    "selected_groups": [
+      "健身房力量训练用户",
+      "忙碌上班族健身人群",
+      "减脂期饮食记录用户"
+    ],
+    "deferred_groups": [
+      "医疗/慢病饮食控制用户",
+      "私教/小团课教练",
+      "严肃饮食追踪/健美备赛用户"
+    ],
+    "rationale": "首发目标应优先选择高频、低成本、易验证的训练计时场景，同时保留拍照热量估算作为饮食闭环验证点。"
+  },
+  "research_questions": [
+    {
+      "question": "目标用户是否更认可“训练中省时间”还是“饮食记录省时间”？",
+      "target_group": "健身房力量训练用户"
+    },
+    {
+      "question": "用户对拍照热量估算的误差容忍度是多少？是否愿意手动修正？",
+      "target_group": "减脂期饮食记录用户"
+    },
+    {
+      "question": "Android 端后台计时、锁屏提醒、耳机语音提示是否是 MVP 必须项？",
+      "target_group": "HIIT/力量训练用户"
+    }
+  ]
+}

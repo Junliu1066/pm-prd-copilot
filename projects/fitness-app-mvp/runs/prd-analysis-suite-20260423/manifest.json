@@ -1,0 +1,26 @@
+{
+  "run_id": "prd-analysis-suite-20260423",
+  "project_id": "fitness-app-mvp",
+  "goal": "Run detachable PRD analysis skills on the Android fitness app MVP idea before PRD drafting.",
+  "enabled_skills": [
+    "source-collector",
+    "user-universe-mapper",
+    "pain-needs-analyzer",
+    "competitor-gap-analyzer",
+    "scenario-roi-ranker",
+    "mvp-scope-decider"
+  ],
+  "enabled_mcps": [],
+  "required_outputs": [
+    "user_universe",
+    "pain_needs",
+    "competitor_gap",
+    "scenario_ranking",
+    "mvp_scope"
+  ],
+  "approval_required_before_prd": [
+    "target_user_priority",
+    "core_scenario",
+    "mvp_scope"
+  ]
+}

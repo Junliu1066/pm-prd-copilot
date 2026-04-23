@@ -1,0 +1,159 @@
+{
+  "project_id": "fitness-app-mvp",
+  "artifact": "mvp_scope",
+  "created_at": "2026-04-23T00:00:00+08:00",
+  "skill": "mvp-scope-decider",
+  "core_scenario": {
+    "name": "健身房力量训练组间休息计时",
+    "target_user": "Android 首发；健身房力量训练用户、忙碌上班族健身人群、减脂/增肌训练用户。",
+    "success_signal": "用户在一周内重复使用组间计时，并至少完成一次餐食拍照估算或今日页查看。"
+  },
+  "mvp_loop": {
+    "trigger": "用户完成一组训练或准备记录一餐。",
+    "input": "选择休息时长/开始计时；拍摄餐食照片并确认估算。",
+    "processing": "本地计时、通知/声音提醒；餐食照片经识别能力返回估算热量/宏量和置信度。",
+    "output": "休息结束提醒；餐食估算结果和今日摄入概览。",
+    "feedback": "用户可完成/跳过休息、修改食物份量、保存或删除餐食。",
+    "repeat_use": "下一组继续计时；下一餐继续拍照；今日页查看当天训练和摄入。"
+  },
+  "scope_table": [
+    {
+      "item": "Android 本地组间休息计时器",
+      "bucket": "MVP",
+      "user_value": "训练中减少看表和切换，稳定组间休息。",
+      "build_cost": "low",
+      "dependency": "Android timer、notification、audio/vibration。",
+      "validation_signal": "timer_start、timer_complete、repeat_timer_start。",
+      "rationale": "最低成本最高频核心能力。"
+    },
+    {
+      "item": "默认休息时长快捷按钮：60/90/120/180 秒",
+      "bucket": "MVP",
+      "user_value": "降低配置成本，一键开始。",
+      "build_cost": "low",
+      "dependency": "基础 UI。",
+      "validation_signal": "preset_selected。",
+      "rationale": "强化力量训练组间场景，而不是泛 timer。"
+    },
+    {
+      "item": "后台/锁屏/声音或震动提醒",
+      "bucket": "MVP",
+      "user_value": "用户训练时不需要盯屏幕。",
+      "build_cost": "medium",
+      "dependency": "Android 前台服务/通知权限/声音震动策略。",
+      "validation_signal": "background_timer_complete。",
+      "rationale": "训练场景里提醒可靠性是核心体验。"
+    },
+    {
+      "item": "餐食拍照热量估算",
+      "bucket": "MVP",
+      "user_value": "降低饮食记录开始成本。",
+      "build_cost": "high",
+      "dependency": "图像识别模型/API、食物营养数据、网络和隐私说明。",
+      "validation_signal": "meal_photo_submitted、meal_estimate_saved。",
+      "rationale": "用户明确提出；但首期只做估算和验证，不承诺精确。"
+    },
+    {
+      "item": "估算结果置信度、免责声明和手动修正",
+      "bucket": "MVP",
+      "user_value": "降低错误估算导致的不信任。",
+      "build_cost": "medium",
+      "dependency": "结果编辑 UI、份量字段、保存逻辑。",
+      "validation_signal": "meal_estimate_edited、meal_estimate_saved。",
+      "rationale": "拍照热量功能的必要兜底。"
+    },
+    {
+      "item": "今日页：训练计时次数/时长 + 餐食估算热量",
+      "bucket": "MVP",
+      "user_value": "形成训练+饮食闭环，体现两个功能放在一起的价值。",
+      "build_cost": "medium",
+      "dependency": "本地数据存储。",
+      "validation_signal": "today_dashboard_viewed。",
+      "rationale": "差异化关键，不需要复杂长期图表。"
+    },
+    {
+      "item": "HIIT/Tabata 多模板",
+      "bucket": "V1",
+      "user_value": "服务功能性训练用户。",
+      "build_cost": "medium",
+      "dependency": "多阶段 timer 模板。",
+      "validation_signal": "template_timer_started。",
+      "rationale": "竞品成熟，先不作为核心差异化。"
+    },
+    {
+      "item": "饮食历史和周报",
+      "bucket": "V1",
+      "user_value": "帮助用户看长期趋势。",
+      "build_cost": "medium",
+      "dependency": "账号或本地历史、图表。",
+      "validation_signal": "weekly_report_viewed。",
+      "rationale": "MVP 先验证记录行为。"
+    },
+    {
+      "item": "账号体系和云同步",
+      "bucket": "Later",
+      "user_value": "多设备和长期数据保存。",
+      "build_cost": "high",
+      "dependency": "后端、认证、数据合规。",
+      "validation_signal": "signup_rate。",
+      "rationale": "会增加开发和运营成本，非首期验证必需。"
+    },
+    {
+      "item": "完整食物数据库和精准微量营养追踪",
+      "bucket": "Later",
+      "user_value": "服务高阶饮食追踪用户。",
+      "build_cost": "high",
+      "dependency": "数据库授权、验证、复杂营养字段。",
+      "validation_signal": "advanced_nutrition_usage。",
+      "rationale": "不是最小成本 MVP。"
+    },
+    {
+      "item": "医疗饮食建议",
+      "bucket": "Non-goal",
+      "user_value": "慢病用户可能需要。",
+      "build_cost": "high",
+      "dependency": "医疗合规和专业审核。",
+      "validation_signal": "none",
+      "rationale": "风险高，首发明确不做。"
+    }
+  ],
+  "deferred_items": [
+    {
+      "item": "完整训练计划、动作库、训练记录曲线",
+      "reason": "会把产品拉向完整健身 App，影响最小验证。"
+    },
+    {
+      "item": "Wear OS 支持",
+      "reason": "竞品有相关能力，但 Android 手机端 MVP 先验证核心需求。"
+    },
+    {
+      "item": "会员付费",
+      "reason": "需要先验证留存和核心使用频次。"
+    }
+  ],
+  "non_goals": [
+    {
+      "item": "医疗建议或疾病饮食管理",
+      "reason": "需要合规和专业资质，不适合 MVP。"
+    },
+    {
+      "item": "承诺拍照热量绝对准确",
+      "reason": "技术和信任风险高，只能表达为估算。"
+    },
+    {
+      "item": "私教学员管理系统",
+      "reason": "不是个人工具首发范围。"
+    }
+  ],
+  "roi_basis": {
+    "minimum_cost_reasoning": "计时器核心能力主要依赖 Android 本地能力，开发成本明显低于拍照热量估算和完整食物库。",
+    "maximum_return_reasoning": "力量训练用户高频使用组间计时，能最快验证节省时间价值；今日页再把饮食估算带入闭环。",
+    "time_saved": "减少每组看表、手动设定、切换 App、饮食搜索输入。",
+    "speed_to_mvp": "先做本地 timer + 轻量 meal estimate，可以在不建设完整账号和数据库的情况下验证。"
+  },
+  "competitor_gap_basis": {
+    "linked_gap_or_advantage": "竞品要么强饮食记录，要么强计时；MVP 机会是 Android-first 的训练日轻闭环。",
+    "why_it_belongs_or_does_not_belong_in_mvp": "组间计时和今日页属于低成本闭环核心；复杂 HIIT 模板、精准营养数据库和账号同步应延后。"
+  },
+  "approval_question": "是否批准 MVP 范围：以 Android 组间休息计时为核心，餐食拍照热量估算作为带置信度和手动修正的轻量辅助，并用今日页形成训练+饮食闭环？"
+}

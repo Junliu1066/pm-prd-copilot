@@ -1,0 +1,140 @@
+{
+  "project_id": "fitness-app-mvp",
+  "artifact": "pain_needs",
+  "created_at": "2026-04-23T00:00:00+08:00",
+  "skill": "pain-needs-analyzer",
+  "pain_needs_matrix": [
+    {
+      "user_group": "健身房力量训练用户",
+      "pain": "组间休息靠感觉或反复看表，容易休太久、休太短或中断训练专注。",
+      "root_cause": "通用计时器不理解训练组、动作、休息、提醒和重复节奏。",
+      "desired_outcome": "每组结束后一键开始休息，到点自动提醒，尽量不操作手机。",
+      "current_workaround": "系统计时器、手表、墙钟、第三方 timer、凭感觉。",
+      "demand_type": "efficiency",
+      "severity": 5,
+      "frequency": 5,
+      "evidence_level": "inferred"
+    },
+    {
+      "user_group": "减脂期饮食记录用户",
+      "pain": "手动搜索食物、估份量、输入热量很麻烦，导致记录中断。",
+      "root_cause": "记录成本高于即时收益，且用户不确定估算是否值得信任。",
+      "desired_outcome": "拍照后得到大致热量和宏量估计，必要时快速手动修正。",
+      "current_workaround": "不记、拍照留存、手动搜索、用 MyFitnessPal/Cronometer 等工具。",
+      "demand_type": "efficiency",
+      "severity": 5,
+      "frequency": 4,
+      "evidence_level": "explicit"
+    },
+    {
+      "user_group": "忙碌上班族健身人群",
+      "pain": "训练和饮食记录分散在多个工具，切换和输入浪费时间。",
+      "root_cause": "工具分别服务饮食和训练，没有围绕“快速完成当天闭环”设计。",
+      "desired_outcome": "训练中快速计时，吃饭时快速估算，今天是否大致达标一眼可见。",
+      "current_workaround": "计时器 + 饮食 App + 笔记/不记录。",
+      "demand_type": "efficiency",
+      "severity": 4,
+      "frequency": 4,
+      "evidence_level": "inferred"
+    },
+    {
+      "user_group": "增肌/塑形用户",
+      "pain": "不知道今天蛋白和热量是否够，同时训练休息不稳定影响训练质量。",
+      "root_cause": "训练执行和营养反馈割裂，用户需要自己整合。",
+      "desired_outcome": "训练日快速看到训练节奏和饮食估算，辅助做下一餐选择。",
+      "current_workaround": "手动查食物、厨房秤、训练 App、计时器。",
+      "demand_type": "confidence",
+      "severity": 4,
+      "frequency": 4,
+      "evidence_level": "inferred"
+    },
+    {
+      "user_group": "HIIT/Tabata/功能性训练用户",
+      "pain": "间歇训练中需要稳定工作/休息提醒，手动控制会打断动作。",
+      "root_cause": "训练节奏强依赖声音、震动、后台、锁屏提醒。",
+      "desired_outcome": "选择模板或快速设置，训练时只听提醒完成循环。",
+      "current_workaround": "Tabata Timer、SmartWOD Timer、YouTube 跟练。",
+      "demand_type": "functional",
+      "severity": 4,
+      "frequency": 4,
+      "evidence_level": "external_signal"
+    }
+  ],
+  "root_cause_analysis": [
+    {
+      "theme": "时间浪费来自输入和切换",
+      "explanation": "饮食记录要搜索/估量，训练计时要切换/看表。两个功能共同价值应是减少用户操作，而不是堆功能。"
+    },
+    {
+      "theme": "准确性和信任是食物拍照的主要风险",
+      "explanation": "热量拍照估算价值高，但如果没有置信度、手动修正和免责声明，用户容易因错误结果流失。"
+    },
+    {
+      "theme": "计时器是低成本高频验证点",
+      "explanation": "组间休息和 HIIT 间歇都高频，且不依赖外部数据库；更适合作为首发核心场景。"
+    }
+  ],
+  "time_cost_savings": [
+    {
+      "user_group": "健身房力量训练用户",
+      "wasted_time_or_cost": "每组手动看表、打开计时器、忘记休息时长。",
+      "potential_saving": "一键开始/自动循环/声音提醒，减少训练中断和无效等待。"
+    },
+    {
+      "user_group": "减脂期饮食记录用户",
+      "wasted_time_or_cost": "搜索食物、估算份量、输入热量。",
+      "potential_saving": "拍照识别 + 手动修正，降低记录开始门槛。"
+    },
+    {
+      "user_group": "忙碌上班族健身人群",
+      "wasted_time_or_cost": "训练和饮食分散记录，难以形成当天反馈。",
+      "potential_saving": "一个今日页聚合训练计时和餐食估算，降低切换成本。"
+    }
+  ],
+  "scenario_candidates": [
+    {
+      "scenario": "健身房力量训练组间休息计时",
+      "user_group": "健身房力量训练用户",
+      "value_hypothesis": "用最低开发成本验证高频训练辅助价值。"
+    },
+    {
+      "scenario": "餐食拍照热量估算并手动修正",
+      "user_group": "减脂期饮食记录用户",
+      "value_hypothesis": "降低饮食记录门槛，但需控制准确性预期。"
+    },
+    {
+      "scenario": "训练日今日闭环：已训练 + 已摄入估算",
+      "user_group": "忙碌上班族健身人群",
+      "value_hypothesis": "把两个功能从并列工具变成一个节省时间的闭环。"
+    },
+    {
+      "scenario": "HIIT/Tabata 模板计时",
+      "user_group": "HIIT/Tabata/功能性训练用户",
+      "value_hypothesis": "竞品成熟，但可作为计时能力的模板扩展。"
+    }
+  ],
+  "user_group_coverage_check": {
+    "covered_groups": [
+      "健身房力量训练用户",
+      "减脂期饮食记录用户",
+      "忙碌上班族健身人群",
+      "增肌/塑形用户",
+      "HIIT/Tabata/功能性训练用户"
+    ],
+    "missing_or_underexplored_groups": [
+      "私教/小团课教练",
+      "医疗/慢病饮食控制用户"
+    ],
+    "narrowing_risk": "当前应避免只围绕减脂用户设计，否则会低估组间歇闹钟的低成本高频价值。"
+  },
+  "research_gaps": [
+    {
+      "gap": "拍照热量估算的用户可接受误差范围未知。",
+      "suggested_validation": "用 20 张常见餐食做原型测试，让用户选择是否愿意保存和修正。"
+    },
+    {
+      "gap": "组间歇闹钟是否需要后台/锁屏/耳机提醒作为首发必需项未知。",
+      "suggested_validation": "用 Android 原型验证健身房环境下提醒是否可靠。"
+    }
+  ]
+}

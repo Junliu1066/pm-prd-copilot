@@ -1,0 +1,145 @@
+{
+  "project_id": "fitness-app-mvp",
+  "artifact": "scenario_ranking",
+  "created_at": "2026-04-23T00:00:00+08:00",
+  "skill": "scenario-roi-ranker",
+  "scenario_scores": [
+    {
+      "scenario": "健身房力量训练组间休息计时",
+      "user_group": "健身房力量训练用户",
+      "trigger": "完成一组训练后，需要立即开始休息倒计时。",
+      "expected_outcome": "减少看表和忘记休息时长，稳定训练节奏。",
+      "scores": {
+        "user_value": 5,
+        "build_cost": 5,
+        "frequency": 5,
+        "time_savings": 4,
+        "validation_speed": 5,
+        "risk": 4,
+        "differentiation": 3
+      },
+      "weighted_score": 4.55,
+      "rationale": "高频、低成本、Android 本地即可实现，最适合作为 MVP 核心场景。",
+      "uncertainty": "独立 timer 竞品成熟，差异化需要靠更快启动和训练日闭环。",
+      "competitor_gap_link": "通用 interval timer 强大但偏泛；力量训练组间休息可做更简单。"
+    },
+    {
+      "scenario": "训练日今日闭环：已训练 + 已摄入估算",
+      "user_group": "忙碌上班族健身人群",
+      "trigger": "用户完成训练或吃饭后想知道今天是否大致达标。",
+      "expected_outcome": "一个今日页看到 timer 使用、训练时长、餐食估算热量。",
+      "scores": {
+        "user_value": 4,
+        "build_cost": 4,
+        "frequency": 4,
+        "time_savings": 5,
+        "validation_speed": 4,
+        "risk": 4,
+        "differentiation": 4
+      },
+      "weighted_score": 4.15,
+      "rationale": "能把两个功能从并列工具变成节省时间的闭环，是差异化来源。",
+      "uncertainty": "如果餐食估算不可靠，闭环价值会下降。",
+      "competitor_gap_link": "饮食和计时竞品大多分离。"
+    },
+    {
+      "scenario": "餐食拍照热量估算并手动修正",
+      "user_group": "减脂期饮食记录用户",
+      "trigger": "用户吃饭前后拍照，希望快速获得热量和宏量估算。",
+      "expected_outcome": "快速记录一餐，必要时修改份量或食物。",
+      "scores": {
+        "user_value": 5,
+        "build_cost": 2,
+        "frequency": 4,
+        "time_savings": 5,
+        "validation_speed": 3,
+        "risk": 2,
+        "differentiation": 3
+      },
+      "weighted_score": 3.55,
+      "rationale": "用户价值强，但需要图像识别、食物库、份量估算和信任兜底，首期应做估算原型而非承诺精确。",
+      "uncertainty": "准确性、数据源、成本和 Android 端体验未验证。",
+      "competitor_gap_link": "MyFitnessPal/Cal AI 已教育用户 photo logging；机会在更轻量、更诚实的估算和训练日闭环。"
+    },
+    {
+      "scenario": "HIIT/Tabata 模板计时",
+      "user_group": "HIIT/Tabata/功能性训练用户",
+      "trigger": "用户开始 HIIT、Tabata、EMOM、AMRAP 等训练。",
+      "expected_outcome": "选择模板后按声音/震动完成训练。",
+      "scores": {
+        "user_value": 4,
+        "build_cost": 3,
+        "frequency": 4,
+        "time_savings": 4,
+        "validation_speed": 4,
+        "risk": 4,
+        "differentiation": 2
+      },
+      "weighted_score": 3.6,
+      "rationale": "timer 能力相近，但竞品成熟且功能丰富，适合作为 V1 扩展而非核心差异化。",
+      "uncertainty": "是否需要支持复杂训练模式取决于目标用户是否转向功能性训练。",
+      "competitor_gap_link": "SmartWOD/Tabata Timer 已覆盖大量模式。"
+    },
+    {
+      "scenario": "精准宏量营养长期追踪",
+      "user_group": "严肃饮食追踪/健美备赛用户",
+      "trigger": "用户需要长期精确记录热量、蛋白、碳水、脂肪和体重变化。",
+      "expected_outcome": "高度可信的营养日志和趋势分析。",
+      "scores": {
+        "user_value": 5,
+        "build_cost": 1,
+        "frequency": 5,
+        "time_savings": 2,
+        "validation_speed": 1,
+        "risk": 2,
+        "differentiation": 2
+      },
+      "weighted_score": 2.85,
+      "rationale": "价值高但成本和准确性要求高，首期不适合。",
+      "uncertainty": "若后续做食物库和长期记录，可重新评估。",
+      "competitor_gap_link": "Cronometer/MyFitnessPal 在数据库和长期追踪上更强。"
+    }
+  ],
+  "recommended_core_scenario": {
+    "scenario": "健身房力量训练组间休息计时",
+    "rationale": "最低成本、最高频、最快验证。它能先证明“为健身人群节省训练中无效时间”的价值，再用餐食拍照做训练日闭环。"
+  },
+  "backup_scenario": {
+    "scenario": "训练日今日闭环：已训练 + 已摄入估算",
+    "rationale": "这是两个功能放在一起的真正差异化方向，但需要 timer 和食物估算两个入口都先可用。"
+  },
+  "avoid_for_now": [
+    {
+      "scenario": "精准宏量营养长期追踪",
+      "reason": "准确性、数据库、长期图表和用户信任成本高，不适合最小成本 MVP。"
+    },
+    {
+      "scenario": "私教/学员管理",
+      "reason": "会引入多角色、课程和协作系统。"
+    },
+    {
+      "scenario": "医疗/慢病饮食建议",
+      "reason": "合规和责任风险高。"
+    }
+  ],
+  "cost_return_summary": {
+    "lowest_cost_highest_return_scenario": "健身房力量训练组间休息计时",
+    "time_saved": "减少每组看表、切 App、忘记休息时长的操作成本。",
+    "speed_to_mvp": "Android 本地计时 + 通知/声音提醒可快速验证；拍照热量估算可先用估算原型和手动修正控制风险。"
+  },
+  "competitor_gap_links": [
+    {
+      "scenario": "健身房力量训练组间休息计时",
+      "gap_or_advantage": "通用 timer 功能多，但力量训练用户需要的是更少配置和更快开始。"
+    },
+    {
+      "scenario": "训练日今日闭环：已训练 + 已摄入估算",
+      "gap_or_advantage": "饮食记录和训练计时工具通常割裂，可以用今日页形成闭环。"
+    },
+    {
+      "scenario": "餐食拍照热量估算并手动修正",
+      "gap_or_advantage": "竞品教育了 photo logging，但准确性仍需人工确认；MVP 可主打估算透明和快速修正。"
+    }
+  ],
+  "approval_question": "是否同意把“健身房力量训练组间休息计时”作为首发核心场景，同时把“餐食拍照热量估算”做成带置信度和手动修正的轻量辅助能力？"
+}

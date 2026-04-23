@@ -1,0 +1,227 @@
+{
+  "project_id": "fitness-app-mvp",
+  "artifact": "competitor_gap",
+  "created_at": "2026-04-23T00:00:00+08:00",
+  "skill": "competitor-gap-analyzer",
+  "verification_reminder": "以下竞品信息来自外部页面和搜索结果，只作为产品判断信号。请在用于决策前自行验证来源日期、地区、Android 可用性、功能版本、价格和实际体验。",
+  "competitor_map": [
+    {
+      "competitor": "MyFitnessPal Meal Scan",
+      "type": "direct",
+      "target_user": "饮食记录、减脂、宏量追踪用户",
+      "core_loop": "拍照或上传餐食图片，识别食物建议，调整份量，加入日记。",
+      "key_features": [
+        "Meal Scan 为 Premium 功能",
+        "支持 iOS 17/Android 12 及以上、MyFitnessPal 22.17+、英文环境",
+        "使用机器学习和计算机视觉识别食物",
+        "结合食物数据库建议 verified foods",
+        "允许调整 serving size 和手动搜索未识别食物"
+      ],
+      "pricing_signal": "Premium only",
+      "evidence_sources": [
+        "https://support.myfitnesspal.com/hc/en-us/articles/360045761612-Meal-Scan-FAQ"
+      ]
+    },
+    {
+      "competitor": "Cal AI / Cal photo calorie apps",
+      "type": "direct",
+      "target_user": "希望用拍照快速记录热量、宏量、体重目标的用户",
+      "core_loop": "拍照识别食物，生成 calories/macros，保存到饮食记录和目标进度。",
+      "key_features": [
+        "photo-first logging",
+        "AI food scanner",
+        "calories/macros",
+        "goals and charts",
+        "barcode/manual options in部分同类应用描述"
+      ],
+      "pricing_signal": "free with in-app purchases / subscription signals",
+      "evidence_sources": [
+        "https://apps.apple.com/us/app/cal-ai-calorie-counter/id6756399932",
+        "https://apps.apple.com/us/app/cal-ai-calorie-tracker/id6754554881"
+      ]
+    },
+    {
+      "competitor": "Cronometer",
+      "type": "adjacent",
+      "target_user": "重视营养准确性、微量营养和可信食物数据库的用户",
+      "core_loop": "通过数据库、条形码扫描、营养仪表盘记录饮食。",
+      "key_features": [
+        "free barcode scanner",
+        "verified food database",
+        "macro and micronutrient tracking",
+        "water tracking",
+        "custom meals and recipe features"
+      ],
+      "pricing_signal": "free + premium features",
+      "evidence_sources": [
+        "https://cronometer.com/features/track-food.html",
+        "https://support.cronometer.com/hc/en-us/articles/360020441392-Mobile-Scan-Food"
+      ]
+    },
+    {
+      "competitor": "Tabata Timer for HIIT",
+      "type": "direct",
+      "target_user": "HIIT/Tabata 间歇训练用户",
+      "core_loop": "配置准备、训练、休息、循环和 Tabata 组数，按提醒训练。",
+      "key_features": [
+        "5M+ downloads signal in Google Play result",
+        "configurable preparation/workout/rest durations",
+        "cycles and tabatas",
+        "clear time display",
+        "daily workout history",
+        "weight and BMI records"
+      ],
+      "pricing_signal": "contains ads",
+      "evidence_sources": [
+        "https://play.google.com/store/apps/details?hl=en_US&id=com.simplevision.workout.tabata"
+      ]
+    },
+    {
+      "competitor": "SmartWOD Timer",
+      "type": "direct",
+      "target_user": "Cross Training、功能性训练、WOD 用户",
+      "core_loop": "选择 AMRAP、For Time、EMOM、Tabata 等 WOD 类型，设定时长后开始训练。",
+      "key_features": [
+        "1M+ downloads signal in Google Play result",
+        "AMRAP/EMOM/For Time/Tabata",
+        "big clear display",
+        "sound support",
+        "integrated round counter",
+        "workout log",
+        "runs in background"
+      ],
+      "pricing_signal": "ads + in-app purchases",
+      "evidence_sources": [
+        "https://play.google.com/store/apps/details?id=net.smartwod.timer"
+      ]
+    },
+    {
+      "competitor": "Interval Timer: Workout, HIIT",
+      "type": "direct",
+      "target_user": "通用 HIIT、健身、跑步、瑜伽、搏击用户",
+      "core_loop": "快速或高级配置自定义 timer，保存 preset，训练中用语音/通知/锁屏控制。",
+      "key_features": [
+        "simple and advanced mode",
+        "save timer presets",
+        "text-to-speech next exercise",
+        "notification and lock screen control",
+        "weekly goals and progress",
+        "Wear OS companion app"
+      ],
+      "pricing_signal": "in-app purchases",
+      "evidence_sources": [
+        "https://play.google.com/store/apps/details?hl=en_US&id=com.mdev.intervaltimer"
+      ]
+    }
+  ],
+  "common_solution_patterns": [
+    {
+      "pattern": "食物记录竞品强调更低输入成本：拍照、条形码、数据库、手动修正。",
+      "competitors": [
+        "MyFitnessPal",
+        "Cal AI",
+        "Cronometer"
+      ]
+    },
+    {
+      "pattern": "计时器竞品已经把自定义、模板、语音/震动/后台作为常规能力。",
+      "competitors": [
+        "Tabata Timer",
+        "SmartWOD Timer",
+        "Interval Timer"
+      ]
+    },
+    {
+      "pattern": "饮食 App 和计时器 App 大多分离，少有围绕训练日快速闭环的轻量设计。",
+      "competitors": [
+        "diet trackers",
+        "interval timers"
+      ]
+    }
+  ],
+  "user_complaint_themes": [
+    {
+      "theme": "拍照热量估算信任风险",
+      "evidence_sources": [
+        "MyFitnessPal FAQ 提到用户可调整 serving size 和手动搜索，暗示识别和份量需要人工确认。"
+      ],
+      "severity": "high"
+    },
+    {
+      "theme": "计时器设置复杂或过度通用",
+      "evidence_sources": [
+        "多款 Google Play timer 强调 simple mode、preset、big display、voice cue，说明快速启动和低打扰是核心竞争点。"
+      ],
+      "severity": "medium"
+    },
+    {
+      "theme": "两个核心功能分别有成熟工具，单点复制难以突围",
+      "evidence_sources": [
+        "MyFitnessPal/Cronometer 解决饮食记录，SmartWOD/Tabata/Interval Timer 解决训练计时。"
+      ],
+      "severity": "high"
+    }
+  ],
+  "opportunity_gaps": [
+    {
+      "gap": "训练和饮食记录割裂",
+      "user_need_link": "用户想减少记录和切换时间。",
+      "why_it_matters": "两个单点功能都已有强竞品，闭环价值比单点功能更可能形成差异。"
+    },
+    {
+      "gap": "拍照估算不应承诺精确，而应把手动修正和置信度做成默认流程",
+      "user_need_link": "用户需要省时间，也需要知道结果是否可信。",
+      "why_it_matters": "能降低错误结果带来的信任损失。"
+    },
+    {
+      "gap": "力量训练组间计时可以比通用 timer 更快启动",
+      "user_need_link": "力量训练用户只需要快速开始休息和提醒，不一定需要复杂 HIIT 编排。",
+      "why_it_matters": "低成本 MVP 可聚焦高频动作，而不是复制全功能 timer。"
+    }
+  ],
+  "advantage_hypotheses": [
+    {
+      "hypothesis": "Android-first 的训练日闭环工具：组间休息计时 + 当日饮食估算。",
+      "how_to_amplify": "首页只显示今天训练计时次数、训练时长、餐食估算热量和下一步动作。",
+      "validation_needed": "用户是否认为一个 App 同时解决训练节奏和饮食估算比两个单点工具更省时间。"
+    },
+    {
+      "hypothesis": "力量训练组间计时比通用 interval timer 更少配置。",
+      "how_to_amplify": "默认 60/90/120/180 秒，结束一组后一键开始，支持锁屏/通知/声音。",
+      "validation_needed": "健身房真实场景下是否能减少看表和手机操作。"
+    },
+    {
+      "hypothesis": "拍照热量估算只做快速估算 + 修正，而不是精确营养工具。",
+      "how_to_amplify": "显示估算区间、置信度和一键修改份量，避免用户误以为绝对准确。",
+      "validation_needed": "用户是否愿意接受估算结果并持续记录。"
+    }
+  ],
+  "advantage_amplification_plan": [
+    {
+      "advantage": "最低成本训练计时核心",
+      "linked_user_need": "减少组间休息看表和无效等待。",
+      "scenario_to_feed": "健身房力量训练组间休息计时",
+      "validation_needed": "1 周内观察 timer session 次数、完成率、重复使用。"
+    },
+    {
+      "advantage": "训练日饮食闭环",
+      "linked_user_need": "训练和饮食都想少输入、少切换。",
+      "scenario_to_feed": "训练日今日闭环：已训练 + 已摄入估算",
+      "validation_needed": "用户是否在训练日同时使用 timer 和 meal photo。"
+    }
+  ],
+  "verification_checklist": [
+    {
+      "item": "请验证 MyFitnessPal Meal Scan 在目标地区、Android 版本、语言和会员状态下是否可用。"
+    },
+    {
+      "item": "请验证 Google Play 下载量、评分、功能描述是否仍然准确。"
+    },
+    {
+      "item": "请实测 3-5 个 timer 竞品的后台、锁屏、耳机提醒体验。"
+    },
+    {
+      "item": "请实测 3-5 个拍照热量竞品对中餐、混合菜、外卖的估算表现。"
+    }
+  ]
+}

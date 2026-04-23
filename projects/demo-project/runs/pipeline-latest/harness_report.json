@@ -39,6 +39,12 @@
       ]
     },
     {
+      "check": "teaching_absorption",
+      "status": "pass",
+      "message": "No issues found.",
+      "details": []
+    },
+    {
       "check": "random_audit",
       "status": "pass",
       "message": "Audited 1 item(s); no issues found.",

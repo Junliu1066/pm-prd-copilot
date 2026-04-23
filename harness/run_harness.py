@@ -11,6 +11,7 @@ from random_audit_inspector import inspect_random_audit
 from scaling_policy_checker import check_scaling_policy
 from source_trace_checker import check_source_traces
 from steward_contract_checker import check_steward_contracts
+from teaching_absorption_checker import check_teaching_absorption
 from workflow_gate_checker import check_workflow_gates
 
 
@@ -83,6 +84,7 @@ def main() -> None:
         check_workflow_gates(base_dir, args.project),
         check_source_traces(base_dir, args.project),
         check_scaling_policy(base_dir),
+        check_teaching_absorption(base_dir),
     ]
     if args.audit:
         results.append(inspect_random_audit(base_dir, args.project, run_id=run_id))

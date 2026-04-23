@@ -25,6 +25,9 @@ When a single chief steward cannot reliably coordinate all sub-stewards or workf
 ### Random Audit Inspector
 The random audit inspector is an independent governance role. It can randomly inspect run manifests, traces, source traces, and artifacts. It reports violations to the responsible sub-steward, the chief steward, and the user when escalation is needed. It cannot modify artifacts, update memory, change skill status, or decide whether external data is true.
 
+### PM Coach / Teacher
+The teacher role captures user coaching, classifies lessons, and turns them into supervised learning proposals. It reports to the user. It can propose memory, skill, workflow, or harness updates, but it cannot directly change stable memory, modify skills, approve its own proposals, or override user decisions.
+
 ## Required Runtime Files
 Each governed run should create or update:
 - `projects/<project>/project_state.json`
@@ -66,3 +69,13 @@ When the random audit inspector finds a violation, report:
 - Impact
 - Recommended action
 - Whether user escalation is required
+
+## Teaching Report Format
+When the user teaches a new principle or correction, capture:
+- User feedback
+- Lesson type
+- Proposed interpretation
+- Affected components
+- Proposed system change
+- Verification method
+- Whether user approval is required

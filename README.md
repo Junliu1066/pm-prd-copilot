@@ -15,6 +15,7 @@ governance/               Steward scaling and operating rules
 registry/                 Registered skills, MCP tools, stewards, and artifacts
 workflow/                 PRD workflow stages, actions, and approval policies
 harness/                  Governance validation for registry, contracts, gates, sources, and scaling
+teaching/                 User coaching logs, accepted lessons, open lessons, and PM principles
 pm-prd-copilot/           Stable skill, templates, memory, proposals, and evals
 ai-intel/                 AI source registry, raw snapshots, events, daily reports, decision docs
 shared/schemas/           Shared JSON schemas reused by PM workflows
@@ -104,5 +105,6 @@ python3 ai-intel/scripts/update_decision_matrix.py --base-dir .
 - The chief steward manages skills directly only while the system stays below the scaling thresholds in `governance/steward_scaling_policy.yaml`.
 - Sub-stewards and peer chief stewards require human approval before they become active operating roles.
 - The random audit inspector can sample run traces and report suspected boundary violations to the responsible steward, chief steward, and user; it cannot modify artifacts or verify external truth.
+- The PM coach captures user teaching and turns it into supervised proposals; accepted lessons must pass teaching absorption checks before they are treated as stable behavior.
 - Memory and skill updates must be reviewed before merging.
 - Regression should pass before any stable-layer prompt or template change is accepted.

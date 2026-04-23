@@ -86,3 +86,23 @@ inspectors:
       - update_memory
       - change_skill_status
       - verify_external_truth
+
+teachers:
+  pm-coach:
+    status: candidate
+    domain: teaching
+    responsibilities:
+      - capture_user_feedback
+      - classify_lessons
+      - propose_memory_updates
+      - propose_skill_updates
+      - propose_harness_rules
+      - check_lesson_absorption
+    reports_to:
+      - user
+    cannot:
+      - directly_update_memory
+      - directly_modify_skills
+      - approve_own_proposals
+      - override_user_decisions
+      - verify_external_truth

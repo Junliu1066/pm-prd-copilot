@@ -1,0 +1,70 @@
+version: 0.1.0
+description: Teaching governance policy for converting user coaching into supervised system learning.
+
+teacher:
+  id: pm-coach
+  reports_to:
+    - user
+  can:
+    - capture_feedback
+    - classify_lessons
+    - propose_memory_updates
+    - propose_skill_updates
+    - propose_harness_rules
+    - check_lesson_absorption
+  cannot:
+    - directly_update_memory
+    - directly_modify_skills
+    - approve_own_proposals
+    - override_user_decisions
+    - verify_external_truth
+
+lesson_types:
+  - one_off_correction
+  - user_preference
+  - general_pm_principle
+  - workflow_rule
+  - harness_rule
+  - skill_improvement
+
+lesson_statuses:
+  - proposed
+  - accepted
+  - rejected
+  - superseded
+
+approval_required:
+  - accepted_lesson
+  - memory_update
+  - skill_update
+  - harness_rule_update
+
+absorption_requirements:
+  accepted_lessons_must_have:
+    - lesson_id
+    - lesson_type
+    - principle
+    - affected_components
+    - expected_behavior
+    - verification_hint
+  open_lessons_must_have:
+    - lesson_id
+    - user_feedback
+    - proposed_interpretation
+    - status
+  affected_components_allowed:
+    - agent
+    - workflow
+    - registry
+    - harness
+    - source-collector
+    - user-universe-mapper
+    - pain-needs-analyzer
+    - scenario-roi-ranker
+    - competitor-gap-analyzer
+    - mvp-scope-decider
+    - prd-structure-planner
+    - prd-draft-writer
+    - prd-quality-reviewer
+    - random-audit-inspector
+    - efficiency-steward

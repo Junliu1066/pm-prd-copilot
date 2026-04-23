@@ -72,7 +72,8 @@ def main() -> None:
     args = parser.parse_args()
 
     base_dir = Path(args.base_dir).resolve()
-    run_id = args.run_id or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    existing_state = read_json(base_dir / "projects" / args.project / "project_state.json")
+    run_id = args.run_id or existing_state.get("last_run_id") or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     ensure_project_state(base_dir, args.project, run_id)
     ensure_run_files(base_dir, args.project, run_id)
 

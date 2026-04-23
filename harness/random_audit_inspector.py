@@ -86,6 +86,8 @@ def inspect_random_audit(base_dir: Path, project: str, *, run_id: str | None = N
     if not candidates:
         report = {
             "audit_id": f"{project}-{effective_run_id}-random-audit",
+            "run_id": effective_run_id,
+            "project_id": project,
             "status": "pass",
             "sampled_items": [],
             "findings": [],
@@ -183,6 +185,8 @@ def inspect_random_audit(base_dir: Path, project: str, *, run_id: str | None = N
 
     report = {
         "audit_id": f"{project}-{effective_run_id}-random-audit",
+        "run_id": effective_run_id,
+        "project_id": project,
         "status": status,
         "sampled_items": [
             {

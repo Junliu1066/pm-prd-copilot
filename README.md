@@ -62,6 +62,15 @@ The PM Copilot production chain writes these files under `projects/<project>/`:
 
 Each stage also writes a `*.meta.json` file that records whether the output came from `rule`, `llm`, or `auto` fallback mode.
 
+Each pipeline run also writes governance files under `projects/<project>/runs/<run-id>/`:
+
+- `manifest.json`: which skills, stages, and outputs were allowed for this run.
+- `trace.json`: which registered skills actually ran and which artifacts they produced.
+- `harness_report.json`: governance check results when harness runs.
+- `random_audit_report.json`: random inspector samples and findings when harness runs with `--audit`.
+
+The default pipeline run id is `pipeline-latest`. Pass `--run-id <id>` when you need a stable named run for review.
+
 ## Model-backed generation
 
 The pipeline now supports:

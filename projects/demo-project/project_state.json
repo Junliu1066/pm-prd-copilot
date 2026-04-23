@@ -4,5 +4,13 @@
   "completed_stages": [],
   "approvals": [],
   "assumption_overrides": {},
-  "last_run_id": "governance-baseline"
+  "last_run_id": "pipeline-latest",
+  "last_pipeline_mode": "rule",
+  "last_pipeline_stages": [
+    "brief",
+    "prd",
+    "stories",
+    "risk",
+    "tracking"
+  ]
 }

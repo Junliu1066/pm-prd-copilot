@@ -1,0 +1,14 @@
+{
+  "audit_id": "demo-project-pipeline-latest-random-audit",
+  "run_id": "pipeline-latest",
+  "project_id": "demo-project",
+  "status": "pass",
+  "sampled_items": [
+    {
+      "type": "skill_call",
+      "id": "skill:2:prd-draft-writer",
+      "risk_score": 7
+    }
+  ],
+  "findings": []
+}

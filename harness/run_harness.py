@@ -7,6 +7,7 @@ from pathlib import Path
 
 from common import overall_status, read_json, write_json
 from registry_validator import validate_registry
+from random_audit_inspector import inspect_random_audit
 from scaling_policy_checker import check_scaling_policy
 from source_trace_checker import check_source_traces
 from steward_contract_checker import check_steward_contracts
@@ -67,6 +68,7 @@ def main() -> None:
     parser.add_argument("--project", required=True)
     parser.add_argument("--run-id", default="")
     parser.add_argument("--mode", default="advisory", choices=["advisory", "strict"])
+    parser.add_argument("--audit", action="store_true", help="Run risk-weighted random audit inspector.")
     args = parser.parse_args()
 
     base_dir = Path(args.base_dir).resolve()
@@ -81,6 +83,8 @@ def main() -> None:
         check_source_traces(base_dir, args.project),
         check_scaling_policy(base_dir),
     ]
+    if args.audit:
+        results.append(inspect_random_audit(base_dir, args.project, run_id=run_id))
     status = overall_status(results, args.mode)
     report = {
         "run_id": run_id,

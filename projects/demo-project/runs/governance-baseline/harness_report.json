@@ -37,6 +37,12 @@
         "Chief steward direct MCP load is 4, above limit 2; sub-steward/MCP owner governance is required.",
         "Stage prd_drafting has 3 skills, meeting threshold 3 for a sub-steward."
       ]
+    },
+    {
+      "check": "random_audit",
+      "status": "pass",
+      "message": "No trace calls to audit.",
+      "details": []
     }
   ]
 }

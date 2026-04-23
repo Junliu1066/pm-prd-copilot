@@ -22,6 +22,9 @@ A sub-steward manages a focused department such as research, product judgment, P
 ### Peer Chief Steward
 When a single chief steward cannot reliably coordinate all sub-stewards or workflows, the chief steward must report the coordination problem to the user and propose a peer chief steward. It must not create one without approval.
 
+### Random Audit Inspector
+The random audit inspector is an independent governance role. It can randomly inspect run manifests, traces, source traces, and artifacts. It reports violations to the responsible sub-steward, the chief steward, and the user when escalation is needed. It cannot modify artifacts, update memory, change skill status, or decide whether external data is true.
+
 ## Required Runtime Files
 Each governed run should create or update:
 - `projects/<project>/project_state.json`
@@ -52,3 +55,14 @@ When the chief steward believes the current organization cannot safely manage th
 - Responsibilities
 - Explicit non-responsibilities
 - Harness checks that will verify the change
+
+## Audit Report Format
+When the random audit inspector finds a violation, report:
+- Finding
+- Skill, MCP, steward, or artifact involved
+- Violated rule
+- Evidence path
+- Responsible supervisor
+- Impact
+- Recommended action
+- Whether user escalation is required

@@ -1,0 +1,59 @@
+version: 0.1.0
+description: Risk-weighted random audit policy for skill, MCP, steward, and artifact governance.
+
+inspector:
+  id: random-audit-inspector
+  reports_to:
+    - pm-copilot-chief
+    - user
+  authority:
+    - inspect_trace
+    - inspect_manifest
+    - inspect_artifacts
+    - inspect_source_traces
+    - report_findings
+    - recommend_actions
+  cannot:
+    - modify_artifacts
+    - update_memory
+    - change_skill_status
+    - change_steward_status
+    - verify_external_truth
+
+sample_policy:
+  default_sample_rate: 0.15
+  minimum_samples_per_run: 1
+  seed_strategy: run_id
+
+risk_weights:
+  skill_status:
+    draft: 5
+    candidate: 3
+    active: 1
+  writes_artifacts:
+    prd_document: 4
+    mvp_scope: 4
+    memory_proposal: 5
+    prd_quality_report: 2
+  uses_mcp_data: 3
+  previous_warning: 3
+  missing_trace: 4
+
+checks:
+  - declared_inputs_only
+  - declared_outputs_only
+  - no_forbidden_outputs
+  - no_unapproved_product_decision
+  - no_external_signal_as_verified_fact
+  - no_memory_write_without_approval
+  - report_to_supervisor_on_violation
+
+severity_policy:
+  info:
+    action: record_only
+  warn:
+    action: report_to_sub_steward
+  block:
+    action: block_stage_advancement
+  escalate:
+    action: report_to_user_for_decision

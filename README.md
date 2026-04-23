@@ -42,6 +42,7 @@ python3 pm-prd-copilot/scripts/router.py init-project \
 python3 pm-prd-copilot/scripts/run_pipeline.py --base-dir . --project demo-project --stage all --mode rule
 python3 pm-prd-copilot/scripts/run_regression.py --base-dir . --strict
 python3 harness/run_harness.py --base-dir . --project demo-project --mode advisory
+python3 harness/run_harness.py --base-dir . --project demo-project --mode advisory --audit
 ```
 
 ## Main production pipeline
@@ -93,5 +94,6 @@ python3 ai-intel/scripts/update_decision_matrix.py --base-dir .
 - MCP outputs are source signals, not verified facts; source traces must be reviewed before being used as product evidence.
 - The chief steward manages skills directly only while the system stays below the scaling thresholds in `governance/steward_scaling_policy.yaml`.
 - Sub-stewards and peer chief stewards require human approval before they become active operating roles.
+- The random audit inspector can sample run traces and report suspected boundary violations to the responsible steward, chief steward, and user; it cannot modify artifacts or verify external truth.
 - Memory and skill updates must be reviewed before merging.
 - Regression should pass before any stable-layer prompt or template change is accepted.

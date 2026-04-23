@@ -67,3 +67,22 @@ sub_stewards:
       - regression_review
     allowed_stages:
       - learning
+
+inspectors:
+  random-audit-inspector:
+    status: candidate
+    domain: governance
+    responsibilities:
+      - random_skill_output_audit
+      - mcp_source_trace_audit
+      - steward_boundary_audit
+      - artifact_scope_audit
+      - supervisor_escalation
+    reports_to:
+      - pm-copilot-chief
+      - user
+    cannot:
+      - modify_artifacts
+      - update_memory
+      - change_skill_status
+      - verify_external_truth

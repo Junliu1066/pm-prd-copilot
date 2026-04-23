@@ -1,0 +1,4 @@
+interface:
+  display_name: "Scenario ROI Ranker"
+  short_description: "Rank scenarios by value, cost, frequency, speed, and risk."
+  default_prompt: "Rank product scenarios by minimum cost and maximum user value."

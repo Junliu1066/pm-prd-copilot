@@ -1,0 +1,4 @@
+interface:
+  display_name: "Competitor Gap Analyzer"
+  short_description: "Analyze competitor solutions, gaps, and advantage openings."
+  default_prompt: "Analyze competitor approaches and identify defensible product gaps."

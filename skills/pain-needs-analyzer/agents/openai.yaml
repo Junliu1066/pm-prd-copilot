@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pain Needs Analyzer"
+  short_description: "Analyze pains, needs, and job-to-be-done by user group."
+  default_prompt: "Analyze each target group’s pains, needs, root causes, and desired outcomes."

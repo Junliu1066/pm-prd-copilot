@@ -1,0 +1,4 @@
+interface:
+  display_name: "User Universe Mapper"
+  short_description: "Map all plausible target user groups before narrowing."
+  default_prompt: "Map the full target-user universe for this product idea before narrowing scope."

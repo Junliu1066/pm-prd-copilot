@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+from os.path import isabs
 from pathlib import Path
 
 from common import CheckResult, VALID_STATUSES, load_yaml, result_from_issues
@@ -25,6 +26,12 @@ def validate_registry(base_dir: Path) -> CheckResult:
         status = skill.get("status")
         if status not in VALID_STATUSES:
             issues.append(f"Skill {skill_id} has invalid status: {status}")
+        skill_path = skill.get("path")
+        if skill_path:
+            if isabs(str(skill_path)):
+                issues.append(f"Skill {skill_id} path must be relative: {skill_path}")
+            elif not (base_dir / str(skill_path) / "SKILL.md").exists():
+                issues.append(f"Skill {skill_id} path is missing SKILL.md: {skill_path}")
         steward = skill.get("steward")
         if steward not in known_stewards:
             issues.append(f"Skill {skill_id} references unknown steward: {steward}")

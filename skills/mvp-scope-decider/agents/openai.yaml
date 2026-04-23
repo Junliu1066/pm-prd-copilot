@@ -1,0 +1,4 @@
+interface:
+  display_name: "MVP Scope Decider"
+  short_description: "Turn ranked scenarios into focused MVP scope."
+  default_prompt: "Decide the MVP scope from ranked scenarios and product evidence."

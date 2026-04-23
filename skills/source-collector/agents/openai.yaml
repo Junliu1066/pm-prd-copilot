@@ -1,0 +1,4 @@
+interface:
+  display_name: "Source Collector"
+  short_description: "Normalize raw PM inputs into source briefs."
+  default_prompt: "Normalize the provided product input into a sourced requirement brief."

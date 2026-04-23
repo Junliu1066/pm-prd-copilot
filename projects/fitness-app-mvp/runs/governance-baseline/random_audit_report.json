@@ -1,5 +1,7 @@
 {
   "audit_id": "fitness-app-mvp-governance-baseline-random-audit",
+  "run_id": "governance-baseline",
+  "project_id": "fitness-app-mvp",
   "status": "pass",
   "sampled_items": [],
   "findings": []

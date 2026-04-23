@@ -19,6 +19,12 @@ The chief steward owns workflow state, run manifests, steward assignment, stage 
 ### Sub-Steward
 A sub-steward manages a focused department such as research, product judgment, PRD writing, review, or learning. A sub-steward can only call registered skills and MCP tools assigned to its department.
 
+Active sub-stewards:
+- `research-steward`: intake, evidence, PRD style learning, and source traces.
+- `product-judgment-steward`: user universe, pain/needs, scenario ROI, competitor gap, and MVP recommendations.
+- `prd-writing-steward`: PRD structure, PRD draft, user stories, and tracking plan.
+- `review-steward`: PRD quality, risks, edge cases, and review questions.
+
 ### Peer Chief Steward
 When a single chief steward cannot reliably coordinate all sub-stewards or workflows, the chief steward must report the coordination problem to the user and propose a peer chief steward. It must not create one without approval.
 

@@ -15,7 +15,7 @@ chief_stewards:
 
 sub_stewards:
   research-steward:
-    status: candidate
+    status: active
     domain: research
     responsibilities:
       - source_collection
@@ -26,7 +26,7 @@ sub_stewards:
       - intake
       - evidence
   product-judgment-steward:
-    status: candidate
+    status: active
     domain: product_judgment
     responsibilities:
       - user_universe_mapping
@@ -38,7 +38,7 @@ sub_stewards:
       - scenario_priority
       - mvp_scope
   prd-writing-steward:
-    status: candidate
+    status: active
     domain: writing
     responsibilities:
       - prd_structure_planning
@@ -50,7 +50,7 @@ sub_stewards:
       - prd_planning
       - prd_drafting
   review-steward:
-    status: candidate
+    status: active
     domain: review
     responsibilities:
       - prd_quality_review

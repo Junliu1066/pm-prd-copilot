@@ -1,5 +1,7 @@
 {
   "audit_id": "demo-project-governance-baseline-random-audit",
+  "run_id": "governance-baseline",
+  "project_id": "demo-project",
   "status": "pass",
   "sampled_items": [],
   "findings": []

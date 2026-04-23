@@ -2,7 +2,7 @@
   "run_id": "governance-baseline",
   "project_id": "demo-project",
   "mode": "advisory",
-  "status": "warn",
+  "status": "pass",
   "checks": [
     {
       "check": "registry",
@@ -30,13 +30,15 @@
     },
     {
       "check": "scaling_policy",
-      "status": "warn",
-      "message": "3 scaling recommendation(s).",
-      "details": [
-        "Chief steward direct skill load is 13, above limit 5; sub-steward governance is required.",
-        "Chief steward direct MCP load is 4, above limit 2; sub-steward/MCP owner governance is required.",
-        "Stage prd_drafting has 3 skills, meeting threshold 3 for a sub-steward."
-      ]
+      "status": "pass",
+      "message": "Scaling policy is within limits.",
+      "details": []
+    },
+    {
+      "check": "teaching_absorption",
+      "status": "pass",
+      "message": "No issues found.",
+      "details": []
     },
     {
       "check": "random_audit",

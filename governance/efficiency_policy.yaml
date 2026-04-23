@@ -1,0 +1,49 @@
+version: 0.1.0
+description: Efficiency policy for detecting unnecessary token, artifact, and workflow cost.
+
+efficiency_steward:
+  id: efficiency-steward
+  reports_to:
+    - pm-copilot-chief
+    - user
+  can:
+    - inspect_run_cost
+    - inspect_artifact_size
+    - inspect_skill_call_count
+    - inspect_mcp_call_count
+    - detect_repeated_outputs
+    - propose_skill_optimization
+  cannot:
+    - modify_artifacts
+    - remove_skill
+    - update_memory
+    - lower_quality_thresholds
+    - approve_own_proposals
+
+run_limits:
+  max_skill_calls: 8
+  max_mcp_calls: 5
+  max_total_artifact_chars: 120000
+
+artifact_limits:
+  prd_markdown_max_chars: 30000
+  risk_report_max_chars: 18000
+  tracking_plan_max_chars: 20000
+  user_stories_max_chars: 18000
+  requirement_brief_max_chars: 12000
+
+optimization_triggers:
+  repeated_line_threshold: 8
+  long_line_chars: 500
+  empty_artifact_warn: true
+  report_unused_trace_outputs: true
+
+severity_policy:
+  info:
+    action: record_only
+  warn:
+    action: report_to_responsible_steward
+  optimize:
+    action: create_skill_optimization_proposal
+  escalate:
+    action: report_to_user_for_decision

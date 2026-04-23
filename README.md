@@ -45,6 +45,7 @@ python3 pm-prd-copilot/scripts/run_pipeline.py --base-dir . --project demo-proje
 python3 pm-prd-copilot/scripts/run_regression.py --base-dir . --strict
 python3 harness/run_harness.py --base-dir . --project demo-project --mode advisory
 python3 harness/run_harness.py --base-dir . --project demo-project --mode advisory --audit
+python3 harness/run_harness.py --base-dir . --project demo-project --mode advisory --efficiency
 ```
 
 ## Main production pipeline
@@ -107,5 +108,6 @@ python3 ai-intel/scripts/update_decision_matrix.py --base-dir .
 - Research, product judgment, PRD writing, and review sub-stewards are active operating roles; new sub-stewards or peer chief stewards still require human approval.
 - The random audit inspector can sample run traces and report suspected boundary violations to the responsible steward, chief steward, and user; it cannot modify artifacts or verify external truth.
 - The PM coach captures user teaching and turns it into supervised proposals; accepted lessons must pass teaching absorption checks before they are treated as stable behavior.
+- The efficiency steward reports token-like waste, oversized artifacts, repeated output, and unnecessary calls; it can recommend optimization but cannot lower quality thresholds or change artifacts directly.
 - Memory and skill updates must be reviewed before merging.
 - Regression should pass before any stable-layer prompt or template change is accepted.

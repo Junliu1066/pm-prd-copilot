@@ -45,6 +45,12 @@
       "status": "pass",
       "message": "No trace calls to audit.",
       "details": []
+    },
+    {
+      "check": "efficiency",
+      "status": "pass",
+      "message": "No efficiency issues found.",
+      "details": []
     }
   ]
 }

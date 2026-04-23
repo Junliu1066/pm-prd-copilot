@@ -106,3 +106,24 @@ teachers:
       - approve_own_proposals
       - override_user_decisions
       - verify_external_truth
+
+efficiency:
+  efficiency-steward:
+    status: active
+    domain: governance
+    responsibilities:
+      - inspect_run_cost
+      - inspect_artifact_size
+      - inspect_skill_call_count
+      - inspect_mcp_call_count
+      - detect_repeated_outputs
+      - propose_skill_optimization
+    reports_to:
+      - pm-copilot-chief
+      - user
+    cannot:
+      - modify_artifacts
+      - remove_skill
+      - update_memory
+      - lower_quality_thresholds
+      - approve_own_proposals

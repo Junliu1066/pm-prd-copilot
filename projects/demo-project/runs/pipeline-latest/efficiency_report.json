@@ -1,0 +1,63 @@
+{
+  "run_id": "pipeline-latest",
+  "project_id": "demo-project",
+  "status": "pass",
+  "skill_call_count": 5,
+  "mcp_call_count": 0,
+  "manifest_enabled_skills": [
+    "source-collector",
+    "prd-draft-writer",
+    "user-story-ac-generator",
+    "risk-edgecase-checker",
+    "tracking-plan-designer"
+  ],
+  "total_artifact_chars": 17059,
+  "artifact_metrics": [
+    {
+      "artifact": "requirement_brief",
+      "path": "/Users/liujun/Desktop/产品经理skill/projects/demo-project/01_requirement_brief.md",
+      "chars": 1323,
+      "line_count": 56,
+      "limit": 12000,
+      "repeated_line_count": 0,
+      "long_line_count": 0
+    },
+    {
+      "artifact": "prd_markdown",
+      "path": "/Users/liujun/Desktop/产品经理skill/projects/demo-project/02_prd.generated.md",
+      "chars": 6842,
+      "line_count": 203,
+      "limit": 30000,
+      "repeated_line_count": 0,
+      "long_line_count": 0
+    },
+    {
+      "artifact": "user_stories",
+      "path": "/Users/liujun/Desktop/产品经理skill/projects/demo-project/03_user_stories.generated.md",
+      "chars": 2169,
+      "line_count": 55,
+      "limit": 18000,
+      "repeated_line_count": 0,
+      "long_line_count": 0
+    },
+    {
+      "artifact": "risk_report",
+      "path": "/Users/liujun/Desktop/产品经理skill/projects/demo-project/04_risk_check.generated.md",
+      "chars": 3149,
+      "line_count": 73,
+      "limit": 18000,
+      "repeated_line_count": 0,
+      "long_line_count": 0
+    },
+    {
+      "artifact": "tracking_plan",
+      "path": "/Users/liujun/Desktop/产品经理skill/projects/demo-project/05_tracking_plan.generated.md",
+      "chars": 3576,
+      "line_count": 80,
+      "limit": 20000,
+      "repeated_line_count": 0,
+      "long_line_count": 0
+    }
+  ],
+  "findings": []
+}

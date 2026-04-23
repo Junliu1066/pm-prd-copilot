@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from common import overall_status, read_json, write_json
+from efficiency_auditor import audit_efficiency
 from registry_validator import validate_registry
 from random_audit_inspector import inspect_random_audit
 from scaling_policy_checker import check_scaling_policy
@@ -70,6 +71,7 @@ def main() -> None:
     parser.add_argument("--run-id", default="")
     parser.add_argument("--mode", default="advisory", choices=["advisory", "strict"])
     parser.add_argument("--audit", action="store_true", help="Run risk-weighted random audit inspector.")
+    parser.add_argument("--efficiency", action="store_true", help="Run efficiency steward audit.")
     args = parser.parse_args()
 
     base_dir = Path(args.base_dir).resolve()
@@ -88,6 +90,8 @@ def main() -> None:
     ]
     if args.audit:
         results.append(inspect_random_audit(base_dir, args.project, run_id=run_id))
+    if args.efficiency:
+        results.append(audit_efficiency(base_dir, args.project, run_id=run_id))
     status = overall_status(results, args.mode)
     report = {
         "run_id": run_id,

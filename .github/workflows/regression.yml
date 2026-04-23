@@ -35,4 +35,4 @@ jobs:
         run: python3 pm-prd-copilot/scripts/run_regression.py --base-dir . --strict
 
       - name: Run governance harness
-        run: python3 harness/run_harness.py --base-dir . --project demo-project --mode advisory --audit
+        run: python3 harness/run_harness.py --base-dir . --project demo-project --mode advisory --audit --efficiency

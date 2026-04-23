@@ -45,6 +45,12 @@
       "status": "pass",
       "message": "Audited 1 item(s); no issues found.",
       "details": []
+    },
+    {
+      "check": "efficiency",
+      "status": "pass",
+      "message": "No efficiency issues found.",
+      "details": []
     }
   ]
 }

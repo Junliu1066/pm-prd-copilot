@@ -1,0 +1,57 @@
+{
+  "run_id": "governance-baseline",
+  "project_id": "fitness-app-mvp",
+  "status": "pass",
+  "skill_call_count": 0,
+  "mcp_call_count": 0,
+  "manifest_enabled_skills": [],
+  "total_artifact_chars": 22620,
+  "artifact_metrics": [
+    {
+      "artifact": "requirement_brief",
+      "path": "/Users/liujun/Desktop/产品经理skill/projects/fitness-app-mvp/01_requirement_brief.md",
+      "chars": 1615,
+      "line_count": 58,
+      "limit": 12000,
+      "repeated_line_count": 0,
+      "long_line_count": 0
+    },
+    {
+      "artifact": "prd_markdown",
+      "path": "/Users/liujun/Desktop/产品经理skill/projects/fitness-app-mvp/02_prd.generated.md",
+      "chars": 8673,
+      "line_count": 220,
+      "limit": 30000,
+      "repeated_line_count": 0,
+      "long_line_count": 0
+    },
+    {
+      "artifact": "user_stories",
+      "path": "/Users/liujun/Desktop/产品经理skill/projects/fitness-app-mvp/03_user_stories.generated.md",
+      "chars": 2587,
+      "line_count": 60,
+      "limit": 18000,
+      "repeated_line_count": 0,
+      "long_line_count": 0
+    },
+    {
+      "artifact": "risk_report",
+      "path": "/Users/liujun/Desktop/产品经理skill/projects/fitness-app-mvp/04_risk_check.generated.md",
+      "chars": 4154,
+      "line_count": 76,
+      "limit": 18000,
+      "repeated_line_count": 0,
+      "long_line_count": 0
+    },
+    {
+      "artifact": "tracking_plan",
+      "path": "/Users/liujun/Desktop/产品经理skill/projects/fitness-app-mvp/05_tracking_plan.generated.md",
+      "chars": 5591,
+      "line_count": 139,
+      "limit": 20000,
+      "repeated_line_count": 0,
+      "long_line_count": 0
+    }
+  ],
+  "findings": []
+}

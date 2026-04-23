@@ -28,5 +28,13 @@ deferred_items:
 non_goals:
   - item: ""
     reason: ""
+roi_basis:
+  minimum_cost_reasoning: ""
+  maximum_return_reasoning: ""
+  time_saved: ""
+  speed_to_mvp: ""
+competitor_gap_basis:
+  linked_gap_or_advantage: ""
+  why_it_belongs_or_does_not_belong_in_mvp: ""
 approval_question: ""
 ```

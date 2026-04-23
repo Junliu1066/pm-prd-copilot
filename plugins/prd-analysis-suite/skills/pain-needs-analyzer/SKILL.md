@@ -11,12 +11,17 @@ Convert target-user groups into concrete product demand. The output should expla
 
 ## Workflow
 
-1. For each user group, identify pains, desired outcomes, current workaround, and hidden switching cost.
-2. Separate symptom from root cause.
-3. Describe the user's demand in practical language: what they want to finish faster, avoid, measure, decide, remember, or automate.
-4. Estimate impact using frequency, severity, time saved, money saved, risk avoided, and emotional friction.
-5. Mark evidence level and research gaps.
-6. Hand scenario candidates to the scenario ROI skill. Do not decide MVP scope.
+1. Confirm the input includes a broad user universe. If only one segment is provided, flag the missing universe instead of treating it as final.
+2. For each user group, identify pains, desired outcomes, current workaround, and hidden switching cost.
+3. Separate symptom from root cause.
+4. Describe the user's demand in practical language: what they want to finish faster, avoid, measure, decide, remember, or automate.
+5. Estimate impact using frequency, severity, time saved, money saved, risk avoided, and emotional friction.
+6. Mark evidence level and research gaps.
+7. Hand scenario candidates to the scenario ROI skill. Do not decide MVP scope.
+
+## Accepted Teaching Rules
+
+- `LESSON-20260423-001`: Do not analyze needs as if the first stated segment is the whole market. Preserve coverage across all plausible target-user groups before scenario ranking.
 
 ## Analysis Lens
 
@@ -34,6 +39,7 @@ Read [references/output-contract.md](references/output-contract.md) for the form
 - `root_cause_analysis`
 - `time_cost_savings`
 - `scenario_candidates`
+- `user_group_coverage_check`
 - `research_gaps`
 
 ## Guardrails

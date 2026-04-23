@@ -24,6 +24,10 @@ scenario_candidates:
   - scenario: ""
     user_group: ""
     value_hypothesis: ""
+user_group_coverage_check:
+  covered_groups: []
+  missing_or_underexplored_groups: []
+  narrowing_risk: ""
 research_gaps:
   - gap: ""
     suggested_validation: ""

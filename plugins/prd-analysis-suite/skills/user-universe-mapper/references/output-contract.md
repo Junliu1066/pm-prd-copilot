@@ -24,6 +24,10 @@ priority_candidates:
 discarded_or_low_priority_segments:
   - user_group: ""
     reason: ""
+narrowing_rationale:
+  selected_groups: []
+  deferred_groups: []
+  rationale: ""
 research_questions:
   - question: ""
     target_group: ""

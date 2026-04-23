@@ -15,8 +15,13 @@ Turn competitor research into product judgment. The purpose is not to list featu
 2. For each competitor, capture target user, core loop, key features, pricing or monetization signal, onboarding burden, and review complaints.
 3. Separate sourced facts from assumptions. External data is unverified until the user checks it.
 4. Extract patterns: what everyone offers, what users complain about, what is expensive to build, and what is easy to differentiate.
-5. Translate gaps into opportunity areas tied to user needs and scenarios.
-6. Provide a verification checklist for the user before any market claim is treated as true.
+5. Convert each meaningful gap into an advantage hypothesis and explain how the product can amplify that advantage.
+6. Translate gaps into opportunity areas tied to user needs and scenarios.
+7. Provide a verification checklist for the user before any market claim is treated as true.
+
+## Accepted Teaching Rules
+
+- `LESSON-20260423-003`: Competitor analysis must explain competitor approach, gap, opportunity, advantage, and amplification strategy. A plain feature table is insufficient.
 
 ## Evidence Standard
 
@@ -34,10 +39,12 @@ Read [references/output-contract.md](references/output-contract.md) for the form
 - `user_complaint_themes`
 - `opportunity_gaps`
 - `advantage_hypotheses`
+- `advantage_amplification_plan`
 - `verification_checklist`
 
 ## Guardrails
 
 - Do not present unverified external data as truth.
+- Do not stop at a feature comparison table.
 - Do not recommend copying a competitor feature without explaining user value and cost.
 - Do not decide MVP scope; provide inputs for ranking and scoping.

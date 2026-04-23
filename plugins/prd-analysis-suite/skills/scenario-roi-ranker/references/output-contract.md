@@ -19,6 +19,7 @@ scenario_scores:
     weighted_score: 0
     rationale: ""
     uncertainty: ""
+    competitor_gap_link: ""
 recommended_core_scenario:
   scenario: ""
   rationale: ""
@@ -28,5 +29,12 @@ backup_scenario:
 avoid_for_now:
   - scenario: ""
     reason: ""
+cost_return_summary:
+  lowest_cost_highest_return_scenario: ""
+  time_saved: ""
+  speed_to_mvp: ""
+competitor_gap_links:
+  - scenario: ""
+    gap_or_advantage: ""
 approval_question: ""
 ```

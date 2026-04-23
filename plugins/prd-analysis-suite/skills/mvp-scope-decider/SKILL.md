@@ -13,10 +13,16 @@ Define the smallest coherent product version that proves the core scenario. The 
 
 1. Start from the approved or proposed core scenario.
 2. Define the minimum closed loop: trigger, input, processing, output, feedback, and repeat use.
-3. Split features into `MVP`, `V1`, `Later`, and `Non-goals`.
-4. For every MVP item, state the user value, evidence, build cost, dependency, and validation signal.
-5. Remove or defer anything that does not support the core loop or early validation.
-6. Produce an approval question for the user before PRD planning.
+3. Check that the core scenario was selected with value, cost, time saved, speed to MVP, and competitor-gap reasoning.
+4. Split features into `MVP`, `V1`, `Later`, and `Non-goals`.
+5. For every MVP item, state the user value, evidence, build cost, dependency, and validation signal.
+6. Remove or defer anything that does not support the core loop or early validation.
+7. Produce an approval question for the user before PRD planning.
+
+## Accepted Teaching Rules
+
+- `LESSON-20260423-002`: MVP scope should preserve the lowest-cost highest-return path and explain why expensive adjacent features are deferred.
+- `LESSON-20260423-003`: Competitor gaps can justify MVP choices only when they link to a user need and a practical advantage.
 
 ## Scope Rules
 
@@ -36,6 +42,8 @@ Read [references/output-contract.md](references/output-contract.md) for the form
 - `scope_table`
 - `deferred_items`
 - `non_goals`
+- `roi_basis`
+- `competitor_gap_basis`
 - `approval_question`
 
 ## Guardrails

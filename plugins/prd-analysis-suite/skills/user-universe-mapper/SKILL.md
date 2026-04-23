@@ -16,7 +16,12 @@ Enumerate every plausible user group that could become the product target, then 
 3. For each group, capture motivation, frequency, urgency, willingness to pay or switch, current workaround, and why they might reject the product.
 4. Mark evidence strength as `explicit`, `inferred`, or `needs_research`.
 5. Group users into practical PRD segments only after the universe is visible.
-6. Recommend priority candidates, but do not decide MVP scope.
+6. Explain why each non-priority segment is deferred before recommending priority candidates.
+7. Recommend priority candidates, but do not decide MVP scope.
+
+## Accepted Teaching Rules
+
+- `LESSON-20260423-001`: Always enumerate the broad target-user universe before narrowing. The output must show multiple candidate groups and the reasoning for priority and deferral.
 
 ## Required Dimensions
 
@@ -39,6 +44,7 @@ Read [references/output-contract.md](references/output-contract.md) for the form
 - `segment_clusters`
 - `priority_candidates`
 - `discarded_or_low_priority_segments`
+- `narrowing_rationale`
 - `research_questions`
 
 ## Guardrails

@@ -26,6 +26,11 @@ advantage_hypotheses:
   - hypothesis: ""
     how_to_amplify: ""
     validation_needed: ""
+advantage_amplification_plan:
+  - advantage: ""
+    linked_user_need: ""
+    scenario_to_feed: ""
+    validation_needed: ""
 verification_checklist:
   - item: "Verify source date, product version, region, pricing, and feature availability before treating this as fact."
 ```

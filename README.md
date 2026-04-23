@@ -32,6 +32,7 @@ docs/                     Architecture and operating model notes
 - `plugins/prd-analysis-suite/` contains governed candidate PRD analysis skills that can be promoted after review.
 - `pm-prd-copilot/memory/` is the learning layer.
 - `pm-prd-copilot/proposals/` is the review layer.
+- `pm-prd-copilot/scripts/propose_lesson_skill_update.py` routes accepted teaching lessons into supervised Skill update proposals.
 - `ai-intel/` can auto-commit daily outputs.
 - `memory` and `skill` changes should only move forward through reviewed proposals or PRs.
 
@@ -111,6 +112,7 @@ python3 ai-intel/scripts/update_decision_matrix.py --base-dir .
 - Research, product judgment, PRD writing, and review sub-stewards are active operating roles; new sub-stewards or peer chief stewards still require human approval.
 - The random audit inspector can sample run traces and report suspected boundary violations to the responsible steward, chief steward, and user; it cannot modify artifacts or verify external truth.
 - The PM coach captures user teaching and turns it into supervised proposals; accepted lessons must pass teaching absorption checks before they are treated as stable behavior.
+- Lesson-driven Skill updates must be generated as proposals first; they cannot modify plugin Skill files until the user approves the exact change.
 - The efficiency steward reports token-like waste, oversized artifacts, repeated output, and unnecessary calls; it can recommend optimization but cannot lower quality thresholds or change artifacts directly.
 - Registered plugins must have a `.codex-plugin/plugin.json`, plugin-relative paths, and no direct dependency on host-only folders.
 - Registered skills with a `path` must have a matching `SKILL.md`; plugin-owned skills must live inside their owning plugin.

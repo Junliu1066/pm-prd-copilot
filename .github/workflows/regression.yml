@@ -5,6 +5,8 @@ on:
   pull_request:
     paths:
       - "pm-prd-copilot/**"
+      - "plugins/**"
+      - ".agents/plugins/**"
       - "governance/**"
       - "registry/**"
       - "workflow/**"

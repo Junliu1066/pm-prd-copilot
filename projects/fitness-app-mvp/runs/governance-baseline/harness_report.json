@@ -47,6 +47,12 @@
       "details": []
     },
     {
+      "check": "skill_update_proposal",
+      "status": "pass",
+      "message": "No issues found.",
+      "details": []
+    },
+    {
       "check": "random_audit",
       "status": "pass",
       "message": "No trace calls to audit.",

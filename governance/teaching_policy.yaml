@@ -8,6 +8,7 @@ teacher:
   can:
     - capture_feedback
     - classify_lessons
+    - route_lessons_to_skills
     - propose_memory_updates
     - propose_skill_updates
     - propose_harness_rules
@@ -63,6 +64,7 @@ absorption_requirements:
     - scenario-roi-ranker
     - competitor-gap-analyzer
     - mvp-scope-decider
+    - skill-update-proposer
     - prd-structure-planner
     - prd-draft-writer
     - prd-quality-reviewer

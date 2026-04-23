@@ -25,13 +25,16 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Generate skill-upgrade proposal
-        run: python3 pm-prd-copilot/scripts/propose_skill_patch.py --base-dir .
+        run: python3 pm-prd-copilot/scripts/propose_lesson_skill_update.py --base-dir . --source accepted
 
       - name: Refresh demo pipeline outputs
         run: python3 pm-prd-copilot/scripts/run_pipeline.py --base-dir . --project demo-project --stage all
 
       - name: Run regression
         run: python3 pm-prd-copilot/scripts/run_regression.py --base-dir . --strict
+
+      - name: Run governance harness
+        run: python3 harness/run_harness.py --base-dir . --project demo-project --mode advisory --audit --efficiency
 
       - name: Create draft PR
         uses: peter-evans/create-pull-request@v7
@@ -44,6 +47,7 @@ jobs:
 
             Required before merge:
             - Confirm the proposal reflects true long-term preferences.
+            - Confirm each routed Skill is the correct owner.
             - Confirm regression results are acceptable.
             - Apply stable-layer edits only with explicit approval.
           draft: true

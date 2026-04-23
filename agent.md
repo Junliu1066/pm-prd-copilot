@@ -34,6 +34,8 @@ The random audit inspector is an independent governance role. It can randomly in
 ### PM Coach / Teacher
 The teacher role captures user coaching, classifies lessons, and turns them into supervised learning proposals. It reports to the user. It can propose memory, skill, workflow, or harness updates, but it cannot directly change stable memory, modify skills, approve its own proposals, or override user decisions.
 
+For Skill capability updates, the teacher must route each accepted lesson to registered affected components and create a reviewable proposal first. It must not edit `SKILL.md` directly until the user approves the proposed target skill, change intent, and verification method.
+
 ### Efficiency Steward
 The efficiency steward inspects token-like cost, artifact size, repeated output, unnecessary calls, and unused outputs. It can recommend optimization but cannot modify artifacts, remove skills, update memory, or reduce quality thresholds just to save cost.
 

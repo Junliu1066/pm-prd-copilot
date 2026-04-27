@@ -5,6 +5,7 @@ default_mode: advisory
 controls:
   runtime_index: governance/runtime/index.md
   framework_backup_policy: governance/runtime/framework_backup_policy.md
+  cache_lifecycle: governance/runtime/cache_lifecycle.md
   document_boundaries: governance/runtime/document_boundaries.md
   lesson_absorption: governance/runtime/lesson_absorption.md
   framework_review_template: governance/runtime/framework_review_template.md
@@ -41,6 +42,7 @@ triggers:
   project_package_requested:
     apply:
       - source_of_truth
+      - cache_lifecycle
       - efficiency_checks
       - test_controls
     pointer: preserve_for_internal_handoff
@@ -72,6 +74,7 @@ triggers:
   final_handoff_before_delivery:
     apply:
       - source_of_truth
+      - cache_lifecycle
       - review_gates
       - test_controls
       - efficiency_checks
@@ -81,6 +84,7 @@ triggers:
   framework_review_requested:
     apply:
       - framework_backup_policy
+      - cache_lifecycle
       - document_boundaries
       - lesson_absorption
       - efficiency_checks
@@ -91,6 +95,7 @@ triggers:
   long_term_architecture_change:
     apply:
       - framework_backup_policy
+      - cache_lifecycle
       - document_boundaries
       - lesson_absorption
       - change_controls
@@ -108,8 +113,18 @@ triggers:
   runtime_governance_change_requested:
     apply:
       - framework_backup_policy
+      - cache_lifecycle
       - document_boundaries
       - change_controls
       - review_gates
     pointer: not_required
+    mode: advisory
+
+  project_closeout_requested:
+    apply:
+      - source_of_truth
+      - cache_lifecycle
+      - efficiency_checks
+      - learning_feedback
+    pointer: optional
     mode: advisory

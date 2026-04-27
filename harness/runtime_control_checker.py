@@ -59,10 +59,23 @@ def check_runtime_controls(base_dir: Path, project: str) -> CheckResult:
 
     runtime_index = base_dir / "governance" / "runtime" / "index.md"
     triggers = base_dir / "governance" / "runtime" / "triggers.yaml"
+    backup_policy = base_dir / "governance" / "runtime" / "framework_backup_policy.md"
+    cache_lifecycle = base_dir / "governance" / "runtime" / "cache_lifecycle.md"
     boundaries = base_dir / "governance" / "runtime" / "document_boundaries.md"
+    lesson_absorption = base_dir / "governance" / "runtime" / "lesson_absorption.md"
+    framework_review_template = base_dir / "governance" / "runtime" / "framework_review_template.md"
     template = base_dir / "pm-prd-copilot" / "templates" / "codex_development_document_template.md"
 
-    for required in (runtime_index, triggers, boundaries, template):
+    for required in (
+        runtime_index,
+        triggers,
+        backup_policy,
+        cache_lifecycle,
+        boundaries,
+        lesson_absorption,
+        framework_review_template,
+        template,
+    ):
         if not required.exists():
             issues.append(f"Missing runtime control file: {required.relative_to(base_dir)}")
 

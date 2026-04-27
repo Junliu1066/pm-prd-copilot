@@ -18,6 +18,7 @@ This is the stable runtime entry for reusable project-development work. Keep thi
 |---|---|
 | `triggers.yaml` | Machine-readable trigger map for when controls apply |
 | `framework_backup_policy.md` | Required GitHub-backed backup before framework reviews and substantial runtime changes |
+| `cache_lifecycle.md` | Retention and cleanup rules for framework backups, project artifacts, runs, and runtime cache |
 | `document_boundaries.md` | Separation between project artifacts and system governance |
 | `lesson_absorption.md` | Runtime checks for whether reusable user corrections changed future behavior |
 | `framework_review_template.md` | Standard output shape for periodic framework-layer reviews |

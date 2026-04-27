@@ -77,6 +77,10 @@ artifacts:
     path_pattern: governance/runtime/framework_backup_policy.md
     type: markdown
     owner_stage: governance
+  runtime_cache_lifecycle:
+    path_pattern: governance/runtime/cache_lifecycle.md
+    type: markdown
+    owner_stage: governance
   runtime_triggers:
     path_pattern: governance/runtime/triggers.yaml
     type: yaml

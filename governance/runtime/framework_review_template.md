@@ -14,6 +14,7 @@ Use this template for periodic framework-layer alignment. Keep reports short and
   - Harness validation
   - Teaching absorption
   - Efficiency and artifact growth
+  - Cache lifecycle and closeout hygiene
   - Project/system document boundary
 
 ## Executive Summary
@@ -41,6 +42,7 @@ Use this template for periodic framework-layer alignment. Keep reports short and
 | Validation |  | Low / Medium / High |  |  | Yes / No |
 | Teaching absorption |  | Low / Medium / High |  |  | Yes / No |
 | Efficiency |  | Low / Medium / High |  |  | Yes / No |
+| Cache lifecycle |  | Low / Medium / High |  |  | Yes / No |
 | Document boundary |  | Low / Medium / High |  |  | Yes / No |
 
 ## Checks
@@ -52,6 +54,8 @@ Use this template for periodic framework-layer alignment. Keep reports short and
 - [ ] Harness validation runs without dependency or path noise.
 - [ ] Teaching absorption checks reflect recent reusable corrections.
 - [ ] Efficiency checks do not force quality or safety reductions.
+- [ ] Runtime cache, generated packages, and temporary harness reports are not polluting framework commits.
+- [ ] Framework backup tag retention remains sufficient for rollback.
 - [ ] Deprecated or duplicated rules are identified.
 
 ## Proposed Changes

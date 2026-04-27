@@ -106,7 +106,11 @@ import sys
 required = [
     Path("governance/runtime/index.md"),
     Path("governance/runtime/triggers.yaml"),
+    Path("governance/runtime/framework_backup_policy.md"),
+    Path("governance/runtime/cache_lifecycle.md"),
     Path("governance/runtime/document_boundaries.md"),
+    Path("governance/runtime/lesson_absorption.md"),
+    Path("governance/runtime/framework_review_template.md"),
     Path("governance/runtime/artifact_controls/index.md"),
     Path("pm-prd-copilot/templates/codex_development_document_template.md"),
 ]

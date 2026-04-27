@@ -81,6 +81,14 @@ artifacts:
     path_pattern: governance/runtime/document_boundaries.md
     type: markdown
     owner_stage: governance
+  runtime_lesson_absorption:
+    path_pattern: governance/runtime/lesson_absorption.md
+    type: markdown
+    owner_stage: learning
+  runtime_framework_review_template:
+    path_pattern: governance/runtime/framework_review_template.md
+    type: markdown
+    owner_stage: governance
   codex_development_document_template:
     path_pattern: pm-prd-copilot/templates/codex_development_document_template.md
     type: markdown

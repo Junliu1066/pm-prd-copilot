@@ -18,6 +18,8 @@ This is the stable runtime entry for reusable project-development work. Keep thi
 |---|---|
 | `triggers.yaml` | Machine-readable trigger map for when controls apply |
 | `document_boundaries.md` | Separation between project artifacts and system governance |
+| `lesson_absorption.md` | Runtime checks for whether reusable user corrections changed future behavior |
+| `framework_review_template.md` | Standard output shape for periodic framework-layer reviews |
 | `artifact_controls/index.md` | Source-of-truth, review, change, security, test, efficiency, and learning controls |
 
 ## Discovery

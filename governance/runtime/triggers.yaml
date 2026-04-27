@@ -5,6 +5,8 @@ default_mode: advisory
 controls:
   runtime_index: governance/runtime/index.md
   document_boundaries: governance/runtime/document_boundaries.md
+  lesson_absorption: governance/runtime/lesson_absorption.md
+  framework_review_template: governance/runtime/framework_review_template.md
   artifact_controls: governance/runtime/artifact_controls/index.md
   source_of_truth: governance/runtime/artifact_controls/source_of_truth.md
   steward_routing: governance/runtime/artifact_controls/steward_routing.md
@@ -74,3 +76,28 @@ triggers:
       - efficiency_checks
     pointer: preserve_for_internal_handoff
     mode: advisory
+
+  framework_review_requested:
+    apply:
+      - document_boundaries
+      - lesson_absorption
+      - efficiency_checks
+      - framework_review_template
+    pointer: not_required
+    mode: advisory
+
+  long_term_architecture_change:
+    apply:
+      - document_boundaries
+      - lesson_absorption
+      - change_controls
+      - review_gates
+    pointer: not_required
+    mode: advisory
+
+  user_requests_discussion_only:
+    apply:
+      - lesson_absorption
+      - change_controls
+    pointer: not_required
+    mode: proposal_only

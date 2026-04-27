@@ -23,6 +23,14 @@ Use this template for periodic framework-layer alignment. Keep reports short and
 - Recommended next action:
 - User decision needed: Yes / No
 
+## Backup
+
+- Backup tag:
+- Backup commit SHA:
+- Tag pushed to GitHub: Yes / No
+- Excluded uncommitted files:
+- Recovery note:
+
 ## Findings
 
 | Area | Finding | Risk | Evidence | Recommended Action | User Decision |

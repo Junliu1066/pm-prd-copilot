@@ -9,6 +9,7 @@ from common import overall_status, read_json, write_json
 from efficiency_auditor import audit_efficiency
 from plugin_boundary_checker import check_plugin_boundaries
 from registry_validator import validate_registry
+from runtime_control_checker import check_runtime_controls
 from random_audit_inspector import inspect_random_audit
 from scaling_policy_checker import check_scaling_policy
 from skill_update_proposal_checker import check_skill_update_proposals
@@ -89,6 +90,7 @@ def main() -> None:
         check_workflow_gates(base_dir, args.project),
         check_source_traces(base_dir, args.project),
         check_scaling_policy(base_dir),
+        check_runtime_controls(base_dir, args.project),
         check_teaching_absorption(base_dir),
         check_skill_update_proposals(base_dir),
     ]

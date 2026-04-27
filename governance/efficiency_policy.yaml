@@ -31,6 +31,9 @@ artifact_limits:
   tracking_plan_max_chars: 20000
   user_stories_max_chars: 18000
   requirement_brief_max_chars: 12000
+  development_design_markdown_max_chars: 50000
+  phase_plan_markdown_max_chars: 25000
+  handoff_package_readme_max_chars: 12000
 
 optimization_triggers:
   repeated_line_threshold: 8

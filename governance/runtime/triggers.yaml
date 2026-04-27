@@ -1,0 +1,76 @@
+version: 0.1.0
+status: active
+default_mode: advisory
+
+controls:
+  runtime_index: governance/runtime/index.md
+  document_boundaries: governance/runtime/document_boundaries.md
+  artifact_controls: governance/runtime/artifact_controls/index.md
+  source_of_truth: governance/runtime/artifact_controls/source_of_truth.md
+  steward_routing: governance/runtime/artifact_controls/steward_routing.md
+  review_gates: governance/runtime/artifact_controls/review_gates.md
+  change_controls: governance/runtime/artifact_controls/change_controls.md
+  security_controls: governance/runtime/artifact_controls/security_controls.md
+  test_controls: governance/runtime/artifact_controls/test_controls.md
+  efficiency_checks: governance/runtime/artifact_controls/efficiency_checks.md
+  learning_feedback: governance/runtime/artifact_controls/learning_feedback.md
+
+triggers:
+  codex_development_document_requested:
+    apply:
+      - document_boundaries
+      - artifact_controls
+      - source_of_truth
+      - security_controls
+      - test_controls
+    pointer: required
+    mode: advisory
+
+  staged_phase_plan_requested:
+    apply:
+      - document_boundaries
+      - source_of_truth
+      - review_gates
+      - change_controls
+    pointer: optional
+    mode: advisory
+
+  project_package_requested:
+    apply:
+      - source_of_truth
+      - efficiency_checks
+      - test_controls
+    pointer: preserve_for_internal_handoff
+    mode: advisory
+
+  multiple_skills_or_stewards_involved:
+    apply:
+      - steward_routing
+      - efficiency_checks
+      - source_of_truth
+    pointer: optional
+    mode: advisory
+
+  user_corrects_long_term_behavior:
+    apply:
+      - learning_feedback
+      - change_controls
+    pointer: not_required
+    mode: proposal_only
+
+  security_sensitive_artifact_updated:
+    apply:
+      - security_controls
+      - review_gates
+      - test_controls
+    pointer: optional
+    mode: advisory
+
+  final_handoff_before_delivery:
+    apply:
+      - source_of_truth
+      - review_gates
+      - test_controls
+      - efficiency_checks
+    pointer: preserve_for_internal_handoff
+    mode: advisory

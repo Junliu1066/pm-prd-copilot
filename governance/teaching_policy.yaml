@@ -70,3 +70,4 @@ absorption_requirements:
     - prd-quality-reviewer
     - random-audit-inspector
     - efficiency-steward
+    - runtime-artifact-controls

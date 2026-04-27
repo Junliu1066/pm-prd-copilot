@@ -61,3 +61,27 @@ artifacts:
     path_pattern: pm-prd-copilot/proposals/memory/{project}_{date}.md
     type: markdown
     owner_stage: learning
+  runtime_artifact_controls:
+    path_pattern: governance/runtime/artifact_controls/index.md
+    type: markdown
+    owner_stage: governance
+  runtime_artifact_controls_manifest:
+    path_pattern: governance/runtime/artifact_controls/control_manifest.yaml
+    type: yaml
+    owner_stage: governance
+  runtime_governance_index:
+    path_pattern: governance/runtime/index.md
+    type: markdown
+    owner_stage: governance
+  runtime_triggers:
+    path_pattern: governance/runtime/triggers.yaml
+    type: yaml
+    owner_stage: governance
+  runtime_document_boundaries:
+    path_pattern: governance/runtime/document_boundaries.md
+    type: markdown
+    owner_stage: governance
+  codex_development_document_template:
+    path_pattern: pm-prd-copilot/templates/codex_development_document_template.md
+    type: markdown
+    owner_stage: governance

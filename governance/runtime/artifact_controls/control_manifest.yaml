@@ -1,0 +1,35 @@
+version: 0.1.0
+id: runtime-artifact-controls
+status: active
+scope:
+  - reusable_project_prd
+  - staged_project_plan
+  - development_design
+  - implementation_handoff
+  - test_plan
+  - deployment_notes
+  - packaged_project_artifacts
+entrypoint: governance/runtime/artifact_controls/index.md
+parent_policy: governance/runtime/index.md
+visibility:
+  user_facing_default: false
+  expose_when_user_requests: true
+  quiet_pointer_supported: true
+discovery:
+  primary_entry: agent.md
+  optional_artifact_pointer: "<!-- codex-runtime: apply governance/runtime/artifact_controls/index.md when updating this artifact -->"
+owners:
+  executive: pm-copilot-chief
+  review: review-steward
+  efficiency: efficiency-steward
+  learning: pm-coach
+triggers:
+  - final_development_document_created
+  - staged_plans_created
+  - project_package_requested
+  - multiple_skills_or_stewards_involved
+  - user_marks_need_as_long_term
+compatibility:
+  breaking_changes_require_review: true
+  preserve_quiet_pointer_pattern: true
+  do_not_require_user_facing_exposure: true

@@ -32,6 +32,13 @@ def _run_dir(base_dir: Path, project: str, run_id: str | None) -> tuple[str, Pat
     return effective_run_id, project_dir / "runs" / effective_run_id
 
 
+def _display_path(path: Path, project_dir: Path) -> str:
+    try:
+        return str(path.relative_to(project_dir.parent.parent))
+    except ValueError:
+        return str(path)
+
+
 def _artifact_metrics(project_dir: Path, policy: dict[str, Any]) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     artifact_limits = policy.get("artifact_limits", {})
     triggers = policy.get("optimization_triggers", {})
@@ -53,7 +60,7 @@ def _artifact_metrics(project_dir: Path, policy: dict[str, Any]) -> tuple[list[d
         metrics.append(
             {
                 "artifact": artifact,
-                "path": str(path),
+                "path": _display_path(path, project_dir),
                 "chars": chars,
                 "line_count": len(lines),
                 "limit": limit,
@@ -67,7 +74,7 @@ def _artifact_metrics(project_dir: Path, policy: dict[str, Any]) -> tuple[list[d
                     "severity": "warn",
                     "type": "empty_artifact",
                     "artifact": artifact,
-                    "evidence_path": str(path),
+                    "evidence_path": _display_path(path, project_dir),
                     "responsible_steward": "prd-writing-steward",
                     "recommendation": "Regenerate or remove the empty artifact.",
                     "quality_risk": "high",
@@ -81,7 +88,7 @@ def _artifact_metrics(project_dir: Path, policy: dict[str, Any]) -> tuple[list[d
                     "artifact": artifact,
                     "chars": chars,
                     "threshold": int(limit),
-                    "evidence_path": str(path),
+                    "evidence_path": _display_path(path, project_dir),
                     "responsible_steward": "prd-writing-steward",
                     "recommendation": "Shorten the artifact or move detailed content to a supporting appendix.",
                     "quality_risk": "medium",
@@ -94,7 +101,7 @@ def _artifact_metrics(project_dir: Path, policy: dict[str, Any]) -> tuple[list[d
                     "type": "repeated_output",
                     "artifact": artifact,
                     "repeated_line_count": len(repeated_lines),
-                    "evidence_path": str(path),
+                    "evidence_path": _display_path(path, project_dir),
                     "responsible_steward": "prd-writing-steward",
                     "recommendation": "Deduplicate repeated sections or convert repeated text into references.",
                     "quality_risk": "low",
@@ -107,7 +114,7 @@ def _artifact_metrics(project_dir: Path, policy: dict[str, Any]) -> tuple[list[d
                     "type": "long_line",
                     "artifact": artifact,
                     "long_line_count": len(long_lines),
-                    "evidence_path": str(path),
+                    "evidence_path": _display_path(path, project_dir),
                     "responsible_steward": "prd-writing-steward",
                     "recommendation": "Consider breaking long paragraphs into reviewable bullets.",
                     "quality_risk": "low",

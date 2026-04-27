@@ -11,6 +11,7 @@ The PM Copilot Steward Agent is the chief steward for PRD work. It coordinates s
 - Skills analyze, transform, or write declared artifacts. Skills must not silently fetch external data unless the steward manifest permits it.
 - Harness checks are mandatory before advancing a workflow stage.
 - Human approval is required for target-user priority, core scenario, MVP scope, PRD structure, memory writes, steward expansion, and stable skill upgrades.
+- Reusable project development artifacts should apply `governance/runtime/index.md` before final packaging or handoff.
 
 ## Steward Model
 ### Chief Steward

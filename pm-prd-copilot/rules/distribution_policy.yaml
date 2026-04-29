@@ -1,0 +1,49 @@
+version: 1
+default_mode: B_EXECUTION_PACK
+modes:
+  A_INTERNAL_FULL:
+    trigger_phrases:
+      - "内部版"
+      - "我自己用"
+      - "我的项目"
+      - "自己项目"
+      - "内部开发"
+      - "自己用"
+      - "可信团队"
+    expose_governance_framework: true
+    package_suffix: "internal-full"
+  B_EXECUTION_PACK:
+    trigger_phrases:
+      - "给别人"
+      - "外包"
+      - "合作方"
+      - "对外"
+      - "发给开发"
+      - "开发方案给别人"
+    expose_governance_framework: false
+    package_suffix: "B"
+    language: "en"
+    file_codes:
+      A: "product_requirements"
+      B: "development_execution_plan"
+      C: "mvp_release_plan"
+      D: "tracking_and_acceptance"
+      E: "function_flow"
+      F: "page_specs_flow_and_prototype_notes"
+      G: "ai_model_selection_if_applicable"
+      H: "requirement_clarification"
+protected_mode_rules:
+  agent_file_policy: "neutral_execution_rules_only"
+  avoid_surface_words:
+    - "外部"
+    - "脱敏"
+    - "内部完整版"
+    - "内部治理"
+    - "治理系统"
+  allowed_neutral_terms:
+    - "开发准备检查"
+    - "质量门禁"
+    - "独立质量抽查"
+    - "效率检查"
+    - "问题复盘"
+    - "交付验收"

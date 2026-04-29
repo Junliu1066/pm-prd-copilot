@@ -176,6 +176,9 @@ def validate_b_package_packager(base_dir: Path) -> list[str]:
             ),
             encoding="utf-8",
         )
+        prototype_dir = project_dir / "prototype"
+        prototype_dir.mkdir()
+        (prototype_dir / "prototype_notes.txt").write_text("Approved prototype reference for external sharing.\n", encoding="utf-8")
         output = tmp_path / "B.zip"
         command = [
             sys.executable,
@@ -201,6 +204,39 @@ def validate_b_package_packager(base_dir: Path) -> list[str]:
             return [f"B package zip missing expected files: {', '.join(missing)}"]
         if "docs/G.md" in names:
             return ["B package for non-AI sample must not force an AI plan file."]
+        if any(name.startswith("prototype/") for name in names):
+            return ["B package must not include prototype files unless --include-prototype is explicit."]
+
+        prototype_output = tmp_path / "B-with-prototype.zip"
+        prototype_command = command[:-1] + [str(prototype_output), "--include-prototype"]
+        prototype_result = subprocess.run(prototype_command, check=False, capture_output=True, text=True)
+        if prototype_result.returncode != 0:
+            combined_output = f"{prototype_result.stdout}\n{prototype_result.stderr}".strip()
+            return [f"B package packager failed with explicit prototype include. Output: {combined_output}"]
+        with zipfile.ZipFile(prototype_output) as archive:
+            prototype_names = set(archive.namelist())
+        if "prototype/prototype_notes.txt" not in prototype_names:
+            return ["B package did not include approved prototype files when --include-prototype was explicit."]
+
+        chinese_project = tmp_path / "projects" / "chinese-only"
+        chinese_project.mkdir(parents=True)
+        (chinese_project / "02_prd.final.md").write_text("# 中文项目\n\n这是中文需求，不能自动转成 B 包。\n", encoding="utf-8")
+        chinese_output = tmp_path / "B-chinese.zip"
+        chinese_command = [
+            sys.executable,
+            str(base_dir / "pm-prd-copilot" / "scripts" / "package_b_delivery.py"),
+            "--base-dir",
+            str(base_dir),
+            "--project-dir",
+            str(chinese_project),
+            "--output",
+            str(chinese_output),
+        ]
+        chinese_result = subprocess.run(chinese_command, check=False, capture_output=True, text=True)
+        if chinese_result.returncode == 0:
+            return ["B package packager must fail when no confirmed English source is available."]
+        if "confirmed English source" not in f"{chinese_result.stdout}\n{chinese_result.stderr}":
+            return ["B package packager failure must tell the user to provide a confirmed English source."]
     return []
 
 

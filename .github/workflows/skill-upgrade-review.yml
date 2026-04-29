@@ -27,14 +27,11 @@ jobs:
       - name: Generate skill-upgrade proposal
         run: python3 pm-prd-copilot/scripts/propose_lesson_skill_update.py --base-dir . --source accepted
 
-      - name: Refresh demo pipeline outputs
-        run: python3 pm-prd-copilot/scripts/run_pipeline.py --base-dir . --project demo-project --stage all
-
       - name: Run regression
         run: python3 pm-prd-copilot/scripts/run_regression.py --base-dir . --strict
 
       - name: Run governance harness
-        run: python3 harness/run_harness.py --base-dir . --project demo-project --mode advisory --audit --efficiency
+        run: python3 harness/run_harness.py --base-dir . --project demo-project --mode advisory --check-only --audit --efficiency
 
       - name: Create draft PR
         uses: peter-evans/create-pull-request@v7

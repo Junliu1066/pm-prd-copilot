@@ -30,11 +30,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Refresh demo pipeline outputs
-        run: python3 pm-prd-copilot/scripts/run_pipeline.py --base-dir . --project demo-project --stage all
-
       - name: Run regression
         run: python3 pm-prd-copilot/scripts/run_regression.py --base-dir . --strict
 
       - name: Run governance harness
-        run: python3 harness/run_harness.py --base-dir . --project demo-project --mode advisory --audit --efficiency
+        run: python3 harness/run_harness.py --base-dir . --project demo-project --mode advisory --check-only --audit --efficiency

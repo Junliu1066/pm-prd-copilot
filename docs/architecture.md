@@ -17,6 +17,16 @@
    - `ai-intel/events/`
    - `ai-intel/daily/`
    - `ai-intel/decisions/`
+5. Governance contract layer
+   - `workflow/actions.yaml`
+   - `workflow/prd_workflow.yaml`
+   - `registry/artifacts.yaml`
+   - `registry/skills.yaml`
+   - `registry/stewards.yaml`
+6. Contract responsibility layer
+   - `docs/contract_responsibility_layer.md`
+   - `governance/steward_operating_rules.yaml`
+   - owner evidence for interface, harness, schema, workflow, registry, automation, and generator changes
 
 ## Update policy
 
@@ -24,6 +34,8 @@
 - Daily memory extraction can only create reviewable proposals.
 - Weekly skill-upgrade jobs can only create a draft PR or proposal file.
 - Stable artifacts are updated only after human approval.
+- AI governance signals can create proposals, but adoption decisions stay with the user.
+- Interface, harness, schema, workflow, registry, automation, and generator contract changes must pass the contract responsibility layer before implementation.
 
 ## Failure handling
 

@@ -1,0 +1,61 @@
+version: 0.1.0
+description: Deterministic checks that prevent generic skills from absorbing one project's market, style, platform, or domain assumptions.
+
+scan_policy:
+  active_skill_files: true
+  skill_update_proposal_fields:
+    - principle
+    - expected_behavior
+    - verification_hint
+  blocked_terms:
+    - term: "组间歇"
+      leakage_type: domain_default
+      severity: fail
+    - term: "卧推"
+      leakage_type: domain_default
+      severity: fail
+    - term: "胸肩"
+      leakage_type: domain_default
+      severity: fail
+    - term: "改重量"
+      leakage_type: domain_default
+      severity: fail
+    - term: "开始下一组"
+      leakage_type: domain_default
+      severity: fail
+    - term: "暗黑机械风"
+      leakage_type: style_default
+      severity: fail
+    - term: "青绿色"
+      leakage_type: style_default
+      severity: fail
+    - term: "dark mechanical"
+      leakage_type: style_default
+      severity: fail
+    - term: "默认优先中国"
+      leakage_type: market_default
+      severity: fail
+    - term: "默认按中国"
+      leakage_type: market_default
+      severity: fail
+    - term: "中国市场默认"
+      leakage_type: market_default
+      severity: fail
+    - term: "China market as the default"
+      leakage_type: market_default
+      severity: fail
+    - term: "fitness-app-mvp"
+      leakage_type: project_preference
+      severity: fail
+
+allowed_contexts:
+  - source quotes in teaching logs or open lessons.
+  - project preference caches.
+  - project artifacts and run traces.
+  - file paths inside historical proposals when not part of skill behavior fields.
+
+required_routing:
+  project_specific_items: project_preference_cache
+  durable_user_defaults: approved_user_preference
+  generic_methods: reusable_skill_rule
+  unclear_items: open_lesson

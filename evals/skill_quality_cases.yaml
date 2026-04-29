@@ -1,0 +1,193 @@
+version: 0.1.0
+description: Cross-domain evaluation cases for checking whether PM Copilot skills remain reusable and stable.
+
+requirements:
+  minimum_cases: 5
+  minimum_unique_domains: 5
+  required_case_assertions:
+    - broad_user_segments_before_narrowing
+    - direct_and_indirect_competitors
+    - source_trace_for_external_data
+    - preview_before_full_prototype
+    - project_preferences_do_not_leak
+    - prd_visuals_are_section_local
+    - page_specs_and_flow_present
+    - prd_prototype_layer_present
+    - default_wireframes_are_not_forced
+    - non_ai_omits_ai_model_selection
+
+cases:
+  - case_id: fitness_training_app
+    domain: consumer_health
+    product_prompt: "Create a PRD path for a mobile product that helps exercise users execute a planned routine and manage short rest periods."
+    market_scope_rule: "Use only the request or approved preference cache to resolve market scope."
+    expected_skills:
+      - source-collector
+      - user-universe-mapper
+      - pain-needs-analyzer
+      - competitor-gap-analyzer
+      - scenario-roi-ranker
+      - mvp-scope-decider
+      - product-flow-mapper
+      - low-fi-prototype-designer
+    expected_outputs:
+      - source_brief
+      - user_universe
+      - pain_needs
+      - competitor_gap
+      - scenario_ranking
+      - mvp_scope
+      - product_flow_map
+      - prototype_preview
+    quality_assertions:
+      - broad_user_segments_before_narrowing
+      - direct_and_indirect_competitors
+      - source_trace_for_external_data
+      - preview_before_full_prototype
+      - project_preferences_do_not_leak
+      - prd_visuals_are_section_local
+      - page_specs_and_flow_present
+      - prd_prototype_layer_present
+      - default_wireframes_are_not_forced
+      - non_ai_omits_ai_model_selection
+      - system_reminder_vs_auto_advance_is_explicit
+
+  - case_id: pet_store_service_growth
+    domain: local_services
+    product_prompt: "Create a PRD path for a local service business that wants to convert content viewers into appointment consultations."
+    market_scope_rule: "Use only the request or approved preference cache to resolve market scope."
+    expected_skills:
+      - source-collector
+      - user-universe-mapper
+      - pain-needs-analyzer
+      - competitor-gap-analyzer
+      - scenario-roi-ranker
+      - mvp-scope-decider
+      - product-flow-mapper
+      - low-fi-prototype-designer
+    expected_outputs:
+      - source_brief
+      - user_universe
+      - pain_needs
+      - competitor_gap
+      - scenario_ranking
+      - mvp_scope
+      - product_flow_map
+      - prototype_preview
+    quality_assertions:
+      - broad_user_segments_before_narrowing
+      - direct_and_indirect_competitors
+      - source_trace_for_external_data
+      - preview_before_full_prototype
+      - project_preferences_do_not_leak
+      - prd_visuals_are_section_local
+      - page_specs_and_flow_present
+      - prd_prototype_layer_present
+      - default_wireframes_are_not_forced
+      - non_ai_omits_ai_model_selection
+      - conversion_path_has_clear_user_decision_points
+
+  - case_id: b2b_saas_approval_workflow
+    domain: b2b_saas
+    product_prompt: "Create a PRD path for a SaaS team that needs configurable approval workflows and audit trails."
+    market_scope_rule: "Use only the request or approved preference cache to resolve market scope."
+    expected_skills:
+      - source-collector
+      - user-universe-mapper
+      - pain-needs-analyzer
+      - competitor-gap-analyzer
+      - scenario-roi-ranker
+      - mvp-scope-decider
+      - product-flow-mapper
+      - low-fi-prototype-designer
+    expected_outputs:
+      - source_brief
+      - user_universe
+      - pain_needs
+      - competitor_gap
+      - scenario_ranking
+      - mvp_scope
+      - product_flow_map
+      - prototype_preview
+    quality_assertions:
+      - broad_user_segments_before_narrowing
+      - direct_and_indirect_competitors
+      - source_trace_for_external_data
+      - preview_before_full_prototype
+      - project_preferences_do_not_leak
+      - prd_visuals_are_section_local
+      - page_specs_and_flow_present
+      - prd_prototype_layer_present
+      - default_wireframes_are_not_forced
+      - non_ai_omits_ai_model_selection
+      - permission_and_exception_states_are_included
+
+  - case_id: education_exam_memo_tool
+    domain: education
+    product_prompt: "Create a PRD path for a study product that helps learners review question banks and remember answers before exams."
+    market_scope_rule: "Use only the request or approved preference cache to resolve market scope."
+    expected_skills:
+      - source-collector
+      - user-universe-mapper
+      - pain-needs-analyzer
+      - competitor-gap-analyzer
+      - scenario-roi-ranker
+      - mvp-scope-decider
+      - product-flow-mapper
+      - low-fi-prototype-designer
+    expected_outputs:
+      - source_brief
+      - user_universe
+      - pain_needs
+      - competitor_gap
+      - scenario_ranking
+      - mvp_scope
+      - product_flow_map
+      - prototype_preview
+    quality_assertions:
+      - broad_user_segments_before_narrowing
+      - direct_and_indirect_competitors
+      - source_trace_for_external_data
+      - preview_before_full_prototype
+      - project_preferences_do_not_leak
+      - prd_visuals_are_section_local
+      - page_specs_and_flow_present
+      - prd_prototype_layer_present
+      - default_wireframes_are_not_forced
+      - non_ai_omits_ai_model_selection
+      - learning_feedback_loop_is_explicit
+
+  - case_id: prompt_ops_platform
+    domain: productivity_platform
+    product_prompt: "Create a PRD path for a platform that helps teams test, compare, and improve prompts through repeatable experiments."
+    market_scope_rule: "Use only the request or approved preference cache to resolve market scope."
+    expected_skills:
+      - source-collector
+      - user-universe-mapper
+      - pain-needs-analyzer
+      - competitor-gap-analyzer
+      - scenario-roi-ranker
+      - mvp-scope-decider
+      - product-flow-mapper
+      - low-fi-prototype-designer
+    expected_outputs:
+      - source_brief
+      - user_universe
+      - pain_needs
+      - competitor_gap
+      - scenario_ranking
+      - mvp_scope
+      - product_flow_map
+      - prototype_preview
+    quality_assertions:
+      - broad_user_segments_before_narrowing
+      - direct_and_indirect_competitors
+      - source_trace_for_external_data
+      - preview_before_full_prototype
+      - project_preferences_do_not_leak
+      - prd_visuals_are_section_local
+      - page_specs_and_flow_present
+      - prd_prototype_layer_present
+      - default_wireframes_are_not_forced
+      - non_ai_omits_ai_model_selection
+      - experiment_metrics_are_defined_before_optimization

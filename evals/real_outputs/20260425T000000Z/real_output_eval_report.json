@@ -1,0 +1,334 @@
+{
+  "run_id": "20260425T000000Z",
+  "status": "pass",
+  "total_score": 55,
+  "max_score": 55,
+  "cases": [
+    {
+      "case_id": "fitness_training_app",
+      "domain": "consumer_health",
+      "status": "pass",
+      "score": 11,
+      "max_score": 11,
+      "output_path": "/Users/liujun/Desktop/产品经理skill/evals/real_outputs/20260425T000000Z/cases/fitness_training_app/output.md",
+      "assertions": [
+        {
+          "assertion": "broad_user_segments_before_narrowing",
+          "label": "先广泛枚举用户群体，再收窄",
+          "status": "pass"
+        },
+        {
+          "assertion": "direct_and_indirect_competitors",
+          "label": "竞品覆盖直接与间接影响",
+          "status": "pass"
+        },
+        {
+          "assertion": "source_trace_for_external_data",
+          "label": "外部信息带来源追踪与人工验证提醒",
+          "status": "pass"
+        },
+        {
+          "assertion": "preview_before_full_prototype",
+          "label": "先原型预览，未批准不画全流程",
+          "status": "pass"
+        },
+        {
+          "assertion": "project_preferences_do_not_leak",
+          "label": "项目偏好不污染其他案例",
+          "status": "pass"
+        },
+        {
+          "assertion": "prd_visuals_are_section_local",
+          "label": "PRD 辅助理解图归位到对应章节",
+          "status": "pass"
+        },
+        {
+          "assertion": "page_specs_and_flow_present",
+          "label": "PRD 默认包含页面说明和页面跳转关系",
+          "status": "pass"
+        },
+        {
+          "assertion": "prd_prototype_layer_present",
+          "label": "PRD 默认包含原型图层",
+          "status": "pass"
+        },
+        {
+          "assertion": "default_wireframes_are_not_forced",
+          "label": "不默认强制原型图/线框图",
+          "status": "pass"
+        },
+        {
+          "assertion": "non_ai_omits_ai_model_selection",
+          "label": "非 AI 项目不强行输出 AI 模型选型",
+          "status": "pass"
+        },
+        {
+          "assertion": "system_reminder_vs_auto_advance_is_explicit",
+          "label": "区分系统提醒与自动推进",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "case_id": "pet_store_service_growth",
+      "domain": "local_services",
+      "status": "pass",
+      "score": 11,
+      "max_score": 11,
+      "output_path": "/Users/liujun/Desktop/产品经理skill/evals/real_outputs/20260425T000000Z/cases/pet_store_service_growth/output.md",
+      "assertions": [
+        {
+          "assertion": "broad_user_segments_before_narrowing",
+          "label": "先广泛枚举用户群体，再收窄",
+          "status": "pass"
+        },
+        {
+          "assertion": "direct_and_indirect_competitors",
+          "label": "竞品覆盖直接与间接影响",
+          "status": "pass"
+        },
+        {
+          "assertion": "source_trace_for_external_data",
+          "label": "外部信息带来源追踪与人工验证提醒",
+          "status": "pass"
+        },
+        {
+          "assertion": "preview_before_full_prototype",
+          "label": "先原型预览，未批准不画全流程",
+          "status": "pass"
+        },
+        {
+          "assertion": "project_preferences_do_not_leak",
+          "label": "项目偏好不污染其他案例",
+          "status": "pass"
+        },
+        {
+          "assertion": "prd_visuals_are_section_local",
+          "label": "PRD 辅助理解图归位到对应章节",
+          "status": "pass"
+        },
+        {
+          "assertion": "page_specs_and_flow_present",
+          "label": "PRD 默认包含页面说明和页面跳转关系",
+          "status": "pass"
+        },
+        {
+          "assertion": "prd_prototype_layer_present",
+          "label": "PRD 默认包含原型图层",
+          "status": "pass"
+        },
+        {
+          "assertion": "default_wireframes_are_not_forced",
+          "label": "不默认强制原型图/线框图",
+          "status": "pass"
+        },
+        {
+          "assertion": "non_ai_omits_ai_model_selection",
+          "label": "非 AI 项目不强行输出 AI 模型选型",
+          "status": "pass"
+        },
+        {
+          "assertion": "conversion_path_has_clear_user_decision_points",
+          "label": "转化路径有清晰用户决策点",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "case_id": "b2b_saas_approval_workflow",
+      "domain": "b2b_saas",
+      "status": "pass",
+      "score": 11,
+      "max_score": 11,
+      "output_path": "/Users/liujun/Desktop/产品经理skill/evals/real_outputs/20260425T000000Z/cases/b2b_saas_approval_workflow/output.md",
+      "assertions": [
+        {
+          "assertion": "broad_user_segments_before_narrowing",
+          "label": "先广泛枚举用户群体，再收窄",
+          "status": "pass"
+        },
+        {
+          "assertion": "direct_and_indirect_competitors",
+          "label": "竞品覆盖直接与间接影响",
+          "status": "pass"
+        },
+        {
+          "assertion": "source_trace_for_external_data",
+          "label": "外部信息带来源追踪与人工验证提醒",
+          "status": "pass"
+        },
+        {
+          "assertion": "preview_before_full_prototype",
+          "label": "先原型预览，未批准不画全流程",
+          "status": "pass"
+        },
+        {
+          "assertion": "project_preferences_do_not_leak",
+          "label": "项目偏好不污染其他案例",
+          "status": "pass"
+        },
+        {
+          "assertion": "prd_visuals_are_section_local",
+          "label": "PRD 辅助理解图归位到对应章节",
+          "status": "pass"
+        },
+        {
+          "assertion": "page_specs_and_flow_present",
+          "label": "PRD 默认包含页面说明和页面跳转关系",
+          "status": "pass"
+        },
+        {
+          "assertion": "prd_prototype_layer_present",
+          "label": "PRD 默认包含原型图层",
+          "status": "pass"
+        },
+        {
+          "assertion": "default_wireframes_are_not_forced",
+          "label": "不默认强制原型图/线框图",
+          "status": "pass"
+        },
+        {
+          "assertion": "non_ai_omits_ai_model_selection",
+          "label": "非 AI 项目不强行输出 AI 模型选型",
+          "status": "pass"
+        },
+        {
+          "assertion": "permission_and_exception_states_are_included",
+          "label": "包含权限与异常状态",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "case_id": "education_exam_memo_tool",
+      "domain": "education",
+      "status": "pass",
+      "score": 11,
+      "max_score": 11,
+      "output_path": "/Users/liujun/Desktop/产品经理skill/evals/real_outputs/20260425T000000Z/cases/education_exam_memo_tool/output.md",
+      "assertions": [
+        {
+          "assertion": "broad_user_segments_before_narrowing",
+          "label": "先广泛枚举用户群体，再收窄",
+          "status": "pass"
+        },
+        {
+          "assertion": "direct_and_indirect_competitors",
+          "label": "竞品覆盖直接与间接影响",
+          "status": "pass"
+        },
+        {
+          "assertion": "source_trace_for_external_data",
+          "label": "外部信息带来源追踪与人工验证提醒",
+          "status": "pass"
+        },
+        {
+          "assertion": "preview_before_full_prototype",
+          "label": "先原型预览，未批准不画全流程",
+          "status": "pass"
+        },
+        {
+          "assertion": "project_preferences_do_not_leak",
+          "label": "项目偏好不污染其他案例",
+          "status": "pass"
+        },
+        {
+          "assertion": "prd_visuals_are_section_local",
+          "label": "PRD 辅助理解图归位到对应章节",
+          "status": "pass"
+        },
+        {
+          "assertion": "page_specs_and_flow_present",
+          "label": "PRD 默认包含页面说明和页面跳转关系",
+          "status": "pass"
+        },
+        {
+          "assertion": "prd_prototype_layer_present",
+          "label": "PRD 默认包含原型图层",
+          "status": "pass"
+        },
+        {
+          "assertion": "default_wireframes_are_not_forced",
+          "label": "不默认强制原型图/线框图",
+          "status": "pass"
+        },
+        {
+          "assertion": "non_ai_omits_ai_model_selection",
+          "label": "非 AI 项目不强行输出 AI 模型选型",
+          "status": "pass"
+        },
+        {
+          "assertion": "learning_feedback_loop_is_explicit",
+          "label": "学习反馈闭环明确",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "case_id": "prompt_ops_platform",
+      "domain": "productivity_platform",
+      "status": "pass",
+      "score": 11,
+      "max_score": 11,
+      "output_path": "/Users/liujun/Desktop/产品经理skill/evals/real_outputs/20260425T000000Z/cases/prompt_ops_platform/output.md",
+      "assertions": [
+        {
+          "assertion": "broad_user_segments_before_narrowing",
+          "label": "先广泛枚举用户群体，再收窄",
+          "status": "pass"
+        },
+        {
+          "assertion": "direct_and_indirect_competitors",
+          "label": "竞品覆盖直接与间接影响",
+          "status": "pass"
+        },
+        {
+          "assertion": "source_trace_for_external_data",
+          "label": "外部信息带来源追踪与人工验证提醒",
+          "status": "pass"
+        },
+        {
+          "assertion": "preview_before_full_prototype",
+          "label": "先原型预览，未批准不画全流程",
+          "status": "pass"
+        },
+        {
+          "assertion": "project_preferences_do_not_leak",
+          "label": "项目偏好不污染其他案例",
+          "status": "pass"
+        },
+        {
+          "assertion": "prd_visuals_are_section_local",
+          "label": "PRD 辅助理解图归位到对应章节",
+          "status": "pass"
+        },
+        {
+          "assertion": "page_specs_and_flow_present",
+          "label": "PRD 默认包含页面说明和页面跳转关系",
+          "status": "pass"
+        },
+        {
+          "assertion": "prd_prototype_layer_present",
+          "label": "PRD 默认包含原型图层",
+          "status": "pass"
+        },
+        {
+          "assertion": "default_wireframes_are_not_forced",
+          "label": "不默认强制原型图/线框图",
+          "status": "pass"
+        },
+        {
+          "assertion": "non_ai_omits_ai_model_selection",
+          "label": "非 AI 项目不强行输出 AI 模型选型",
+          "status": "pass"
+        },
+        {
+          "assertion": "experiment_metrics_are_defined_before_optimization",
+          "label": "优化前先定义实验指标",
+          "status": "pass"
+        }
+      ]
+    }
+  ],
+  "verification_notice": "External market and competitor signals are evaluation samples and require human verification."
+}

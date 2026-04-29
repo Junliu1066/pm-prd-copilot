@@ -46,6 +46,19 @@ stages:
       - mvp_scope
     approval_required:
       - mvp_scope
+    next: prototype_design
+
+  prototype_design:
+    allowed_actions:
+      - analyze_prototype_references
+      - map_product_business_flow
+      - design_prototype_preview
+      - design_full_prototype_after_preview_approval
+    required_outputs:
+      - product_flow_map
+      - prototype_preview
+    approval_required:
+      - prototype_preview
     next: prd_planning
 
   prd_planning:
@@ -75,14 +88,36 @@ stages:
       - generate_pre_dev_questions
     required_outputs:
       - prd_quality_report
+    next: delivery_planning
+
+  delivery_planning:
+    allowed_actions:
+      - plan_technical_scope
+      - plan_release_roadmap
+      - estimate_effort
+      - define_delivery_effect
+      - plan_capability_enablement
+      - route_skills_and_mcps
+      - plan_development_operating_system
+      - write_codex_task_package_blueprint
+      - write_codex_development_document
+      - review_agentic_delivery
+    required_outputs:
+      - technical_scope
+      - release_roadmap
+      - effort_estimate
+      - delivery_plan
+      - codex_development_document
     next: learning
 
   learning:
     allowed_actions:
       - extract_memory_learning_proposal
       - propose_skill_upgrade
+      - manage_project_preference_cache
     required_outputs: []
     approval_required:
       - memory_update
       - skill_upgrade
+      - project_preference_cache_update
     next: done

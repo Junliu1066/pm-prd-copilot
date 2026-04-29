@@ -116,7 +116,13 @@ def _artifact_metrics(project_dir: Path, policy: dict[str, Any]) -> tuple[list[d
     return metrics, findings
 
 
-def audit_efficiency(base_dir: Path, project: str, *, run_id: str | None = None) -> CheckResult:
+def audit_efficiency(
+    base_dir: Path,
+    project: str,
+    *,
+    run_id: str | None = None,
+    write_report: bool = True,
+) -> CheckResult:
     policy = load_yaml(base_dir / "governance" / "efficiency_policy.yaml")
     effective_run_id, run_dir = _run_dir(base_dir, project, run_id)
     project_dir = base_dir / "projects" / project
@@ -183,7 +189,8 @@ def audit_efficiency(base_dir: Path, project: str, *, run_id: str | None = None)
         "artifact_metrics": artifact_metrics,
         "findings": findings,
     }
-    write_json(run_dir / "efficiency_report.json", report)
+    if write_report:
+        write_json(run_dir / "efficiency_report.json", report)
 
     details = [
         f"{finding['severity']}: {finding['type']} -> {finding.get('recommendation', '')}"

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -58,14 +59,26 @@ def read_json(path: Path) -> dict[str, Any]:
 
 def write_json(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    temp_path = path.with_name(f".{path.name}.tmp.{os.getpid()}")
+    temp_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    os.replace(temp_path, path)
 
 
 def utc_now() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
-def init_governance_run(base_dir: Path, project: str, run_id: str, mode: str, stages: list[str]) -> Path:
+def init_governance_run(
+    base_dir: Path,
+    project: str,
+    run_id: str,
+    mode: str,
+    stages: list[str],
+    *,
+    approval_gate_enforced: bool = False,
+    required_approvals: list[str] | None = None,
+    governance_mode: str | None = None,
+) -> Path:
     project_dir = base_dir / "projects" / project
     run_dir = project_dir / "runs" / run_id
     run_dir.mkdir(parents=True, exist_ok=True)
@@ -81,6 +94,10 @@ def init_governance_run(base_dir: Path, project: str, run_id: str, mode: str, st
         "goal": "production_pipeline",
         "mode": mode,
         "ordered_stages": stages,
+        "stage_actions": {stage: STAGE_TRACE[stage]["action"] for stage in stages},
+        "governance_mode": governance_mode or ("governed" if approval_gate_enforced else "draft"),
+        "approval_gate_enforced": approval_gate_enforced,
+        "required_approvals": required_approvals or [],
         "enabled_skills": enabled_skills,
         "enabled_mcps": [],
         "required_outputs": required_outputs,
@@ -109,6 +126,7 @@ def init_governance_run(base_dir: Path, project: str, run_id: str, mode: str, st
     state["last_run_id"] = run_id
     state["last_pipeline_mode"] = mode
     state["last_pipeline_stages"] = stages
+    state["last_pipeline_governed"] = approval_gate_enforced
     write_json(state_path, state)
     return run_dir
 

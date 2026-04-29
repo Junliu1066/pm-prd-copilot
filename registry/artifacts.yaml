@@ -1,6 +1,32 @@
 version: 0.1.0
 
 artifacts:
+  raw_input:
+    path_pattern: projects/{project}/00_raw_input.md
+    type: markdown
+    owner_stage: intake
+    retention: supervised_project_context
+    sensitive_boundary: may_contain_user_context_or_business_details
+  raw_external_data:
+    path_pattern: projects/{project}/sources/raw_external_data/
+    type: directory
+    owner_stage: evidence
+  web_source:
+    path_pattern: projects/{project}/sources/web_sources.json
+    type: json
+    owner_stage: evidence
+  app_reviews:
+    path_pattern: projects/{project}/sources/app_reviews.json
+    type: json
+    owner_stage: evidence
+  market_signals:
+    path_pattern: projects/{project}/sources/market_signals.json
+    type: json
+    owner_stage: evidence
+  prd_style_signals:
+    path_pattern: projects/{project}/analysis/prd_style_signals.json
+    type: json
+    owner_stage: evidence
   source_brief:
     path_pattern: projects/{project}/01_requirement_brief.json
     type: json
@@ -9,6 +35,14 @@ artifacts:
     path_pattern: projects/{project}/01_requirement_brief.md
     type: markdown
     owner_stage: intake
+  intake_source_notes:
+    path_pattern: projects/{project}/sources/intake_source_notes.md
+    type: markdown
+    owner_stage: intake
+  user_feedback_signals:
+    path_pattern: projects/{project}/sources/user_feedback_signals.json
+    type: json
+    owner_stage: evidence
   user_universe:
     path_pattern: projects/{project}/analysis/user_universe.json
     type: json
@@ -29,6 +63,34 @@ artifacts:
     path_pattern: projects/{project}/analysis/mvp_scope.json
     type: json
     owner_stage: mvp_scope
+  prototype_reference_analysis:
+    path_pattern: projects/{project}/prototype/reference_analysis.json
+    type: json
+    owner_stage: prototype_design
+  product_flow_map:
+    path_pattern: projects/{project}/prototype/product_flow.md
+    type: markdown
+    owner_stage: prototype_design
+  prototype_preview:
+    path_pattern: projects/{project}/prototype/prototype_preview.md
+    type: markdown
+    owner_stage: prototype_design
+  full_prototype:
+    path_pattern: projects/{project}/prototype/full_prototype.md
+    type: markdown
+    owner_stage: prototype_design
+  interactive_html_prototype:
+    path_pattern: projects/{project}/prototype/html/index.html
+    type: html
+    owner_stage: prototype_design
+  project_preference_cache:
+    path_pattern: memory-cache/projects/{project}/current.json
+    type: json
+    owner_stage: learning
+  skill_generalization_audit:
+    path_pattern: projects/{project}/review/skill_generalization_audit.json
+    type: json
+    owner_stage: learning
   prd_structure:
     path_pattern: projects/{project}/analysis/prd_structure.json
     type: json
@@ -41,6 +103,14 @@ artifacts:
     path_pattern: projects/{project}/02_prd.generated.md
     type: markdown
     owner_stage: prd_drafting
+  final_prd_markdown:
+    path_pattern: projects/{project}/02_prd.final.md
+    type: markdown
+    owner_stage: review
+  feature_matrix:
+    path_pattern: projects/{project}/feature_matrix.md
+    type: markdown
+    owner_stage: prd_planning
   user_stories:
     path_pattern: projects/{project}/03_user_stories.generated.json
     type: json
@@ -53,8 +123,140 @@ artifacts:
     path_pattern: projects/{project}/05_tracking_plan.generated.json
     type: json
     owner_stage: prd_drafting
+  success_metrics:
+    path_pattern: projects/{project}/analysis/success_metrics.json
+    type: json
+    owner_stage: prd_planning
+  technical_scope:
+    path_pattern: projects/{project}/delivery/technical_scope.md
+    type: markdown
+    owner_stage: delivery_planning
+  release_roadmap:
+    path_pattern: projects/{project}/delivery/release_roadmap.md
+    type: markdown
+    owner_stage: delivery_planning
+  effort_estimate:
+    path_pattern: projects/{project}/delivery/effort_estimate.md
+    type: markdown
+    owner_stage: delivery_planning
+  delivery_plan:
+    path_pattern: projects/{project}/delivery/delivery_plan.md
+    type: markdown
+    owner_stage: delivery_planning
+  delivery_quality_report:
+    path_pattern: projects/{project}/delivery/delivery_quality_report.json
+    type: json
+    owner_stage: review
+  agentic_delivery_plan:
+    path_pattern: projects/{project}/delivery/agentic_delivery_plan.md
+    type: markdown
+    owner_stage: delivery_planning
+  codex_task_packages:
+    path_pattern: projects/{project}/delivery/codex_task_packages.md
+    type: markdown
+    owner_stage: delivery_planning
+  human_supervision_plan:
+    path_pattern: projects/{project}/delivery/human_supervision_plan.md
+    type: markdown
+    owner_stage: delivery_planning
+  development_governance_report:
+    path_pattern: projects/{project}/delivery/development_governance_report.json
+    type: json
+    owner_stage: delivery_planning
+  capability_enablement_plan:
+    path_pattern: projects/{project}/delivery/capability_enablement_plan.md
+    type: markdown
+    owner_stage: delivery_planning
+  skill_mcp_routing_plan:
+    path_pattern: projects/{project}/delivery/skill_mcp_routing_plan.md
+    type: markdown
+    owner_stage: delivery_planning
+  development_operating_system_plan:
+    path_pattern: projects/{project}/delivery/development_operating_system_plan.md
+    type: markdown
+    owner_stage: delivery_planning
+  codex_task_package_blueprint:
+    path_pattern: projects/{project}/delivery/codex_task_package_blueprint.md
+    type: markdown
+    owner_stage: delivery_planning
+  codex_development_document:
+    path_pattern: projects/{project}/delivery/codex_development_document.md
+    type: markdown
+    owner_stage: delivery_planning
+  codex_development_plan:
+    path_pattern: projects/{project}/delivery/codex_development_plan.md
+    type: markdown
+    owner_stage: delivery_planning
+  phase_1_codex_plan:
+    path_pattern: projects/{project}/delivery/phase_1_codex_plan.md
+    type: markdown
+    owner_stage: delivery_planning
+  phase_2_codex_plan:
+    path_pattern: projects/{project}/delivery/phase_2_codex_plan.md
+    type: markdown
+    owner_stage: delivery_planning
+  phase_3_codex_plan:
+    path_pattern: projects/{project}/delivery/phase_3_codex_plan.md
+    type: markdown
+    owner_stage: delivery_planning
+  final_codex_plan:
+    path_pattern: projects/{project}/delivery/final_codex_plan.md
+    type: markdown
+    owner_stage: delivery_planning
+  codex_development_review:
+    path_pattern: projects/{project}/delivery/codex_development_review.md
+    type: markdown
+    owner_stage: review
+  ai_capability_map:
+    path_pattern: projects/{project}/ai/ai_capability_map.md
+    type: markdown
+    owner_stage: ai_solution_planning
+    detachable_workflow: ai_solution_planning
+  model_selection_plan:
+    path_pattern: projects/{project}/ai/model_selection_plan.md
+    type: markdown
+    owner_stage: ai_solution_planning
+    detachable_workflow: ai_solution_planning
+  prompt_architecture:
+    path_pattern: projects/{project}/ai/prompt_architecture.md
+    type: markdown
+    owner_stage: ai_solution_planning
+    detachable_workflow: ai_solution_planning
+  rag_architecture:
+    path_pattern: projects/{project}/ai/rag_architecture.md
+    type: markdown
+    owner_stage: ai_solution_planning
+    detachable_workflow: ai_solution_planning
+  conversation_memory_plan:
+    path_pattern: projects/{project}/ai/conversation_memory_plan.md
+    type: markdown
+    owner_stage: ai_solution_planning
+    detachable_workflow: ai_solution_planning
+  learner_profile_model:
+    path_pattern: projects/{project}/ai/learner_profile_model.md
+    type: markdown
+    owner_stage: ai_solution_planning
+    detachable_workflow: ai_solution_planning
+  adaptive_coaching_plan:
+    path_pattern: projects/{project}/ai/adaptive_coaching_plan.md
+    type: markdown
+    owner_stage: ai_solution_planning
+    detachable_workflow: ai_solution_planning
+  ai_technical_architecture:
+    path_pattern: projects/{project}/ai/ai_technical_architecture.md
+    type: markdown
+    owner_stage: ai_solution_planning
+    detachable_workflow: ai_solution_planning
+  ai_solution_review:
+    path_pattern: projects/{project}/ai/ai_solution_review.json
+    type: json
+    owner_stage: review
   prd_quality_report:
     path_pattern: projects/{project}/review/prd_quality_report.json
+    type: json
+    owner_stage: review
+  pre_dev_questions:
+    path_pattern: projects/{project}/review/pre_dev_questions.json
     type: json
     owner_stage: review
   memory_proposal:

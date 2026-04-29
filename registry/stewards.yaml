@@ -49,6 +49,17 @@ sub_stewards:
     allowed_stages:
       - prd_planning
       - prd_drafting
+  prototype-design-steward:
+    status: active
+    domain: prototype_design
+    responsibilities:
+      - prototype_reference_analysis
+      - product_business_flow_mapping
+      - low_fidelity_prototype_design
+      - interactive_html_prototype_building
+      - ui_style_direction
+    allowed_stages:
+      - prototype_design
   review-steward:
     status: active
     domain: review
@@ -56,17 +67,90 @@ sub_stewards:
       - prd_quality_review
       - risk_edgecase_review
       - pre_dev_question_generation
+      - output_semantic_drift_review
+      - generator_output_quality_review
     allowed_stages:
       - review
   learning-steward:
-    status: draft
+    status: active
     domain: learning
     responsibilities:
       - memory_learning_proposal
       - skill_upgrade_proposal
+      - project_preference_cache_management
       - regression_review
+      - user_teaching_to_proposal_routing
+      - stable_change_absorption_review
     allowed_stages:
       - learning
+  delivery-planning-steward:
+    status: active
+    domain: delivery_planning
+    responsibilities:
+      - technical_scope_planning
+      - release_roadmap_planning
+      - effort_estimation
+      - delivery_effect_definition
+      - delivery_quality_review
+      - agentic_delivery_orchestration
+      - product_scope_backflow_routing
+    allowed_stages:
+      - delivery_planning
+      - review
+  capability-enablement-steward:
+    status: active
+    domain: capability_enablement
+    responsibilities:
+      - capability_gap_analysis
+      - skill_reuse_decision
+      - skill_creation_planning
+      - mcp_need_assessment
+      - harness_requirement_planning
+      - interface_harness_need_review
+      - stable_component_minimality_review
+    allowed_stages:
+      - delivery_planning
+      - learning
+      - review
+  development-governance-steward:
+    status: active
+    domain: development_governance
+    responsibilities:
+      - skill_mcp_routing
+      - development_operating_system_planning
+      - codex_task_package_blueprint_writing
+      - human_supervision_mapping
+      - learning_route_planning
+      - interface_contract_ownership
+      - artifact_schema_workflow_registry_alignment
+      - read_only_vs_write_check_boundary
+      - automation_contract_review
+    allowed_stages:
+      - delivery_planning
+      - learning
+      - review
+  ai-architecture-steward:
+    status: active
+    domain: ai_architecture
+    responsibilities:
+      - ai_capability_mapping
+      - model_selection_planning
+      - prompt_architecture_design
+      - rag_architecture_planning
+      - ai_technical_architecture_planning
+      - ai_solution_review
+    allowed_stages:
+      - ai_solution_planning
+      - review
+  ai-coaching-steward:
+    status: active
+    domain: ai_coaching
+    responsibilities:
+      - conversation_memory_planning
+      - learner_profile_modeling
+      - adaptive_coaching_planning
+    allowed_stages:
+      - ai_solution_planning
 
 inspectors:
   random-audit-inspector:
@@ -77,6 +161,7 @@ inspectors:
       - mcp_source_trace_audit
       - steward_boundary_audit
       - artifact_scope_audit
+      - contract_owner_evidence_audit
       - supervisor_escalation
     reports_to:
       - pm-copilot-chief

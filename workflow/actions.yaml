@@ -1,147 +1,388 @@
 version: 0.1.0
-
 actions:
   normalize_requirement:
     steward: research-steward
     skill: source-collector
     stage: intake
     inputs:
-      - raw_input
+    - raw_input
     outputs:
-      - source_brief
-      - source_brief_markdown
-
+    - source_brief
+    - source_brief_markdown
   learn_prd_style_from_pdf:
     steward: research-steward
     skill: pdf-prd-style-learner
     stage: evidence
     inputs:
-      - raw_external_data
+    - raw_external_data
     outputs:
-      - prd_style_signals
-
+    - prd_style_signals
   map_user_universe:
     steward: product-judgment-steward
     skill: user-universe-mapper
     stage: user_analysis
     inputs:
-      - source_brief
-      - market_signals
+    - source_brief
+    - market_signals
     outputs:
-      - user_universe
-
+    - user_universe
   analyze_pain_needs:
     steward: product-judgment-steward
     skill: pain-needs-analyzer
     stage: user_analysis
     inputs:
-      - source_brief
-      - user_universe
+    - source_brief
+    - user_universe
     outputs:
-      - pain_needs
-
+    - pain_needs
   analyze_competitor_gap:
     steward: product-judgment-steward
     skill: competitor-gap-analyzer
     stage: scenario_priority
     inputs:
-      - source_brief
-      - raw_external_data
+    - source_brief
+    - raw_external_data
+    - market_signals
     outputs:
-      - competitor_gap
-
+    - competitor_gap
   rank_scenarios_by_roi:
     steward: product-judgment-steward
     skill: scenario-roi-ranker
     stage: scenario_priority
     inputs:
-      - user_universe
-      - pain_needs
-      - competitor_gap
+    - user_universe
+    - pain_needs
+    - competitor_gap
     outputs:
-      - scenario_ranking
-
+    - scenario_ranking
   decide_mvp_scope:
     steward: product-judgment-steward
     skill: mvp-scope-decider
     stage: mvp_scope
     inputs:
-      - scenario_ranking
-      - competitor_gap
-      - pain_needs
+    - scenario_ranking
+    - competitor_gap
+    - pain_needs
     outputs:
-      - mvp_scope
-
+    - mvp_scope
   plan_prd_structure:
     steward: prd-writing-steward
     skill: prd-structure-planner
     stage: prd_planning
     inputs:
-      - source_brief
-      - mvp_scope
-      - prd_style_signals
+    - source_brief
+    - mvp_scope
+    - prd_style_signals
     outputs:
-      - prd_structure
-
+    - prd_structure
   draft_prd:
     steward: prd-writing-steward
     skill: prd-draft-writer
     stage: prd_drafting
     inputs:
-      - source_brief
-      - mvp_scope
-      - prd_structure
+    - source_brief
+    - mvp_scope
+    - prd_structure
     outputs:
-      - prd_document
-      - prd_markdown
-
+    - prd_document
+    - prd_markdown
   write_user_stories:
     steward: prd-writing-steward
     skill: user-story-ac-generator
     stage: prd_drafting
     inputs:
-      - source_brief
-      - prd_document
+    - source_brief
+    - prd_document
     outputs:
-      - user_stories
-
+    - user_stories
   design_tracking_plan:
     steward: prd-writing-steward
     skill: tracking-plan-designer
     stage: prd_drafting
     inputs:
-      - source_brief
-      - prd_document
+    - source_brief
+    - prd_document
     outputs:
-      - tracking_plan
-
+    - tracking_plan
   check_risks_edgecases:
     steward: review-steward
     skill: risk-edgecase-checker
     stage: review
     inputs:
-      - source_brief
-      - prd_document
+    - source_brief
+    - prd_document
     outputs:
-      - risk_report
-
+    - risk_report
   review_prd_quality:
     steward: review-steward
     skill: prd-quality-reviewer
     stage: review
     inputs:
-      - prd_document
-      - prd_markdown
-      - source_brief
+    - prd_document
+    - prd_markdown
+    - source_brief
     outputs:
-      - prd_quality_report
-
+    - prd_quality_report
   extract_memory_learning_proposal:
     steward: learning-steward
     skill: memory-learning-extractor
     stage: learning
     inputs:
-      - prd_markdown
-      - final_prd_markdown
+    - prd_markdown
+    - final_prd_markdown
     outputs:
-      - memory_proposal
+    - memory_proposal
+  collect_sources:
+    steward: research-steward
+    skill: source-collector
+    stage: intake
+    inputs:
+    - raw_input
+    - raw_external_data
+    - web_source
+    outputs:
+    - intake_source_notes
+  collect_market_sources:
+    steward: research-steward
+    skill: source-collector
+    stage: evidence
+    inputs:
+    - source_brief
+    - raw_external_data
+    - web_source
+    outputs:
+    - market_signals
+  collect_user_feedback_sources:
+    steward: research-steward
+    skill: source-collector
+    stage: evidence
+    inputs:
+    - raw_input
+    - raw_external_data
+    - app_reviews
+    - web_source
+    outputs:
+    - user_feedback_signals
+  analyze_prototype_references:
+    steward: prototype-design-steward
+    skill: prototype-reference-analyzer
+    stage: prototype_design
+    inputs:
+    - raw_external_data
+    - prd_style_signals
+    outputs:
+    - prototype_reference_analysis
+  map_product_business_flow:
+    steward: prototype-design-steward
+    skill: product-flow-mapper
+    stage: prototype_design
+    inputs:
+    - mvp_scope
+    - prototype_reference_analysis
+    outputs:
+    - product_flow_map
+  design_prototype_preview:
+    steward: prototype-design-steward
+    skill: low-fi-prototype-designer
+    stage: prototype_design
+    inputs:
+    - mvp_scope
+    - prototype_reference_analysis
+    - product_flow_map
+    outputs:
+    - prototype_preview
+  design_full_prototype_after_preview_approval:
+    steward: prototype-design-steward
+    skill: low-fi-prototype-designer
+    stage: prototype_design
+    inputs:
+    - mvp_scope
+    - prototype_reference_analysis
+    - product_flow_map
+    - prototype_preview
+    outputs:
+    - full_prototype
+  design_success_metrics:
+    steward: prd-writing-steward
+    skill: tracking-plan-designer
+    stage: prd_planning
+    inputs:
+    - source_brief
+    - mvp_scope
+    outputs:
+    - success_metrics
+  generate_pre_dev_questions:
+    steward: review-steward
+    skill: prd-quality-reviewer
+    stage: review
+    inputs:
+    - prd_document
+    - prd_markdown
+    - source_brief
+    outputs:
+    - pre_dev_questions
+  plan_technical_scope:
+    steward: delivery-planning-steward
+    skill: technical-scope-planner
+    stage: delivery_planning
+    inputs:
+    - mvp_scope
+    - prd_document
+    - prd_markdown
+    - product_flow_map
+    - prototype_preview
+    - risk_report
+    outputs:
+    - technical_scope
+  plan_release_roadmap:
+    steward: delivery-planning-steward
+    skill: release-roadmap-planner
+    stage: delivery_planning
+    inputs:
+    - mvp_scope
+    - prd_document
+    - prd_markdown
+    - scenario_ranking
+    - technical_scope
+    - risk_report
+    outputs:
+    - release_roadmap
+  estimate_effort:
+    steward: delivery-planning-steward
+    skill: effort-estimator
+    stage: delivery_planning
+    inputs:
+    - technical_scope
+    - release_roadmap
+    - prd_document
+    - prd_markdown
+    - risk_report
+    outputs:
+    - effort_estimate
+  define_delivery_effect:
+    steward: delivery-planning-steward
+    skill: delivery-effect-definer
+    stage: delivery_planning
+    inputs:
+    - technical_scope
+    - release_roadmap
+    - effort_estimate
+    - prd_document
+    - prd_markdown
+    - tracking_plan
+    outputs:
+    - delivery_plan
+  plan_capability_enablement:
+    steward: capability-enablement-steward
+    skill: capability-enablement-planner
+    stage: delivery_planning
+    inputs:
+    - prd_document
+    - prd_markdown
+    - technical_scope
+    - ai_technical_architecture
+    - delivery_plan
+    - delivery_quality_report
+    outputs:
+    - capability_enablement_plan
+  route_skills_and_mcps:
+    steward: capability-enablement-steward
+    skill: skill-mcp-routing-planner
+    stage: delivery_planning
+    inputs:
+    - capability_enablement_plan
+    - technical_scope
+    - delivery_plan
+    - ai_technical_architecture
+    outputs:
+    - skill_mcp_routing_plan
+  plan_development_operating_system:
+    steward: development-governance-steward
+    skill: development-governance-orchestrator
+    stage: delivery_planning
+    inputs:
+    - capability_enablement_plan
+    - skill_mcp_routing_plan
+    - delivery_plan
+    - ai_technical_architecture
+    outputs:
+    - development_operating_system_plan
+  write_codex_task_package_blueprint:
+    steward: development-governance-steward
+    skill: codex-task-package-writer
+    stage: delivery_planning
+    inputs:
+    - prd_document
+    - prd_markdown
+    - technical_scope
+    - ai_technical_architecture
+    - capability_enablement_plan
+    - skill_mcp_routing_plan
+    - development_operating_system_plan
+    outputs:
+    - codex_task_package_blueprint
+  write_codex_development_document:
+    steward: development-governance-steward
+    skill: codex-task-package-writer
+    stage: delivery_planning
+    inputs:
+    - prd_document
+    - prd_markdown
+    - technical_scope
+    - ai_technical_architecture
+    - capability_enablement_plan
+    - skill_mcp_routing_plan
+    - development_operating_system_plan
+    - codex_task_package_blueprint
+    outputs:
+    - codex_development_document
+  review_agentic_delivery:
+    steward: delivery-planning-steward
+    skill: agentic-delivery-orchestrator
+    stage: delivery_planning
+    inputs:
+    - prd_document
+    - prd_markdown
+    - feature_matrix
+    - product_flow_map
+    - prototype_preview
+    - technical_scope
+    - release_roadmap
+    - effort_estimate
+    - delivery_plan
+    - delivery_quality_report
+    - ai_technical_architecture
+    - capability_enablement_plan
+    - skill_mcp_routing_plan
+    - development_operating_system_plan
+    - codex_task_package_blueprint
+    - codex_development_document
+    outputs:
+    - codex_development_plan
+    - phase_1_codex_plan
+    - phase_2_codex_plan
+    - phase_3_codex_plan
+    - final_codex_plan
+    - agentic_delivery_plan
+    - codex_task_packages
+    - human_supervision_plan
+    - development_governance_report
+  propose_skill_upgrade:
+    steward: learning-steward
+    skill: skill-generalization-auditor
+    stage: learning
+    inputs:
+    - raw_input
+    - project_preference_cache
+    - memory_proposal
+    outputs:
+    - skill_generalization_audit
+  manage_project_preference_cache:
+    steward: learning-steward
+    skill: project-preference-cache-manager
+    stage: learning
+    inputs:
+    - raw_input
+    - memory_proposal
+    outputs:
+    - project_preference_cache

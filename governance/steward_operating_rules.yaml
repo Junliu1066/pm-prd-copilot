@@ -19,3 +19,18 @@ rules:
   - id: external-sources-need-trace
     severity: fail
     description: External source data must include source URL, source type, collection time, extractor, confidence, and human verification requirement.
+  - id: stable-contract-change-owner-review
+    severity: fail
+    description: Changes to interfaces, harness behavior, schemas, workflow, registry, automations, templates, or generator contracts must name the responsible steward, expected affected files, validation command, and user approval point before implementation.
+  - id: interface-artifact-contract-registered
+    severity: fail
+    description: Any data passed between workflow actions, scripts, Skills, harness checks, or package builders must either be registered in registry/artifacts.yaml or explicitly documented as an external/raw input with owner and retention handling.
+  - id: harness-readonly-boundary
+    severity: warn
+    description: Harness and eval commands must state whether they are read-only or write reports/state files; read-only audits should not refresh project artifacts or run status.
+  - id: generator-contract-sync
+    severity: fail
+    description: PRD or development-document generator changes must keep template, schema, prompt builder, renderer, regression cases, and sample outputs aligned or record the unsynced files as explicit follow-up risks.
+  - id: automation-contract-health-owner
+    severity: warn
+    description: Automation checks must verify cwd, branch/worktree target, referenced template paths, model, reasoning effort, schedule, report location, and whether the task can modify files.

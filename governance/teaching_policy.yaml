@@ -64,9 +64,39 @@ absorption_requirements:
     - scenario-roi-ranker
     - competitor-gap-analyzer
     - mvp-scope-decider
+    - prototype-reference-analyzer
+    - product-flow-mapper
+    - low-fi-prototype-designer
+    - interactive-html-prototype-builder
+    - project-preference-cache-manager
+    - skill-generalization-auditor
+    - technical-scope-planner
+    - release-roadmap-planner
+    - effort-estimator
+    - delivery-effect-definer
+    - delivery-quality-reviewer
+    - agentic-delivery-orchestrator
+    - capability-enablement-planner
+    - skill-mcp-routing-planner
+    - development-governance-orchestrator
+    - codex-task-package-writer
+    - ai-capability-mapper
+    - model-selection-planner
+    - prompt-architecture-designer
+    - rag-architecture-planner
+    - conversation-memory-planner
+    - learner-profile-modeler
+    - adaptive-coaching-planner
+    - ai-technical-architecture-planner
+    - ai-solution-reviewer
     - skill-update-proposer
     - prd-structure-planner
     - prd-draft-writer
     - prd-quality-reviewer
+    - prd-template
+    - prd-schema
+    - requirement-intake
+    - development-document-policy
+    - learning-steward
     - random-audit-inspector
     - efficiency-steward

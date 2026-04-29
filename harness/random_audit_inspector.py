@@ -55,7 +55,13 @@ def _report_to(skill: dict[str, Any]) -> list[str]:
     return [item for item in [steward, "pm-copilot-chief", "user"] if item]
 
 
-def inspect_random_audit(base_dir: Path, project: str, *, run_id: str | None = None) -> CheckResult:
+def inspect_random_audit(
+    base_dir: Path,
+    project: str,
+    *,
+    run_id: str | None = None,
+    write_report: bool = True,
+) -> CheckResult:
     policy = load_yaml(base_dir / "governance" / "random_audit_policy.yaml")
     skills = load_yaml(base_dir / "registry" / "skills.yaml").get("skills", {})
     mcps = load_yaml(base_dir / "registry" / "mcps.yaml").get("mcps", {})
@@ -92,7 +98,8 @@ def inspect_random_audit(base_dir: Path, project: str, *, run_id: str | None = N
             "sampled_items": [],
             "findings": [],
         }
-        write_json(run_dir / "random_audit_report.json", report)
+        if write_report:
+            write_json(run_dir / "random_audit_report.json", report)
         return CheckResult("random_audit", "pass", "No trace calls to audit.", [])
 
     sampled = _sample_items(candidates, policy, effective_run_id)
@@ -198,7 +205,8 @@ def inspect_random_audit(base_dir: Path, project: str, *, run_id: str | None = N
         ],
         "findings": findings,
     }
-    write_json(run_dir / "random_audit_report.json", report)
+    if write_report:
+        write_json(run_dir / "random_audit_report.json", report)
 
     details = [
         f"{finding['severity']}: {finding['finding']} -> report_to={','.join(finding.get('report_to', []))}"

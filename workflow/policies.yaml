@@ -5,6 +5,7 @@ human_approval_required:
     - target_user_priority
     - core_scenario
     - mvp_scope
+    - prototype_preview
     - prd_structure
   governance_decisions:
     - create_sub_steward
@@ -14,13 +15,16 @@ human_approval_required:
   learning_decisions:
     - memory_update
     - skill_upgrade
+    - project_preference_cache_update
 
 stage_gate_policy:
-  default_mode: advisory
+  default_mode: governed
   strict_for:
     - registry
     - steward_contract
     - source_trace
+  fast_draft_requires_label: true
+  formal_delivery_requires_governed_workflow: true
 
 source_policy:
   external_data_is_signal_not_fact: true

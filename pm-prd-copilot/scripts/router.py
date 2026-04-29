@@ -5,6 +5,9 @@ import argparse
 import json
 from pathlib import Path
 
+from closeout_project import generate_closeout_package
+from select_ui_style import generate_style_direction
+
 
 PROJECT_FILES = [
     "00_raw_input.md",
@@ -84,6 +87,23 @@ def main() -> None:
     status_parser = subparsers.add_parser("status")
     status_parser.add_argument("--project", required=True)
 
+    closeout_parser = subparsers.add_parser("closeout")
+    closeout_parser.add_argument("--project", required=True)
+    closeout_parser.add_argument("--run-id", default="")
+    closeout_parser.add_argument(
+        "--output-dir",
+        default="",
+        help="Optional closeout output directory. Defaults to projects/<project>/closeout.",
+    )
+
+    ui_style_parser = subparsers.add_parser("ui-style")
+    ui_style_parser.add_argument("--project", required=True)
+    ui_style_parser.add_argument(
+        "--style",
+        default="",
+        help="Optional explicit style alias, e.g. concrete, swiss, glass, 水泥风.",
+    )
+
     args = parser.parse_args()
     base_dir = Path(args.base_dir).resolve()
 
@@ -91,6 +111,17 @@ def main() -> None:
         init_project(base_dir, args.project, args.title)
     elif args.command == "status":
         show_status(base_dir, args.project)
+    elif args.command == "closeout":
+        output_dir = Path(args.output_dir).resolve() if args.output_dir else None
+        outputs = generate_closeout_package(base_dir, args.project, run_id=args.run_id, output_dir=output_dir)
+        print("Closeout dry-run package generated:")
+        for label, path in outputs.items():
+            print(f"- {label}: {path}")
+    elif args.command == "ui-style":
+        outputs = generate_style_direction(base_dir, args.project, requested_style=args.style)
+        print("UI style direction generated:")
+        for label, path in outputs.items():
+            print(f"- {label}: {path}")
 
 
 if __name__ == "__main__":

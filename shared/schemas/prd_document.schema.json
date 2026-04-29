@@ -41,6 +41,32 @@
     },
     "sections": {
       "type": "object",
+      "required": [
+        "summary",
+        "background",
+        "problem",
+        "goals",
+        "non_goals",
+        "target_users",
+        "scenarios",
+        "scope_in",
+        "scope_out",
+        "solution",
+        "product_overview_map",
+        "core_business_swimlane",
+        "page_information_architecture",
+        "mvp_scope_map",
+        "risk_control_loop",
+        "functional_flowcharts",
+        "page_specs",
+        "page_flow",
+        "prototype_layer",
+        "requirements",
+        "metrics",
+        "risks",
+        "dependencies",
+        "launch_plan"
+      ],
       "properties": {
         "summary": {
           "type": "string"
@@ -89,6 +115,51 @@
         },
         "solution": {
           "type": "string"
+        },
+        "product_overview_map": {
+          "type": "string"
+        },
+        "core_business_swimlane": {
+          "type": "string"
+        },
+        "page_information_architecture": {
+          "type": "string"
+        },
+        "mvp_scope_map": {
+          "type": "string"
+        },
+        "risk_control_loop": {
+          "type": "string"
+        },
+        "functional_flowcharts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "page_specs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "page_flow": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "prototype_layer": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "ai_model_selection": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         },
         "requirements": {
           "type": "array",

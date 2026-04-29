@@ -134,6 +134,14 @@ def build_prd_schema() -> dict:
                     "scope_in",
                     "scope_out",
                     "solution",
+                    "product_overview_map",
+                    "core_business_swimlane",
+                    "page_information_architecture",
+                    "mvp_scope_map",
+                    "risk_control_loop",
+                    "functional_flowcharts",
+                    "page_specs",
+                    "page_flow",
                     "requirements",
                     "metrics",
                     "risks",
@@ -151,6 +159,15 @@ def build_prd_schema() -> dict:
                     "scope_in": {"type": "array", "items": {"type": "string"}},
                     "scope_out": {"type": "array", "items": {"type": "string"}},
                     "solution": {"type": "string"},
+                    "product_overview_map": {"type": "string"},
+                    "core_business_swimlane": {"type": "string"},
+                    "page_information_architecture": {"type": "string"},
+                    "mvp_scope_map": {"type": "string"},
+                    "risk_control_loop": {"type": "string"},
+                    "functional_flowcharts": {"type": "array", "items": {"type": "string"}},
+                    "page_specs": {"type": "array", "items": {"type": "string"}},
+                    "page_flow": {"type": "array", "items": {"type": "string"}},
+                    "ai_model_selection": {"type": "array", "items": {"type": "string"}},
                     "requirements": {"type": "array", "items": {"type": "string"}},
                     "metrics": {"type": "array", "items": {"type": "string"}},
                     "risks": {"type": "array", "items": {"type": "string"}},
@@ -305,6 +322,12 @@ def build_stage_prompt_bundle(base_dir: Path, stage: str, *, project: str, raw_t
                 "You are the PM PRD drafter. "
                 "Write a reviewable PRD artifact in Chinese as structured JSON that strictly matches the schema. "
                 "Use the requirement brief and template structure. "
+                "The PRD must place visual diagrams in their corresponding chapters instead of collecting them in one visual layer. "
+                "Include product_overview_map, core_business_swimlane, page_information_architecture, mvp_scope_map, and risk_control_loop. "
+                "Use Mermaid where possible for these diagrams. "
+                "The PRD body must include functional_flowcharts, page_specs, and page_flow. "
+                "Only fill ai_model_selection when the project actually includes AI capability; otherwise leave it empty and do not create an AI model section in the PRD body. "
+                "If key P0 questions are unresolved, keep assumptions explicit instead of presenting them as confirmed. "
                 "Keep the content practical, specific, and suitable for engineering review."
             ),
             "user_prompt": "\n\n".join(

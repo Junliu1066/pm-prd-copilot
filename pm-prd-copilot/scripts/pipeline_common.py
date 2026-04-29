@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import os
 import re
 from pathlib import Path
 
@@ -81,7 +82,10 @@ def read_json(path: Path) -> dict:
 
 
 def write_json(path: Path, payload: object) -> None:
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temp_path = path.with_name(f".{path.name}.tmp.{os.getpid()}")
+    temp_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    os.replace(temp_path, path)
 
 
 def write_text(path: Path, content: str) -> None:
@@ -304,6 +308,267 @@ def infer_scope(title: str, request_type: str) -> dict[str, list[str]]:
     }
 
 
+def classify_open_question_priority(question: str) -> str:
+    p0_terms = [
+        "目标用户",
+        "用户",
+        "MVP",
+        "范围",
+        "商业模式",
+        "收费",
+        "权限",
+        "合规",
+        "数据源",
+        "授权",
+        "AI",
+        "模型",
+        "上线",
+        "平台",
+        "端",
+        "主路径",
+    ]
+    p1_terms = ["字段", "文案", "提醒", "导出", "筛选", "排序", "看板", "埋点"]
+    if any(term in question for term in p0_terms):
+        return "P0"
+    if any(term in question for term in p1_terms):
+        return "P1"
+    return "P2"
+
+
+def mermaid_label(value: object, fallback: str = "待补充") -> str:
+    text = str(value or fallback).strip() or fallback
+    return text.replace('"', "'").replace("\n", " ")[:48]
+
+
+def limited_items(items: list[str] | None, fallback: list[str], limit: int = 5) -> list[str]:
+    cleaned = [str(item).strip() for item in (items or []) if str(item).strip()]
+    return (cleaned or fallback)[:limit]
+
+
+def mermaid_block(lines: list[str]) -> str:
+    return "```mermaid\n" + "\n".join(lines) + "\n```"
+
+
+def infer_page_modules(title: str) -> list[str]:
+    if "导出" in title:
+        return ["导出入口 / 流水列表", "导出任务详情", "字段与权限配置", "导出记录 / 审计日志"]
+    if "审核" in title or "审批" in title:
+        return ["审核工作台", "待处理详情", "规则配置", "审核日志"]
+    if "搜索" in title or "查询" in title:
+        return ["搜索入口", "结果列表", "详情页", "筛选与历史记录"]
+    return ["主工作台 / 列表", "核心详情 / 状态", "操作表单 / 任务发起", "管理审核 / 日志"]
+
+
+AI_TRIGGER_TERMS = (
+    "大模型",
+    "模型路由",
+    "模型选型",
+    "智能体",
+    "向量",
+    "语义",
+    "智能",
+    "多模态",
+    "机器学习",
+)
+AI_TRIGGER_PATTERNS = (
+    r"\bAI\b",
+    r"\bLLM\b",
+    r"\bAgent\b",
+    r"\bRAG\b",
+)
+AI_NEGATION_PATTERNS = (
+    r"非\s*AI",
+    r"不涉及\s*AI",
+    r"不需要\s*AI",
+    r"non[-\s]?AI",
+)
+
+
+def brief_involves_ai(brief: dict, sections: dict | None = None) -> bool:
+    values: list[str] = []
+    for key in ("title", "business_context", "problem_statement", "business_goal"):
+        values.append(str(brief.get(key) or ""))
+    for key in ("facts", "assumptions", "constraints", "dependencies", "open_questions", "scenarios"):
+        values.extend(str(item) for item in brief.get(key, []) or [])
+    if sections:
+        for key in ("summary", "background", "problem", "solution"):
+            values.append(str(sections.get(key) or ""))
+        for key in ("requirements", "risks", "dependencies"):
+            values.extend(str(item) for item in sections.get(key, []) or [])
+    text = "\n".join(values)
+    strong_match = any(term in text for term in AI_TRIGGER_TERMS)
+    word_match = any(re.search(pattern, text, flags=re.IGNORECASE) for pattern in AI_TRIGGER_PATTERNS)
+    negated = any(re.search(pattern, text, flags=re.IGNORECASE) for pattern in AI_NEGATION_PATTERNS)
+    return strong_match or (word_match and not negated)
+
+
+def build_page_specs(brief: dict, sections: dict) -> list[str]:
+    title = brief.get("title") or "产品"
+    primary_user = (sections.get("target_users") or brief.get("target_users") or ["目标用户"])[0]
+    modules = infer_page_modules(title)
+    specs = [
+        f"全局工作台：首页承接{primary_user}的主入口，展示搜索/筛选、待处理状态、快捷动作、异常提示和最近记录。",
+    ]
+    specs.extend(
+        f"{module}：说明页面目标、入口来源、核心信息区、主要动作、退出路径、空状态、无权限状态和异常反馈。"
+        for module in modules
+    )
+    specs.append("管理与审计页：面向管理员/审核角色，覆盖配置、审批、日志追踪、撤回或回滚入口。")
+    return specs
+
+
+def build_page_flow(brief: dict, sections: dict) -> list[str]:
+    title = brief.get("title") or "产品"
+    modules = infer_page_modules(title)
+    main_module = modules[0] if modules else "主页面"
+    return [
+        f"主路径：首页/工作台 -> {main_module} -> 详情/表单 -> 提交或确认 -> 成功状态 -> 返回列表或进入下一任务。",
+        "管理路径：管理入口 -> 配置/审核列表 -> 详情处理 -> 通过/拒绝/退回 -> 审计日志留痕。",
+        "异常路径：入口无权限、参数错误、空结果、系统失败时，页面必须给出原因、下一步动作和可追踪状态。",
+        "反馈路径：用户完成主流程后进入通知/反馈入口，系统沉淀问题、指标和后续优化线索。",
+    ]
+
+
+def build_prototype_layer(brief: dict, sections: dict) -> list[str]:
+    title = brief.get("title") or "产品"
+    modules = infer_page_modules(title)
+    items = [
+        "当前边界：PRD 阶段必须给出页面级低保真原型图或页面原型说明；本阶段不输出 PNG，不输出 HTML，不输出高保真 UI，除非用户确认进入原型/UI 阶段。",
+        f"全局布局：{title}默认由主入口、核心任务区、状态反馈区、异常提示区和管理/审核入口组成，必须和页面说明、页面跳转关系保持一致。",
+    ]
+    items.extend(
+        f"页面级低保真原型 - {module}：标明入口来源、核心信息区、主要动作、成功/失败状态、权限提示、异常反馈和返回路径。"
+        for module in modules
+    )
+    items.append("交付衔接：原型图层只作为 UI 设计和 Codex 开发文档的产品参考；PNG、HTML、完整原型和视觉设计在用户确认方向后单独进入后续阶段。")
+    return items
+
+
+def build_prd_visual_sections(brief: dict, sections: dict) -> dict[str, str]:
+    title = mermaid_label(brief.get("title") or sections.get("summary"), "产品")
+    users = limited_items(sections.get("target_users"), ["目标用户"], 5)
+    scenarios = limited_items(sections.get("scenarios"), ["核心场景"], 5)
+    mvp = limited_items(sections.get("scope_in"), ["最高频主流程", "最小权限与校验", "基础验收闭环"], 5)
+    out_scope = limited_items(sections.get("scope_out"), ["低频增强能力"], 4)
+    v1 = limited_items(brief.get("suggested_scope", {}).get("v1"), ["次要场景", "体验增强", "运营配置"], 4)
+    later = limited_items(brief.get("suggested_scope", {}).get("later"), ["长期扩展能力"], 4)
+    risks = limited_items(sections.get("risks"), ["关键依赖未确认", "权限或合规边界待确认"], 5)
+    metrics = limited_items(sections.get("metrics"), ["主流程使用量", "任务成功率", "人工支持工单量"], 4)
+
+    overview = [
+        "flowchart TB",
+        f'  P["{title}"]',
+        '  P --> U["目标用户"]',
+        '  P --> S["核心场景"]',
+        '  P --> M["MVP 范围"]',
+        '  P --> R["风险边界"]',
+        '  P --> K["成功指标"]',
+    ]
+    overview.extend(f'  U --> U{index}["{mermaid_label(item)}"]' for index, item in enumerate(users, start=1))
+    overview.extend(f'  S --> S{index}["{mermaid_label(item)}"]' for index, item in enumerate(scenarios, start=1))
+    overview.extend(f'  M --> M{index}["{mermaid_label(item)}"]' for index, item in enumerate(mvp, start=1))
+    overview.extend(f'  R --> R{index}["{mermaid_label(item)}"]' for index, item in enumerate(risks, start=1))
+    overview.extend(f'  K --> K{index}["{mermaid_label(item)}"]' for index, item in enumerate(metrics, start=1))
+
+    primary_user = mermaid_label(users[0] if users else "用户")
+    primary_scope = mermaid_label(mvp[0] if mvp else "核心任务")
+    swimlane = [
+        "flowchart LR",
+        '  subgraph L1["用户"]',
+        f'    U0["{primary_user}"]',
+        '    U1["进入入口"]',
+        '    U2["发起核心任务"]',
+        '    U3["查看结果 / 反馈"]',
+        "  end",
+        '  subgraph L2["前台产品"]',
+        '    P0["展示入口与筛选"]',
+        '    P1["展示详情与状态"]',
+        '    P2["展示成功 / 失败反馈"]',
+        "  end",
+        '  subgraph L3["系统"]',
+        '    S0["权限 / 参数校验"]',
+        f'    S1["处理：{primary_scope}"]',
+        '    S2["记录日志 / 状态"]',
+        "  end",
+        '  subgraph L4["运营 / 管理"]',
+        '    A0["处理异常"]',
+        '    A1["复盘指标与反馈"]',
+        "  end",
+        "  U0 --> U1 --> P0",
+        "  U2 --> P1 --> S0 --> S1 --> S2 --> P2 --> U3",
+        "  S0 -->|失败| A0 --> P2",
+        "  U3 --> A1",
+    ]
+
+    page_modules = infer_page_modules(title)
+    page_ia = [
+        "flowchart TB",
+        f'  Home["{title} 首页 / 工作台"]',
+        '  Home --> Search["搜索 / 筛选"]',
+        '  Home --> Notice["通知 / 反馈"]',
+        '  Home --> Admin["管理 / 审核"]',
+    ]
+    page_ia.extend(f'  Home --> Page{index}["{mermaid_label(item)}"]' for index, item in enumerate(page_modules, start=1))
+    for index, item in enumerate(page_modules, start=1):
+        page_ia.append(f'  Page{index} --> Detail{index}["状态 / 详情"]')
+        page_ia.append(f'  Detail{index} --> Action{index}["主要操作 / 异常反馈"]')
+    page_ia.extend(
+        [
+            '  Admin --> Admin1["权限 / 配置"]',
+            '  Admin --> Admin2["日志 / 审计"]',
+            "  Notice --> Home",
+        ]
+    )
+
+    scope_map = [
+        "flowchart LR",
+        f'  Scope["{title} 范围"]',
+        '  Scope --> MVP["MVP 必须做"]',
+        '  Scope --> V1["V1 可做"]',
+        '  Scope --> Later["Later 暂缓"]',
+        '  Scope --> Out["明确不做"]',
+    ]
+    scope_map.extend(f'  MVP --> MVP{index}["{mermaid_label(item)}"]' for index, item in enumerate(mvp, start=1))
+    scope_map.extend(f'  V1 --> V1_{index}["{mermaid_label(item)}"]' for index, item in enumerate(v1, start=1))
+    scope_map.extend(f'  Later --> L{index}["{mermaid_label(item)}"]' for index, item in enumerate(later, start=1))
+    scope_map.extend(f'  Out --> O{index}["{mermaid_label(item)}"]' for index, item in enumerate(out_scope, start=1))
+
+    risk_loop = [
+        "flowchart TD",
+        '  R0["风险来源"]',
+    ]
+    risk_loop.extend(f'  R0 --> R{index}["{mermaid_label(item)}"]' for index, item in enumerate(risks, start=1))
+    risk_loop.extend(f"  R{index} --> I" for index, _ in enumerate(risks, start=1))
+    risk_loop.extend(
+        [
+            '  I["风险识别"]',
+            '  I --> C1["规则 / 权限检查"]',
+            '  I --> C2["数据 / 口径检查"]',
+            '  I --> C3["用户反馈"]',
+            '  C1 --> D{"风险等级"}',
+            '  C2 --> D',
+            '  C3 --> D',
+            '  D -->|高| B["阻断 / 待确认"]',
+            '  D -->|中| Q["降级 / 提示"]',
+            '  D -->|低| W["记录后展示"]',
+            '  B --> H["人工处理"]',
+            '  Q --> H',
+            '  H --> L["日志留痕"]',
+            '  W --> L',
+            '  L --> F["复盘规则与产品方案"]',
+            '  F --> C1',
+        ]
+    )
+
+    return {
+        "product_overview_map": mermaid_block(overview),
+        "core_business_swimlane": mermaid_block(swimlane),
+        "page_information_architecture": mermaid_block(page_ia),
+        "mvp_scope_map": mermaid_block(scope_map),
+        "risk_control_loop": mermaid_block(risk_loop),
+    }
+
+
 def merge_value(seed_value, inferred_value):
     if isinstance(seed_value, list):
         return seed_value or inferred_value
@@ -370,6 +635,15 @@ def requirement_brief_markdown(brief: dict) -> str:
     sections.extend(f"- {item}" for item in brief.get("assumptions", []))
     sections.extend(["", "## Open Questions"])
     sections.extend(f"- {item}" for item in brief.get("open_questions", []))
+    sections.extend(["", "## 待确认问题分级", "### P0：不确认会影响 PRD 方向"])
+    p0_questions = [item for item in brief.get("open_questions", []) if classify_open_question_priority(item) == "P0"]
+    p1_questions = [item for item in brief.get("open_questions", []) if classify_open_question_priority(item) == "P1"]
+    p2_questions = [item for item in brief.get("open_questions", []) if classify_open_question_priority(item) == "P2"]
+    sections.extend(f"- {item}" for item in (p0_questions or ["暂无明确 P0，但仍需确认 MVP 主路径和目标用户。"]))
+    sections.extend(["", "### P1：可先假设，PRD 评审时调整"])
+    sections.extend(f"- {item}" for item in (p1_questions or ["暂无明确 P1。"]))
+    sections.extend(["", "### P2：细节问题，不阻塞初稿"])
+    sections.extend(f"- {item}" for item in (p2_questions or ["暂无明确 P2。"]))
     sections.extend(["", "## 建议范围", "### MVP"])
     sections.extend(f"- {item}" for item in brief.get("suggested_scope", {}).get("mvp", []))
     sections.extend(["", "### V1"])
@@ -409,12 +683,30 @@ def brief_to_prd(brief: dict) -> dict:
         "scope_in": scope.get("mvp", []),
         "scope_out": scope.get("later", []),
         "solution": "基于现有后台流程补齐核心入口、权限控制、审计和数据反馈，先上线最小闭环，再视使用情况扩展。",
+        "functional_flowcharts": [
+            "产品总流程：用户进入 -> 核心入口 -> 主流程任务 -> 成功/失败反馈 -> 留存或复用。",
+            "核心业务流程：触发条件 -> 用户动作 -> 系统校验 -> 系统处理 -> 成功状态或异常处理。",
+            "异常/审核流程：异常触发 -> 权限/数据/合规检查 -> 阻断或进入审核 -> 记录日志 -> 用户可见反馈。",
+        ],
+        "page_specs": [],
+        "page_flow": [],
+        "prototype_layer": [],
         "requirements": requirements,
         "metrics": metrics,
         "risks": risks,
         "dependencies": brief.get("dependencies", []),
         "launch_plan": "建议先灰度给内部或小范围用户，监控成功率、时延和投诉情况，异常时支持快速回退。",
     }
+    sections["page_specs"] = build_page_specs(brief, sections)
+    sections["page_flow"] = build_page_flow(brief, sections)
+    sections["prototype_layer"] = build_prototype_layer(brief, sections)
+    if brief_involves_ai(brief, sections):
+        sections["ai_model_selection"] = [
+            "涉及 AI 能力时，PRD 必须拆分 AI 任务类型、输入输出、模型路由、fallback、评测标准、成本/延迟权衡和合规约束。",
+            "低风险高频任务优先使用快速低成本模型；复杂推理、长上下文或多模态任务使用高能力模型；高风险内容必须叠加规则、模型复核和人工审核。",
+            "模型能力上线前必须定义离线评测集、线上监控指标、人工复核阈值和回滚策略。",
+        ]
+    sections.update(build_prd_visual_sections(brief, sections))
 
     return {
         "project_id": brief["project_id"],
@@ -475,8 +767,11 @@ def prd_markdown(prd: dict, brief: dict) -> str:
         f"- 文档状态：{prd['status']}",
         f"- 文档版本：{prd.get('version', 'v0.1')}",
         "",
-        "## 1. 一句话摘要",
+        "## 1. 摘要",
         s["summary"],
+        "",
+        "### 1.1 产品总览思维导图",
+        s.get("product_overview_map", "待补充"),
         "",
         "## 2. 背景与问题定义",
         f"- 背景：{s['background']}",
@@ -485,55 +780,69 @@ def prd_markdown(prd: dict, brief: dict) -> str:
         "## 3. 为什么现在做",
         f"- 业务目标：{brief['business_goal']}",
         f"- 紧急度：{brief['urgency']}",
-        "",
-        "## 4. 目标 / 非目标",
-        "### 4.1 业务目标",
     ]
-    lines.extend(f"- {item}" for item in s["goals"])
-    lines.extend(["", "### 4.2 用户目标"])
-    lines.extend(f"- {item}" for item in user_goals)
-    lines.extend(["", "### 4.3 非目标（本期明确不做）"])
-    lines.extend(f"- {item}" for item in s["non_goals"])
-    lines.extend(["", "## 5. 成功指标"])
-    lines.extend(f"- {item}" for item in s["metrics"])
-    lines.extend(["", "## 6. 目标用户 / 角色 / JTBD"])
+    lines.extend(["", "## 4. 目标用户 / 角色 / JTBD"])
     lines.extend(f"- {item}" for item in s["target_users"])
-    lines.extend(["", "## 7. 使用场景"])
+    lines.extend(["", "## 5. 使用场景"])
     lines.extend(f"- {item}" for item in s["scenarios"])
-    lines.extend(["", "## 8. 范围定义", "### 8.1 In Scope（本期包含）"])
+    lines.extend(["", "## 6. 范围定义", "### 6.1 In Scope（本期包含）"])
     lines.extend(f"- {item}" for item in s["scope_in"])
-    lines.extend(["", "### 8.2 Out of Scope（本期不包含）"])
+    lines.extend(["", "### 6.2 Out of Scope（本期不包含）"])
     lines.extend(f"- {item}" for item in s["scope_out"])
-    lines.extend(["", "### 8.3 分阶段规划", "#### MVP"])
+    lines.extend(["", "### 6.3 分阶段规划", "#### MVP"])
     lines.extend(f"- {item}" for item in brief.get("suggested_scope", {}).get("mvp", []))
     lines.extend(["", "#### V1"])
     lines.extend(f"- {item}" for item in brief.get("suggested_scope", {}).get("v1", []))
     lines.extend(["", "#### Later"])
     lines.extend(f"- {item}" for item in brief.get("suggested_scope", {}).get("later", []))
-    lines.extend(["", "## 9. 方案概述", s["solution"], "", "## 10. 详细需求（按模块写）"])
+    lines.extend(["", "### 6.4 MVP 范围地图", s.get("mvp_scope_map", "待补充")])
+    lines.extend(["", "## 7. 方案概述", "### 7.1 方案摘要", s["solution"]])
+    lines.extend(["", "### 7.2 核心业务泳道图", s.get("core_business_swimlane", "待补充")])
+    lines.extend(["", "### 7.3 功能流程图"])
+    lines.extend(f"- {item}" for item in s.get("functional_flowcharts", []))
+    lines.extend(["", "### 7.4 页面信息架构图", s.get("page_information_architecture", "待补充")])
+    lines.extend(["", "### 7.5 页面说明"])
+    lines.extend(f"- {item}" for item in s.get("page_specs", []))
+    lines.extend(["", "### 7.6 页面跳转关系"])
+    lines.extend(f"- {item}" for item in s.get("page_flow", []))
+    lines.extend(["", "### 7.7 原型图层"])
+    lines.extend(f"- {item}" for item in s.get("prototype_layer", []))
+    if s.get("ai_model_selection"):
+        lines.extend(["", "### 7.8 AI 模型选型"])
+        lines.extend(f"- {item}" for item in s.get("ai_model_selection", []))
+    lines.extend(["", "## 8. 详细需求（按模块写）"])
     lines.extend(f"- {item}" for item in s["requirements"])
-    lines.extend(["", "## 11. 需求明细表", "| ID | 需求 | 优先级 | 备注 |", "| --- | --- | --- | --- |"])
+    lines.extend(["", "## 9. 需求明细表", "| ID | 需求 | 优先级 | 备注 |", "| --- | --- | --- | --- |"])
     lines.extend(
         f"| REQ-{index:03d} | {item} | {brief['urgency']} | 首版纳入 |"
         for index, item in enumerate(detail_rows, start=1)
     )
-    lines.extend(["", "## 12. 用户故事与验收标准", "### 12.1 核心验收关注点"])
+    lines.extend(["", "## 10. 用户故事与验收标准", "### 10.1 核心验收关注点"])
     lines.extend(f"- {item}" for item in acceptance_focus)
-    lines.extend(["", "### 12.2 Definition of Done"])
+    lines.extend(["", "### 10.2 Definition of Done"])
     lines.extend(f"- {item}" for item in checklist)
-    lines.extend(["", "## 13. 异常、边界与兼容性", "### 13.1 异常与边界"])
+    lines.extend(["", "## 11. 异常、边界与兼容性", "### 11.1 异常与边界"])
     lines.extend(f"- {item}" for item in edge_cases)
-    lines.extend(["", "### 13.2 兼容性"])
+    lines.extend(["", "### 11.2 兼容性"])
     lines.extend(f"- {item}" for item in compatibility)
-    lines.extend(["", "## 14. 非功能要求"])
+    lines.extend(["", "## 12. 非功能要求"])
     lines.extend(f"- {item}" for item in non_functional)
-    lines.extend(["", "## 15. 埋点与数据方案"])
+    lines.extend(["", "## 13. 埋点与数据方案"])
     lines.extend(f"- {item}" for item in s["metrics"])
+    lines.extend(["", "## 14. 成功指标"])
+    lines.extend(f"- {item}" for item in s["metrics"])
+    lines.extend(["", "## 15. 目标 / 非目标", "### 15.1 业务目标"])
+    lines.extend(f"- {item}" for item in s["goals"])
+    lines.extend(["", "### 15.2 用户目标"])
+    lines.extend(f"- {item}" for item in user_goals)
+    lines.extend(["", "### 15.3 非目标（本期明确不做）"])
+    lines.extend(f"- {item}" for item in s["non_goals"])
     lines.extend(["", "## 16. 依赖、风险与开放问题", "### 16.1 外部依赖"])
     lines.extend(f"- {item}" for item in s["dependencies"])
     lines.extend(["", "### 16.2 风险清单"])
     lines.extend(f"- {item}" for item in s["risks"])
-    lines.extend(["", "### 16.3 开放问题"])
+    lines.extend(["", "### 16.3 风险控制闭环图", s.get("risk_control_loop", "待补充")])
+    lines.extend(["", "### 16.4 开放问题"])
     lines.extend(f"- {item}" for item in prd["open_questions"])
     lines.extend(["", "## 17. 上线与灰度方案", s["launch_plan"]])
     lines.extend(["", "## 18. 验收 Checklist"])

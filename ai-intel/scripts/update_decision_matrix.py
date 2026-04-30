@@ -41,6 +41,7 @@ def main() -> None:
         "ai-intel/decisions/model-selection-matrix.md",
         "ai-intel/decisions/vendor-watchlist.md",
         "ai-intel/decisions/capability-map.md",
+        "ai-intel/decisions/governance-architecture-signals.md",
     ]:
         path = base_dir / relative_path
         content = path.read_text(encoding="utf-8")

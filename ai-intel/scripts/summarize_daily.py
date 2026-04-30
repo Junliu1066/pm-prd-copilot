@@ -48,6 +48,10 @@ def main() -> None:
     lines.extend(
         [
             "",
+            "## Governance architecture signals",
+            "- Classify each verified update as: no architecture action, watchlist only, proposal needed, or user approval needed before adoption.",
+            "- Do not change workflow, registry, skills, model provider, external data source, retention, deletion, or publishing behavior from this report alone.",
+            "",
             "## Decision reminders",
             "- Confirm whether the update is already generally available.",
             "- Confirm pricing, quotas, regional availability, and migration constraints.",

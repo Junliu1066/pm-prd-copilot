@@ -21,10 +21,11 @@ def replace_block(text: str, new_lines: list[str]) -> str:
 def main() -> None:
     parser = argparse.ArgumentParser(description="Update AI decision docs from daily events")
     parser.add_argument("--base-dir", default=".")
+    parser.add_argument("--run-date", default="")
     args = parser.parse_args()
 
     base_dir = Path(args.base_dir).resolve()
-    run_date = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    run_date = args.run_date or datetime.now(timezone.utc).strftime("%Y-%m-%d")
     events_path = base_dir / "ai-intel" / "events" / f"{run_date}.json"
     if not events_path.exists():
         raise SystemExit(f"Missing event file: {events_path}")
@@ -34,8 +35,11 @@ def main() -> None:
     else:
         latest_lines = []
         for event in events[:5]:
-            headline = event["headline_candidates"][0] if event["headline_candidates"] else event["source_id"]
-            latest_lines.append(f"- {event['vendor']}: {headline} (verification required)")
+            headline = event.get("summary_title") or (event["headline_candidates"][0] if event["headline_candidates"] else event["source_id"])
+            latest_items = event.get("latest_items") or []
+            if latest_items and latest_items[0] not in headline:
+                headline = f"{headline} - {latest_items[0]}"
+            latest_lines.append(f"- {event['vendor']}: {headline} [{event.get('change_type', 'watchlist')}] (verification required)")
 
     for relative_path in [
         "ai-intel/decisions/model-selection-matrix.md",

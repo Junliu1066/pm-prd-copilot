@@ -329,6 +329,42 @@ def validate_preference_cache_policy(base_dir: Path) -> list[str]:
         return errors
 
 
+def validate_internal_package_packager(base_dir: Path) -> list[str]:
+    with tempfile.TemporaryDirectory(prefix="pm-internal-package-regression-") as tmp:
+        tmp_path = Path(tmp)
+        output = tmp_path / "internal.zip"
+        command = [
+            sys.executable,
+            str(base_dir / "pm-prd-copilot" / "scripts" / "package_internal_delivery.py"),
+            "--project-dir",
+            str(base_dir / "projects" / "demo-project"),
+            "--output",
+            str(output),
+        ]
+        result = subprocess.run(command, check=False, capture_output=True, text=True)
+        if result.returncode != 0:
+            return [f"Internal package packager failed. Output: {result.stdout}\n{result.stderr}"]
+        if not output.exists():
+            return ["Internal package packager did not create output zip."]
+        with zipfile.ZipFile(output) as archive:
+            names = set(archive.namelist())
+            manifest = json.loads(archive.read("MANIFEST.json").decode("utf-8"))
+        required = {"README.md", "MANIFEST.json", "docs/02_prd.final.md"}
+        missing = sorted(required - names)
+        errors = [f"Internal package missing required file: {name}" for name in missing]
+        forbidden_prefixes = ("runs/", "memory-cache/")
+        forbidden = sorted(
+            name for name in names if name.startswith(forbidden_prefixes) or name.endswith(".zip")
+        )
+        if forbidden:
+            errors.append(f"Internal package must exclude run/cache/zip artifacts by default: {', '.join(forbidden)}")
+        if manifest.get("package_type") != "trusted_internal":
+            errors.append("Internal package manifest must declare package_type=trusted_internal.")
+        if manifest.get("include_runs") is not False:
+            errors.append("Internal package must exclude runs by default.")
+        return errors
+
+
 def _read_if_exists(path: Path) -> str:
     return path.read_text(encoding="utf-8") if path.exists() else ""
 
@@ -433,6 +469,7 @@ def main() -> None:
     errors.extend(validate_pipeline_manifest_stage_actions(base_dir))
     errors.extend(validate_candidate_plugin_visibility(base_dir))
     errors.extend(validate_b_package_packager(base_dir))
+    errors.extend(validate_internal_package_packager(base_dir))
     errors.extend(validate_preference_cache_policy(base_dir))
     errors.extend(validate_prd_structure_contract(base_dir))
 

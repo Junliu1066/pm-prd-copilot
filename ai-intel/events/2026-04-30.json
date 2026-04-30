@@ -1,0 +1,224 @@
+[
+  {
+    "source_id": "anthropic-model-deprecations",
+    "vendor": "anthropic",
+    "normalized_at": "2026-04-30T01:46:00.764104+00:00",
+    "summary_title": "Model deprecations",
+    "change_type": "deprecation_watch",
+    "headline_candidates": [
+      "Model deprecations",
+      "Migrating to replacements",
+      "Auditing model usage",
+      "Best practices",
+      "Deprecation downsides and mitigations",
+      "Model status",
+      "Deprecation history",
+      "2026-04-14: Claude Sonnet 4 and Claude Opus 4 models",
+      "2026-02-19: Claude Haiku 3 model",
+      "2025-12-19: Claude Haiku 3.5 model"
+    ],
+    "latest_items": [
+      "Migrating to replacements",
+      "Auditing model usage",
+      "Best practices",
+      "Deprecation downsides and mitigations",
+      "Model status"
+    ],
+    "date_candidates": [
+      "2026-04-14",
+      "2026-02-19",
+      "2025-12-19",
+      "2025-10-28",
+      "2025-08-13"
+    ],
+    "excerpt": "Model deprecations - Claude API Docs Loading... Messages Build Admin Models & pricing Client SDKs API Reference English Log in Search... ⌘K Models Models overview Choosing a model What's new in Claude Opus 4.7 Migration guide Model deprecations Model cards System prompts Pricing Pricing Console Log in Models Model deprecations Loading... Loading... Loading... Loading... Loading... Loading... Loading... Loading... Loading... Loading... Loading... Loading... Loading... Loading... Loading... Loading... Solutions AI agents Code modernization Coding Customer support Education Financial services Government Life sciences Partners Amazon Bedrock Google Cloud's Vertex AI Learn Blog Courses Use cases Connectors Customer stories Engineering at Anthropic Events Powered by Claude Service partners Start",
+    "quality_notes": [
+      "auto_extracted_from_html",
+      "human_verification_required_before_architecture_action"
+    ],
+    "verification_required": true
+  },
+  {
+    "source_id": "anthropic-news",
+    "vendor": "anthropic",
+    "normalized_at": "2026-04-30T01:46:00.768804+00:00",
+    "summary_title": "Newsroom",
+    "change_type": "newsroom_watch",
+    "headline_candidates": [
+      "Newsroom",
+      "Introducing Claude Opus 4.7"
+    ],
+    "latest_items": [
+      "Introducing Claude Opus 4.7"
+    ],
+    "date_candidates": [
+      "Apr 16, 2026",
+      "Apr 17, 2026",
+      "Apr 7, 2026",
+      "Mar 18, 2026",
+      "Feb 4, 2026"
+    ],
+    "excerpt": "Skip to main content Skip to footer Research Economic Futures Commitments Learn News Try Claude Newsroom Press inquires press@anthropic.com Non-media inquiries support@anthropic.com Media assets Download press kit Introducing Claude Opus 4.7 Product Apr 16, 2026 Our latest Opus model brings stronger performance across coding, agents, vision, and multi-step tasks, with greater thoroughness and consistency on the work that matters most. Product Apr 17, 2026 Introducing Claude Design by Anthropic Labs Today, we’re launching Claude Design, a new Anthropic Labs product that lets you collaborate with Claude to create polished visual work like designs, prototypes, slides, one-pagers, and more. Announcements Apr 7, 2026 Project Glasswing A new initiative that brings together Amazon Web Services, A",
+    "quality_notes": [
+      "auto_extracted_from_html",
+      "human_verification_required_before_architecture_action"
+    ],
+    "verification_required": true
+  },
+  {
+    "source_id": "gemini-api-changelog",
+    "vendor": "google",
+    "normalized_at": "2026-04-30T01:46:00.788214+00:00",
+    "summary_title": "Release notes",
+    "change_type": "release_notes",
+    "headline_candidates": [
+      "Release notes",
+      "April 22, 2026",
+      "April 21, 2026",
+      "April 15, 2026",
+      "April 14, 2026",
+      "April 2, 2026",
+      "April 1, 2026",
+      "March 31, 2026",
+      "March 26, 2026",
+      "March 25, 2026"
+    ],
+    "latest_items": [
+      "Released gemini-embedding-2 as generally available (GA). To learn more, see the Embeddings page.",
+      "Released new versions of the Deep Research agent with collaborative planning, visualization support, MCP server integration, and File Search: deep-research-preview-04-2026 : Desig...",
+      "Launched Gemini 3.1 Flash TTS Preview , our cost-efficient, expressive, and steerable text to speech model. Read the Text-to-Speech docs to learn more.",
+      "Released gemini-robotics-er-1.6-preview , our updated robotics model. It now has new capabilities like instrument reading, improved spatial and physical reasoning capabilities. To...",
+      "Deprecation announcement: The gemini-robotics-er-1.5-preview model will be shut down on April 30, 2026 at 9AM PST."
+    ],
+    "date_candidates": [
+      "2026-04-28",
+      "April 22, 2026",
+      "April 21, 2026",
+      "April 15, 2026",
+      "April 14, 2026"
+    ],
+    "excerpt": "Release notes | Gemini API | Google AI for Developers Skip to main content / English Deutsch Español – América Latina Français Indonesia Italiano Polski Português – Brasil Shqip Tiếng Việt Türkçe Русский עברית العربيّة فارسی हिंदी বাংলা ภาษาไทย 中文 – 简体 中文 – 繁體 日本語 한국어 Get API key Cookbook Community Sign in Docs API reference Gemini API Docs API reference Get API key Cookbook Community Get started Overview Quickstart API keys Libraries Pricing Interactions API Coding agent setup Models All models Gemini 3 Nano Banana Veo Lyria 3 Lyria RealTime Imagen Text-to-speech Embeddings Robotics Core capabilities Text Image Image generation 🍌 Image understanding Video Video generation Video understanding Documents Speech and audio Speech generation Audio understanding Thinking Thinking Thought signa",
+    "quality_notes": [
+      "auto_extracted_from_html",
+      "human_verification_required_before_architecture_action"
+    ],
+    "verification_required": true
+  },
+  {
+    "source_id": "gemini-api-deprecations",
+    "vendor": "google",
+    "normalized_at": "2026-04-30T01:46:00.802637+00:00",
+    "summary_title": "Gemini deprecations",
+    "change_type": "deprecation_watch",
+    "headline_candidates": [
+      "Gemini deprecations",
+      "Gemini 3 models",
+      "Gemini 2.5 Pro models",
+      "Gemini 2.5 Flash models",
+      "Gemini 2.0 models",
+      "Live API models",
+      "Audio models",
+      "Embedding models",
+      "Imagen models",
+      "Veo models"
+    ],
+    "latest_items": [
+      "Gemini 3 models",
+      "Gemini 2.5 Pro models",
+      "Gemini 2.5 Flash models",
+      "Gemini 2.0 models",
+      "Live API models"
+    ],
+    "date_candidates": [
+      "2026-04-28",
+      "March 3, 2026",
+      "February 26, 2026",
+      "February 19, 2026",
+      "November 20, 2025"
+    ],
+    "excerpt": "Gemini deprecations | Gemini API | Google AI for Developers Skip to main content / English Deutsch Español – América Latina Français Indonesia Italiano Polski Português – Brasil Shqip Tiếng Việt Türkçe Русский עברית العربيّة فارسی हिंदी বাংলা ภาษาไทย 中文 – 简体 中文 – 繁體 日本語 한국어 Get API key Cookbook Community Sign in Docs API reference Gemini API Docs API reference Get API key Cookbook Community Get started Overview Quickstart API keys Libraries Pricing Interactions API Coding agent setup Models All models Gemini 3 Nano Banana Veo Lyria 3 Lyria RealTime Imagen Text-to-speech Embeddings Robotics Core capabilities Text Image Image generation 🍌 Image understanding Video Video generation Video understanding Documents Speech and audio Speech generation Audio understanding Thinking Thinking Thought",
+    "quality_notes": [
+      "auto_extracted_from_html",
+      "human_verification_required_before_architecture_action"
+    ],
+    "verification_required": true
+  },
+  {
+    "source_id": "openai-chatgpt-release-notes",
+    "vendor": "openai",
+    "normalized_at": "2026-04-30T01:46:00.825575+00:00",
+    "summary_title": "ChatGPT — Release Notes",
+    "change_type": "release_notes",
+    "headline_candidates": [
+      "ChatGPT — Release Notes",
+      "April 28, 2026",
+      "Easier model selection in ChatGPT",
+      "April 23, 2026",
+      "GPT-5.5 in ChatGPT",
+      "April 22, 2026",
+      "Fast answers in ChatGPT",
+      "ChatGPT for Clinicians",
+      "April 21, 2026",
+      "ChatGPT Images 2.0 in ChatGPT"
+    ],
+    "latest_items": [
+      "Easier model selection in ChatGPT",
+      "GPT-5.5 in ChatGPT",
+      "Fast answers in ChatGPT",
+      "ChatGPT for Clinicians",
+      "ChatGPT Images 2.0 in ChatGPT"
+    ],
+    "date_candidates": [
+      "April 28, 2026",
+      "April 23, 2026",
+      "April 22, 2026",
+      "April 21, 2026",
+      "April 16, 2026"
+    ],
+    "excerpt": "ChatGPT — Release Notes | OpenAI Help Center All Collections ChatGPT ChatGPT — Release Notes ChatGPT — Release Notes A changelog of the latest updates and release notes for ChatGPT Updated: 19 hours ago April 28, 2026 Easier model selection in ChatGPT We’re making it easier to choose the right model before you send a message. Model selection now appears in the composer, so you can find and switch models from the same place where you write your prompt. We’re also moving thinking effort controls into the model picker. When you choose a Thinking or Pro model, you can select the level of thinking effort directly from the model picker. This update is available on web to ChatGPT users on Plus, Pro, and Business plans. April 23, 2026 GPT-5.5 in ChatGPT We’re rolling out GPT-5.5 in ChatGPT, our sm",
+    "quality_notes": [
+      "auto_extracted_from_html",
+      "human_verification_required_before_architecture_action"
+    ],
+    "verification_required": true
+  },
+  {
+    "source_id": "openai-model-release-notes",
+    "vendor": "openai",
+    "normalized_at": "2026-04-30T01:46:00.831657+00:00",
+    "summary_title": "Model Release Notes",
+    "change_type": "release_notes",
+    "headline_candidates": [
+      "Model Release Notes",
+      "GPT-5.4 mini in ChatGPT (March 18, 2026)",
+      "GPT-5.3 Instant update (March 16, 2026)",
+      "Retiring GPT-5.1 models (March 11, 2026)",
+      "GPT-5.4 Thinking in ChatGPT (March 5, 2026)",
+      "GPT-5.3 Instant Update (March 3, 2026)",
+      "Retiring GPT-4o and other legacy models (February 13, 2026)",
+      "GPT-5.2 Instant Update (February 10, 2026)",
+      "Introducing GPT-5.3-Codex (February 5, 2026)",
+      "Update on thinking time settings for GPT-5.2 Thinking in ChatGPT (February 4, 2026)"
+    ],
+    "latest_items": [
+      "GPT-5.4 mini in ChatGPT (March 18, 2026)",
+      "GPT-5.3 Instant update (March 16, 2026)",
+      "Retiring GPT-5.1 models (March 11, 2026)",
+      "GPT-5.4 Thinking in ChatGPT (March 5, 2026)",
+      "GPT-5.3 Instant Update (March 3, 2026)"
+    ],
+    "date_candidates": [
+      "March 18, 2026",
+      "March 16, 2026",
+      "March 11, 2026",
+      "March 5, 2026",
+      "March 3, 2026"
+    ],
+    "excerpt": "Model Release Notes | OpenAI Help Center All Collections ChatGPT Model Release Notes Model Release Notes Updated: 3 days ago GPT-5.4 mini in ChatGPT (March 18, 2026) We’re rolling out GPT-5.4 mini in ChatGPT. GPT-5.4 mini is available to Free and Go users via the “Thinking” feature in the + menu. For all other users, GPT-5.4 mini is available as a rate limit fallback for GPT-5.4 Thinking. For Plus, Pro, and other paid users, GPT-5.4 mini will be used as a fallback for GPT-5.4 Thinking when rate limits are reached, helping with continued access to reasoning capabilities during high usage. Enterprise customers will retain the option to default Auto routing to GPT-5.4 mini, if preferred. GPT-5.4 mini will not appear as a selectable model in the model picker, and GPT-5 Thinking mini will be re",
+    "quality_notes": [
+      "auto_extracted_from_html",
+      "human_verification_required_before_architecture_action"
+    ],
+    "verification_required": true
+  }
+]

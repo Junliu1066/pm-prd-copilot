@@ -1,0 +1,74 @@
+[
+  {
+    "source_id": "openai-model-release-notes",
+    "vendor": "openai",
+    "url": "https://help.openai.com/en/articles/9624314-model-release-notes",
+    "fetched_at": "2026-04-30T01:17:23.475995+00:00",
+    "stage": "fetch",
+    "status": "ok",
+    "likely_cause": "",
+    "next_action": "",
+    "http_status": 200,
+    "bytes": 136534
+  },
+  {
+    "source_id": "openai-chatgpt-release-notes",
+    "vendor": "openai",
+    "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes",
+    "fetched_at": "2026-04-30T01:17:24.517616+00:00",
+    "stage": "fetch",
+    "status": "ok",
+    "likely_cause": "",
+    "next_action": "",
+    "http_status": 200,
+    "bytes": 477117
+  },
+  {
+    "source_id": "anthropic-news",
+    "vendor": "anthropic",
+    "url": "https://www.anthropic.com/news",
+    "fetched_at": "2026-04-30T01:17:29.174463+00:00",
+    "stage": "fetch",
+    "status": "ok",
+    "likely_cause": "",
+    "next_action": "",
+    "http_status": 200,
+    "bytes": 360055
+  },
+  {
+    "source_id": "anthropic-model-deprecations",
+    "vendor": "anthropic",
+    "url": "https://docs.anthropic.com/en/docs/about-claude/model-deprecations",
+    "fetched_at": "2026-04-30T01:17:33.106657+00:00",
+    "stage": "fetch",
+    "status": "ok",
+    "likely_cause": "",
+    "next_action": "",
+    "http_status": 200,
+    "bytes": 621879
+  },
+  {
+    "source_id": "gemini-api-changelog",
+    "vendor": "google",
+    "url": "https://ai.google.dev/gemini-api/docs/changelog",
+    "fetched_at": "2026-04-30T01:17:35.249607+00:00",
+    "stage": "fetch",
+    "status": "ok",
+    "likely_cause": "",
+    "next_action": "",
+    "http_status": 200,
+    "bytes": 137606
+  },
+  {
+    "source_id": "gemini-api-deprecations",
+    "vendor": "google",
+    "url": "https://ai.google.dev/gemini-api/docs/deprecations",
+    "fetched_at": "2026-04-30T01:17:35.942512+00:00",
+    "stage": "fetch",
+    "status": "ok",
+    "likely_cause": "",
+    "next_action": "",
+    "http_status": 200,
+    "bytes": 103873
+  }
+]

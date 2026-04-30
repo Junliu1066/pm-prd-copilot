@@ -30,6 +30,26 @@ Before implementation, separate:
 
 Do not start work if a blocking question changes the direction of the build.
 
+Before going deep on any branch of work, identify the main thread:
+
+- current main task
+- why it is being done
+- expected effect
+- out-of-scope work for this turn
+
+A side task is allowed only when it is required to answer a question that blocks or materially reduces uncertainty for the current main thread. Convenience, proximity, curiosity, low effort, or "while I am already here" are not valid reasons.
+
+Use the smallest necessary inspection or action. Stop as soon as the main-thread question is answered. Do not continue into adjacent product, project, cleanup, or implementation work unless the user explicitly changes the main thread.
+
+Task drift is prohibited. Low-relevance side tasks are task drift even when they are loosely related.
+
+Negative example:
+
+- Main thread: governance cleanup.
+- Main-thread question: whether project artifacts are safe to exclude from stable governance commits.
+- Allowed: inspect only file types, ownership, closeout status, retention risk, and cleanup boundaries.
+- Forbidden: analyze product feature priority, rewrite the project PRD, evaluate UI style, ask for product business decisions, design project roadmap, or promote project-specific preferences into long-term rules.
+
 ## Layer 2: Work Rules
 
 ### 4. Prepare Before Editing

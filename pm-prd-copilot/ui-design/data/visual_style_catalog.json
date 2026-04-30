@@ -1,0 +1,338 @@
+{
+  "schema_version": "ui_style_catalog.v1",
+  "source_inspiration": [
+    {
+      "name": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "url": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+      "license": "MIT",
+      "used_for": "Design reasoning structure, style taxonomy, color/typography/UX checklist inspiration."
+    },
+    {
+      "name": "creativetimofficial/ui",
+      "url": "https://github.com/creativetimofficial/ui",
+      "license": "MIT",
+      "used_for": "Component and block catalog mapping inspiration for shadcn/Tailwind prototypes."
+    }
+  ],
+  "selection_principles": [
+    "Product task and information density override visual novelty.",
+    "Operational tools should default to restrained, scannable, low-drama styles.",
+    "Expressive styles are allowed when they improve brand signal, editorial impact, or product memorability.",
+    "Every selected style must include avoid_for and quality_gates before prototype generation.",
+    "A user-explicit style request can override default suitability, but the output must keep risk notes."
+  ],
+  "styles": [
+    {
+      "id": "swiss_utility",
+      "name": "Swiss Utility",
+      "aliases": ["swiss", "utility", "enterprise clean", "grid system", "tooling"],
+      "category": "professional",
+      "description": "Restrained grid-first interface style for products that must be scanned, compared, and used repeatedly.",
+      "best_for": ["SaaS operations", "CRM", "approval workflow", "finance dashboard", "B2B admin", "internal tools"],
+      "avoid_for": ["brand landing pages needing strong emotional recall", "consumer entertainment", "art/editorial showcases"],
+      "tokens": {
+        "palette": ["#F7F8FA", "#FFFFFF", "#111827", "#4B5563", "#2563EB", "#16A34A", "#E5E7EB"],
+        "typography": "Inter or system sans; tabular numbers for metrics",
+        "radius": "6px",
+        "density": "compact but breathable",
+        "texture": "none",
+        "layout": "12-column grid, tight section hierarchy, strong table and form rhythm",
+        "motion": "subtle state transitions only"
+      },
+      "component_bias": ["tables", "filters", "segmented controls", "forms", "side navigation", "status chips", "charts"],
+      "quality_gates": [
+        "Can a repeated user complete the top task without reading decorative copy?",
+        "Do tables, filters, and actions stay aligned at desktop and laptop widths?",
+        "Are accent colors reserved for state and action instead of decoration?"
+      ]
+    },
+    {
+      "id": "refined_saas",
+      "name": "Refined SaaS",
+      "aliases": ["modern saas", "clean dashboard", "premium b2b", "productivity"],
+      "category": "professional",
+      "description": "Quiet, polished SaaS style with stronger brand signal than pure utility while keeping work surfaces usable.",
+      "best_for": ["AI workbench", "analytics product", "PM tool", "developer platform", "collaboration SaaS"],
+      "avoid_for": ["high-risk financial operations where decorative visuals reduce trust", "mobile-first consumer apps needing playful identity"],
+      "tokens": {
+        "palette": ["#F8FAFC", "#FFFFFF", "#0F172A", "#475569", "#0EA5E9", "#14B8A6", "#CBD5E1"],
+        "typography": "Inter, Geist, or Manrope; medium weights for section labels",
+        "radius": "8px",
+        "density": "medium",
+        "texture": "soft border and shadow only",
+        "layout": "dashboard shell with clear primary rail and focused content panes",
+        "motion": "short hover and panel transitions"
+      },
+      "component_bias": ["command bars", "activity cards", "side panels", "metric rows", "empty states", "assistant panels"],
+      "quality_gates": [
+        "Is the UI recognizably product software rather than a marketing page?",
+        "Are shadows and gradients restrained enough for daily work?",
+        "Does every card carry distinct information rather than decoration?"
+      ]
+    },
+    {
+      "id": "concrete_editorial",
+      "name": "Concrete Editorial",
+      "aliases": ["cement", "concrete", "raw concrete", "industrial editorial", "cement brutalism", "水泥风"],
+      "category": "material",
+      "description": "Raw concrete, stone-gray surfaces, architectural spacing, strong type contrast, and restrained accent color.",
+      "best_for": ["architecture", "industrial brand", "design studio", "hardware product", "portfolio", "AI infrastructure brand page"],
+      "avoid_for": ["dense admin systems", "healthcare", "consumer finance", "child education", "forms-heavy workflows"],
+      "tokens": {
+        "palette": ["#D6D2C8", "#B8B3A8", "#6F6A60", "#25231F", "#F3F0EA", "#B45309", "#1F2937"],
+        "typography": "Neue Haas Grotesk, Satoshi, Inter, or a strong grotesk; optional mono captions",
+        "radius": "2px to 6px",
+        "density": "open editorial spacing",
+        "texture": "subtle concrete grain, matte panels, hairline rules",
+        "layout": "asymmetric editorial grid with large type, strong vertical rhythm, and sparse modules",
+        "motion": "slow reveals or none; avoid playful bounce"
+      },
+      "component_bias": ["hero type", "case-study grids", "spec tables", "image panels", "large quotes", "technical badges"],
+      "quality_gates": [
+        "Does the concrete texture stay subtle enough to preserve text contrast?",
+        "Is the style supporting product trust instead of making the UI look unfinished?",
+        "Are dense data tables avoided or converted to clean utility surfaces?"
+      ]
+    },
+    {
+      "id": "brutalist_product",
+      "name": "Brutalist Product",
+      "aliases": ["brutalist", "anti polish", "raw web", "neo brutalist", "anti-design"],
+      "category": "expressive",
+      "description": "Hard edges, high contrast, visible structure, oversized type, and intentionally direct composition.",
+      "best_for": ["developer tools", "indie SaaS", "creative tooling", "experimental AI product", "campaign microsite"],
+      "avoid_for": ["compliance workflows", "enterprise procurement", "medical", "luxury brand", "trust-sensitive finance"],
+      "tokens": {
+        "palette": ["#FFFFFF", "#111111", "#FACC15", "#EF4444", "#2563EB", "#E5E5E5"],
+        "typography": "Bold grotesk plus mono labels",
+        "radius": "0px to 4px",
+        "density": "deliberately punchy",
+        "texture": "flat color, thick borders",
+        "layout": "blocky grids, exposed containers, strong outlines",
+        "motion": "snappy but minimal"
+      },
+      "component_bias": ["large buttons", "thick bordered cards", "command panels", "announcements", "raw data snippets"],
+      "quality_gates": [
+        "Does the style remain usable after the first impression?",
+        "Are thick borders used to clarify hierarchy rather than create clutter?",
+        "Is contrast accessible in all states?"
+      ]
+    },
+    {
+      "id": "glass_depth",
+      "name": "Glass Depth",
+      "aliases": ["glass", "glassmorphism", "blur glass", "translucent", "frosted"],
+      "category": "material",
+      "description": "Layered translucent surfaces with depth, blur, and luminous accents.",
+      "best_for": ["AI assistant", "media product", "premium consumer app", "portfolio", "immersive dashboard preview"],
+      "avoid_for": ["dense data entry", "low-end devices", "compliance software", "long-form reading"],
+      "tokens": {
+        "palette": ["#0B1020", "#111827", "#E0F2FE", "#A78BFA", "#22D3EE", "#FFFFFF", "#94A3B8"],
+        "typography": "Inter, Geist, or SF Pro; light-to-medium contrast",
+        "radius": "12px to 20px",
+        "density": "medium to open",
+        "texture": "backdrop blur, transparent panels, subtle glow",
+        "layout": "layered panels over real product or generated scene backgrounds",
+        "motion": "depth parallax only when it does not distract"
+      },
+      "component_bias": ["assistant panels", "media controls", "floating inspectors", "summary cards", "quick actions"],
+      "quality_gates": [
+        "Is text readable without relying on blur or glow?",
+        "Are there fewer than three overlapping glass layers per viewport?",
+        "Does the UI still work when transparency is reduced?"
+      ]
+    },
+    {
+      "id": "ai_lab_dark",
+      "name": "AI Lab Dark",
+      "aliases": ["ai dark", "lab", "model console", "technical dark", "agentic"],
+      "category": "technical",
+      "description": "Technical dark interface for model routing, evaluation, observability, and AI operations.",
+      "best_for": ["AI platform", "evaluation workbench", "developer console", "model selection", "prompt ops"],
+      "avoid_for": ["general consumer apps", "public-sector accessibility-heavy tools", "bright retail experiences"],
+      "tokens": {
+        "palette": ["#0A0F1A", "#111827", "#1F2937", "#E5E7EB", "#38BDF8", "#A3E635", "#64748B"],
+        "typography": "Geist, Inter, IBM Plex Sans; mono for code and tokens",
+        "radius": "6px",
+        "density": "high but structured",
+        "texture": "none or faint grid",
+        "layout": "console shell, split panes, run timeline, evidence cards",
+        "motion": "stateful status transitions, no decorative animation"
+      },
+      "component_bias": ["logs", "evaluation cards", "model tables", "diff viewers", "trace timelines", "command menus"],
+      "quality_gates": [
+        "Can users compare model outputs side by side?",
+        "Are warnings and failures visually stronger than decorative accents?",
+        "Do code and data regions use stable dimensions?"
+      ]
+    },
+    {
+      "id": "editorial_magazine",
+      "name": "Editorial Magazine",
+      "aliases": ["editorial", "magazine", "content first", "publication"],
+      "category": "content",
+      "description": "Content-led layout with strong headlines, generous whitespace, image rhythm, and readable long-form sections.",
+      "best_for": ["knowledge base", "research report", "brand story", "portfolio", "long-form product explainer"],
+      "avoid_for": ["transaction-heavy apps", "dense workflow tools", "mobile screens with many controls"],
+      "tokens": {
+        "palette": ["#FAFAF7", "#111111", "#525252", "#E7E5E4", "#B91C1C", "#FFFFFF"],
+        "typography": "Serif or editorial display paired with clean sans",
+        "radius": "0px to 6px",
+        "density": "open",
+        "texture": "paper-like flat background",
+        "layout": "article grid, pull quotes, image-led sections",
+        "motion": "minimal scroll reveals"
+      },
+      "component_bias": ["article sections", "pull quotes", "case grids", "image captions", "related content"],
+      "quality_gates": [
+        "Is the reading line length controlled on desktop?",
+        "Does the H1 carry the product or topic directly?",
+        "Are images specific and inspectable, not atmospheric filler?"
+      ]
+    },
+    {
+      "id": "bauhaus_grid",
+      "name": "Bauhaus Grid",
+      "aliases": ["bauhaus", "primary shapes", "modernist", "geometric"],
+      "category": "expressive",
+      "description": "Geometric composition, primary accents, strict grid, and functional modernist typography.",
+      "best_for": ["education tools", "creative tools", "design systems", "workshop pages", "product concept demos"],
+      "avoid_for": ["financial controls", "legal/compliance", "luxury quiet brands", "medical products"],
+      "tokens": {
+        "palette": ["#F8F5EE", "#111827", "#E11D48", "#2563EB", "#FACC15", "#E5E7EB"],
+        "typography": "Geometric sans; strong weight contrast",
+        "radius": "0px to 8px",
+        "density": "medium",
+        "texture": "flat shapes only",
+        "layout": "visible modular grid with occasional geometric anchors",
+        "motion": "simple geometric transitions"
+      },
+      "component_bias": ["learning modules", "feature tiles", "interactive boards", "workshop panels"],
+      "quality_gates": [
+        "Do geometric accents avoid hiding real product content?",
+        "Is the color palette limited to action and navigation cues?",
+        "Can compact UI elements still fit text cleanly?"
+      ]
+    },
+    {
+      "id": "minimal_luxury",
+      "name": "Minimal Luxury",
+      "aliases": ["luxury", "premium minimal", "gallery", "boutique"],
+      "category": "brand",
+      "description": "Quiet premium visual language with high whitespace, restrained contrast, and precise typography.",
+      "best_for": ["premium commerce", "brand portfolio", "venue page", "high-end service", "object-focused product page"],
+      "avoid_for": ["operations dashboards", "student tools", "high-volume support systems"],
+      "tokens": {
+        "palette": ["#F7F2EA", "#1F1D1A", "#7C6F64", "#C8B6A6", "#FFFFFF", "#A16207"],
+        "typography": "Elegant serif or refined grotesk; avoid excessive weights",
+        "radius": "2px to 8px",
+        "density": "open",
+        "texture": "subtle material photography or none",
+        "layout": "large image, precise copy, sparse controls",
+        "motion": "slow and restrained"
+      },
+      "component_bias": ["product galleries", "detail specs", "booking CTAs", "lookbooks", "testimonials"],
+      "quality_gates": [
+        "Is the product or place visible in the first viewport?",
+        "Does whitespace support inspection rather than hide missing content?",
+        "Are CTAs clear enough despite minimal styling?"
+      ]
+    },
+    {
+      "id": "warm_humanist",
+      "name": "Warm Humanist",
+      "aliases": ["humanist", "friendly", "care", "warm tech", "coaching"],
+      "category": "human",
+      "description": "Approachable product UI for coaching, learning, wellness, and assistant experiences.",
+      "best_for": ["education", "wellness", "personal AI coach", "community product", "family app"],
+      "avoid_for": ["trading", "security ops", "hard technical consoles"],
+      "tokens": {
+        "palette": ["#FFF7ED", "#FFFFFF", "#1F2937", "#78716C", "#EA580C", "#0D9488", "#FED7AA"],
+        "typography": "Rounded or humanist sans; readable body text",
+        "radius": "10px to 16px",
+        "density": "medium",
+        "texture": "soft surfaces, no childish decoration",
+        "layout": "guided steps, progress panels, reassuring empty states",
+        "motion": "gentle feedback and progress transitions"
+      },
+      "component_bias": ["progress cards", "habit rows", "coach chat", "checklists", "reflection prompts"],
+      "quality_gates": [
+        "Does the tone stay mature rather than childish?",
+        "Are reminders and nudges controllable by the user?",
+        "Do warm colors avoid reducing contrast?"
+      ]
+    },
+    {
+      "id": "retro_terminal",
+      "name": "Retro Terminal",
+      "aliases": ["terminal", "retro computing", "cli", "hacker", "console"],
+      "category": "technical",
+      "description": "Command-line inspired product language with mono type, stark panels, and system-like interaction.",
+      "best_for": ["developer tools", "security demos", "CLI companion", "technical onboarding", "ops status"],
+      "avoid_for": ["mainstream consumer onboarding", "healthcare", "commerce checkout"],
+      "tokens": {
+        "palette": ["#050505", "#111111", "#E5E7EB", "#22C55E", "#38BDF8", "#374151"],
+        "typography": "IBM Plex Mono, JetBrains Mono, or Geist Mono",
+        "radius": "0px to 4px",
+        "density": "high",
+        "texture": "scanline only if extremely subtle",
+        "layout": "terminal panes, command prompts, logs, keyboard-first affordances",
+        "motion": "typing indicators only when meaningful"
+      },
+      "component_bias": ["command palette", "log streams", "status rows", "code blocks", "keyboard shortcut hints"],
+      "quality_gates": [
+        "Does mono type remain readable for non-code content?",
+        "Are primary actions discoverable without knowing commands?",
+        "Is the retro treatment a product fit rather than decoration?"
+      ]
+    },
+    {
+      "id": "neo_clay",
+      "name": "Neo Clay",
+      "aliases": ["clay", "soft 3d", "playful 3d", "rounded toy"],
+      "category": "playful",
+      "description": "Soft 3D surfaces, rounded geometry, tactile cards, and playful depth.",
+      "best_for": ["kids education", "consumer onboarding", "habit app", "light gamification", "creative apps"],
+      "avoid_for": ["enterprise admin", "finance", "legal", "medical", "dense analytical apps"],
+      "tokens": {
+        "palette": ["#FEF3C7", "#DBEAFE", "#FCE7F3", "#FFFFFF", "#1F2937", "#8B5CF6"],
+        "typography": "Rounded sans; avoid novelty fonts",
+        "radius": "18px to 28px",
+        "density": "open",
+        "texture": "soft shadows and 3D-like surfaces",
+        "layout": "large touch targets, simple panels, friendly progression",
+        "motion": "small tactile responses"
+      },
+      "component_bias": ["onboarding cards", "achievement states", "lesson tiles", "large controls"],
+      "quality_gates": [
+        "Does the style match the user's age and task seriousness?",
+        "Are shadows consistent and not muddy?",
+        "Can text fit inside large rounded components on mobile?"
+      ]
+    },
+    {
+      "id": "data_newsroom",
+      "name": "Data Newsroom",
+      "aliases": ["data story", "newsroom", "report dashboard", "insight brief"],
+      "category": "content",
+      "description": "Analytical editorial style for explaining metrics, market movement, and research findings.",
+      "best_for": ["research dashboards", "investment analysis", "AI intel", "market reports", "strategy briefs"],
+      "avoid_for": ["transactional CRUD", "playful consumer apps", "workflow-heavy mobile tools"],
+      "tokens": {
+        "palette": ["#FFFFFF", "#F3F4F6", "#111827", "#4B5563", "#DC2626", "#2563EB", "#D1D5DB"],
+        "typography": "Readable sans for UI plus optional serif headlines",
+        "radius": "4px to 8px",
+        "density": "medium to high",
+        "texture": "none",
+        "layout": "headline insight, chart grid, evidence notes, source trace",
+        "motion": "none unless chart interaction requires it"
+      },
+      "component_bias": ["charts", "source cards", "timeline", "decision matrix", "comparison tables"],
+      "quality_gates": [
+        "Does every chart state its question and decision implication?",
+        "Are sources and confidence visible?",
+        "Can users distinguish facts from model inferences?"
+      ]
+    }
+  ]
+}

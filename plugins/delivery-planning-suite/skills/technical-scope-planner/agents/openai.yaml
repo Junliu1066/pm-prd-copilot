@@ -1,0 +1,3 @@
+display_name: Technical Scope Planner
+short_description: Converts PRD scope into implementation modules.
+default_prompt: Translate this PRD into frontend, backend, data, AI, analytics, security, and testing scope.

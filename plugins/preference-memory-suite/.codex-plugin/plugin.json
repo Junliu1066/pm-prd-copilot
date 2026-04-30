@@ -1,0 +1,37 @@
+{
+  "name": "preference-memory-suite",
+  "version": "0.1.0",
+  "description": "Detachable project preference memory suite for isolated, auditable, resettable user preference caches.",
+  "author": {
+    "name": "Junliu1066",
+    "email": "not-provided",
+    "url": "https://github.com/Junliu1066"
+  },
+  "homepage": "https://github.com/Junliu1066/pm-prd-copilot",
+  "repository": "https://github.com/Junliu1066/pm-prd-copilot",
+  "license": "Private",
+  "keywords": [
+    "preference-memory",
+    "project-memory",
+    "prd",
+    "governance"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Preference Memory Suite",
+    "shortDescription": "Project-isolated preference memory for PM workflows.",
+    "longDescription": "A detachable suite for managing project-level preference caches that are isolated by project, versioned in the repository, resettable, clearable, and governed by human approval.",
+    "developerName": "Junliu1066",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Create a project preference cache for this product.",
+      "Record this user preference as a candidate memory.",
+      "Reset or clear the current project's preference cache."
+    ],
+    "brandColor": "#334155"
+  }
+}

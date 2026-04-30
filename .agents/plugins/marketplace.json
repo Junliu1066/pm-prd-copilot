@@ -14,7 +14,109 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Productivity"
+      "category": "Productivity",
+      "governance": {
+        "status": "candidate",
+        "stable": false,
+        "detachable": true,
+        "reviewLabel": "candidate / requires review / non-stable capability",
+        "requiresUserReviewBeforeStableUse": true
+      }
+    },
+    {
+      "name": "prd-prototype-suite",
+      "source": {
+        "source": "local",
+        "path": "./plugins/prd-prototype-suite"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity",
+      "governance": {
+        "status": "candidate",
+        "stable": false,
+        "detachable": true,
+        "reviewLabel": "candidate / requires review / non-stable capability",
+        "requiresUserReviewBeforeStableUse": true
+      }
+    },
+    {
+      "name": "preference-memory-suite",
+      "source": {
+        "source": "local",
+        "path": "./plugins/preference-memory-suite"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity",
+      "governance": {
+        "status": "candidate",
+        "stable": false,
+        "detachable": true,
+        "reviewLabel": "candidate / requires review / non-stable capability",
+        "requiresUserReviewBeforeStableUse": true
+      }
+    },
+    {
+      "name": "quality-evaluation-suite",
+      "source": {
+        "source": "local",
+        "path": "./plugins/quality-evaluation-suite"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity",
+      "governance": {
+        "status": "candidate",
+        "stable": false,
+        "detachable": true,
+        "reviewLabel": "candidate / requires review / non-stable capability",
+        "requiresUserReviewBeforeStableUse": true
+      }
+    },
+    {
+      "name": "delivery-planning-suite",
+      "source": {
+        "source": "local",
+        "path": "./plugins/delivery-planning-suite"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity",
+      "governance": {
+        "status": "candidate",
+        "stable": false,
+        "detachable": true,
+        "reviewLabel": "candidate / requires review / non-stable capability",
+        "requiresUserReviewBeforeStableUse": true
+      }
+    },
+    {
+      "name": "ai-solution-planning-suite",
+      "source": {
+        "source": "local",
+        "path": "./plugins/ai-solution-planning-suite"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity",
+      "governance": {
+        "status": "candidate",
+        "stable": false,
+        "detachable": true,
+        "reviewLabel": "candidate / requires review / non-stable capability",
+        "requiresUserReviewBeforeStableUse": true
+      }
     }
   ]
 }

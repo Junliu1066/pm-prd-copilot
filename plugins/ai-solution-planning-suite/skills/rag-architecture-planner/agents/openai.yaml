@@ -1,0 +1,3 @@
+display_name: RAG Architecture Planner
+short_description: Plans retrieval grounding and citation architecture.
+default_prompt: Design a RAG architecture for these AI capabilities and knowledge sources.

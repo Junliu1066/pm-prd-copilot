@@ -1,0 +1,3 @@
+display_name: Effort Estimator
+short_description: Estimates module and phase delivery effort.
+default_prompt: Estimate development effort for this technical scope and release roadmap.

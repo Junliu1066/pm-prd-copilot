@@ -1,0 +1,3 @@
+display_name: Adaptive Coaching Planner
+short_description: Plans targeted coaching from learner profiles.
+default_prompt: Design adaptive coaching rules based on this learner profile model.

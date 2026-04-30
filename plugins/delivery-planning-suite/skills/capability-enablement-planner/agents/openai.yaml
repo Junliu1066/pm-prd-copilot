@@ -1,0 +1,3 @@
+display_name: Capability Enablement Planner
+short_description: Plans which skills, MCPs, registry entries, harness checks, and approvals are needed before Codex-style development.
+default_prompt: Plan the enabling capabilities required before semi-automated development.

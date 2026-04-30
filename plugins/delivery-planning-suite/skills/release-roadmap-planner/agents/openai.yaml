@@ -1,0 +1,3 @@
+display_name: Release Roadmap Planner
+short_description: Splits technical scope into release phases.
+default_prompt: Split this PRD and technical scope into MVP, V1, V1.5, and Future phases.

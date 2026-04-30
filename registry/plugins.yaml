@@ -6,6 +6,10 @@ plugins:
     path: plugins/prd-analysis-suite
     type: codex_plugin
     detachable: true
+    marketplace_visibility: candidate_visible
+    stable_use_allowed: false
+    requires_user_review_before_stable_use: true
+    review_label: candidate / requires review / non-stable capability
     owns_skills:
       - source-collector
       - user-universe-mapper
@@ -13,6 +17,132 @@ plugins:
       - competitor-gap-analyzer
       - scenario-roi-ranker
       - mvp-scope-decider
+    allowed_host_integrations:
+      - registry_reference
+      - harness_validation
+    forbidden_path_references:
+      - ../
+      - /Users/
+      - pm-prd-copilot/
+      - projects/
+      - .venv/
+      - .env
+  prd-prototype-suite:
+    status: candidate
+    path: plugins/prd-prototype-suite
+    type: codex_plugin
+    detachable: true
+    marketplace_visibility: candidate_visible
+    stable_use_allowed: false
+    requires_user_review_before_stable_use: true
+    review_label: candidate / requires review / non-stable capability
+    owns_skills:
+      - prototype-reference-analyzer
+      - product-flow-mapper
+      - low-fi-prototype-designer
+      - interactive-html-prototype-builder
+    allowed_host_integrations:
+      - registry_reference
+      - harness_validation
+    forbidden_path_references:
+      - ../
+      - /Users/
+      - pm-prd-copilot/
+      - projects/
+      - .venv/
+      - .env
+  preference-memory-suite:
+    status: candidate
+    path: plugins/preference-memory-suite
+    type: codex_plugin
+    detachable: true
+    marketplace_visibility: candidate_visible
+    stable_use_allowed: false
+    requires_user_review_before_stable_use: true
+    review_label: candidate / requires review / non-stable capability
+    owns_skills:
+      - project-preference-cache-manager
+    allowed_host_integrations:
+      - registry_reference
+      - harness_validation
+    forbidden_path_references:
+      - ../
+      - /Users/
+      - pm-prd-copilot/
+      - projects/
+      - .venv/
+      - .env
+  quality-evaluation-suite:
+    status: candidate
+    path: plugins/quality-evaluation-suite
+    type: codex_plugin
+    detachable: true
+    marketplace_visibility: candidate_visible
+    stable_use_allowed: false
+    requires_user_review_before_stable_use: true
+    review_label: candidate / requires review / non-stable capability
+    owns_skills:
+      - skill-generalization-auditor
+    allowed_host_integrations:
+      - registry_reference
+      - harness_validation
+    forbidden_path_references:
+      - ../
+      - /Users/
+      - pm-prd-copilot/
+      - projects/
+      - .venv/
+      - .env
+  delivery-planning-suite:
+    status: candidate
+    path: plugins/delivery-planning-suite
+    type: codex_plugin
+    detachable: true
+    marketplace_visibility: candidate_visible
+    stable_use_allowed: false
+    requires_user_review_before_stable_use: true
+    review_label: candidate / requires review / non-stable capability
+    owns_skills:
+      - technical-scope-planner
+      - release-roadmap-planner
+      - effort-estimator
+      - delivery-effect-definer
+      - delivery-quality-reviewer
+      - agentic-delivery-orchestrator
+      - capability-enablement-planner
+      - skill-mcp-routing-planner
+      - development-governance-orchestrator
+      - codex-task-package-writer
+      - codex-development-plan-reviewer
+    allowed_host_integrations:
+      - registry_reference
+      - harness_validation
+    forbidden_path_references:
+      - ../
+      - /Users/
+      - pm-prd-copilot/
+      - projects/
+      - .venv/
+      - .env
+  ai-solution-planning-suite:
+    status: candidate
+    path: plugins/ai-solution-planning-suite
+    type: codex_plugin
+    detachable: true
+    marketplace_visibility: candidate_visible
+    stable_use_allowed: false
+    requires_user_review_before_stable_use: true
+    review_label: candidate / requires review / non-stable capability
+    owns_skills:
+      - ai-capability-mapper
+      - model-selection-planner
+      - prompt-architecture-designer
+      - rag-architecture-planner
+      - conversation-memory-planner
+      - learner-profile-modeler
+      - adaptive-coaching-planner
+      - ai-technical-architecture-planner
+      - ai-solution-reviewer
     allowed_host_integrations:
       - registry_reference
       - harness_validation

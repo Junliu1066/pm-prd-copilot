@@ -1,0 +1,3 @@
+display_name: Delivery Quality Reviewer
+short_description: Reviews delivery plans for development readiness.
+default_prompt: Review this delivery plan for scope, effort, phase, testing, and risk issues.

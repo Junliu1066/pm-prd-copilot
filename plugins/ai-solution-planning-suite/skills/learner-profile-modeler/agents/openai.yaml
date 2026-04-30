@@ -1,0 +1,3 @@
+display_name: Learner Profile Modeler
+short_description: Designs capability profiles for adaptive coaching.
+default_prompt: Design a learner capability profile model for this AI coaching product.

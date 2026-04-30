@@ -1,0 +1,37 @@
+{
+  "name": "quality-evaluation-suite",
+  "version": "0.1.0",
+  "description": "Detachable quality evaluation suite for auditing reusable PM skills, project preference leakage, and skill generalization risk.",
+  "author": {
+    "name": "Junliu1066",
+    "email": "not-provided",
+    "url": "https://github.com/Junliu1066"
+  },
+  "homepage": "https://github.com/Junliu1066/pm-prd-copilot",
+  "repository": "https://github.com/Junliu1066/pm-prd-copilot",
+  "license": "Private",
+  "keywords": [
+    "quality-evaluation",
+    "skill-audit",
+    "prd",
+    "governance"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Quality Evaluation Suite",
+    "shortDescription": "Audits reusable PM skills for generalization and leakage risk.",
+    "longDescription": "A detachable suite for checking whether PM Copilot skills remain reusable, avoid project-specific leakage, and keep user or project preferences separate from generic skill behavior.",
+    "developerName": "Junliu1066",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Read"
+    ],
+    "defaultPrompt": [
+      "Audit these skill updates for project-specific leakage.",
+      "Check whether this lesson belongs in a project cache or a generic skill.",
+      "Review the PRD skill suite against the evaluation cases."
+    ],
+    "brandColor": "#7C3AED"
+  }
+}

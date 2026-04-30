@@ -1,0 +1,3 @@
+display_name: AI Solution Reviewer
+short_description: Reviews AI plans for readiness and risk.
+default_prompt: Review this AI solution plan for model, prompt, RAG, memory, coaching, safety, and evaluation risks.

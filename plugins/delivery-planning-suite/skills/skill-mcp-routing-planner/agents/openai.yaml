@@ -1,0 +1,3 @@
+display_name: Skill MCP Routing Planner
+short_description: Routes stages to stewards, skills, MCPs, source traces, fallback paths, and approvals.
+default_prompt: Create the skill and MCP routing plan for this semi-automated development workflow.

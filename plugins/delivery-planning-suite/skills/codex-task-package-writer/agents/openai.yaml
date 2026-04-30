@@ -1,0 +1,3 @@
+display_name: Codex Task Package Writer
+short_description: Turns governance and delivery plans into Codex-ready task blueprints with boundaries and approval gates.
+default_prompt: Write Codex-ready task packages for this semi-automated development plan.

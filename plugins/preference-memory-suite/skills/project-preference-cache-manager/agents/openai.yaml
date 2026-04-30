@@ -1,0 +1,3 @@
+display_name: Project Preference Cache Manager
+short_description: Manage isolated project-level user preference caches.
+default_prompt: Create or update the current project's preference memory cache.

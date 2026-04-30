@@ -1,0 +1,3 @@
+display_name: AI Capability Mapper
+short_description: Maps PRD scope into AI capability units.
+default_prompt: Map this PRD into AI capabilities, non-AI boundaries, quality criteria, and risks.

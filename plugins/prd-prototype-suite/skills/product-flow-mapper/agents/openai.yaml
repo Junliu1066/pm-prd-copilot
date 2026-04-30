@@ -1,0 +1,3 @@
+display_name: Product Flow Mapper
+short_description: Draw user-facing PRD business flows.
+default_prompt: Map the core product business flow for this PRD scenario.

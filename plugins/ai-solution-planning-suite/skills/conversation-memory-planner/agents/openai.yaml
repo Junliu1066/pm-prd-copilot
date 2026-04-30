@@ -1,0 +1,3 @@
+display_name: Conversation Memory Planner
+short_description: Plans AI memory and retention boundaries.
+default_prompt: Design the conversation memory, retention, and clearing strategy for this AI product.

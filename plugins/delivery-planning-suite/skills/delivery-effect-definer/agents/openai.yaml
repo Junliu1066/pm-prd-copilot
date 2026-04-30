@@ -1,0 +1,3 @@
+display_name: Delivery Effect Definer
+short_description: Integrates roadmap and estimates into phase effects.
+default_prompt: Define the user-visible and business-visible effect of each delivery phase.

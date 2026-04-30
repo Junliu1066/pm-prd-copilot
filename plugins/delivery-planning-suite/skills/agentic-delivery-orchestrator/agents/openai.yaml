@@ -1,0 +1,3 @@
+display_name: Agentic Delivery Orchestrator
+short_description: Builds Codex-ready supervised development task packages.
+default_prompt: Convert this delivery plan into Codex task packages and human supervision gates.

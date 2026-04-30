@@ -1,0 +1,3 @@
+display_name: Codex Development Plan Reviewer
+short_description: Audits Codex development plans before delivery.
+default_prompt: Review this Codex development plan for blockers, optimality, executability, validation, and human approval gates.

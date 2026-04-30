@@ -1,0 +1,3 @@
+display_name: Prototype Reference Analyzer
+short_description: Extract reusable prototype style patterns from references.
+default_prompt: Analyze these prototype references and identify what can guide the PRD wireframe.

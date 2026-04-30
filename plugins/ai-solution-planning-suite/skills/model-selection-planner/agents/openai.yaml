@@ -1,0 +1,3 @@
+display_name: Model Selection Planner
+short_description: Plans model selection and benchmark criteria.
+default_prompt: Create a model selection and benchmark plan for these AI capabilities.

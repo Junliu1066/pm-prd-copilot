@@ -10,9 +10,16 @@ skills:
     description: Normalize raw inputs into source brief artifacts.
     reads:
       - raw_input
+      - source_brief
+      - raw_external_data
+      - web_source
+      - app_reviews
     writes:
       - source_brief
       - source_brief_markdown
+      - intake_source_notes
+      - market_signals
+      - user_feedback_signals
     forbidden_outputs:
       - mvp_scope
       - prd_document
@@ -97,6 +104,7 @@ skills:
       - raw_external_data
       - app_reviews
       - web_source
+      - market_signals
     writes:
       - competitor_gap
     forbidden_outputs:
@@ -121,6 +129,634 @@ skills:
       - prd_document
       - memory_proposal
     requires_human_approval: true
+    requires_sources: false
+  prototype-reference-analyzer:
+    status: candidate
+    plugin: prd-prototype-suite
+    path: plugins/prd-prototype-suite/skills/prototype-reference-analyzer
+    steward: prototype-design-steward
+    stage: prototype_design
+    description: Analyze reference images and examples before drawing PRD prototypes.
+    reads:
+      - raw_external_data
+      - prd_style_signals
+    writes:
+      - prototype_reference_analysis
+    forbidden_outputs:
+      - prd_document
+      - full_prototype
+      - memory_proposal
+    requires_human_approval: false
+    requires_sources: true
+  product-flow-mapper:
+    status: candidate
+    plugin: prd-prototype-suite
+    path: plugins/prd-prototype-suite/skills/product-flow-mapper
+    steward: prototype-design-steward
+    stage: prototype_design
+    description: Map user-facing product business flows for PRD scenarios.
+    reads:
+      - mvp_scope
+      - prototype_reference_analysis
+    writes:
+      - product_flow_map
+    forbidden_outputs:
+      - prd_document
+      - full_prototype
+      - memory_proposal
+    requires_human_approval: false
+    requires_sources: false
+  low-fi-prototype-designer:
+    status: candidate
+    plugin: prd-prototype-suite
+    path: plugins/prd-prototype-suite/skills/low-fi-prototype-designer
+    steward: prototype-design-steward
+    stage: prototype_design
+    description: Create preview-first low-fidelity PRD wireframes and full prototypes only after approval.
+    reads:
+      - mvp_scope
+      - prototype_reference_analysis
+      - product_flow_map
+      - prototype_preview
+    writes:
+      - prototype_preview
+      - full_prototype
+    forbidden_outputs:
+      - prd_document
+      - memory_proposal
+    requires_human_approval: true
+    requires_sources: false
+  interactive-html-prototype-builder:
+    status: candidate
+    plugin: prd-prototype-suite
+    path: plugins/prd-prototype-suite/skills/interactive-html-prototype-builder
+    steward: prototype-design-steward
+    stage: prototype_design
+    description: Build and revise editable clickable HTML prototypes from product requirements, flows, wireframes, sketches, or screenshots.
+    reads:
+      - mvp_scope
+      - prototype_reference_analysis
+      - product_flow_map
+      - prototype_preview
+      - interactive_html_prototype
+    writes:
+      - interactive_html_prototype
+    forbidden_outputs:
+      - prd_document
+      - memory_proposal
+    requires_human_approval: false
+    requires_sources: false
+  project-preference-cache-manager:
+    status: candidate
+    plugin: preference-memory-suite
+    path: plugins/preference-memory-suite/skills/project-preference-cache-manager
+    steward: learning-steward
+    stage: learning
+    description: Manage isolated project-level user preference caches.
+    reads:
+      - raw_input
+      - memory_proposal
+    writes:
+      - project_preference_cache
+    forbidden_outputs:
+      - prd_document
+      - full_prototype
+      - skill_update
+    requires_human_approval: true
+    requires_sources: true
+  skill-generalization-auditor:
+    status: candidate
+    plugin: quality-evaluation-suite
+    path: plugins/quality-evaluation-suite/skills/skill-generalization-auditor
+    steward: learning-steward
+    stage: learning
+    description: Audit reusable skills and skill-update proposals for project-specific leakage and overfitting.
+    reads:
+      - raw_input
+      - project_preference_cache
+      - memory_proposal
+    writes:
+      - skill_generalization_audit
+    forbidden_outputs:
+      - prd_document
+      - full_prototype
+      - skill_update
+      - memory_proposal
+    requires_human_approval: false
+    requires_sources: false
+  technical-scope-planner:
+    status: candidate
+    plugin: delivery-planning-suite
+    path: plugins/delivery-planning-suite/skills/technical-scope-planner
+    steward: delivery-planning-steward
+    stage: delivery_planning
+    description: Translate PRD scope into implementation-facing technical modules.
+    reads:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - product_flow_map
+      - prototype_preview
+      - risk_report
+    writes:
+      - technical_scope
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - memory_proposal
+      - skill_update
+    requires_human_approval: false
+    requires_sources: false
+  release-roadmap-planner:
+    status: candidate
+    plugin: delivery-planning-suite
+    path: plugins/delivery-planning-suite/skills/release-roadmap-planner
+    steward: delivery-planning-steward
+    stage: delivery_planning
+    description: Split confirmed scope into MVP, V1, V1.5, and Future release phases.
+    reads:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - scenario_ranking
+      - technical_scope
+      - risk_report
+    writes:
+      - release_roadmap
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - memory_proposal
+      - skill_update
+    requires_human_approval: false
+    requires_sources: false
+  effort-estimator:
+    status: candidate
+    plugin: delivery-planning-suite
+    path: plugins/delivery-planning-suite/skills/effort-estimator
+    steward: delivery-planning-steward
+    stage: delivery_planning
+    description: Estimate delivery effort with explicit team assumptions and uncertainty.
+    reads:
+      - technical_scope
+      - release_roadmap
+      - prd_document
+      - prd_markdown
+      - risk_report
+    writes:
+      - effort_estimate
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - memory_proposal
+      - skill_update
+    requires_human_approval: false
+    requires_sources: false
+  delivery-effect-definer:
+    status: candidate
+    plugin: delivery-planning-suite
+    path: plugins/delivery-planning-suite/skills/delivery-effect-definer
+    steward: delivery-planning-steward
+    stage: delivery_planning
+    description: Integrate roadmap and estimates into phase-by-phase delivery effects.
+    reads:
+      - technical_scope
+      - release_roadmap
+      - effort_estimate
+      - prd_document
+      - prd_markdown
+      - tracking_plan
+    writes:
+      - delivery_plan
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - memory_proposal
+      - skill_update
+    requires_human_approval: true
+    requires_sources: false
+  delivery-quality-reviewer:
+    status: candidate
+    plugin: delivery-planning-suite
+    path: plugins/delivery-planning-suite/skills/delivery-quality-reviewer
+    steward: delivery-planning-steward
+    stage: review
+    description: Review delivery plans for development readiness and scope safety.
+    reads:
+      - technical_scope
+      - release_roadmap
+      - effort_estimate
+      - delivery_plan
+      - prd_document
+      - prd_markdown
+    writes:
+      - delivery_quality_report
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - memory_proposal
+      - skill_update
+    requires_human_approval: false
+    requires_sources: false
+  agentic-delivery-orchestrator:
+    status: candidate
+    plugin: delivery-planning-suite
+    path: plugins/delivery-planning-suite/skills/agentic-delivery-orchestrator
+    steward: delivery-planning-steward
+    stage: delivery_planning
+    description: Convert PRD, feature matrix, flow, prototype, delivery, AI, and governance artifacts into reusable Codex semi-automated development plans, phase plans, task packages, and development governance.
+    reads:
+      - prd_document
+      - prd_markdown
+      - feature_matrix
+      - product_flow_map
+      - prototype_preview
+      - technical_scope
+      - release_roadmap
+      - effort_estimate
+      - delivery_plan
+      - delivery_quality_report
+      - ai_technical_architecture
+      - capability_enablement_plan
+      - skill_mcp_routing_plan
+      - development_operating_system_plan
+      - codex_task_package_blueprint
+      - codex_development_document
+    writes:
+      - codex_development_plan
+      - phase_1_codex_plan
+      - phase_2_codex_plan
+      - phase_3_codex_plan
+      - final_codex_plan
+      - agentic_delivery_plan
+      - codex_task_packages
+      - human_supervision_plan
+      - development_governance_report
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - memory_proposal
+      - skill_update
+    requires_human_approval: true
+    requires_sources: false
+  codex-development-plan-reviewer:
+    status: candidate
+    plugin: delivery-planning-suite
+    path: plugins/delivery-planning-suite/skills/codex-development-plan-reviewer
+    steward: development-governance-steward
+    stage: review
+    description: Review Codex development plans before they are sent to the user or used for implementation, checking optimality, blockers, task executability, dependencies, approvals, validation, rollback, and scope safety.
+    reads:
+      - prd_markdown
+      - feature_matrix
+      - product_flow_map
+      - prototype_preview
+      - codex_development_plan
+      - phase_1_codex_plan
+      - phase_2_codex_plan
+      - phase_3_codex_plan
+      - final_codex_plan
+      - codex_task_packages
+      - skill_mcp_routing_plan
+      - development_operating_system_plan
+      - ai_technical_architecture
+    writes:
+      - codex_development_review
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - skill_update
+      - memory_proposal
+    requires_human_approval: false
+    requires_sources: false
+  capability-enablement-planner:
+    status: candidate
+    plugin: delivery-planning-suite
+    path: plugins/delivery-planning-suite/skills/capability-enablement-planner
+    steward: capability-enablement-steward
+    stage: delivery_planning
+    description: Decide whether semi-automated development needs existing skills, new skills, MCPs, harness checks, registry changes, or human approvals before product code starts.
+    reads:
+      - prd_document
+      - prd_markdown
+      - technical_scope
+      - ai_technical_architecture
+      - delivery_plan
+      - delivery_quality_report
+    writes:
+      - capability_enablement_plan
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - skill_update
+      - memory_proposal
+    requires_human_approval: true
+    requires_sources: false
+  skill-mcp-routing-planner:
+    status: candidate
+    plugin: delivery-planning-suite
+    path: plugins/delivery-planning-suite/skills/skill-mcp-routing-planner
+    steward: capability-enablement-steward
+    stage: delivery_planning
+    description: Route stages to the right steward, skill, MCP, artifacts, source trace requirements, fallback, and escalation path.
+    reads:
+      - capability_enablement_plan
+      - technical_scope
+      - delivery_plan
+      - ai_technical_architecture
+    writes:
+      - skill_mcp_routing_plan
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - skill_update
+      - memory_proposal
+    requires_human_approval: true
+    requires_sources: true
+  development-governance-orchestrator:
+    status: candidate
+    plugin: delivery-planning-suite
+    path: plugins/delivery-planning-suite/skills/development-governance-orchestrator
+    steward: development-governance-steward
+    stage: delivery_planning
+    description: Integrate steward management, random audit, efficiency review, teaching absorption, preference memory, skill proposals, and harness checks into semi-automated development.
+    reads:
+      - capability_enablement_plan
+      - skill_mcp_routing_plan
+      - delivery_plan
+      - ai_technical_architecture
+    writes:
+      - development_operating_system_plan
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - skill_update
+      - memory_proposal
+    requires_human_approval: true
+    requires_sources: false
+  codex-task-package-writer:
+    status: candidate
+    plugin: delivery-planning-suite
+    path: plugins/delivery-planning-suite/skills/codex-task-package-writer
+    steward: development-governance-steward
+    stage: delivery_planning
+    description: Convert product, delivery, AI, capability enablement, routing, and governance plans into Codex-ready task package blueprints.
+    reads:
+      - prd_document
+      - prd_markdown
+      - technical_scope
+      - ai_technical_architecture
+      - capability_enablement_plan
+      - skill_mcp_routing_plan
+      - development_operating_system_plan
+      - codex_task_package_blueprint
+    writes:
+      - codex_task_package_blueprint
+      - codex_development_document
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - skill_update
+      - memory_proposal
+    requires_human_approval: true
+    requires_sources: false
+  ai-capability-mapper:
+    status: candidate
+    plugin: ai-solution-planning-suite
+    path: plugins/ai-solution-planning-suite/skills/ai-capability-mapper
+    steward: ai-architecture-steward
+    stage: ai_solution_planning
+    description: Map AI-facing product capabilities, boundaries, quality expectations, and non-AI alternatives.
+    reads:
+      - prd_document
+      - prd_markdown
+      - mvp_scope
+      - product_flow_map
+      - prototype_preview
+      - risk_report
+    writes:
+      - ai_capability_map
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - memory_proposal
+      - skill_update
+    requires_human_approval: false
+    requires_sources: false
+  model-selection-planner:
+    status: candidate
+    plugin: ai-solution-planning-suite
+    path: plugins/ai-solution-planning-suite/skills/model-selection-planner
+    steward: ai-architecture-steward
+    stage: ai_solution_planning
+    description: Plan model selection criteria, benchmark tasks, fallback models, and official-doc verification requirements.
+    reads:
+      - ai_capability_map
+      - prd_document
+      - prd_markdown
+      - risk_report
+    writes:
+      - model_selection_plan
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - memory_proposal
+      - skill_update
+    requires_human_approval: true
+    requires_sources: true
+  prompt-architecture-designer:
+    status: candidate
+    plugin: ai-solution-planning-suite
+    path: plugins/ai-solution-planning-suite/skills/prompt-architecture-designer
+    steward: ai-architecture-steward
+    stage: ai_solution_planning
+    description: Design prompt assets, prompt versioning, evaluation cases, guardrails, and tool boundaries.
+    reads:
+      - ai_capability_map
+      - model_selection_plan
+      - product_flow_map
+      - risk_report
+    writes:
+      - prompt_architecture
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - memory_proposal
+      - skill_update
+    requires_human_approval: false
+    requires_sources: false
+  rag-architecture-planner:
+    status: candidate
+    plugin: ai-solution-planning-suite
+    path: plugins/ai-solution-planning-suite/skills/rag-architecture-planner
+    steward: ai-architecture-steward
+    stage: ai_solution_planning
+    description: Plan knowledge sources, ingestion, retrieval, citation, fallback, and permission controls for RAG.
+    reads:
+      - ai_capability_map
+      - prd_document
+      - prd_markdown
+      - source_brief
+      - product_flow_map
+    writes:
+      - rag_architecture
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - memory_proposal
+      - skill_update
+    requires_human_approval: false
+    requires_sources: false
+  conversation-memory-planner:
+    status: candidate
+    plugin: ai-solution-planning-suite
+    path: plugins/ai-solution-planning-suite/skills/conversation-memory-planner
+    steward: ai-coaching-steward
+    stage: ai_solution_planning
+    description: Design governed conversation memory, user controls, retention, cache isolation, and privacy boundaries.
+    reads:
+      - ai_capability_map
+      - prd_document
+      - prd_markdown
+      - project_preference_cache
+    writes:
+      - conversation_memory_plan
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - memory_proposal
+      - skill_update
+    requires_human_approval: true
+    requires_sources: false
+  learner-profile-modeler:
+    status: candidate
+    plugin: ai-solution-planning-suite
+    path: plugins/ai-solution-planning-suite/skills/learner-profile-modeler
+    steward: ai-coaching-steward
+    stage: ai_solution_planning
+    description: Define learner capability dimensions, evidence rules, confidence, decay, privacy, and review controls.
+    reads:
+      - conversation_memory_plan
+      - tracking_plan
+      - prd_document
+      - prd_markdown
+    writes:
+      - learner_profile_model
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - memory_proposal
+      - skill_update
+    requires_human_approval: true
+    requires_sources: false
+  adaptive-coaching-planner:
+    status: candidate
+    plugin: ai-solution-planning-suite
+    path: plugins/ai-solution-planning-suite/skills/adaptive-coaching-planner
+    steward: ai-coaching-steward
+    stage: ai_solution_planning
+    description: Plan adaptive coaching rules that target weak capabilities with bounded feedback and measurable improvement.
+    reads:
+      - learner_profile_model
+      - ai_capability_map
+      - prompt_architecture
+    writes:
+      - adaptive_coaching_plan
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - memory_proposal
+      - skill_update
+    requires_human_approval: true
+    requires_sources: false
+  ai-technical-architecture-planner:
+    status: candidate
+    plugin: ai-solution-planning-suite
+    path: plugins/ai-solution-planning-suite/skills/ai-technical-architecture-planner
+    steward: ai-architecture-steward
+    stage: ai_solution_planning
+    description: Convert AI capability, model, prompt, RAG, memory, and coaching plans into implementation architecture.
+    reads:
+      - ai_capability_map
+      - model_selection_plan
+      - prompt_architecture
+      - rag_architecture
+      - conversation_memory_plan
+      - learner_profile_model
+      - adaptive_coaching_plan
+    writes:
+      - ai_technical_architecture
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - memory_proposal
+      - skill_update
+    requires_human_approval: false
+    requires_sources: false
+  ai-solution-reviewer:
+    status: candidate
+    plugin: ai-solution-planning-suite
+    path: plugins/ai-solution-planning-suite/skills/ai-solution-reviewer
+    steward: ai-architecture-steward
+    stage: review
+    description: Review AI solution readiness, cost, privacy, evaluation, fallback, and human-supervision risks.
+    reads:
+      - ai_capability_map
+      - model_selection_plan
+      - prompt_architecture
+      - rag_architecture
+      - conversation_memory_plan
+      - learner_profile_model
+      - adaptive_coaching_plan
+      - ai_technical_architecture
+    writes:
+      - ai_solution_review
+    forbidden_outputs:
+      - mvp_scope
+      - prd_document
+      - prd_markdown
+      - prototype_preview
+      - memory_proposal
+      - skill_update
+    requires_human_approval: false
     requires_sources: false
   prd-structure-planner:
     status: candidate
@@ -189,9 +825,11 @@ skills:
     description: Design metrics, events, properties, triggers, and QA checks.
     reads:
       - source_brief
+      - mvp_scope
       - prd_document
     writes:
       - tracking_plan
+      - success_metrics
     forbidden_outputs:
       - memory_proposal
     requires_human_approval: false
@@ -207,6 +845,7 @@ skills:
       - source_brief
     writes:
       - prd_quality_report
+      - pre_dev_questions
     forbidden_outputs:
       - memory_proposal
     requires_human_approval: false

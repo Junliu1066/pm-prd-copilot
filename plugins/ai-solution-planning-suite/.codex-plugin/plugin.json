@@ -1,0 +1,39 @@
+{
+  "name": "ai-solution-planning-suite",
+  "version": "0.1.0",
+  "description": "Detachable AI solution planning suite for model selection, prompt architecture, RAG, memory, learner profiles, adaptive coaching, AI technical architecture, and AI solution review.",
+  "author": {
+    "name": "Junliu1066",
+    "email": "not-provided",
+    "url": "https://github.com/Junliu1066"
+  },
+  "homepage": "https://github.com/Junliu1066/pm-prd-copilot",
+  "repository": "https://github.com/Junliu1066/pm-prd-copilot",
+  "license": "Private",
+  "keywords": [
+    "ai-solution",
+    "model-selection",
+    "prompt",
+    "rag",
+    "adaptive-coaching",
+    "prd"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "AI Solution Planning Suite",
+    "shortDescription": "Plans governed AI product capabilities and architecture.",
+    "longDescription": "A detachable suite for turning AI-heavy PRD scope into AI capability maps, model selection plans, prompt systems, RAG architecture, memory design, learner profiles, adaptive coaching logic, AI service architecture, and AI quality reviews.",
+    "developerName": "Junliu1066",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Plan the AI solution for this PRD.",
+      "Design model, prompt, RAG, memory, and evaluation architecture.",
+      "Review this AI product design for safety, cost, and quality risks."
+    ],
+    "brandColor": "#0EA5E9"
+  }
+}

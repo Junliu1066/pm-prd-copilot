@@ -1,0 +1,3 @@
+display_name: Skill Generalization Auditor
+short_description: Audits reusable skills for project-specific leakage.
+default_prompt: Audit these PM Copilot skills or proposals for generalization risk.

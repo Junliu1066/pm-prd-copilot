@@ -1,0 +1,40 @@
+{
+  "name": "prd-prototype-suite",
+  "version": "0.1.0",
+  "description": "Detachable PRD prototype skill suite for reference-driven business flows, low-fidelity wireframes, and editable clickable HTML prototypes.",
+  "author": {
+    "name": "Junliu1066",
+    "email": "not-provided",
+    "url": "https://github.com/Junliu1066"
+  },
+  "homepage": "https://github.com/Junliu1066/pm-prd-copilot",
+  "repository": "https://github.com/Junliu1066/pm-prd-copilot",
+  "license": "Private",
+  "keywords": [
+    "prd",
+    "prototype",
+    "wireframe",
+    "product-flow",
+    "html-prototype",
+    "clickable-prototype"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "PRD Prototype Suite",
+    "shortDescription": "Reference-driven PRD flow, wireframe, and HTML prototype skills.",
+    "longDescription": "A detachable suite of governed PRD prototype skills that analyze prototype references, map product business flows, design low-fidelity wireframe previews, and build editable clickable HTML prototypes for product review.",
+    "developerName": "Junliu1066",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Analyze this prototype reference before drawing wireframes.",
+      "Map the core product business flow for this PRD.",
+      "Create a low-fidelity prototype preview for this confirmed flow.",
+      "Build an editable clickable HTML prototype for this product flow."
+    ],
+    "brandColor": "#2563EB"
+  }
+}

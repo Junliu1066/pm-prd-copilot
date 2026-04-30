@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Interactive Prototype</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="prototype-shell" aria-label="Interactive prototype">
+      <section class="screen is-active" data-screen="home" aria-labelledby="home-title">
+        <header class="screen-header">
+          <div>
+            <p class="eyebrow">产品原型</p>
+            <h1 id="home-title">首页</h1>
+          </div>
+          <button class="icon-button" type="button" data-action="open-modal" data-modal="quickAction" aria-label="Open quick action">+</button>
+        </header>
+
+        <section class="summary-card" aria-label="Key summary">
+          <span class="status-dot"></span>
+          <div>
+            <h2>核心任务</h2>
+            <p>用这里表达当前页面最重要的用户目标。</p>
+          </div>
+        </section>
+
+        <div class="action-list">
+          <button type="button" data-nav-target="detail">查看详情</button>
+          <button type="button" data-nav-target="settings">设置偏好</button>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="detail" aria-labelledby="detail-title">
+        <header class="screen-header">
+          <button class="text-button" type="button" data-nav-target="home">返回</button>
+          <h1 id="detail-title">详情页</h1>
+        </header>
+
+        <div class="tabs" role="tablist" aria-label="Detail tabs">
+          <button type="button" class="is-active" data-action="tab" data-tab="overview">概览</button>
+          <button type="button" data-action="tab" data-tab="records">记录</button>
+        </div>
+
+        <section class="tab-panel is-active" data-tab-panel="overview">
+          <h2>概览信息</h2>
+          <p>展示用户决策需要的关键信息。</p>
+        </section>
+        <section class="tab-panel" data-tab-panel="records">
+          <h2>历史记录</h2>
+          <p>展示可替换的列表或时间线内容。</p>
+        </section>
+      </section>
+
+      <section class="screen" data-screen="settings" aria-labelledby="settings-title">
+        <header class="screen-header">
+          <button class="text-button" type="button" data-nav-target="home">返回</button>
+          <h1 id="settings-title">设置</h1>
+        </header>
+
+        <form class="form-stack">
+          <label>
+            原型字段
+            <input type="text" value="可编辑内容" />
+          </label>
+          <button type="button" data-action="toast" data-message="设置已保存">保存</button>
+        </form>
+      </section>
+    </main>
+
+    <div class="modal-backdrop" data-modal-backdrop hidden>
+      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="quick-action-title">
+        <header class="modal-header">
+          <h2 id="quick-action-title">快捷操作</h2>
+          <button class="icon-button" type="button" data-action="close-modal" aria-label="Close">×</button>
+        </header>
+        <p>这里展示弹窗、确认操作或轻量表单。</p>
+        <button type="button" data-action="toast" data-message="操作已提交">提交</button>
+      </section>
+    </div>
+
+    <div class="toast" data-toast hidden></div>
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+{
+  "prototype_type": "interactive_html",
+  "input_mode": "requirement_to_html",
+  "fidelity": "low",
+  "target_surface": "mobile",
+  "source_artifacts": [],
+  "screen_inventory": [
+    {
+      "screen_id": "home",
+      "screen_name": "首页",
+      "purpose": "展示核心任务入口。",
+      "entry_points": ["打开原型"],
+      "primary_actions": ["查看详情", "设置偏好", "打开快捷操作"],
+      "states": ["normal"]
+    }
+  ],
+  "interaction_inventory": [
+    {
+      "interaction_id": "home_to_detail",
+      "trigger": "点击查看详情",
+      "from_screen": "home",
+      "result": "navigate",
+      "target": "detail"
+    }
+  ],
+  "editable_files": [
+    { "path": "index.html", "purpose": "structure" },
+    { "path": "styles.css", "purpose": "styles" },
+    { "path": "app.js", "purpose": "interactions" },
+    { "path": "standalone.html", "purpose": "single_file_handoff" },
+    { "path": "prototype_manifest.json", "purpose": "manifest" },
+    { "path": "prototype_notes.md", "purpose": "notes" },
+    { "path": "README.md", "purpose": "notes" },
+    { "path": "open-mac.command", "purpose": "launcher" },
+    { "path": "open-windows.bat", "purpose": "launcher" }
+  ],
+  "platform_compatibility": {
+    "supported_platforms": ["macOS", "Windows"],
+    "path_strategy": "relative_paths_only",
+    "requires_server": false,
+    "requires_dependencies": false,
+    "open_entry": "index.html",
+    "single_file_entry": "standalone.html",
+    "helper_launchers": ["open-mac.command", "open-windows.bat"],
+    "handoff_rule": "For one-file sharing use standalone.html; for editable source sharing copy the whole prototype folder."
+  },
+  "feedback_application_log": [],
+  "validation_checklist": {
+    "local_files_exist": false,
+    "navigation_targets_checked": false,
+    "dead_clicks_checked": false,
+    "overlay_close_checked": false,
+    "viewport_fit_checked": false,
+    "text_clipping_checked": false
+  },
+  "open_review_questions": []
+}

@@ -1,0 +1,40 @@
+{
+  "name": "delivery-planning-suite",
+  "version": "0.1.0",
+  "description": "Detachable delivery planning suite for converting PRD scope into technical scope, release roadmap, effort estimates, delivery effects, capability enablement, Skill/MCP routing, governed Codex task packages, development-plan review, and quality review.",
+  "author": {
+    "name": "Junliu1066",
+    "email": "not-provided",
+    "url": "https://github.com/Junliu1066"
+  },
+  "homepage": "https://github.com/Junliu1066/pm-prd-copilot",
+  "repository": "https://github.com/Junliu1066/pm-prd-copilot",
+  "license": "Private",
+  "keywords": [
+    "delivery-planning",
+    "technical-scope",
+    "roadmap",
+    "prd",
+    "governance"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Delivery Planning Suite",
+    "shortDescription": "Turns PRDs into governed technical delivery plans.",
+    "longDescription": "A detachable suite that translates confirmed PRD scope into technical modules, phased release plans, effort assumptions, delivery outcomes, capability enablement, Skill/MCP routing, development governance, Codex-ready task blueprints, send-before development-plan reviews, and quality checks without mutating product decisions.",
+    "developerName": "Junliu1066",
+    "category": "Productivity",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "defaultPrompt": [
+      "Create a technical delivery path for this PRD.",
+      "Split this MVP into release phases with effort estimates.",
+      "Plan the Skill, MCP, harness, and governance enablement for semi-automated development.",
+      "Review this Codex development plan for blockers, executability, and approval gates.",
+      "Review this delivery plan for scope, timing, and risk."
+    ],
+    "brandColor": "#EA580C"
+  }
+}

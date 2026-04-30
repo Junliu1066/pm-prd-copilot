@@ -1,0 +1,3 @@
+display_name: AI Technical Architecture Planner
+short_description: Defines AI subsystem architecture and API contracts.
+default_prompt: Design the AI subsystem architecture for this product.

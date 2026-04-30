@@ -1,38 +1,29 @@
 # 偏好缓存与长期记忆边界审查
 
 - 日期：2026-04-30
-- 状态：审查报告，不批准 staging / commit / 清空缓存 / 长期记忆写入
-- 范围：`pm-prd-copilot/memory/user_preferences.md`、`memory-cache/`、`harness/preference_cache_checker.py`
-- 原则：项目偏好只在项目内使用；长期记忆必须逐条批准；归档前必须对齐。
+- 状态：审查报告，不批准提交 `memory-cache/`，不批准清空缓存，不批准项目偏好进入长期记忆
+- 范围：`pm-prd-copilot/memory/user_preferences.md`、`memory-cache/`、`pm-prd-copilot/scripts/manage_preference_cache.py`、`harness/preference_cache_checker.py`
+- 原则：项目偏好只在项目内使用；长期记忆必须逐条批准；归档或清空必须有用户监督。
 
 ## 结论
 
-当前偏好缓存机制方向正确：项目级偏好和长期偏好已经分层，`memory-cache` 里只有 `fitness-app-mvp` 项目缓存，且策略字段明确禁止跨项目复用。
+当前偏好缓存方向正确，但需要把“清空 / 归档清空必须显式获得用户批准”落实到脚本和 checker。
 
-但当前仍不建议提交或自动清理偏好缓存，因为还需要你逐条确认：
+本轮已做最小修复：
 
-- 哪些长期偏好确实已经被你批准。
-- 哪些只是 `fitness-app-mvp` 项目内偏好。
-- 哪些需要在项目归档前保留为 closeout 证据。
-- 哪些未来可以提炼为长期规则。
+- `manage_preference_cache.py`：`clear` 和 `archive-clear` 必须带 `--approved-by-user`，否则命令拒绝执行。
+- `manage_preference_cache.py`：清空后的 `current.json` 会记录 `user_approval_required: true` 和 `user_approval_confirmed: true`。
+- `preference_cache_checker.py`：如果项目缓存状态是 `cleared`，必须检查是否记录了用户批准。
+- `run_regression.py`：新增回归断言，未带 `--approved-by-user` 的 clear 必须失败；带批准的 archive-clear 必须成功并记录批准。
 
 ## 当前状态
 
-| 区域 | 当前情况 | 建议 |
+| 区域 | 当前情况 | 结论 |
 |---|---|---|
-| `pm-prd-copilot/memory/user_preferences.md` | 已有多条长期偏好修改，覆盖 PRD、原型、开发文档、B 包、长期规则审批等 | 暂不提交，先逐条审。 |
-| `memory-cache/projects/fitness-app-mvp/` | 存在项目级偏好缓存，状态为 active | 暂不清空，归档前再对齐。 |
-| `harness/preference_cache_checker.py` | 能检查项目隔离、清除状态、长期记忆审批字段 | 保持按需候选，不 stable。 |
-
-## 长期偏好初步分类
-
-| 类型 | 条目示例 | 初步判断 |
-|---|---|---|
-| 已明确批准的长期偏好 | 中文报告、开发文档默认 Codex 开发文档、长期稳定可靠优先、长期规则需方案审批 | 可进入长期偏好候选，但仍建议你最后确认一次。 |
-| PRD / 原型长期规则 | PRD 页面说明、页面跳转关系、原型图层、PNG/HTML 需后续确认 | 已有明确讨论基础，可保留为长期偏好候选。 |
-| 开发文档 / B 包规则 | 内部版/外部保护版、B 包英文、受众分层、开发文档边界 | 建议保留，但需要和真实 B 包输出再对齐一次。 |
-| 项目内偏好 | 健身项目市场、原型风格、训练计划交互等 | 只能留在 `fitness-app-mvp` 项目缓存，不能进入全局长期记忆。 |
-| 需要谨慎的泛化规则 | “所有开发包包含所有资产”等较宽规则 | 应按受众、脱敏和项目阶段收敛后再长期化。 |
+| `pm-prd-copilot/memory/user_preferences.md` | 已提交为中英双语长期偏好，中文为准 | 已完成，不在本轮再改。 |
+| `memory-cache/projects/fitness-app-mvp/` | 存在 active 项目偏好缓存 | 不提交、不清空，等项目 closeout / 归档前对齐。 |
+| `manage_preference_cache.py` | 已有 init / reset / clear / archive-clear | 已补显式用户批准门槛。 |
+| `preference_cache_checker.py` | 检查项目隔离、清除状态、长期记忆审批字段 | 已补 cleared 状态批准记录检查。 |
 
 ## `fitness-app-mvp` 项目缓存审查
 
@@ -56,78 +47,46 @@
 风险点：
 
 - 项目缓存仍是 active，不能自动跨项目读取。
-- 已批准项目偏好里有原型和训练计划细节，这些只适合健身项目。
-- 归档前必须决定：保留为项目档案、清除、还是提炼为长期候选。
+- 已批准项目偏好包含健身项目的市场、原型风格和训练计划细节，只适合 `fitness-app-mvp`。
+- 归档前必须逐条决定：保留为项目档案、清除、还是经用户批准提炼为长期候选。
 
-## Preference Checker 边界判断
+## 边界修复说明
 
-| 检查项 | 价值 | 是否应 stable |
+### 为什么要加 `--approved-by-user`
+
+偏好缓存的 `clear` 和 `archive-clear` 会改变项目偏好指针，属于高风险动作。如果没有命令级显式批准，后续自动化或误操作可能清空项目偏好，影响项目连续性。
+
+新增门槛后：
+
+- 未带 `--approved-by-user`：命令失败。
+- 带 `--approved-by-user`：命令可以执行，并在清空状态里留下批准记录。
+- checker 会检查 cleared 状态是否有批准记录。
+
+这符合“必须在用户监督下清理 / 归档 / 写长期记忆”的长期规则。
+
+### 不处理的内容
+
+本轮没有做：
+
+- 不提交 `memory-cache/`。
+- 不清空 `fitness-app-mvp` 项目缓存。
+- 不把健身项目偏好写入长期记忆。
+- 不把 `preference_cache_checker.py` 转 stable。
+- 不新增 skill、harness、workflow stage、plugin 或 automation。
+
+## 当前建议
+
+| 决策 | 我的建议 | 原因 |
 |---|---|---|
-| 项目内路径限制 | 防止读取其他项目缓存 | 暂不 stable，保留候选 |
-| 清除状态不可继续读取 | 防止归档后污染新项目 | 暂不 stable，保留候选 |
-| 长期记忆需用户批准 | 防止自动学习越权 | 暂不 stable，保留候选 |
-| source trace 必须人工核验 | 保证偏好来源可追溯 | 暂不 stable，保留候选 |
-
-结论：`preference_cache_checker.py` 有必要，但应继续作为按需候选。等偏好缓存策略稳定后，再决定是否转 stable。
-
-## 建议处理方式
-
-### 1. 长期偏好文件
-
-先不提交 `pm-prd-copilot/memory/user_preferences.md`。
-
-下一步建议输出一份逐条清单，把每条偏好分为：
-
-- `approved_long_term`
-- `project_only`
-- `needs_rewording`
-- `needs_user_approval`
-- `do_not_keep`
-
-你逐条确认后，再提交长期偏好文件。
-
-### 2. 项目偏好缓存
-
-先不提交 `memory-cache/`。
-
-处理规则：
-
-- 项目活跃时可保留 active。
-- 项目 closeout 前输出处置建议。
-- 归档前和你对齐：保留、清除、或提炼为长期候选。
-- 清空缓存必须单独批准。
-
-### 3. Checker
-
-先不提交 `harness/preference_cache_checker.py`。
-
-建议等以下两个条件满足后再决定：
-
-- 长期偏好文件逐条确认完成。
-- `fitness-app-mvp` 项目缓存归档前处置规则确认。
-
-## 需要你后续拍板
-
-| 决策 | 我的建议 | 不同选择的结果 |
-|---|---|---|
-| 是否提交长期偏好文件 | 暂不 | 避免把未逐条确认的内容写成长期记忆。 |
-| 是否提交 `memory-cache/` | 暂不 | 项目缓存属于项目证据，归档前再处理更稳。 |
-| 是否清空项目缓存 | 不清空 | 清空会影响项目连续性，必须 closeout 对齐后再做。 |
-| 是否把健身项目偏好提炼为长期规则 | 逐条批准 | 防止项目经验污染其他项目。 |
-| 是否提交 `preference_cache_checker.py` | 暂不 | 等偏好策略确认后再作为候选 checker 单独处理。 |
+| 是否提交 `memory-cache/` | 不提交 | 项目缓存是项目现场材料，归档前再处理更稳。 |
+| 是否清空 `fitness-app-mvp` 缓存 | 不清空 | 该项目仍有连续性价值，清空必须等 closeout 对齐。 |
+| 是否把健身项目偏好提炼为长期规则 | 暂不 | 防止项目经验污染其他项目。 |
+| 是否把 `preference_cache_checker.py` 转 stable | 暂不 | 先作为按需候选；等偏好缓存流程跑过更多项目再决定。 |
+| 是否提交本轮脚本 / checker 最小修复 | 建议单独提交 | 这是防误清理的底线修复，范围小、可回滚。 |
 
 ## 下一步建议
 
-1. 先做长期偏好逐条审查清单。
-2. 再做 `fitness-app-mvp` 项目 closeout / 偏好处置建议。
-3. 再决定是否提交 `pm-prd-copilot/memory/user_preferences.md`。
-4. 最后决定 `preference_cache_checker.py` 是否作为按需候选 checker 提交。
-
-## 本轮未执行
-
-- 未提交长期偏好。
-- 未提交项目缓存。
-- 未清空缓存。
-- 未写长期记忆。
-- 未提交 preference checker。
-- 未移动、归档或删除任何文件。
+1. 本轮脚本 / checker / regression / 报告通过验证后，单独提交为“偏好缓存清空审批门槛”补丁。
+2. `memory-cache/` 保持不提交。
+3. 等 `fitness-app-mvp` closeout 时，再输出项目偏好处置清单。
+4. 后续再单独决定 `preference_cache_checker.py` 是否继续保持候选、瘦身、或进入稳定批次。

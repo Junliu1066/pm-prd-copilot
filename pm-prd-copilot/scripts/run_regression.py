@@ -280,6 +280,52 @@ def validate_preference_cache_policy(base_dir: Path) -> list[str]:
             errors.append("Preference cache isolation must forbid reading other project caches.")
         if isolation.get("cross_project_reuse_allowed") is not False:
             errors.append("Preference cache isolation must disable cross-project reuse.")
+        blocked_clear_command = [
+            sys.executable,
+            str(base_dir / "pm-prd-copilot" / "scripts" / "manage_preference_cache.py"),
+            "--base-dir",
+            str(tmp_path),
+            "--project",
+            "sample",
+            "--reason",
+            "regression",
+            "clear",
+        ]
+        blocked_clear = subprocess.run(blocked_clear_command, check=False, capture_output=True, text=True)
+        if blocked_clear.returncode == 0:
+            errors.append("Preference cache clear must fail without explicit user approval.")
+        if "--approved-by-user" not in f"{blocked_clear.stdout}\n{blocked_clear.stderr}":
+            errors.append("Preference cache clear failure must mention --approved-by-user.")
+        approved_archive_clear_command = [
+            sys.executable,
+            str(base_dir / "pm-prd-copilot" / "scripts" / "manage_preference_cache.py"),
+            "--base-dir",
+            str(tmp_path),
+            "--project",
+            "sample",
+            "--reason",
+            "regression-approved-archive-clear",
+            "--approved-by-user",
+            "archive-clear",
+        ]
+        approved_archive_clear = subprocess.run(
+            approved_archive_clear_command,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        if approved_archive_clear.returncode != 0:
+            errors.append(
+                "Preference cache archive-clear with explicit approval must pass. "
+                f"Output: {approved_archive_clear.stdout}\n{approved_archive_clear.stderr}"
+            )
+        cleared_current = json.loads(
+            (tmp_path / "memory-cache" / "projects" / "sample" / "current.json").read_text(encoding="utf-8")
+        )
+        if cleared_current.get("status") != "cleared":
+            errors.append("Preference cache approved archive-clear must mark current cache as cleared.")
+        if cleared_current.get("user_approval_confirmed") is not True:
+            errors.append("Preference cache approved archive-clear must record user_approval_confirmed=true.")
         return errors
 
 

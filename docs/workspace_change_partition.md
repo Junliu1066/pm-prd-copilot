@@ -1,206 +1,214 @@
-# Workspace Change Partition
+# 工作区变更分区审查
 
-- Date: 2026-04-29
-- Snapshot command: `git status --short`
-- Snapshot size: 147 status entries
-- Status mix: `67 M`, `4 D`, `76 ??`
-- Purpose: make the mixed workspace reviewable before cleanup, archive, staging, or further architecture work.
-- Rule: this file is an audit map only. It does not approve cleanup, deletion, move, archive, staging, commit, push, PR creation, plugin promotion, skill promotion, harness promotion, or stable architecture acceptance.
+- 日期：2026-05-01
+- 快照命令：`git status --short`
+- 当前快照：73 项
+- 状态分布：`28 M`、`4 D`、`41 ??`
+- 目的：把当前混合工作区拆成可审核、可回滚、可分批处理的清单。
+- 规则：本文件只是审计地图，不批准清理、删除、恢复、归档、staging、commit、push、PR、candidate 转 stable、长期记忆写入或项目归档。
 
-## Root Distribution
+## Root 分布
 
-| Root | Status entries |
+| Root | 当前项数 |
 |---|---:|
-| `.agents` | 1 |
-| `.github` | 2 |
-| `AGENTS.md` | 1 |
-| `README.md` | 1 |
-| `agent.md` | 1 |
-| `ai-intel` | 9 |
-| `docs` | 16 |
-| `evals` | 1 |
-| `governance` | 2 |
-| `harness` | 15 |
+| `projects` | 44 |
+| `docs` | 17 |
+| `pm-prd-copilot` | 6 |
+| `ai-intel` | 1 |
 | `memory-cache` | 1 |
-| `plugins` | 5 |
-| `pm-prd-copilot` | 26 |
 | `prd_pm_2026_playbook.md` | 1 |
 | `prd_skill_kit_2026.zip` | 1 |
 | `prd_template_2026.md` | 1 |
-| `projects` | 43 |
-| `registry` | 4 |
-| `shared` | 1 |
 | `skill_suite_overview.md` | 1 |
-| `stewards` | 7 |
-| `teaching` | 4 |
-| `workflow` | 3 |
 
-## Partition Summary
+## 当前总体结论
 
-| Partition | Count | Status mix | Default audit action | Treatment |
-|---|---:|---|---|---|
-| stable-framework | 48 | modified / untracked | `keep_in_architecture` | Architecture candidate set. Review and validate as framework work; do not stage together with project artifacts. |
-| project-artifacts | 44 | modified / untracked | `keep_as_project_artifact` | Project outputs, runs, prototypes, archives, and caches. Keep separate; use project closeout before cleanup. |
-| docs-governance-teaching | 19 | modified / untracked | `keep_in_architecture` | Governance docs and teaching records. Review for current wording, but keep in documentation layer. |
-| harness-eval | 10 | untracked | `needs_user_decision` | Existing validation/eval expansion. Must pass “no unnecessary harness” review before stabilization. |
-| automation-ai-intel | 9 | modified / untracked | `needs_user_decision` | AI intel and automation-supporting records. Keep separate from PM core until automation review is complete. |
-| steward-protocols | 7 | untracked | `keep_in_architecture` | Protocol docs for existing stewards; these are not new stewards. Review wording, then keep with governance docs. |
-| archive-root-cleanup | 5 | deleted / untracked | `archive_candidate` | Root historical files and archive folder. Archive first; hard delete only after 30 days and exact approval. |
-| unconfirmed-new-capabilities | 5 | untracked | `needs_user_decision` | New plugin suites. Must prove necessity and removability before becoming stable architecture. |
+| 分区 | 当前内容 | 默认处理 | 是否需要你拍板 |
+|---|---|---|---|
+| 已收口稳定治理 | A1-A4、B1-B5 主干、D1-D3、任务漂移规则、agentic delivery 输出边界 | 保持，不再混入项目产物 | 后续新增长期规则仍需要 |
+| workspace 地图 | `docs/workspace_change_partition.md` | 本轮刷新并单独处理 | 本次已按批准执行 |
+| proposal 临时材料 | `docs/proposals/*_staging_list.md`、`*_commit_review.md`、旧计划材料 | 暂缓，不进稳定治理文档 | 需要决定归档或 30 天后删除候选 |
+| proposal 决策候选 | `b5_automation_ai_intel_candidate_review.md`、`b5b_registry_candidate_alignment_review.md`、`e_root_archive_cleanup_review.md` 等 | 先留作候选，不混提交 | 需要逐项确认是否保留 |
+| skill patch 候选 | `pm-prd-copilot/proposals/skill-patches/*` | 保持候选，不自动改 skill | 需要逐条确认是否采纳或归档 |
+| AI raw 证据 | `ai-intel/raw/2026-04-30/` | 本地复核证据，不进默认提交 | 需要确认保留、归档或 30 天后删除候选 |
+| 项目偏好缓存 | `memory-cache/projects/fitness-app-mvp/*` | 项目内保留，归档前处置 | 需要 closeout 前逐条对齐 |
+| 项目产物 C 批 | `projects/*` 生成物、closeout、prototype、runs、新项目目录 | 逐项目审查，不混入治理提交 | 需要 |
+| E 批 root/archive | 4 个 root 删除项、`docs/archive/` | 只审查，不提交删除或 archive | 需要逐条确认 |
 
-## Audit Action Table
+## 已完成后不再列为待处理的事项
 
-| Audit action | Meaning | Current items |
+| 事项 | 当前状态 |
+|---|---|
+| B4 错误报告证据 | 已提交 `0e70b36 Record May 1 governance error report`，当前不再有 `docs/error_reports/*` 待提交。 |
+| `agent.md` 禁止任务漂移规则 | 已提交 `1e74cd0 Tighten task drift guardrails`。 |
+| agentic delivery 输出边界 | 已提交 `b4d1afe Refine agentic delivery output boundaries`。 |
+| C2 / Harness-Skill 审查记录 | 已提交 `ecd9c3f Record project and harness skill boundary reviews`。 |
+
+## 当前剩余项明细
+
+### 1. Proposal 临时材料
+
+当前未跟踪 proposal：
+
+```text
+docs/proposals/b2_proposal_audit_commit_review.md
+docs/proposals/b3_teaching_steward_commit_review.md
+docs/proposals/b3_teaching_steward_content_review_plan.md
+docs/proposals/b3_teaching_steward_staging_list.md
+docs/proposals/b4_error_reports_commit_review.md
+docs/proposals/b4_error_reports_staging_list.md
+docs/proposals/b5_automation_ai_intel_candidate_review.md
+docs/proposals/b5a_github_workflows_commit_review.md
+docs/proposals/b5a_github_workflows_staging_list.md
+docs/proposals/b5b_candidate_marketplace_staging_list.md
+docs/proposals/b5b_registry_candidate_alignment_review.md
+docs/proposals/b5c_ai_intel_commit_review.md
+docs/proposals/b5c_ai_intel_staging_list.md
+docs/proposals/d1_candidate_plugin_commit_review.md
+docs/proposals/e_root_archive_cleanup_review.md
+```
+
+| 类型 | 文件 | 建议 | 原因 |
+|---|---|---|---|
+| 临时 commit / staging 材料 | `b2_*commit_review.md`、`b3_*staging_list.md`、`b3_*commit_review.md`、`b4_*`、`b5a_*`、`b5b_candidate_marketplace_staging_list.md`、`b5c_*`、`d1_*commit_review.md` | 暂缓，后续归档或删除候选 | 这些只服务一次提交或 staging，不是长期规则。 |
+| 旧计划材料 | `b3_teaching_steward_content_review_plan.md` | 暂缓 | 已被实际审查和后续提交覆盖。 |
+| 候选决策记录 | `b5_automation_ai_intel_candidate_review.md`、`b5b_registry_candidate_alignment_review.md` | 暂缓 | 内容有审计价值，但范围较宽，需要单独确认是否保留。 |
+| E 批审查记录 | `e_root_archive_cleanup_review.md` | 暂缓 | root 删除和 archive 策略未逐条批准前，不应提交。 |
+
+推荐动作：先不提交这些 proposal。等 root/archive、automation、candidate marketplace 是否保留的功能决策明确后，再做一次“proposal 留存 / 归档 / 30 天后删除候选”清单。
+
+### 2. Skill Patch 候选
+
+当前未跟踪：
+
+```text
+pm-prd-copilot/proposals/skill-patches/skill-update-20260424T000000Z.json
+pm-prd-copilot/proposals/skill-patches/skill-update-20260424T000000Z.md
+pm-prd-copilot/proposals/skill-patches/skill-update-20260424T041400Z.json
+pm-prd-copilot/proposals/skill-patches/skill-update-20260424T041400Z.md
+pm-prd-copilot/proposals/skill-patches/skill-update-20260425T000000Z.json
+pm-prd-copilot/proposals/skill-patches/skill-update-20260425T000000Z.md
+```
+
+判断：
+
+- 这是 skill 更新候选，不是已批准 stable skill 修改。
+- 不能自动应用，也不能和项目产物混提交。
+- 如果保留，应作为“skill 变更候选证据”单独审查。
+
+建议：暂缓。后续按“如无必要，不增 skill”原则逐条判断：采纳、拒绝、归档候选或 30 天后删除候选。
+
+### 3. AI Raw 证据
+
+当前未跟踪：
+
+```text
+ai-intel/raw/2026-04-30/
+```
+
+判断：
+
+- raw HTML / JSON 只适合作为本地复核证据。
+- 不应默认提交。
+- 已提交的 AI intel evidence 应优先使用 daily / events / logs，而不是 raw。
+
+建议：暂缓，不提交。后续可列为归档候选或 30 天后删除候选。
+
+### 4. Memory Cache
+
+当前未跟踪：
+
+```text
+memory-cache/
+```
+
+判断：
+
+- 当前主要关联 `fitness-app-mvp` 项目偏好。
+- 属于项目内连续性材料，不是长期记忆。
+- 不能自动跨项目复用，不能自动清空，不能自动写入长期记忆。
+
+建议：不提交、不清空。等 `fitness-app-mvp` closeout / 归档前逐条对齐。
+
+### 5. 项目产物 C 批
+
+当前项目变更集中在：
+
+- `projects/demo-project/`
+- `projects/fitness-app-mvp/`
+- `projects/_archives/`
+- `projects/ai-collaboration-efficiency-platform/`
+- `projects/graduation-defense-agent/`
+- `projects/jiaxiaoqian-ai-invest-research/`
+- `projects/prompt-optimization-workbench/`
+- `projects/santoip-ai-brand-video/`
+- `projects/taxi-hailing-prd-test/`
+- `projects/temp-generated-project/`
+
+建议顺序：
+
+1. `demo-project`：作为测试 fixture，先决定哪些 run 输出是最小可提交证据，哪些可重建。
+2. `fitness-app-mvp`：保持 active 项目产物，不在治理线程讨论产品功能。
+3. `taxi-hailing-prd-test`：作为 0-1 PRD 样例候选，是否脱敏成 golden sample 需要单独批准。
+4. 其它项目：逐个判断 active、closeout candidate、archive candidate。
+
+本轮不提交任何 `projects/*`。
+
+### 6. E 批 Root / Archive
+
+当前 root 删除项：
+
+| 文件 | 当前判断 | 推荐 |
 |---|---|---|
-| `keep_in_architecture` | Candidate stable architecture or governance asset. Keep, but validate and stage separately if later approved. | stable framework files, governance docs, teaching records, steward protocol docs |
-| `keep_as_project_artifact` | Project-local evidence, generated output, prototype, run state, or cache. Do not mix into architecture commits. | `projects/*`, `memory-cache/` |
-| `archive_candidate` | Candidate to move into an archive location after exact approval. | root historical PRD files, root zip, root overview, `docs/archive/` |
-| `delete_after_30_days_candidate` | Only after archive, lesson extraction, retention window, and exact user approval. | none approved in this snapshot |
-| `needs_user_decision` | Cannot be classified as stable until the user reviews necessity, ownership, and replacement path. | new plugin suites, untracked harness/eval expansion, AI intel records |
-| `do_not_touch` | Protected roots or sensitive runtime inputs. No cleanup without explicit per-path approval. | `.env`, stable framework roots, closeout audit records, raw inputs, final human edits |
+| `prd_pm_2026_playbook.md` | 有 canonical copy 和 archive copy，root copy 冗余 | 后续逐条确认后接受 root 删除 |
+| `prd_template_2026.md` | 有 canonical copy 和 archive copy，root copy 冗余 | 后续逐条确认后接受 root 删除 |
+| `prd_skill_kit_2026.zip` | 有 archive copy；二进制包不应在 root | 不恢复 root，后续列入 30 天后删除候选 |
+| `skill_suite_overview.md` | 有 archive copy；可能有内容提炼价值 | 不恢复 root，后续审内容是否并入 docs |
 
-## Stable Framework Bucket
+当前 archive 文件：
 
-Includes:
+```text
+docs/archive/README.md
+docs/archive/notes/答辩.md
+docs/archive/root-files/Remod开发.md
+docs/archive/root-files/prd_pm_2026_playbook.md
+docs/archive/root-files/prd_skill_kit_2026.zip
+docs/archive/root-files/prd_template_2026.md
+docs/archive/root-files/skill_suite_overview.md
+```
 
-- `.agents/`, `.github/`
-- `README.md`, `agent.md`, `AGENTS.md`
-- `pm-prd-copilot/`
-- `workflow/`, `registry/`, `governance/`, `shared/`
-- modified existing `harness/` files
+建议：E 批继续暂缓。不提交 root 删除状态，不提交 archive，直到你逐项批准。
 
-Current role: architecture repair set. It includes PRD generator repairs, pipeline default-governed repairs, workflow/action/artifact contract repairs, harness check-only/write-report repairs, docs references, and policy updates.
+## 需要你拍板的治理功能决策
 
-Handling rule: keep as a separate future review/staging unit. Do not mix with `projects/*`, archive candidates, or generated reports.
-
-## Project Artifacts Bucket
-
-Includes:
-
-- `projects/demo-project/` generated artifacts and `pipeline-latest` run files.
-- `projects/fitness-app-mvp/` analysis and run files.
-- untracked project folders including `_archives`, `ai-collaboration-efficiency-platform`, `graduation-defense-agent`, `jiaxiaoqian-ai-invest-research`, `prompt-optimization-workbench`, `santoip-ai-brand-video`, and `taxi-hailing-prd-test`.
-- `memory-cache/`.
-
-Current role: project evidence and regression fixtures. `demo-project` is currently used by regression/harness; `taxi-hailing-prd-test/02_prd.final.md` is the PRD structure golden sample.
-
-Handling rule: keep as project artifacts. Run closeout before any archive or cleanup. Do not treat project generated files as stable framework changes.
-
-## Project Closeout Scan Index
-
-本索引是归档前扫描结果，不代表项目已归档，也不批准删除、移动、清空偏好缓存或写入长期记忆。`projects/_archives` 是归档区，本轮不当作 active 项目扫描。
-
-| Project | Current judgment | Evidence / role | Final human version | Prototype / UI / development / AI / B package | Preference cache | Architecture feedback | Cleanup candidates | User decision needed |
-|---|---|---|---|---|---|---|---|---|
-| `demo-project` | active test fixture | Regression and governance fixture with latest pipeline run. | Yes: final PRD and final user stories. | Prototype PNGs and UI style direction exist; no AI/B package. | No | Yes, 19 checklist items. | Yes: 5 generated metadata cleanup candidates after archive/review. | Keep as regression fixture by default; do not archive unless a replacement fixture exists. |
-| `fitness-app-mvp` | active / closeout candidate | Real project evidence with analysis, prototype preview, and preference cache. | Yes: final PRD and final user stories. | Product flow and prototype preview exist; no B package detected. | Yes, 5 project-memory files require review. | Yes, 14 checklist items. | Yes: 5 generated metadata cleanup candidates after archive/review. | Decide whether project is still active; review project preference cache before any archive. |
-| `taxi-hailing-prd-test` | closeout candidate | 0-1 PRD quality sample; generated draft exposed PRD regression issues. | Yes: final PRD. | PRD final includes page specs, navigation, and prototype layer; no PNG/HTML/UI. | No | Yes, 26 checklist items; generic architecture inbox already created separately. | Yes: 2 cleanup candidates after archive/review. | Decide whether final PRD becomes a golden sample; keep project name as evidence only, not rule title. |
-| `ai-collaboration-efficiency-platform` | closeout candidate | Sparse historical PRD artifact, no run evidence. | No final marker detected. | Single PRD file only; no prototype/UI/development package detected. | No | Yes, 7 checklist items. | No automatic cleanup candidates; 1 manual-review file. | Decide whether to keep as historical PRD evidence or archive candidate after review. |
-| `graduation-defense-agent` | closeout candidate | AI solution, delivery planning, Codex development, and prototype outputs exist. | No final marker detected. | AI plan, delivery docs, Codex development docs, and prototypes exist. | No | Yes, 7 checklist items. | No direct delete candidates; 53 files require archive/distillation before cleanup. | Review complete package and decide active vs archive candidate. |
-| `jiaxiaoqian-ai-invest-research` | active | AI-heavy project with PRD, development docs, B package, prototype, governance notes, and zips. | No final marker detected. | Prototype HTML/screenshots, development docs, B docs, AI model selection, and zip packages exist. | No | Yes, 13 checklist items. | 9 archive/distillation candidates and 25 manual-review files. | Keep active by default; old PRD wording is history-sweep candidate, not cleanup approval. |
-| `prompt-optimization-workbench` | closeout candidate | HTML prototype package evidence. | No final marker detected. | Prototype HTML source and zip package exist. | No | Yes, 7 checklist items. | 11 archive/distillation candidates and 1 manual-review file. | Decide whether prototype package should be archived after review. |
-| `santoip-ai-brand-video` | closeout candidate | HTML prototype package evidence. | No final marker detected. | Prototype HTML source and zip package exist. | No | Yes, 7 checklist items. | 11 archive/distillation candidates and 1 manual-review file. | Decide whether prototype package should be archived after review. |
-
-Closeout scan rules:
-
-- Closeout reports are review materials only.
-- Do not move projects into `projects/_archives` in this pass.
-- Do not delete project files or generated runs in this pass.
-- Do not clear project preference cache without user review.
-- Do not promote project feedback into long-term memory, templates, prompt rules, skill behavior, harness checks, workflow, or registry without a separate approved plan.
-- If project status is uncertain, treat it as active or closeout candidate, never as delete-ready.
-
-## Unconfirmed Capability Bucket
-
-Includes:
-
-- `plugins/ai-solution-planning-suite/`
-- `plugins/delivery-planning-suite/`
-- `plugins/prd-prototype-suite/`
-- `plugins/preference-memory-suite/`
-- `plugins/quality-evaluation-suite/`
-- untracked harness/eval files under `harness/` and `evals/`
-
-Current role: capability expansion candidates already present in the workspace.
-
-Handling rule: no new Skill, harness, plugin, or long-term rule should be accepted by default. Before stabilizing, each item needs a short review: what problem it solves, which existing component could have covered it, whether it is removable, and which tests prove value.
-
-## Archive / Cleanup Bucket
-
-Current archive-root-cleanup items:
-
-| Item | Status | Default action | Notes |
+| 决策 | 选项 A | 选项 B | 我的建议 |
 |---|---|---|---|
-| `prd_pm_2026_playbook.md` | deleted from root | `archive_candidate` | Canonical copy appears under `pm-prd-copilot/references/`; verify archived copy before accepting deletion. |
-| `prd_template_2026.md` | deleted from root | `archive_candidate` | Canonical template appears under `pm-prd-copilot/templates/`; verify archived copy before accepting deletion. |
-| `prd_skill_kit_2026.zip` | deleted from root | `archive_candidate` | Binary package should not live at root; archive or external backup only after review. |
-| `skill_suite_overview.md` | deleted from root | `archive_candidate` | Merge useful content into `docs/repository_map.md` or archive. |
-| `docs/archive/` | untracked | `archive_candidate` | Review archive contents before treating root deletions as safe. |
+| proposal 临时材料如何处理 | 暂缓，后续归档或 30 天后删除候选 | 现在全部提交 | 选 A。提交临时材料会污染长期治理文档。 |
+| skill patch 候选如何处理 | 逐条审查，不自动采纳 | 直接应用或提交 | 选 A。符合“如无必要，不增 skill”。 |
+| AI raw 是否提交 | 不提交，只本地保留 | 提交 raw 证据 | 选 A。raw 噪音大，长期追溯用 daily/events/logs 更稳。 |
+| memory-cache 是否提交 | 不提交，项目内保留 | 提交到仓库 | 选 A。避免项目偏好污染长期记忆。 |
+| C 批项目产物先处理谁 | 先 demo，再 fitness，再其它项目 | 一次性处理全部项目 | 选 A。小批次更稳，避免任务漂移。 |
+| root 删除状态是否接受 | 暂缓，逐条确认 | 现在接受 4 个删除 | 选 A。删除状态必须和 canonical/archive 证据逐条对齐。 |
+| docs/archive 是否提交 | 暂缓 | 现在提交 archive | 选 A。先定 archive 策略，再提交。 |
 
-Root deletion approval details:
+## 推荐下一步顺序
 
-| Item | root_status | canonical_copy | archive_copy | recommended_action | delete_after_30_days_candidate | needs_user_approval | notes |
-|---|---|---|---|---|---|---|---|
-| `prd_pm_2026_playbook.md` | deleted from root | `pm-prd-copilot/references/prd_pm_2026_playbook.md` | `docs/archive/root-files/prd_pm_2026_playbook.md` | Keep canonical and archive copies; accept root deletion only after user review. | No, unless later archive policy approves root historical record cleanup. | Yes | Root copy is redundant if canonical and archive are accepted. Do not restore by default. |
-| `prd_template_2026.md` | deleted from root | `pm-prd-copilot/templates/prd_template_2026.md` | `docs/archive/root-files/prd_template_2026.md` | Keep canonical and archive copies; accept root deletion only after user review. | No, unless later archive policy approves root historical record cleanup. | Yes | Root copy is redundant if canonical and archive are accepted. Do not restore by default. |
-| `prd_skill_kit_2026.zip` | deleted from root | none stable | `docs/archive/root-files/prd_skill_kit_2026.zip` | Keep archive copy only; do not return binary package to repository root. | Yes, after archive retention window and exact approval. | Yes | Binary package should stay out of root. Confirm whether an external backup is needed before any hard delete. |
-| `skill_suite_overview.md` | deleted from root | none stable | `docs/archive/root-files/skill_suite_overview.md` | Keep archive copy; later decide whether useful content should be extracted into `docs/repository_map.md`. | Yes, after archive retention window and exact approval. | Yes | Do not merge into repository map in this pass; review content first. |
+1. 提交本工作区分区地图更新。
+2. 进入 C 批 demo-project 最小 fixture 审查。
+3. 再处理 `fitness-app-mvp` 项目产物和偏好缓存处置边界。
+4. 单独审 skill patch 候选。
+5. 最后处理 E 批 root/archive。
 
-Current pass explicitly does not:
+## 本轮明确不批准
 
-- restore root files
-- delete archive copies
-- move archive directories
-- put `prd_skill_kit_2026.zip` back in root
-- merge `skill_suite_overview.md` into `docs/repository_map.md`
-- stage, commit, push, or create a PR
-
-Handling rule: archive first. Do not hard-delete during this pass. Hard delete eligibility starts only after 30 days and exact user approval.
-
-## Historical PRD Old-Wording Risks
-
-These are recorded for a later history sweep only. Do not batch-fix them in this workspace收口 pass.
-
-| File | Old wording found | Current classification | Next action |
-|---|---|---|---|
-| `projects/taxi-hailing-prd-test/02_prd.generated.md` | `PRD 可视化层`, `原型图 / 线框图`, default `AI 模型选型` | `keep_as_project_artifact` | Historical generated draft. Keep final golden sample as source of truth; do not repair now. |
-| `projects/taxi-hailing-prd-test/02_prd.generated.json` | default non-AI `AI 模型选型` text | `keep_as_project_artifact` | Historical generated JSON. Do not mix into generator repair. |
-| `projects/jiaxiaoqian-ai-invest-research/01_prd.md` | `原型图 / 线框图`, `AI 模型选型` | `history_sweep_candidate` | AI selection may be valid because the product is AI-heavy; only the old prototype wording needs contextual review. |
-| `projects/jiaxiaoqian-ai-invest-research/11_visual_prd_preview.md` | references old placement before `原型图 / 线框图` | `history_sweep_candidate` | Review when updating this project’s PRD visuals. |
-| `projects/jiaxiaoqian-ai-invest-research/02_development_design.md`, `03_mvp_release_plan.md`, `10_开发文档.md`, `10_开发文档_review.md` | old “流程图、原型图、AI 模型选型” input wording | `history_sweep_candidate` | Treat as historical project delivery docs, not stable templates. |
-| `projects/ai-collaboration-efficiency-platform/AI协作效率平台_PRD_完整测试版_v1.0.md` | `页面级原型图 / 线框图` | `history_sweep_candidate` | Historical project PRD; review only if project is reactivated. |
-
-Non-risk mentions:
-
-- `pm-prd-copilot/templates/prd_template_2026.md` still contains conditional `AI 模型选型（涉及 AI 能力时必备）`; this is intentional.
-- `docs/proposals/prd_structure_change_impact_review.md` mentions old wording as a recorded issue; this is not a live template defect.
-
-## Current Policy
-
-- Do not clean by filename alone.
-- Do not mix project-generated artifacts into stable framework commits.
-- Do not accept new plugins, harness checks, or long-term rules without necessity review.
-- Do not hard-delete archived items until the 30-day retention window passes and the user approves an exact delete list.
-- Use this partition before staging, summarizing architecture changes, or choosing a cleanup target.
-
-## Recommended Next Review Order
-
-1. Review stable-framework as one architecture repair set.
-2. Review unconfirmed-new-capabilities and harness-eval for “necessary vs. removable”.
-3. Review archive-root-cleanup exact move/archive list.
-4. Run project closeout for active project artifacts before cleanup.
-5. Run historical PRD sweep only after the current architecture set is stable.
-
-## Next User Decision Checklist
-
-This checklist is for supervision only. It does not approve any action.
-
-| Decision | Recommended default | Reason | Risk if deferred | User confirmation needed |
-|---|---|---|---|---|
-| Which eval / harness checks may become stable architecture? | Approved: `eval_suite`, `real_output_eval`, `skill_generalization`, `prototype_preview_gate`, and `external_redaction`. | These directly protect PRD quality, anti-leakage, prototype supervision, and B-package redaction. | Too many checks may violate “no unnecessary harness”; too few checks may let PRD regression recur. | No further decision for this exact set; future additions still require approval. |
-| Should candidate plugins stay visible as marketplace `AVAILABLE`? | Approved if explicitly marked candidate / requires review / non-stable. | Keeps exploration available without pretending it is stable. | Agents may use candidate suites without understanding review boundaries if labels drift. | Only future plugin promotion or hidden/visible policy changes need approval. |
-| Should the B-package script become a stable packager? | Approved after hard-coded project content is replaced with project input and redaction policy. | B packages are needed for protected outside delivery. | Packages may carry project-specific assumptions if generic regression fails. | Review real output before using as a delivery package. |
-| Should preference memory become stable? | Approved only as project-local cache. | It improves project continuity while blocking cross-project leakage. | Premature long-term learning can pollute other projects. | Long-term memory updates still need explicit item-by-item approval. |
-| Should root deleted files be accepted as deleted? | Not yet. | Canonical and archive copies must be verified first. | Accepting deletions too early can lose historical context. | Confirm exact root deletion / archive list. |
-| Should historical project PRDs be swept for old wording? | Defer until architecture set is stable. | Historical project artifacts should not be mixed into framework repair. | Old project docs may confuse future readers if reused. | Confirm which projects are active enough to update. |
-| Should project artifacts enter closeout? | Approved for all projects before archive. | Closeout extracts useful lessons before cleanup or archive. | Cleanup before closeout loses learning signals. | Confirm project-by-project closeout order and archive timing. |
+- 不删除、恢复、移动任何文件。
+- 不提交 root 删除状态。
+- 不提交 `docs/archive/`。
+- 不提交 `memory-cache/`。
+- 不提交 `projects/*`。
+- 不提交 `ai-intel/raw/*`。
+- 不自动采纳 skill patch。
+- 不把 candidate 转 stable。
+- 不新增 skill / harness / workflow / plugin。
+- 不写长期记忆。
+- 不 push / PR。

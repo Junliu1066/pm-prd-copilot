@@ -4,13 +4,25 @@
   "completed_stages": [],
   "approvals": [],
   "assumption_overrides": {},
+  "pipeline_assumption_overrides": {
+    "target_user_priority": true,
+    "core_scenario": true,
+    "mvp_scope": true,
+    "prototype_preview": true,
+    "prd_structure": true
+  },
+  "pipeline_assumption_override_notes": {
+    "target_user_priority": "demo-project governed rerun test coverage; not a real product approval",
+    "core_scenario": "demo-project governed rerun test coverage; not a real product approval",
+    "mvp_scope": "demo-project governed rerun test coverage; not a real product approval",
+    "prototype_preview": "demo-project governed rerun test coverage; not a real product approval",
+    "prd_structure": "demo-project governed rerun test coverage; not a real product approval"
+  },
   "last_run_id": "pipeline-latest",
   "last_pipeline_mode": "rule",
   "last_pipeline_stages": [
     "brief",
-    "prd",
-    "stories",
-    "risk",
-    "tracking"
-  ]
+    "prd"
+  ],
+  "last_pipeline_governed": true
 }

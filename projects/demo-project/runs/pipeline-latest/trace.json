@@ -16,7 +16,7 @@
         "source_brief_markdown"
       ],
       "status": "completed",
-      "completed_at": "2026-04-23T09:03:37+00:00"
+      "completed_at": "2026-04-28T16:51:32+00:00"
     },
     {
       "stage": "prd",
@@ -31,57 +31,12 @@
         "prd_markdown"
       ],
       "status": "completed",
-      "completed_at": "2026-04-23T09:03:37+00:00"
-    },
-    {
-      "stage": "stories",
-      "action": "write_user_stories",
-      "skill": "user-story-ac-generator",
-      "steward": "prd-writing-steward",
-      "inputs": [
-        "source_brief",
-        "prd_document"
-      ],
-      "outputs": [
-        "user_stories"
-      ],
-      "status": "completed",
-      "completed_at": "2026-04-23T09:03:37+00:00"
-    },
-    {
-      "stage": "risk",
-      "action": "check_risks_edgecases",
-      "skill": "risk-edgecase-checker",
-      "steward": "review-steward",
-      "inputs": [
-        "source_brief",
-        "prd_document"
-      ],
-      "outputs": [
-        "risk_report"
-      ],
-      "status": "completed",
-      "completed_at": "2026-04-23T09:03:37+00:00"
-    },
-    {
-      "stage": "tracking",
-      "action": "design_tracking_plan",
-      "skill": "tracking-plan-designer",
-      "steward": "prd-writing-steward",
-      "inputs": [
-        "source_brief",
-        "prd_document"
-      ],
-      "outputs": [
-        "tracking_plan"
-      ],
-      "status": "completed",
-      "completed_at": "2026-04-23T09:03:37+00:00"
+      "completed_at": "2026-04-28T16:51:32+00:00"
     }
   ],
   "mcp_calls": [],
   "source_traces": [],
-  "started_at": "2026-04-23T09:03:37+00:00",
+  "started_at": "2026-04-28T16:51:32+00:00",
   "status": "completed",
-  "completed_at": "2026-04-23T09:07:18+00:00"
+  "completed_at": "2026-04-28T16:51:32+00:00"
 }

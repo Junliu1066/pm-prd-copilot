@@ -1,7 +1,56 @@
 # Agentic Delivery Orchestrator Output Contract
 
 ```yaml
+mode_selection:
+  lightweight_codex_delivery:
+    use_when:
+      - "ordinary development-ready PRD"
+      - "single-phase implementation plan"
+      - "user asks for a Codex development document"
+    required_artifacts:
+      - "codex_development_document.md or codex_development_plan.md"
+      - "codex_task_packages.md"
+      - "human_supervision_plan.md"
+      - "codex_development_review.md"
+    forbidden_by_default:
+      - "phase_1_codex_plan.md"
+      - "phase_2_codex_plan.md"
+      - "phase_3_codex_plan.md"
+      - "final_codex_plan.md"
+      - "development_governance_report.json"
+      - "full Skill/MCP/Harness operating-system exposition"
+  full_agentic_delivery:
+    use_when:
+      - "user explicitly asks for semi-automated agent delivery"
+      - "user explicitly asks for phase 1 / 2 / 3 / final Codex plans"
+      - "the project has approved development governance, capability enablement, or agent orchestration scope"
+    required_artifacts:
+      - "codex_development_plan.md"
+      - "phase_1_codex_plan.md"
+      - "phase_2_codex_plan.md"
+      - "phase_3_codex_plan.md"
+      - "final_codex_plan.md"
+      - "codex_development_review.md"
+      - "agentic_delivery_plan.md"
+      - "codex_task_packages.md"
+      - "human_supervision_plan.md"
+      - "development_governance_report.json"
+lightweight_codex_development_document:
+  artifact: "codex_development_document.md or codex_development_plan.md"
+  required_sections:
+    - "文档目标"
+    - "输入材料"
+    - "开发范围"
+    - "任务包"
+    - "允许修改范围"
+    - "禁止修改范围"
+    - "人工确认点"
+    - "验证命令"
+    - "回滚方案"
+    - "待决策项"
+    - "审核结论"
 codex_development_plan:
+  mode: "full_agentic_delivery or explicitly requested multi-phase plan"
   artifact: "codex_development_plan.md"
   required_sections:
     - "文档目标"
@@ -17,6 +66,7 @@ codex_development_plan:
     - "验收与回归"
     - "阶段文档索引"
 phase_codex_plans:
+  mode: "full_agentic_delivery only, unless user explicitly asks for phase plans"
   phase_1_codex_plan:
     artifact: "phase_1_codex_plan.md"
     phase_name: "一期"
@@ -57,6 +107,7 @@ codex_development_review:
     - "人工确认清单"
     - "最终建议"
 agentic_delivery_plan:
+  mode: "full_agentic_delivery"
   plan_id: ""
   document_layering:
     product_package_may_include:
@@ -133,6 +184,7 @@ human_supervision_plan:
   required_confirmations:
     - ""
 development_governance_report:
+  mode: "full_agentic_delivery"
   checks:
     - ""
   absorbed_operating_system:

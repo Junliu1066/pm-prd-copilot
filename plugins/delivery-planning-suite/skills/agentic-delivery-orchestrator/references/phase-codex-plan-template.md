@@ -1,13 +1,13 @@
 # Phase Codex Plan Template
 
-Use this template for:
+Use this template only when the user asks for full agentic delivery, multi-phase Codex execution, or explicit phase plans:
 
 - `phase_1_codex_plan.md`
 - `phase_2_codex_plan.md`
 - `phase_3_codex_plan.md`
 - `final_codex_plan.md`
 
-## Required Sections
+## Full-Mode Required Sections
 
 1. `阶段目标`
    - Define the phase goal in product and development terms.
@@ -124,3 +124,4 @@ Use this template for:
 - Do not omit teaching/learning.
 - Do not omit human confirmation gates.
 - Do not allow overlapping write paths unless a conflict policy is written.
+- Do not create phase documents for ordinary lightweight Codex development requests unless the user explicitly asks for phase planning.

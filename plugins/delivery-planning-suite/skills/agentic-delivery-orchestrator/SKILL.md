@@ -7,7 +7,7 @@ description: Convert PRD, feature matrix, flows, prototypes, delivery, AI, capab
 
 ## Purpose
 
-Create a supervised AI-development execution plan. This skill answers "how should Codex-like agents develop this product safely while reusing or extending the skill/MCP/harness/governance operating system?"
+Create a supervised AI-development execution plan only when the user is ready to turn product material into Codex execution. This skill answers "how should Codex-like agents develop this product safely under human supervision?"
 
 It also enforces the product/development boundary:
 
@@ -33,22 +33,22 @@ It also enforces the product/development boundary:
 ## Workflow
 
 1. Verify document layering. Product materials such as feature matrices, flows, and prototype notes may live inside the PRD/product package; implementation details must be routed to the Codex development documents instead of expanding the PRD.
-2. Verify capability enablement: existing skill reuse, new skill proposals, MCP candidates, harness requirements, and approvals.
-3. Verify Skill/MCP routing: each stage has steward ownership, allowed skills/MCPs, source-trace requirements, fallback, and escalation.
-4. Verify development governance: chief steward, sub-stewards, random audit, efficiency, teacher, preference cache, skill update proposal route, and harness checks.
-5. Create a project-level `codex_development_plan` that can be handed to Codex for semi-automated development.
-6. Split the work into four phase documents: phase 1, phase 2, phase 3, and final. Use the standard meanings:
+2. Choose the smallest output mode that satisfies the request:
+   - Lightweight Codex delivery: use for ordinary development-ready PRDs, single-phase implementation plans, or when the user asks for a Codex development document.
+   - Full agentic delivery: use only when the user explicitly asks for semi-automated agent delivery, multi-phase Codex execution, agent orchestration, or a complete development governance plan.
+3. In lightweight mode, produce only the development document, task packages, human confirmation points, validation, rollback, and review needed for implementation.
+4. In full agentic mode, verify capability enablement, Skill/MCP routing, development governance, and phase planning before producing the complete package.
+5. Split the work into four phase documents only in full agentic mode or when the user explicitly asks for phase plans. Use the standard meanings:
    - Phase 1: MVP / core loop.
    - Phase 2: efficiency, personalization, and experience improvements.
    - Phase 3: collaboration, admin, backstage, or scale features.
    - Final: platformization, long-term intelligence, and advanced integrations.
-7. For every phase document, include framework, teaching/learning route, Skill/MCP routing, data changes, model/Prompt/RAG/memory work, Codex task packages, write boundaries, human confirmation points, GitHub/PR flow, harness/audit/regression, risks, rollback, and acceptance criteria.
-8. Split Codex task packages with read/write boundaries.
-9. Define development order, dependencies, and conflict rules.
-10. Define human supervision gates for high-risk changes.
-11. Define required checks and minimal-fix strategy.
-12. Define feedback learning loop after human review.
-13. Before sending development-facing documents to the user or starting implementation, route the generated Codex development plan and phase plans through `codex-development-plan-reviewer` and attach the resulting `codex_development_review`.
+6. Split Codex task packages with read/write boundaries.
+7. Define development order, dependencies, and conflict rules.
+8. Define human supervision gates for high-risk changes.
+9. Define required checks and minimal-fix strategy.
+10. Define feedback handling after human review. In lightweight mode, state whether feedback remains project-local, needs a later learning proposal, or requires no persistence.
+11. Before sending development-facing documents to the user or starting implementation, route the generated plan through `codex-development-plan-reviewer` and attach the resulting `codex_development_review`.
 
 ## Output Contract
 
@@ -57,7 +57,11 @@ Read [references/output-contract.md](references/output-contract.md). For detaile
 - [references/codex-development-plan-template.md](references/codex-development-plan-template.md)
 - [references/phase-codex-plan-template.md](references/phase-codex-plan-template.md)
 
-Always include `codex_development_plan`, `phase_1_codex_plan`, `phase_2_codex_plan`, `phase_3_codex_plan`, `final_codex_plan`, `codex_development_review`, `agentic_delivery_plan`, `codex_task_packages`, `human_supervision_plan`, and `development_governance_report`. The final plan must explicitly absorb capability enablement, Skill/MCP routing, governance operating system, Codex task package blueprint, and the send-before-review result.
+Use the output contract by mode:
+
+- Lightweight Codex delivery must include a Codex development document or plan, Codex task packages, human supervision points, validation / rollback instructions, and `codex_development_review`.
+- Full agentic delivery may additionally include `agentic_delivery_plan`, phase 1 / 2 / 3 / final Codex plans, capability enablement, Skill/MCP routing, development governance, and development governance reports.
+- Do not generate full phase plans, governance operating-system details, or reusable framework mechanics for an ordinary lightweight development request unless the user explicitly asks for them.
 
 ## Guardrails
 
@@ -65,10 +69,11 @@ Always include `codex_development_plan`, `phase_1_codex_plan`, `phase_2_codex_pl
 - Every task must declare allowed and forbidden write paths.
 - Every task must include validation commands or manual review criteria.
 - Do not assign overlapping write scopes without a conflict plan.
-- Do not start product-code tasks until required Skill/MCP/harness enablement is planned or explicitly deferred.
+- Do not start product-code tasks until required capability, MCP, or harness enablement is planned or explicitly deferred.
 - Do not let MCP outputs directly decide product scope, MVP, model choice, or skill updates.
 - Do not let teaching or learning roles update skills without user approval.
 - Do not put database schemas, API contracts, Prompt assets, model routes, GitHub process, or Codex task package details into the PRD/product package. Product feature matrices, product flows, and prototype notes are allowed there.
-- Do not generate a single vague development plan when the user expects phase plans. Always separate phase 1, phase 2, phase 3, and final.
+- Do not expand a lightweight Codex development request into full phase plans unless the user asks for phase plans or full agentic delivery.
+- Do not generate a single vague development plan when the user expects phase plans. When phase plans are requested, separate phase 1, phase 2, phase 3, and final.
 - Do not send development-facing documents as ready for implementation unless `codex_development_review` exists and states pass or warn with explicit blockers.
-- Do not omit the teaching/learning route. Each phase must state how user feedback becomes project memory, open lessons, skill proposals, or no persistent learning.
+- Do not make learning persistent by default. Lightweight output must state whether feedback remains one-off or project-local. Full agentic delivery must state how user feedback becomes project memory, open lessons, skill proposals, or no persistent learning.

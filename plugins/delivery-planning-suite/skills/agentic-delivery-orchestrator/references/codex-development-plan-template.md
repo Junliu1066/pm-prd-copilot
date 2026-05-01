@@ -1,8 +1,10 @@
 # Codex Semi-Auto Development Plan Template
 
-Use this template for the project delivery artifact named `codex_development_plan.md`.
+Use this template for the project delivery artifact named `codex_development_plan.md` only when the user asks for full agentic delivery, multi-phase Codex execution, or a complete development governance plan.
 
-## Required Sections
+For lightweight Codex development documents, do not copy the full template. Use the smaller contract: document goal, inputs, development scope, task packages, allowed / forbidden write paths, human confirmation points, validation commands, rollback, open decisions, and review result.
+
+## Full-Mode Required Sections
 
 1. `文档目标`
    - State that the document converts product artifacts into Codex semi-automated development execution.
@@ -79,14 +81,14 @@ Use this template for the project delivery artifact named `codex_development_pla
     - `final_codex_plan.md`
     - `codex_development_review.md`
 
-## Required Output Links
+## Full-Mode Output Links
 
-The plan must link:
+The full-mode plan must link:
 
 - PRD/product package
 - feature matrix, product flow, and prototype preview when they are available as companion product artifacts
 - delivery plan or release roadmap when available
-- phase Codex plans
+- phase Codex plans when generated
 - Codex development review
 - task packages
 - human supervision plan
@@ -97,3 +99,4 @@ The plan must link:
 - Do not redefine product scope differently from the PRD.
 - Do not approve model, MCP, database, GitHub, memory, or skill changes on behalf of the user.
 - Do not bury teaching/learning in generic notes. It must be a named section.
+- Do not use this full template for ordinary lightweight implementation requests.

@@ -1,0 +1,14 @@
+{
+  "run_id": "pipeline-latest",
+  "project_id": "demo-project",
+  "status": "pass",
+  "case_count": 5,
+  "unique_domains": [
+    "b2b_saas",
+    "consumer_health",
+    "education",
+    "local_services",
+    "productivity_platform"
+  ],
+  "issues": []
+}

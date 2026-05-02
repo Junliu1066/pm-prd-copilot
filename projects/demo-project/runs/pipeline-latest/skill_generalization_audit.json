@@ -1,0 +1,12 @@
+{
+  "run_id": "pipeline-latest",
+  "project_id": "demo-project",
+  "status": "pass",
+  "findings": [],
+  "required_routing": {
+    "project_specific_items": "project_preference_cache",
+    "durable_user_defaults": "approved_user_preference",
+    "generic_methods": "reusable_skill_rule",
+    "unclear_items": "open_lesson"
+  }
+}

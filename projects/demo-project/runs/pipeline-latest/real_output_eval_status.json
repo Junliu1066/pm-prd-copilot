@@ -1,0 +1,9 @@
+{
+  "run_id": "pipeline-latest",
+  "project_id": "demo-project",
+  "eval_run_id": "20260425T000000Z",
+  "status": "pass",
+  "total_score": 30,
+  "max_score": 30,
+  "report_path": "evals/real_outputs/20260425T000000Z/real_output_eval_report.json"
+}

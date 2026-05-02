@@ -1,0 +1,181 @@
+{
+  "proposal_id": "skill-update-20260424T041400Z",
+  "created_at": "2026-04-24T04:14:00+00:00",
+  "status": "proposed",
+  "requires_human_approval": true,
+  "must_not_apply_automatically": true,
+  "source_lessons": [
+    {
+      "lesson_id": "LESSON-20260424-001",
+      "title": "Market default should come from preference context",
+      "source_file": "teaching/open_lessons.md",
+      "lesson_type": "user_preference"
+    },
+    {
+      "lesson_id": "LESSON-20260424-002",
+      "title": "Include direct and indirect competitors across the industry track",
+      "source_file": "teaching/open_lessons.md",
+      "lesson_type": "general_pm_principle"
+    },
+    {
+      "lesson_id": "LESSON-20260424-003",
+      "title": "Make PRD analysis outputs visually reviewable",
+      "source_file": "teaching/open_lessons.md",
+      "lesson_type": "output_preference"
+    }
+  ],
+  "skill_updates": [
+    {
+      "lesson_id": "LESSON-20260424-001",
+      "lesson_title": "Market default should come from preference context",
+      "skill": "source-collector",
+      "plugin": "prd-analysis-suite",
+      "path": "plugins/prd-analysis-suite/skills/source-collector",
+      "status": "proposed",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "user_preference",
+      "principle": "If the user does not specify a market, resolve market scope from the current request, active project cache, or approved user preference; generic skills must not hard-code a market.",
+      "expected_behavior": "Source briefs should include market_default only when it was supplied by the request or approved preference context.",
+      "verification_hint": "A new PRD analysis run without explicit market should either use an approved preference-backed market or mark market as unresolved instead of silently assuming a region.",
+      "suggested_locations": [
+        "Workflow",
+        "Guardrails"
+      ]
+    },
+    {
+      "lesson_id": "LESSON-20260424-001",
+      "lesson_title": "Market default should come from preference context",
+      "skill": "competitor-gap-analyzer",
+      "plugin": "prd-analysis-suite",
+      "path": "plugins/prd-analysis-suite/skills/competitor-gap-analyzer",
+      "status": "proposed",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "user_preference",
+      "principle": "Competitor analysis should read market scope from the request or approved preference context instead of embedding a fixed default market in the skill.",
+      "expected_behavior": "Research should prioritize sources and competitor categories appropriate to the resolved market; if market is unresolved, ask or mark the assumption.",
+      "verification_hint": "Competitor output should state the source of its market assumption: explicit request, project cache, user preference, or unresolved assumption.",
+      "suggested_locations": [
+        "Workflow",
+        "Evidence Standard",
+        "Guardrails"
+      ]
+    },
+    {
+      "lesson_id": "LESSON-20260424-002",
+      "lesson_title": "Include direct and indirect competitors across the industry track",
+      "skill": "competitor-gap-analyzer",
+      "plugin": "prd-analysis-suite",
+      "path": "plugins/prd-analysis-suite/skills/competitor-gap-analyzer",
+      "status": "proposed",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "general_pm_principle",
+      "principle": "Competitor scope includes direct tools, adjacent platforms, platform-native substitutes, content/community substitutes, offline/service substitutes, and manual workarounds when they influence the user's decision, attention, time, or workflow.",
+      "expected_behavior": "Competitor output should explain the industry-track influence map instead of only listing vertical products.",
+      "verification_hint": "A competitor artifact should include at least direct, adjacent, platform-native, and workaround categories unless a category is explicitly irrelevant.",
+      "suggested_locations": [
+        "Workflow",
+        "Output Contract",
+        "Guardrails"
+      ]
+    },
+    {
+      "lesson_id": "LESSON-20260424-002",
+      "lesson_title": "Include direct and indirect competitors across the industry track",
+      "skill": "scenario-roi-ranker",
+      "plugin": "prd-analysis-suite",
+      "path": "plugins/prd-analysis-suite/skills/scenario-roi-ranker",
+      "status": "proposed",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "general_pm_principle",
+      "principle": "Scenario ranking should use competitor influence categories, not only direct vertical competitors, when scoring differentiation and risk.",
+      "expected_behavior": "Differentiation and risk scores should consider content platforms, platform-native substitutes, and manual workarounds when they affect the scenario.",
+      "verification_hint": "Scenario ranking should link each core scenario to the relevant competitor influence category.",
+      "suggested_locations": [
+        "Workflow",
+        "Scoring Model"
+      ]
+    },
+    {
+      "lesson_id": "LESSON-20260424-002",
+      "lesson_title": "Include direct and indirect competitors across the industry track",
+      "skill": "mvp-scope-decider",
+      "plugin": "prd-analysis-suite",
+      "path": "plugins/prd-analysis-suite/skills/mvp-scope-decider",
+      "status": "proposed",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "general_pm_principle",
+      "principle": "MVP scoping should account for direct and indirect competitor influence before deciding what belongs in MVP, V1, Later, or Non-goal.",
+      "expected_behavior": "MVP scope should avoid both overbuilding against heavy platforms and underestimating platform-native or manual substitutes.",
+      "verification_hint": "MVP scope should reference competitor influence when explaining included and deferred items.",
+      "suggested_locations": [
+        "Workflow",
+        "Guardrails"
+      ]
+    },
+    {
+      "lesson_id": "LESSON-20260424-003",
+      "lesson_title": "Make PRD analysis outputs visually reviewable",
+      "skill": "user-universe-mapper",
+      "plugin": "prd-analysis-suite",
+      "path": "plugins/prd-analysis-suite/skills/user-universe-mapper",
+      "status": "proposed",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "output_preference",
+      "principle": "When user groups are broad, include a review matrix before narrowing so the user can quickly inspect priorities.",
+      "expected_behavior": "User-universe artifacts should include a matrix or equivalent first-screen visualization for broad segmentation work.",
+      "verification_hint": "The summary or artifact should show segments by priority/fit and pain/frequency before the narrowed recommendation.",
+      "suggested_locations": [
+        "Output Contract",
+        "Workflow"
+      ]
+    },
+    {
+      "lesson_id": "LESSON-20260424-003",
+      "lesson_title": "Make PRD analysis outputs visually reviewable",
+      "skill": "source-collector",
+      "plugin": "prd-analysis-suite",
+      "path": "plugins/prd-analysis-suite/skills/source-collector",
+      "status": "proposed",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "output_preference",
+      "principle": "When a workflow involves multiple skills or MCPs, make the evidence and responsibility path visually reviewable.",
+      "expected_behavior": "Source collection should preserve enough trace data for downstream summaries to draw skill/MCP role boundaries.",
+      "verification_hint": "Workflow summaries should show which skill/MCP collected, analyzed, ranked, scoped, and audited.",
+      "suggested_locations": [
+        "Workflow",
+        "Output Contract"
+      ]
+    },
+    {
+      "lesson_id": "LESSON-20260424-003",
+      "lesson_title": "Make PRD analysis outputs visually reviewable",
+      "skill": "competitor-gap-analyzer",
+      "plugin": "prd-analysis-suite",
+      "path": "plugins/prd-analysis-suite/skills/competitor-gap-analyzer",
+      "status": "proposed",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "output_preference",
+      "principle": "Competitor outputs should be reviewable through category maps and role-boundary diagrams when the competitor set spans multiple categories.",
+      "expected_behavior": "Competitor summaries should show direct, adjacent, platform-native, content/community, and workaround categories in an easy-to-scan structure.",
+      "verification_hint": "The artifact should not force the user to read a long competitor list before understanding the market map.",
+      "suggested_locations": [
+        "Output Contract",
+        "Workflow"
+      ]
+    }
+  ],
+  "approval_checklist": [
+    "User confirms where market defaults should live: user preference, project cache, or current request only.",
+    "User confirms competitor scope should include direct and indirect influence categories across the industry track.",
+    "User confirms matrix and flowchart outputs should become default behavior for broad PRD analysis work.",
+    "After approval, update only the affected plugin Skill files and output contracts, then run harness and regression."
+  ]
+}

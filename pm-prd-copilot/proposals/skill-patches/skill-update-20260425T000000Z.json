@@ -1,0 +1,44 @@
+{
+  "proposal_id": "skill-update-20260425T000000Z",
+  "created_at": "2026-04-25T00:00:00+00:00",
+  "status": "applied",
+  "requires_human_approval": true,
+  "must_not_apply_automatically": true,
+  "approved_by": "user",
+  "approved_at": "2026-04-25T00:00:00Z",
+  "applied_at": "2026-04-25T00:00:00Z",
+  "source_lessons": [
+    {
+      "lesson_id": "LESSON-20260425-001",
+      "title": "Prototype delivery must be visible and visually QA'd",
+      "source_file": "teaching/accepted_lessons.md",
+      "lesson_type": "skill_improvement"
+    }
+  ],
+  "skill_updates": [
+    {
+      "lesson_id": "LESSON-20260425-001",
+      "lesson_title": "Prototype delivery must be visible and visually QA'd",
+      "skill": "low-fi-prototype-designer",
+      "plugin": "prd-prototype-suite",
+      "path": "plugins/prd-prototype-suite/skills/low-fi-prototype-designer",
+      "status": "applied",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "skill_improvement",
+      "principle": "Prototype previews need visible delivery artifacts and visual QA before completion.",
+      "expected_behavior": "The skill provides PNG/HTML fallback and checks overlap, centering, clipping, contrast, and source/preview consistency.",
+      "verification_hint": "Prototype preview artifacts include delivery_artifacts and visual_qa_checklist."
+    }
+  ],
+  "approval_checklist": [
+    "User approved absorbing the prototype visibility and visual QA lesson.",
+    "Harness and regression pass after applying."
+  ],
+  "applied_files": [
+    "plugins/prd-prototype-suite/skills/low-fi-prototype-designer/SKILL.md",
+    "plugins/prd-prototype-suite/skills/low-fi-prototype-designer/references/output-contract.md",
+    "memory-cache/projects/fitness-app-mvp/cache-20260424T000000+0800/approved_preferences.md",
+    "memory-cache/projects/fitness-app-mvp/cache-20260424T000000+0800/source_trace.json"
+  ]
+}

@@ -84,6 +84,31 @@
 3. 后续先处理偏好缓存边界，再决定 `20260424T000000Z` 和 `20260425T000000Z` 是否作为历史审计记录入库。
 4. `20260424T041400Z` 拆成三条候选改动，等 PRD analysis suite 下一轮复核时再处理。
 
+## 2026-05-02 后续执行记录
+
+已复核 `docs/proposals/preference_cache_boundary_review.md`，确认偏好缓存边界已具备以下约束：
+
+- `memory-cache/` 不提交。
+- 项目偏好不自动进入长期记忆。
+- 项目偏好不跨项目复用。
+- `clear` / `archive-clear` 必须有用户批准门槛。
+
+因此，两组已标记 `applied` 的 patch 可以只作为历史审计记录入库：
+
+- `skill-update-20260424T000000Z.md`
+- `skill-update-20260424T000000Z.json`
+- `skill-update-20260425T000000Z.md`
+- `skill-update-20260425T000000Z.json`
+
+本次入库不代表重新应用补丁，也不代表把 `memory-cache/`、fitness 项目偏好、原型风格或市场默认值写入长期规则。
+
+继续暂缓：
+
+- `skill-update-20260424T041400Z.md`
+- `skill-update-20260424T041400Z.json`
+
+原因：它仍是 `proposed` 状态，包含市场默认值、竞品外延、PRD 分析视觉化三类候选改动，需要后续逐条审批，不能自动应用。
+
 ## 本轮未执行
 
 - 没有应用 Skill patch。

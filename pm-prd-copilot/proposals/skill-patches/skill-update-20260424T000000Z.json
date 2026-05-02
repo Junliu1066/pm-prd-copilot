@@ -1,0 +1,99 @@
+{
+  "proposal_id": "skill-update-20260424T000000Z",
+  "created_at": "2026-04-24T00:00:00+00:00",
+  "status": "applied",
+  "requires_human_approval": true,
+  "must_not_apply_automatically": true,
+  "approved_by": "user",
+  "approved_at": "2026-04-24T00:00:00Z",
+  "applied_at": "2026-04-24T00:00:00Z",
+  "source_lessons": [
+    {
+      "lesson_id": "LESSON-20260424-004",
+      "title": "Prototype feedback must update both artifact and product logic",
+      "source_file": "teaching/accepted_lessons.md",
+      "lesson_type": "skill_improvement"
+    },
+    {
+      "lesson_id": "LESSON-20260424-005",
+      "title": "Project preferences need isolated versioned caches",
+      "source_file": "teaching/accepted_lessons.md",
+      "lesson_type": "workflow_rule"
+    }
+  ],
+  "skill_updates": [
+    {
+      "lesson_id": "LESSON-20260424-004",
+      "lesson_title": "Prototype feedback must update both artifact and product logic",
+      "skill": "prototype-reference-analyzer",
+      "plugin": "prd-prototype-suite",
+      "path": "plugins/prd-prototype-suite/skills/prototype-reference-analyzer",
+      "status": "applied",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "skill_improvement",
+      "principle": "Style instructions and reference images should be converted into reusable prototype expression rules.",
+      "expected_behavior": "The skill parses explicit user-provided style directives and keeps them scoped to the current project unless approved as reusable guidance.",
+      "verification_hint": "Reference analysis output includes style directives and guardrails."
+    },
+    {
+      "lesson_id": "LESSON-20260424-004",
+      "lesson_title": "Prototype feedback must update both artifact and product logic",
+      "skill": "product-flow-mapper",
+      "plugin": "prd-prototype-suite",
+      "path": "plugins/prd-prototype-suite/skills/product-flow-mapper",
+      "status": "applied",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "skill_improvement",
+      "principle": "Business-logic feedback from prototype review must update product flows.",
+      "expected_behavior": "Prototype feedback is classified and business flow artifacts stay consistent with prototype changes.",
+      "verification_hint": "A feedback item that adds a module appears in both product flow and prototype preview."
+    },
+    {
+      "lesson_id": "LESSON-20260424-004",
+      "lesson_title": "Prototype feedback must update both artifact and product logic",
+      "skill": "low-fi-prototype-designer",
+      "plugin": "prd-prototype-suite",
+      "path": "plugins/prd-prototype-suite/skills/low-fi-prototype-designer",
+      "status": "applied",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "skill_improvement",
+      "principle": "Prototype iteration should apply user feedback by layer and keep artifacts synchronized.",
+      "expected_behavior": "The skill classifies feedback as business logic, page structure, copy, visual style, or exception state.",
+      "verification_hint": "Preview Markdown, image/SVG, and product-flow updates remain aligned."
+    },
+    {
+      "lesson_id": "LESSON-20260424-005",
+      "lesson_title": "Project preferences need isolated versioned caches",
+      "skill": "project-preference-cache-manager",
+      "plugin": "preference-memory-suite",
+      "path": "plugins/preference-memory-suite/skills/project-preference-cache-manager",
+      "status": "applied",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "workflow_rule",
+      "principle": "Project preference memory must be isolated, versioned, resettable, clearable, and traceable.",
+      "expected_behavior": "The skill manages project-only cache lifecycle and approved/candidate preference separation.",
+      "verification_hint": "Preference cache checker passes and cleared caches are not reused."
+    }
+  ],
+  "approval_checklist": [
+    "User approved implementing the project preference cache mechanism.",
+    "User approved applying the prototype Skill improvements learned from the preview iteration.",
+    "Harness and regression must pass after applying."
+  ],
+  "applied_files": [
+    "plugins/preference-memory-suite/skills/project-preference-cache-manager/SKILL.md",
+    "plugins/preference-memory-suite/skills/project-preference-cache-manager/references/output-contract.md",
+    "plugins/prd-prototype-suite/skills/prototype-reference-analyzer/SKILL.md",
+    "plugins/prd-prototype-suite/skills/prototype-reference-analyzer/references/output-contract.md",
+    "plugins/prd-prototype-suite/skills/product-flow-mapper/SKILL.md",
+    "plugins/prd-prototype-suite/skills/product-flow-mapper/references/output-contract.md",
+    "plugins/prd-prototype-suite/skills/low-fi-prototype-designer/SKILL.md",
+    "plugins/prd-prototype-suite/skills/low-fi-prototype-designer/references/output-contract.md",
+    "harness/preference_cache_checker.py",
+    "pm-prd-copilot/scripts/manage_preference_cache.py"
+  ]
+}

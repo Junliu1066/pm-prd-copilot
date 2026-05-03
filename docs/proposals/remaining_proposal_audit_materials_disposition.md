@@ -99,7 +99,66 @@ docs/proposals/c16_project_package_zip_lifecycle_review.md
 | `docs/proposals/b5_automation_ai_intel_candidate_review.md` | `superseded_by_later_review` | 已被 B5a workflow、B5b candidate marketplace、B5c AI intel 写入边界和 D1 candidate plugin 审查拆分覆盖。 | 如需保留，只提炼中文总结；否则进入 30 天删除候选。 |
 | `docs/proposals/b5b_registry_candidate_alignment_review.md` | `superseded_by_later_review` | 决策已被 D1 candidate plugin registry/source review 和实际提交覆盖。 | 如需保留，只提炼中文总结；否则进入 30 天删除候选。 |
 
-## 4. 当前不应提交的 Proposal
+## 4. 30 天删除候选精确清单
+
+当前日期为 2026-05-03。以下文件只进入候选清单，不执行删除。最早复核日建议为：
+
+```text
+2026-06-02
+```
+
+复核前置条件：
+
+- 本轮治理总验收报告已经完成，确认不再需要这些过程材料。
+- 用户逐条或整批批准删除。
+- 删除前再次运行 `git status --short docs/proposals`，确认路径仍是预期临时材料。
+- 删除后运行 `git diff --check`、regression、harness check-only。
+
+### 4.1 可直接列入 30 天删除候选
+
+| 路径 | 候选原因 | 最早复核日 | 删除前审批 |
+|---|---|---|---|
+| `docs/proposals/b2_proposal_audit_commit_review.md` | 已完成 B2 commit，只是历史 commit review。 | 2026-06-02 | 需要 |
+| `docs/proposals/b3_teaching_steward_commit_review.md` | 已完成 B3 commit，只是历史 commit review。 | 2026-06-02 | 需要 |
+| `docs/proposals/b3_teaching_steward_content_review_plan.md` | 已被 B3 内容审查和修复覆盖。 | 2026-06-02 | 需要 |
+| `docs/proposals/b3_teaching_steward_staging_list.md` | 已过期 staging 清单。 | 2026-06-02 | 需要 |
+| `docs/proposals/b4_error_reports_commit_review.md` | 已完成 B4 commit，只是历史 commit review。 | 2026-06-02 | 需要 |
+| `docs/proposals/b4_error_reports_staging_list.md` | 已过期 staging 清单。 | 2026-06-02 | 需要 |
+| `docs/proposals/b5a_github_workflows_commit_review.md` | 已完成 B5a commit，只是历史 commit review。 | 2026-06-02 | 需要 |
+| `docs/proposals/b5a_github_workflows_staging_list.md` | 已过期 staging 清单。 | 2026-06-02 | 需要 |
+| `docs/proposals/b5b_candidate_marketplace_staging_list.md` | 已被 D1 candidate plugin 提交取代。 | 2026-06-02 | 需要 |
+| `docs/proposals/b5c_ai_intel_commit_review.md` | 已完成 B5c evidence 提交，只是历史 commit review。 | 2026-06-02 | 需要 |
+| `docs/proposals/b5c_ai_intel_staging_list.md` | 已过期 staging 清单。 | 2026-06-02 | 需要 |
+| `docs/proposals/c3_demo_fixture_commit_review.md` | demo fixture / run evidence 已提交，只是历史 commit review。 | 2026-06-02 | 需要 |
+| `docs/proposals/d1_candidate_plugin_commit_review.md` | D1 candidate plugin 已提交，只是历史 commit review。 | 2026-06-02 | 需要 |
+| `docs/proposals/c11_golden_case_regression_l2_approval_package.md` | C11 已提交完成，只是 L2 审批包。 | 2026-06-02 | 需要 |
+| `docs/proposals/c12_c16_project_artifact_review_summary.md` | 详细记录已在 C12-C16 单项审查里提交，汇总只服务本轮审核。 | 2026-06-02 | 需要 |
+| `docs/proposals/proposal_decision_record_submission_plan.md` | 17 个决策记录已提交，该计划已完成使命。 | 2026-06-02 | 需要 |
+
+### 4.2 条件删除候选
+
+这 2 个文件先不提炼，除非后续需要回看历史判断。若 30 天内没有使用，也可进入删除候选。
+
+| 路径 | 当前状态 | 最早复核日 | 删除前审批 |
+|---|---|---|---|
+| `docs/proposals/b5_automation_ai_intel_candidate_review.md` | 已被 B5a / B5b / B5c / D1 拆分覆盖。 | 2026-06-02 | 需要 |
+| `docs/proposals/b5b_registry_candidate_alignment_review.md` | 已被 D1 candidate plugin registry/source review 和实际提交覆盖。 | 2026-06-02 | 需要 |
+
+### 4.3 未来删除执行边界
+
+未来如果你在 2026-06-02 之后批准删除，只允许删除上面精确列出的 18 个路径。
+
+不允许混入：
+
+- 已提交的 17 个 proposal 决策记录。
+- `docs/thread_registry.md`。
+- `projects/*`。
+- `memory-cache/*`。
+- `ai-intel/raw/*`。
+- `docs/archive/*`。
+- skill、harness、workflow、registry、pipeline 或 automation 文件。
+
+## 5. 当前不应提交的 Proposal
 
 本轮不建议再提交以下类型：
 
@@ -115,7 +174,7 @@ docs/proposals/c16_project_package_zip_lifecycle_review.md
 - 继续提交临时材料会增加 proposal 区噪音。
 - 清理应该先进入 30 天候选，不能马上删除。
 
-## 5. 需要你后续拍板
+## 6. 需要你后续拍板
 
 | 拍板项 | 我的建议 | 不同选择的效果 |
 |---|---|---|
@@ -124,7 +183,7 @@ docs/proposals/c16_project_package_zip_lifecycle_review.md
 | 是否创建删除清理脚本 | 不创建 | 当前用清单足够，新增脚本会增加维护成本。 |
 | 是否把本处置表转 stable policy | 不转 | 它只是本轮 proposal 生命周期应用，不应变成永久规则。 |
 
-## 6. 本轮不做
+## 7. 本轮不做
 
 - 不删除任何 proposal 文件。
 - 不移动 proposal 到 archive。

@@ -1,7 +1,7 @@
 # AI Intel Raw 生命周期处置清单
 
-- 日期：2026-05-02
-- 状态：审查清单，不批准联网抓取、删除、归档、staging、commit、push、PR、decision docs 更新、模型变更或长期规则写入。
+- 日期：2026-05-03
+- 状态：审查清单，不批准联网抓取、删除、归档、push、PR、decision docs 更新、模型变更或长期规则写入。
 - 范围：`ai-intel/raw/2026-04-30/`，并说明它和 `daily / events / logs / decisions` 的边界。
 - 主线任务：明确 AI 情报 raw 证据如何保留、复核、归档候选或 30 天后删除候选，防止 raw 网页快照污染稳定仓库。
 
@@ -14,7 +14,8 @@
 1. raw 保持本地复核证据，暂不提交。
 2. 已结构化的 `daily / events / logs` 才是默认可审计证据。
 3. `decisions/*` 不由脚本自动更新，必须人工确认后再进入决策面。
-4. raw 在本轮 AI 情报验收完成后，可列入 `archive_candidate` 或 `delete_after_30_days_candidate`，但不能现在删除。
+4. raw 当前列入 `delete_after_30_days_candidate`，但不能现在删除。
+5. 最早复核日为 `2026-06-02`，删除前仍需你二次批准精确清单。
 
 ## 当前 raw 文件
 
@@ -63,6 +64,50 @@
 | C. 归档 raw | raw 进入 archive 候选 | 保留证据且离开 active 区 | 需要先确认 archive 策略 | 后续可评估 |
 | D. 30 天后删除候选 | 验收后清理 raw | 仓库和工作区更轻 | 删除前必须确认不再需要复核原网页 | 后续推荐 |
 
+## 30 天删除候选精确清单
+
+当前日期为 2026-05-03。`ai-intel/raw/2026-04-30/` 当前作为本地复核证据继续保留，最早复核日建议为：
+
+```text
+2026-06-02
+```
+
+删除前置条件：
+
+- 你确认 `ai-intel/daily/2026-04-30.md`、`ai-intel/events/2026-04-30.json`、`ai-intel/logs/2026-04-30.json` 足以作为本轮 AI 情报证据。
+- 30 天内没有再要求回看 raw HTML。
+- 删除前再次核对 `git status --short ai-intel/raw/2026-04-30/`。
+- 你二次批准删除下面精确列出的路径。
+- 删除后运行 `git diff --check`、regression、harness check-only。
+
+| 路径 | 类型 | 当前大小 | 候选原因 | 最早复核日 |
+|---|---|---:|---|---|
+| `ai-intel/raw/2026-04-30/openai/openai-model-release-notes.html` | HTML snapshot | 134K | raw 网页快照，已由 daily / events / logs 提炼。 | 2026-06-02 |
+| `ai-intel/raw/2026-04-30/openai/openai-model-release-notes.json` | fetch metadata | 320B | fetch 元数据，已由 logs 汇总。 | 2026-06-02 |
+| `ai-intel/raw/2026-04-30/openai/openai-chatgpt-release-notes.html` | HTML snapshot | 468K | raw 网页快照，已由 daily / events / logs 提炼。 | 2026-06-02 |
+| `ai-intel/raw/2026-04-30/openai/openai-chatgpt-release-notes.json` | fetch metadata | 324B | fetch 元数据，已由 logs 汇总。 | 2026-06-02 |
+| `ai-intel/raw/2026-04-30/anthropic/anthropic-model-deprecations.html` | HTML snapshot | 608K | raw 网页快照，已由 daily / events / logs 提炼。 | 2026-06-02 |
+| `ai-intel/raw/2026-04-30/anthropic/anthropic-model-deprecations.json` | fetch metadata | 328B | fetch 元数据，已由 logs 汇总。 | 2026-06-02 |
+| `ai-intel/raw/2026-04-30/anthropic/anthropic-news.html` | HTML snapshot | 352K | raw 网页快照，已由 daily / events / logs 提炼。 | 2026-06-02 |
+| `ai-intel/raw/2026-04-30/anthropic/anthropic-news.json` | fetch metadata | 278B | fetch 元数据，已由 logs 汇总。 | 2026-06-02 |
+| `ai-intel/raw/2026-04-30/google/gemini-api-changelog.html` | HTML snapshot | 135K | raw 网页快照，已由 daily / events / logs 提炼。 | 2026-06-02 |
+| `ai-intel/raw/2026-04-30/google/gemini-api-changelog.json` | fetch metadata | 298B | fetch 元数据，已由 logs 汇总。 | 2026-06-02 |
+| `ai-intel/raw/2026-04-30/google/gemini-api-deprecations.html` | HTML snapshot | 102K | raw 网页快照，已由 daily / events / logs 提炼。 | 2026-06-02 |
+| `ai-intel/raw/2026-04-30/google/gemini-api-deprecations.json` | fetch metadata | 304B | fetch 元数据，已由 logs 汇总。 | 2026-06-02 |
+
+未来删除时不允许混入：
+
+- `ai-intel/daily/*`
+- `ai-intel/events/*`
+- `ai-intel/logs/*`
+- `ai-intel/decisions/*`
+- `ai-intel/scripts/*`
+- `ai-intel/sources/*`
+- `docs/proposals/*`
+- `projects/*`
+- `memory-cache/*`
+- skill、harness、workflow、registry、pipeline 或 automation 文件
+
 ## 推荐执行边界
 
 当前阶段：
@@ -76,9 +121,9 @@
 后续阶段：
 
 1. 用户确认 `daily / events / logs` 足以作为本轮 AI 情报证据。
-2. raw 保留 30 天作为本地复核证据。
-3. 30 天后输出精确删除候选清单。
-4. 用户批准后才删除 raw。
+2. raw 保留到 `2026-06-02` 作为本地复核证据。
+3. `2026-06-02` 后再次复核精确清单。
+4. 用户二次批准后才删除 raw。
 
 ## 需要用户拍板
 
@@ -87,7 +132,7 @@
 | raw 是否提交 | 不提交 | 不提交能保持仓库轻量；提交会产生大量网页快照噪音。 |
 | raw 是否现在删除 | 不删除 | 不删除保留复核能力；现在删除会丢失本轮抓取证据。 |
 | raw 是否进入 archive | 暂缓 | 等 archive 策略明确后再决定；现在归档会扩大 archive 范围。 |
-| raw 是否 30 天后删除候选 | 是，后续单独批准 | 能长期瘦身，但不会立即删除。 |
+| raw 是否 30 天后删除候选 | 是，最早 2026-06-02 后二次批准 | 能长期瘦身，但不会立即删除。 |
 | decision docs 是否更新 | 暂不更新 | 避免未经核验的信息进入架构决策面。 |
 | AI 情报是否自动影响治理架构 | 不允许 | 保持 AI 情报为信号，不自动改规则。 |
 

@@ -1,7 +1,11 @@
 # Golden Cases
 
-Place stable, high-quality reference cases here. Each case should include:
+这里放稳定、高质量的参考样例。每个样例应包含：
 
-- input artifacts
-- expected output or acceptance notes
-- why the case matters
+- 输入材料。
+- 期望输出或验收说明。
+- 这个样例为什么重要。
+
+## 当前样例
+
+- `zero_to_one_service_prd/`：0-1 普通业务 PRD 结构候选样例，用于验证页面说明、页面跳转关系、原型图层边界、图表按章节放置，以及普通非 AI 产品不能强行输出 AI 模型选型。

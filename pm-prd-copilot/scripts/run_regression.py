@@ -377,7 +377,10 @@ def _looks_like_ai_prd(text: str) -> bool:
 def validate_prd_structure_contract(base_dir: Path) -> list[str]:
     errors: list[str] = []
     demo_prd = base_dir / "projects" / "demo-project" / "02_prd.generated.md"
-    taxi_prd = base_dir / "projects" / "taxi-hailing-prd-test" / "02_prd.final.md"
+    golden_case_dir = base_dir / "pm-prd-copilot" / "evals" / "golden_cases" / "zero_to_one_service_prd"
+    golden_input = golden_case_dir / "input.md"
+    golden_prd = golden_case_dir / "expected_prd.md"
+    golden_acceptance = golden_case_dir / "acceptance.md"
 
     if demo_prd.exists():
         text = _read_if_exists(demo_prd)
@@ -392,19 +395,26 @@ def validate_prd_structure_contract(base_dir: Path) -> list[str]:
         if "AI 模型选型" in text and not _looks_like_ai_prd(raw_text):
             errors.append(f"{demo_prd}: non-AI PRD must not force an AI model selection section.")
 
-    if not taxi_prd.exists():
-        errors.append(f"Missing PRD golden sample: {taxi_prd}")
+    missing_golden_files = [path for path in [golden_input, golden_prd, golden_acceptance] if not path.exists()]
+    if missing_golden_files:
+        errors.extend(f"Missing PRD structure golden case file: {path}" for path in missing_golden_files)
         return errors
 
-    taxi_text = _read_if_exists(taxi_prd)
+    golden_text = _read_if_exists(golden_prd)
+    golden_input_text = _read_if_exists(golden_input)
     for phrase in ["页面说明", "页面跳转关系", "原型图层"]:
-        if phrase not in taxi_text:
-            errors.append(f"{taxi_prd}: golden sample must contain '{phrase}'.")
+        if phrase not in golden_text:
+            errors.append(f"{golden_prd}: golden case must contain '{phrase}'.")
     for phrase in ["PRD 可视化层", "原型图 / 线框图"]:
-        if phrase in taxi_text:
-            errors.append(f"{taxi_prd}: golden sample must not contain '{phrase}'.")
-    if "当前边界：本阶段不输出 PNG，不输出 HTML" not in taxi_text:
-        errors.append(f"{taxi_prd}: golden sample must preserve the confirmed PNG/HTML boundary.")
+        if phrase in golden_text:
+            errors.append(f"{golden_prd}: golden case must not contain '{phrase}'.")
+    if "AI 模型选型" in golden_text and not _looks_like_ai_prd(golden_input_text):
+        errors.append(f"{golden_prd}: non-AI golden case must not force an AI model selection section.")
+    for phrase in ["taxi-hailing-prd-test", "打车产品 PRD 测试输入", "/Users/"]:
+        if phrase in golden_text:
+            errors.append(f"{golden_prd}: deidentified golden case must not contain '{phrase}'.")
+    if "当前边界：本阶段不输出 PNG，不输出 HTML" not in golden_text:
+        errors.append(f"{golden_prd}: golden case must preserve the confirmed PNG/HTML boundary.")
     return errors
 
 

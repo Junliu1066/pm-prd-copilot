@@ -4,6 +4,12 @@
   "completed_stages": [],
   "approvals": [],
   "assumption_overrides": {},
-  "last_run_id": "prd-analysis-suite-20260423",
-  "last_analysis_run_id": "prd-analysis-suite-20260423"
+  "last_run_id": "plan-execution-preview-20260425",
+  "last_analysis_run_id": "prd-analysis-suite-20260423",
+  "last_prototype_run_id": "plan-execution-preview-20260425",
+  "preference_cache": {
+    "status": "active",
+    "active_cache_id": "cache-20260424T000000+0800",
+    "active_cache_path": "memory-cache/projects/fitness-app-mvp/cache-20260424T000000+0800"
+  }
 }

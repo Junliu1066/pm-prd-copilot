@@ -3,6 +3,7 @@
   "artifact": "mvp_scope",
   "created_at": "2026-04-23T00:00:00+08:00",
   "skill": "mvp-scope-decider",
+  "market_default": "中国市场。除非用户明确指定海外市场，否则 MVP 范围讨论默认考虑中国 Android 渠道、国内竞品和本地用户习惯。",
   "core_scenario": {
     "name": "健身房力量训练组间休息计时",
     "target_user": "Android 首发；健身房力量训练用户、忙碌上班族健身人群、减脂/增肌训练用户。",
@@ -152,8 +153,8 @@
     "speed_to_mvp": "先做本地 timer + 轻量 meal estimate，可以在不建设完整账号和数据库的情况下验证。"
   },
   "competitor_gap_basis": {
-    "linked_gap_or_advantage": "竞品要么强饮食记录，要么强计时；MVP 机会是 Android-first 的训练日轻闭环。",
-    "why_it_belongs_or_does_not_belong_in_mvp": "组间计时和今日页属于低成本闭环核心；复杂 HIIT 模板、精准营养数据库和账号同步应延后。"
+    "linked_gap_or_advantage": "中国市场竞品要么是 Keep/薄荷健康这类重平台，要么是系统计时器/通用 timer/训练记录这类单点工具；MVP 机会是 Android-first 的训练日轻闭环。",
+    "why_it_belongs_or_does_not_belong_in_mvp": "组间计时和今日页属于低成本闭环核心；复杂 HIIT 模板、精准营养数据库、账号同步、内容社区和线下课程服务应延后。"
   },
   "approval_question": "是否批准 MVP 范围：以 Android 组间休息计时为核心，餐食拍照热量估算作为带置信度和手动修正的轻量辅助，并用今日页形成训练+饮食闭环？"
 }

@@ -1,141 +1,204 @@
 {
   "project_id": "fitness-app-mvp",
   "artifact": "competitor_gap",
-  "created_at": "2026-04-23T00:00:00+08:00",
+  "created_at": "2026-04-24T12:14:00+08:00",
   "skill": "competitor-gap-analyzer",
-  "verification_reminder": "以下竞品信息来自外部页面和搜索结果，只作为产品判断信号。请在用于决策前自行验证来源日期、地区、Android 可用性、功能版本、价格和实际体验。",
+  "market_default": "中国市场。除非用户明确指定海外市场，否则竞品、渠道、应用商店和用户习惯默认按中国市场处理。",
+  "verification_reminder": "以下竞品信息来自外部页面和搜索结果，只作为产品判断信号。请在用于决策前自行验证来源日期、地区、Android 可用性、功能版本、价格、隐私和实际体验。",
+  "competitor_scope_rule": {
+    "principle": "竞品不只看垂类直接业务。只要在用户所在行业赛道内，对目标用户的时间、注意力、入口、记录习惯、训练方式、饮食决策或购买决策有直接或间接影响，都应列入竞品池。",
+    "included_categories": [
+      "直接工具：训练计时、力量训练记录、拍照热量、饮食记录",
+      "强相邻平台：综合健身 App、体重管理 App、线下健身/团课 App",
+      "平台级替代：手机系统计时器、穿戴设备、运动健康平台",
+      "内容/社区替代：小红书、抖音、微信群、教练社群",
+      "手动作业替代：拍照留存、备忘录、Excel、纸笔、凭感觉"
+    ]
+  },
   "competitor_map": [
     {
-      "competitor": "MyFitnessPal Meal Scan",
+      "competitor": "Keep",
       "type": "direct",
-      "target_user": "饮食记录、减脂、宏量追踪用户",
-      "core_loop": "拍照或上传餐食图片，识别食物建议，调整份量，加入日记。",
+      "target_user": "中国健身、减脂、塑形、课程训练和运动记录用户",
+      "core_loop": "用户通过课程/计划开始训练，记录运动消耗和饮食摄入，在社区或数据页获得反馈。",
       "key_features": [
-        "Meal Scan 为 Premium 功能",
-        "支持 iOS 17/Android 12 及以上、MyFitnessPal 22.17+、英文环境",
-        "使用机器学习和计算机视觉识别食物",
-        "结合食物数据库建议 verified foods",
-        "允许调整 serving size 和手动搜索未识别食物"
+        "训练课程、计划和运动工具",
+        "饮食摄入、运动消耗、体重体脂等健康数据入口",
+        "AI 运动教练和社区内容信号",
+        "覆盖训练、饮食、社区和商业化闭环"
       ],
-      "pricing_signal": "Premium only",
+      "pricing_signal": "会员、课程、硬件和内容商业化信号；具体价格需用户实测验证",
       "evidence_sources": [
-        "https://support.myfitnesspal.com/hc/en-us/articles/360045761612-Meal-Scan-FAQ"
+        "https://www.gotokeep.com/",
+        "https://apps.apple.com/cn/app/keep-ai-%E8%BF%90%E5%8A%A8%E6%95%99%E7%BB%83/id952694580"
       ]
     },
     {
-      "competitor": "Cal AI / Cal photo calorie apps",
+      "competitor": "薄荷健康",
       "type": "direct",
-      "target_user": "希望用拍照快速记录热量、宏量、体重目标的用户",
-      "core_loop": "拍照识别食物，生成 calories/macros，保存到饮食记录和目标进度。",
+      "target_user": "减脂、体重管理、热量查询、饮食记录用户",
+      "core_loop": "查询食物热量，记录饮食和运动，跟踪体重变化，并通过食谱、课程或社区获得减重辅助。",
       "key_features": [
-        "photo-first logging",
-        "AI food scanner",
-        "calories/macros",
-        "goals and charts",
-        "barcode/manual options in部分同类应用描述"
+        "中文食物热量和营养查询",
+        "饮食、运动、体重、体脂记录",
+        "AI 体重管理师和减肥食谱信号",
+        "减重社区和打卡机制"
       ],
-      "pricing_signal": "free with in-app purchases / subscription signals",
+      "pricing_signal": "会员、课程或服务商业化信号；具体价格需用户实测验证",
       "evidence_sources": [
-        "https://apps.apple.com/us/app/cal-ai-calorie-counter/id6756399932",
-        "https://apps.apple.com/us/app/cal-ai-calorie-tracker/id6754554881"
+        "https://www.boohee.com/food/",
+        "https://apps.apple.com/cn/app/%E8%96%84%E8%8D%B7%E5%81%A5%E5%BA%B7-%E7%83%AD%E9%87%8F%E5%87%8F%E8%82%A5%E6%B3%95/id457856023"
       ]
     },
     {
-      "competitor": "Cronometer",
+      "competitor": "训记",
+      "type": "direct",
+      "target_user": "力量训练、健身房训练记录、训练计划用户",
+      "core_loop": "创建训练计划，记录动作、重量、次数和训练进度，围绕力量训练长期沉淀数据。",
+      "key_features": [
+        "训练计划和动作记录",
+        "力量训练进度追踪",
+        "面向更硬核健身房用户",
+        "部分版本描述存在 AI 或智能辅助信号，需实测确认"
+      ],
+      "pricing_signal": "免费 + 可能存在会员或内购；需用户实测验证",
+      "evidence_sources": [
+        "https://apps.apple.com/cn/app/%E8%AE%AD%E8%AE%B0-%E8%AE%AD%E7%BB%83%E8%AE%A1%E5%88%92%E4%B8%93%E5%AE%B6/id1464915553"
+      ]
+    },
+    {
+      "competitor": "乐刻运动",
       "type": "adjacent",
-      "target_user": "重视营养准确性、微量营养和可信食物数据库的用户",
-      "core_loop": "通过数据库、条形码扫描、营养仪表盘记录饮食。",
+      "target_user": "线下健身房、团课、私教和就近训练用户",
+      "core_loop": "用户在线找门店/课程/教练，在线下完成训练，再回到 App 查看运动相关服务。",
       "key_features": [
-        "free barcode scanner",
-        "verified food database",
-        "macro and micronutrient tracking",
-        "water tracking",
-        "custom meals and recipe features"
+        "线下门店和课程入口",
+        "团课、私教和训练服务",
+        "对健身房用户训练入口有影响",
+        "可能比工具 App 更靠近线下场景"
       ],
-      "pricing_signal": "free + premium features",
+      "pricing_signal": "课程、会员、门店服务；具体价格需用户实测验证",
       "evidence_sources": [
-        "https://cronometer.com/features/track-food.html",
-        "https://support.cronometer.com/hc/en-us/articles/360020441392-Mobile-Scan-Food"
+        "https://www.leoao.com/"
       ]
     },
     {
-      "competitor": "Tabata Timer for HIIT",
-      "type": "direct",
-      "target_user": "HIIT/Tabata 间歇训练用户",
-      "core_loop": "配置准备、训练、休息、循环和 Tabata 组数，按提醒训练。",
+      "competitor": "华为运动健康 / 小米运动健康 / 手机系统计时器",
+      "type": "platform_native",
+      "target_user": "Android 手机和穿戴设备用户",
+      "core_loop": "通过系统计时器、运动记录、健康数据、手环/手表提醒完成基础运动和健康管理。",
       "key_features": [
-        "5M+ downloads signal in Google Play result",
-        "configurable preparation/workout/rest durations",
-        "cycles and tabatas",
-        "clear time display",
-        "daily workout history",
-        "weight and BMI records"
+        "系统级计时、通知、震动和锁屏能力",
+        "穿戴设备和健康数据聚合",
+        "用户无需安装新垂类 App 即可完成部分需求",
+        "在 Android 首发时会成为基础体验对标对象"
       ],
-      "pricing_signal": "contains ads",
+      "pricing_signal": "系统内置或硬件生态；具体可用能力与设备有关",
       "evidence_sources": [
-        "https://play.google.com/store/apps/details?hl=en_US&id=com.simplevision.workout.tabata"
+        "https://consumer.huawei.com/cn/mobileservices/health/"
       ]
     },
     {
-      "competitor": "SmartWOD Timer",
-      "type": "direct",
-      "target_user": "Cross Training、功能性训练、WOD 用户",
-      "core_loop": "选择 AMRAP、For Time、EMOM、Tabata 等 WOD 类型，设定时长后开始训练。",
+      "competitor": "小红书",
+      "type": "adjacent",
+      "target_user": "健身、减脂、饮食、身材管理内容消费者和打卡用户",
+      "core_loop": "用户搜索经验、食谱、训练内容和减脂打卡，再决定是否尝试工具或方案。",
       "key_features": [
-        "1M+ downloads signal in Google Play result",
-        "AMRAP/EMOM/For Time/Tabata",
-        "big clear display",
-        "sound support",
-        "integrated round counter",
-        "workout log",
-        "runs in background"
+        "生活方式社区",
+        "健身、减脂、饮食、打卡内容分发",
+        "影响用户认知、需求和转化入口",
+        "不是工具竞品，但会抢占决策链路和使用时间"
       ],
-      "pricing_signal": "ads + in-app purchases",
+      "pricing_signal": "内容与广告商业化信号；不直接对标工具付费",
       "evidence_sources": [
-        "https://play.google.com/store/apps/details?id=net.smartwod.timer"
+        "https://apps.apple.com/cn/app/%E5%B0%8F%E7%BA%A2%E4%B9%A6-%E4%BD%A0%E7%9A%84%E7%94%9F%E6%B4%BB%E5%85%B4%E8%B6%A3%E7%A4%BE%E5%8C%BA/id741292507"
       ]
     },
     {
-      "competitor": "Interval Timer: Workout, HIIT",
-      "type": "direct",
-      "target_user": "通用 HIIT、健身、跑步、瑜伽、搏击用户",
-      "core_loop": "快速或高级配置自定义 timer，保存 preset，训练中用语音/通知/锁屏控制。",
+      "competitor": "抖音",
+      "type": "adjacent",
+      "target_user": "短视频健身、减脂、饮食内容用户",
+      "core_loop": "用户刷到健身或饮食内容，被内容种草、跟练、打卡或购买课程/服务。",
       "key_features": [
-        "simple and advanced mode",
-        "save timer presets",
-        "text-to-speech next exercise",
-        "notification and lock screen control",
-        "weekly goals and progress",
-        "Wear OS companion app"
+        "短视频内容分发",
+        "健身跟练、饮食建议和达人内容",
+        "对用户注意力、需求教育和获客路径有强影响",
+        "不是垂类工具，但会影响用户是否愿意打开独立 App"
       ],
-      "pricing_signal": "in-app purchases",
+      "pricing_signal": "广告、电商和内容商业化信号；不直接对标工具付费",
       "evidence_sources": [
+        "https://apps.apple.com/cn/app/%E6%8A%96%E9%9F%B3/id1142110895"
+      ]
+    },
+    {
+      "competitor": "Tabata / Interval Timer 类计时器",
+      "type": "direct",
+      "target_user": "HIIT、Tabata、功能性训练、跑步和通用间歇训练用户",
+      "core_loop": "配置训练/休息/循环模板，训练中通过声音、震动、通知和大屏倒计时执行。",
+      "key_features": [
+        "准备、训练、休息和循环配置",
+        "模板、语音/声音提示、后台提醒",
+        "大屏计时和训练历史",
+        "功能成熟但偏通用，力量训练组间休息启动路径可能过重"
+      ],
+      "pricing_signal": "广告、会员或内购；国内 Android 分发和价格需实测验证",
+      "evidence_sources": [
+        "https://play.google.com/store/apps/details?hl=en_US&id=com.simplevision.workout.tabata",
         "https://play.google.com/store/apps/details?hl=en_US&id=com.mdev.intervaltimer"
+      ]
+    },
+    {
+      "competitor": "手动方案：系统闹钟/计时器、备忘录、拍照留存、Excel、微信群、教练口头建议",
+      "type": "manual_workaround",
+      "target_user": "不想安装新 App 或不愿长期记录的健身人群",
+      "core_loop": "用户用已有工具临时计时、记录或向社群/教练求建议。",
+      "key_features": [
+        "零学习成本",
+        "无需授权或登录",
+        "数据不结构化、难复盘",
+        "无法形成训练 + 饮食闭环"
+      ],
+      "pricing_signal": "免费或已拥有",
+      "evidence_sources": [
+        "用户场景推断，需访谈验证"
       ]
     }
   ],
   "common_solution_patterns": [
     {
-      "pattern": "食物记录竞品强调更低输入成本：拍照、条形码、数据库、手动修正。",
+      "pattern": "中国市场强竞品不是单点工具，而是训练、饮食、内容、社区、线下服务和健康数据的组合。",
       "competitors": [
-        "MyFitnessPal",
-        "Cal AI",
-        "Cronometer"
+        "Keep",
+        "薄荷健康",
+        "乐刻运动",
+        "华为运动健康",
+        "小红书",
+        "抖音"
       ]
     },
     {
-      "pattern": "计时器竞品已经把自定义、模板、语音/震动/后台作为常规能力。",
+      "pattern": "饮食记录竞品强调低输入成本：食物库、搜索、扫码、AI/拍照、食谱和体重管理。",
       "competitors": [
-        "Tabata Timer",
-        "SmartWOD Timer",
-        "Interval Timer"
+        "薄荷健康",
+        "Keep",
+        "MyFitnessPal 类海外 photo logging 产品"
       ]
     },
     {
-      "pattern": "饮食 App 和计时器 App 大多分离，少有围绕训练日快速闭环的轻量设计。",
+      "pattern": "训练计时和训练记录竞品分别成熟；单纯复制 timer 或训练记录都不够。",
       "competitors": [
-        "diet trackers",
-        "interval timers"
+        "Tabata / Interval Timer 类计时器",
+        "训记",
+        "系统计时器"
+      ]
+    },
+    {
+      "pattern": "内容平台会截获用户从需求产生到方案选择的前半段路径，不能只按工具类 App 看竞品。",
+      "competitors": [
+        "小红书",
+        "抖音",
+        "微信群",
+        "教练社群"
       ]
     }
   ],
@@ -143,85 +206,133 @@
     {
       "theme": "拍照热量估算信任风险",
       "evidence_sources": [
-        "MyFitnessPal FAQ 提到用户可调整 serving size 和手动搜索，暗示识别和份量需要人工确认。"
+        "饮食竞品普遍需要食物库、份量和手动确认，说明图片识别不能直接等同于准确记录。"
       ],
       "severity": "high"
     },
     {
-      "theme": "计时器设置复杂或过度通用",
+      "theme": "综合健身 App 功能重，用户可能只想快速完成一个训练中任务",
       "evidence_sources": [
-        "多款 Google Play timer 强调 simple mode、preset、big display、voice cue，说明快速启动和低打扰是核心竞争点。"
+        "Keep、薄荷健康、乐刻运动等平台能力完整，但 MVP 用户的目标可能只是更快计时或更快记录一餐。"
       ],
       "severity": "medium"
     },
     {
-      "theme": "两个核心功能分别有成熟工具，单点复制难以突围",
+      "theme": "计时器设置复杂或过度通用",
       "evidence_sources": [
-        "MyFitnessPal/Cronometer 解决饮食记录，SmartWOD/Tabata/Interval Timer 解决训练计时。"
+        "Tabata / Interval Timer 类产品强调模板和多运动模式，力量训练用户的组间歇可能只需要一键开始。"
       ],
-      "severity": "high"
+      "severity": "medium"
+    },
+    {
+      "theme": "内容平台有灵感但缺少结构化执行闭环",
+      "evidence_sources": [
+        "小红书/抖音更强在种草和内容消费，弱在持续记录、提醒和可复盘。"
+      ],
+      "severity": "medium"
     }
   ],
   "opportunity_gaps": [
     {
-      "gap": "训练和饮食记录割裂",
-      "user_need_link": "用户想减少记录和切换时间。",
-      "why_it_matters": "两个单点功能都已有强竞品，闭环价值比单点功能更可能形成差异。"
+      "gap": "中国市场竞品要么是重平台，要么是单点工具，轻量训练日闭环仍可验证。",
+      "user_need_link": "用户想减少训练和饮食记录中的无效时间，不想被完整健身平台拖入复杂路径。",
+      "why_it_matters": "MVP 可以避免正面硬刚 Keep/薄荷健康，先做“训练中最快完成动作”的工具价值。"
     },
     {
-      "gap": "拍照估算不应承诺精确，而应把手动修正和置信度做成默认流程",
-      "user_need_link": "用户需要省时间，也需要知道结果是否可信。",
-      "why_it_matters": "能降低错误结果带来的信任损失。"
+      "gap": "力量训练组间歇比通用 interval timer 更具体。",
+      "user_need_link": "用户完成一组后只需要一键开始休息，而不是配置复杂训练模板。",
+      "why_it_matters": "能用低成本形成第一核心场景，并为今日页沉淀训练信号。"
     },
     {
-      "gap": "力量训练组间计时可以比通用 timer 更快启动",
-      "user_need_link": "力量训练用户只需要快速开始休息和提醒，不一定需要复杂 HIIT 编排。",
-      "why_it_matters": "低成本 MVP 可聚焦高频动作，而不是复制全功能 timer。"
+      "gap": "拍照热量估算需要透明表达不确定性。",
+      "user_need_link": "用户需要省时间，也需要知道估算是否可信。",
+      "why_it_matters": "显示估算区间、置信度和手动修正，比承诺精确更能降低信任风险。"
+    },
+    {
+      "gap": "内容平台无法直接完成计时和结构化记录。",
+      "user_need_link": "用户看完健身/饮食内容后，需要一个更低摩擦的执行工具。",
+      "why_it_matters": "获客和产品定位可从“看完就用、一键计时/记录”切入，而不是和内容平台比内容量。"
     }
   ],
   "advantage_hypotheses": [
     {
-      "hypothesis": "Android-first 的训练日闭环工具：组间休息计时 + 当日饮食估算。",
-      "how_to_amplify": "首页只显示今天训练计时次数、训练时长、餐食估算热量和下一步动作。",
-      "validation_needed": "用户是否认为一个 App 同时解决训练节奏和饮食估算比两个单点工具更省时间。"
+      "hypothesis": "Android-first 的训练日轻闭环：组间歇一键计时 + 餐食拍照估算 + 今日页。",
+      "how_to_amplify": "首页只保留今天需要的动作：开始休息、拍一餐、看今日训练/摄入，不做重课程和完整社区。",
+      "validation_needed": "用户是否认为一个轻工具比 Keep/薄荷/系统计时器组合更省时间。"
     },
     {
-      "hypothesis": "力量训练组间计时比通用 interval timer 更少配置。",
-      "how_to_amplify": "默认 60/90/120/180 秒，结束一组后一键开始，支持锁屏/通知/声音。",
-      "validation_needed": "健身房真实场景下是否能减少看表和手机操作。"
+      "hypothesis": "力量训练组间歇比通用计时器更少配置。",
+      "how_to_amplify": "默认 60/90/120/180 秒，结束一组后一键开始，支持锁屏/通知/声音/震动。",
+      "validation_needed": "健身房真实场景下是否减少看表、切 App 和忘记休息时长。"
     },
     {
       "hypothesis": "拍照热量估算只做快速估算 + 修正，而不是精确营养工具。",
-      "how_to_amplify": "显示估算区间、置信度和一键修改份量，避免用户误以为绝对准确。",
-      "validation_needed": "用户是否愿意接受估算结果并持续记录。"
+      "how_to_amplify": "显示估算区间、置信度、食物识别结果和一键修改份量，避免用户误以为绝对准确。",
+      "validation_needed": "用户是否愿意接受估算结果并持续记录，尤其是中餐、外卖、混合菜。"
+    },
+    {
+      "hypothesis": "从内容平台外溢需求切入：看完健身/饮食内容后立即执行。",
+      "how_to_amplify": "产品表达强调“训练中少操作、吃饭时少搜索”，而不是泛泛讲科学健身。",
+      "validation_needed": "小红书/抖音来源用户是否更容易被“省时间工具”转化。"
     }
   ],
   "advantage_amplification_plan": [
     {
       "advantage": "最低成本训练计时核心",
-      "linked_user_need": "减少组间休息看表和无效等待。",
+      "linked_user_need": "减少组间休息看表、切 App 和无效等待。",
       "scenario_to_feed": "健身房力量训练组间休息计时",
-      "validation_needed": "1 周内观察 timer session 次数、完成率、重复使用。"
+      "validation_needed": "1 周内观察 timer_start、timer_complete、repeat_timer_start 和次日留存。"
     },
     {
-      "advantage": "训练日饮食闭环",
+      "advantage": "训练日饮食轻闭环",
       "linked_user_need": "训练和饮食都想少输入、少切换。",
       "scenario_to_feed": "训练日今日闭环：已训练 + 已摄入估算",
-      "validation_needed": "用户是否在训练日同时使用 timer 和 meal photo。"
+      "validation_needed": "用户是否在训练日同时使用 timer 和 meal_photo，并查看今日页。"
+    },
+    {
+      "advantage": "中国市场默认竞品外延",
+      "linked_user_need": "用户决策受工具、内容、线下场景和平台健康数据共同影响。",
+      "scenario_to_feed": "获客与差异化定位",
+      "validation_needed": "后续用国内 Android 应用商店、评论和用户访谈验证竞品影响链路。"
+    }
+  ],
+  "mcp_recommendations": [
+    {
+      "mcp": "fetch",
+      "role": "抓取官网、帮助中心、公开网页作为基础证据。",
+      "boundary": "只产出 web_source/raw_external_data，不直接产出产品结论。"
+    },
+    {
+      "mcp": "firecrawl",
+      "role": "对官网、帮助中心、竞品页面做更稳定的页面抽取。",
+      "boundary": "只产出 competitor_source/raw_external_data，必须进入 source_trace。"
+    },
+    {
+      "mcp": "apify",
+      "role": "后续可用于应用商店详情、评论、榜单、社媒公开页面等结构化采集。",
+      "boundary": "只产出 app_reviews/raw_external_data，真实性和可用性仍由用户验证。"
+    },
+    {
+      "mcp": "github",
+      "role": "管理本仓库里的分析产物、提案和 Skill 修改记录。",
+      "boundary": "只产出仓库元数据/PR/Issue/Actions 状态，不直接写 PRD 判断。"
     }
   ],
   "verification_checklist": [
     {
-      "item": "请验证 MyFitnessPal Meal Scan 在目标地区、Android 版本、语言和会员状态下是否可用。"
+      "item": "请优先验证中国 Android 分发渠道：华为应用市场、小米应用商店、OPPO/VIVO 应用商店、应用宝中的 Keep、薄荷健康、训记、计时器类应用是否存在、功能是否一致。"
     },
     {
-      "item": "请验证 Google Play 下载量、评分、功能描述是否仍然准确。"
+      "item": "请实测 Keep/薄荷健康/训记是否已经覆盖拍照识别、饮食记录、训练计时、训练记录和今日反馈闭环。"
     },
     {
-      "item": "请实测 3-5 个 timer 竞品的后台、锁屏、耳机提醒体验。"
+      "item": "请实测 3-5 个国内可下载计时器 App 的后台、锁屏、耳机提醒、震动和误触体验。"
     },
     {
-      "item": "请实测 3-5 个拍照热量竞品对中餐、混合菜、外卖的估算表现。"
+      "item": "请实测 3-5 个拍照热量或饮食记录竞品对中餐、混合菜、外卖的估算表现。"
+    },
+    {
+      "item": "请验证小红书/抖音/微信群/教练社群在目标用户获客和需求教育中的真实影响。"
     }
   ]
 }

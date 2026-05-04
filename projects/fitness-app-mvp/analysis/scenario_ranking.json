@@ -3,6 +3,7 @@
   "artifact": "scenario_ranking",
   "created_at": "2026-04-23T00:00:00+08:00",
   "skill": "scenario-roi-ranker",
+  "market_default": "中国市场。除非用户明确指定海外市场，否则竞品和场景排序默认按中国市场处理。",
   "scenario_scores": [
     {
       "scenario": "健身房力量训练组间休息计时",
@@ -20,8 +21,8 @@
       },
       "weighted_score": 4.55,
       "rationale": "高频、低成本、Android 本地即可实现，最适合作为 MVP 核心场景。",
-      "uncertainty": "独立 timer 竞品成熟，差异化需要靠更快启动和训练日闭环。",
-      "competitor_gap_link": "通用 interval timer 强大但偏泛；力量训练组间休息可做更简单。"
+      "uncertainty": "系统计时器、穿戴设备和通用 timer 已经足够低门槛，差异化需要靠更快启动、少配置和训练日闭环。",
+      "competitor_gap_link": "中国市场里 Keep/训记偏综合或训练记录，系统计时器偏通用；力量训练组间休息可做得更快、更少配置。"
     },
     {
       "scenario": "训练日今日闭环：已训练 + 已摄入估算",
@@ -40,7 +41,7 @@
       "weighted_score": 4.15,
       "rationale": "能把两个功能从并列工具变成节省时间的闭环，是差异化来源。",
       "uncertainty": "如果餐食估算不可靠，闭环价值会下降。",
-      "competitor_gap_link": "饮食和计时竞品大多分离。"
+      "competitor_gap_link": "Keep/薄荷健康/华为运动健康等已有不同闭环，但轻量工具可避开重平台路径，主打训练日少操作。"
     },
     {
       "scenario": "餐食拍照热量估算并手动修正",
@@ -59,7 +60,7 @@
       "weighted_score": 3.55,
       "rationale": "用户价值强，但需要图像识别、食物库、份量估算和信任兜底，首期应做估算原型而非承诺精确。",
       "uncertainty": "准确性、数据源、成本和 Android 端体验未验证。",
-      "competitor_gap_link": "MyFitnessPal/Cal AI 已教育用户 photo logging；机会在更轻量、更诚实的估算和训练日闭环。"
+      "competitor_gap_link": "中国市场饮食记录用户更可能被薄荷健康、Keep、小红书/抖音内容教育；机会在更轻量、更诚实的估算和训练日闭环。"
     },
     {
       "scenario": "HIIT/Tabata 模板计时",
@@ -130,15 +131,15 @@
   "competitor_gap_links": [
     {
       "scenario": "健身房力量训练组间休息计时",
-      "gap_or_advantage": "通用 timer 功能多，但力量训练用户需要的是更少配置和更快开始。"
+      "gap_or_advantage": "系统计时器和通用 timer 足够容易，但力量训练用户需要的是更少配置、更快开始和更稳定提醒。"
     },
     {
       "scenario": "训练日今日闭环：已训练 + 已摄入估算",
-      "gap_or_advantage": "饮食记录和训练计时工具通常割裂，可以用今日页形成闭环。"
+      "gap_or_advantage": "重平台闭环强但路径重，单点工具割裂；MVP 可以用今日页形成轻闭环。"
     },
     {
       "scenario": "餐食拍照热量估算并手动修正",
-      "gap_or_advantage": "竞品教育了 photo logging，但准确性仍需人工确认；MVP 可主打估算透明和快速修正。"
+      "gap_or_advantage": "国内饮食记录和内容平台教育了热量管理需求，但准确性仍需人工确认；MVP 可主打估算透明和快速修正。"
     }
   ],
   "approval_question": "是否同意把“健身房力量训练组间休息计时”作为首发核心场景，同时把“餐食拍照热量估算”做成带置信度和手动修正的轻量辅助能力？"

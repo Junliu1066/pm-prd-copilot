@@ -35,6 +35,12 @@
       "details": []
     },
     {
+      "check": "prototype_preview_gate",
+      "status": "pass",
+      "message": "No issues found.",
+      "details": []
+    },
+    {
       "check": "scaling_policy",
       "status": "pass",
       "message": "Scaling policy is within limits.",

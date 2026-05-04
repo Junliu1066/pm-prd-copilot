@@ -7,6 +7,46 @@
     "projects/fitness-app-mvp/00_raw_input.md",
     "projects/fitness-app-mvp/01_requirement_brief.md"
   ],
+  "review_matrix": {
+    "purpose": "给用户第一眼判断目标用户优先级；横轴是 MVP 适配和验证速度，纵轴是痛点频率和紧迫度。",
+    "x_axis": "MVP 适配 / 验证速度",
+    "y_axis": "痛点频率 / 紧迫度",
+    "quadrants": [
+      {
+        "quadrant": "优先验证",
+        "groups": [
+          "健身房力量训练用户",
+          "忙碌上班族健身人群",
+          "增肌/塑形用户"
+        ],
+        "rationale": "组间歇计时高频、低成本、验证快，且能与饮食估算形成训练日闭环。"
+      },
+      {
+        "quadrant": "高价值但重能力",
+        "groups": [
+          "减脂期饮食记录用户",
+          "严肃饮食追踪/健美备赛用户",
+          "医疗/慢病饮食控制用户"
+        ],
+        "rationale": "需求强，但会放大准确性、数据源、合规或专业深度成本，首期需要控制承诺。"
+      },
+      {
+        "quadrant": "轻量验证",
+        "groups": [
+          "HIIT/Tabata/功能性训练用户",
+          "健身新手/刚开始运动的人"
+        ],
+        "rationale": "可通过计时模板或新手简化入口验证，但差异化和留存假设弱于力量训练组间歇。"
+      },
+      {
+        "quadrant": "暂缓观察",
+        "groups": [
+          "私教/小团课教练"
+        ],
+        "rationale": "可能带来 B 端或多角色管理需求，容易超出个人工具 MVP。"
+      }
+    ]
+  },
   "user_universe_table": [
     {
       "user_group": "健身房力量训练用户",

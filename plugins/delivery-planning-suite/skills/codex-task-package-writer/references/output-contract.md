@@ -1,6 +1,31 @@
 # Codex Task Package Writer Output Contract
 
 ```yaml
+mode_selection:
+  lightweight_development_document:
+    use_when:
+      - "ordinary development-ready PRD"
+      - "single-phase Codex development document"
+      - "user asks for a Codex development document without full governance"
+    required_sections:
+      - "development_scope"
+      - "task_packages"
+      - "allowed_write_paths"
+      - "forbidden_write_paths"
+      - "validation_commands"
+      - "human_confirmation_points"
+      - "minimal_fix_strategy"
+      - "rollback_or_review"
+    forbidden_by_default:
+      - "new_skill_creation"
+      - "mcp_integration"
+      - "registry_harness_changes"
+      - "full_governance_operating_system"
+  full_supervised_package:
+    use_when:
+      - "user explicitly asks for semi-automated development"
+      - "approved capability enablement or MCP integration exists"
+      - "multi-agent governance is part of the requested scope"
 codex_development_document:
   document_id: ""
   paired_prd_artifact: ""
@@ -24,27 +49,41 @@ codex_task_package_blueprint:
   development_document_output:
     document_goal: "把 PRD 转成可交给 Codex 半自动开发"
     required_sections:
-      - "overall_structure"
-      - "main_development_flow"
-      - "steward_system"
-      - "capability_enablement"
-      - "skill_mcp_routing"
-      - "technical_delivery_path"
-      - "ai_solution_when_needed"
-      - "codex_task_packages"
-      - "human_supervision_gates"
-      - "harness_audit_validation"
-      - "learning_iteration"
-      - "overload_escalation"
+      lightweight:
+        - "development_scope"
+        - "codex_task_packages"
+        - "allowed_write_paths"
+        - "forbidden_write_paths"
+        - "validation_commands"
+        - "human_confirmation_points"
+        - "minimal_fix_strategy"
+      full_supervised:
+        - "overall_structure"
+        - "main_development_flow"
+        - "steward_system"
+        - "capability_enablement"
+        - "skill_mcp_routing"
+        - "technical_delivery_path"
+        - "ai_solution_when_needed"
+        - "codex_task_packages"
+        - "human_supervision_gates"
+        - "harness_audit_validation"
+        - "learning_iteration"
+        - "overload_escalation"
     output_artifacts:
-      - "capability_enablement_plan"
-      - "skill_mcp_routing_plan"
-      - "development_operating_system_plan"
-      - "codex_task_package_blueprint"
-      - "agentic_delivery_plan"
-      - "codex_task_packages"
-      - "human_supervision_plan"
-      - "development_governance_report"
+      lightweight:
+        - "codex_development_document"
+        - "codex_task_packages"
+        - "human_supervision_plan"
+      full_supervised:
+        - "capability_enablement_plan"
+        - "skill_mcp_routing_plan"
+        - "development_operating_system_plan"
+        - "codex_task_package_blueprint"
+        - "agentic_delivery_plan"
+        - "codex_task_packages"
+        - "human_supervision_plan"
+        - "development_governance_report"
     must_not_write_to:
       - "development_log_only"
       - "unapproved_skill_update"
@@ -57,29 +96,37 @@ codex_task_package_blueprint:
     - "qa_review"
     - "learning"
   capability_enablement_tasks:
-    - task_id: ""
-      goal: ""
-      allowed_write_paths:
-        - ""
-      forbidden_write_paths:
-        - ""
-      validation_commands:
-        - ""
-      human_confirmation_points:
-        - ""
-      minimal_fix_strategy: ""
+    mode: "full_supervised_package_only"
+    tasks:
+      - task_id: ""
+        goal: ""
+        allowed_write_paths:
+          - ""
+        forbidden_write_paths:
+          - ""
+        validation_commands:
+          - ""
+        human_confirmation_points:
+          - ""
+        minimal_fix_strategy: ""
   skill_creation_tasks:
-    - task_id: ""
-      proposal_only: true
-      human_approval_required: true
+    mode: "proposal_only_and_full_supervised_package_only"
+    tasks:
+      - task_id: ""
+        proposal_only: true
+        human_approval_required: true
   mcp_integration_tasks:
-    - task_id: ""
-      source_trace_required: true
-      human_verification_required: true
+    mode: "explicit_request_or_approved_plan_only"
+    tasks:
+      - task_id: ""
+        source_trace_required: true
+        human_verification_required: true
   registry_harness_tasks:
-    - task_id: ""
-      validation_commands:
-        - ""
+    mode: "explicit_request_or_approved_plan_only"
+    tasks:
+      - task_id: ""
+        validation_commands:
+          - ""
   product_development_tasks:
     - task_id: ""
       allowed_write_paths:

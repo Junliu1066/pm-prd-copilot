@@ -851,10 +851,10 @@ skills:
     requires_human_approval: false
     requires_sources: false
   memory-learning-extractor:
-    status: draft
+    status: candidate
     steward: learning-steward
     stage: learning
-    description: Extract supervised learning proposals from generated and final artifacts.
+    description: Extract supervised learning proposals from generated and final artifacts; it may only write candidate memory proposals and must not update long-term memory or skills directly.
     reads:
       - prd_markdown
       - final_prd_markdown

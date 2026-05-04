@@ -2,217 +2,90 @@
   "project_id": "demo-project",
   "metrics": [
     {
-      "name": "财务流水导出发起账号数",
-      "metric_type": "north_star",
-      "definition": "在统计窗口内，至少成功发起过1次财务流水导出任务的去重账号数，用于衡量功能被真实采用的程度。",
-      "formula": "去重账号数，其中账号在窗口内触发 export_submit 且 submit_result='success'",
-      "baseline": "待补充；当前无标准化批量导出能力，预计基线接近0",
-      "target": "上线后首月周维度达到目标账号数，建议先以试点客户/客服团队设定阶段性目标",
-      "window": "按周"
-    },
-    {
-      "name": "财务流水导出成功率",
+      "name": "export_usage",
       "metric_type": "input",
-      "definition": "财务流水导出任务最终成功生成可下载文件的比例，用于衡量导出链路稳定性。",
-      "formula": "export_task_completed_success 数 / export_submit_success 数",
-      "baseline": "待补充",
-      "target": "≥95%",
-      "window": "按日/按周"
+      "definition": "导出请求次数",
+      "formula": "count(export_submit)",
+      "baseline": null,
+      "target": null,
+      "window": "daily"
     },
     {
-      "name": "月末报表相关客服人工处理量",
+      "name": "export_success_rate",
       "metric_type": "input",
-      "definition": "月底与财务流水报表/导出相关的客服人工处理次数，用于衡量该功能是否减少人工响应压力。",
-      "formula": "客服工单系统或客服后台中，报表/流水导出类处理记录数",
-      "baseline": "待补充，需从客服系统回溯近1-2个结算周期",
-      "target": "上线稳定后较基线下降20%+",
-      "window": "按月"
+      "definition": "导出成功次数 / 导出请求次数",
+      "formula": "count(export_success) / count(export_submit)",
+      "baseline": null,
+      "target": ">= 95%",
+      "window": "daily"
     },
     {
-      "name": "导出失败率",
+      "name": "manual_support_tickets",
       "metric_type": "guardrail",
-      "definition": "导出任务在发起后最终失败的比例，包括权限不足、时间范围超限、数据量超限、系统异常等。",
-      "formula": "export_task_failed 数 / export_submit_success 数",
-      "baseline": "待补充",
-      "target": "≤5%",
-      "window": "按日/按周"
+      "definition": "相关人工支持工单量",
+      "formula": "count(tickets tagged export)",
+      "baseline": null,
+      "target": "不高于当前水平",
+      "window": "weekly"
     },
     {
-      "name": "越权导出事件数",
+      "name": "export_failure_rate",
       "metric_type": "guardrail",
-      "definition": "发生未授权角色访问或尝试导出超出其权限范围数据的事件数，用于监控权限风险。",
-      "formula": "export_permission_denied 数中确认的越权尝试事件数 + 安全审计确认的真实越权事件数",
-      "baseline": "待补充",
-      "target": "0",
-      "window": "按日/按月"
-    },
-    {
-      "name": "下载完成率",
-      "metric_type": "input",
-      "definition": "已成功生成的导出任务中，最终被用户实际下载的比例，用于衡量导出结果是否真正被消费。",
-      "formula": "export_download_success 数 / export_task_completed_success 数",
-      "baseline": "待补充",
-      "target": "≥85%",
-      "window": "按周"
+      "definition": "导出失败次数 / 导出请求次数",
+      "formula": "count(export_failure) / count(export_submit)",
+      "baseline": null,
+      "target": "<= 5%",
+      "window": "daily"
     }
   ],
   "events": [
     {
-      "name": "export_page_view",
-      "trigger": "用户进入商家财务流水导出页面或打开导出弹窗时触发。",
-      "linked_metric": "财务流水导出发起账号数",
-      "owner": "产品/前端/数据",
-      "qa_method": "核对页面曝光PV与前端埋点日志、页面访问日志是否一致；抽样检查不同角色进入页面均有上报。",
+      "name": "export_click",
+      "trigger": "用户点击导出入口",
       "properties": [
-        "user_id",
-        "account_id",
-        "user_role",
-        "entry_source",
-        "page_name",
-        "merchant_id_default",
-        "is_impersonated",
-        "client_type",
-        "event_time"
-      ]
-    },
-    {
-      "name": "export_filter_confirm",
-      "trigger": "用户在导出前确认筛选条件（如商家、时间范围、流水类型）时触发。",
-      "linked_metric": "财务流水导出发起账号数",
-      "owner": "产品/前端/数据",
-      "qa_method": "对照页面请求参数与埋点属性一致性；重点校验时间范围、商家ID、文件格式是否正确上报。",
-      "properties": [
-        "user_id",
-        "account_id",
-        "user_role",
-        "merchant_id",
-        "time_range_start",
-        "time_range_end",
-        "time_range_days",
-        "transaction_types",
-        "settlement_status",
-        "keyword_type",
-        "has_sensitive_fields",
-        "file_format",
-        "is_async_expected",
-        "event_time"
-      ]
+        "role",
+        "module",
+        "date_range"
+      ],
+      "linked_metric": "export_usage",
+      "owner": "产品/数据",
+      "qa_method": "前端事件校验 + 日志抽样核对"
     },
     {
       "name": "export_submit",
-      "trigger": "用户点击确认导出并收到系统提交结果时触发。",
-      "linked_metric": "财务流水导出发起账号数",
-      "owner": "产品/前端/后端/数据",
-      "qa_method": "以前后端双端日志对账提交次数；校验 submit_result 与接口返回码一致；确保失败原因枚举可归因。",
+      "trigger": "用户提交导出请求",
       "properties": [
-        "user_id",
-        "account_id",
-        "user_role",
-        "merchant_id",
-        "export_task_id",
-        "submit_result",
-        "submit_fail_reason",
-        "time_range_days",
-        "estimated_record_count",
-        "file_format",
-        "export_scene",
-        "operator_type",
-        "event_time"
-      ]
+        "role",
+        "row_estimate",
+        "filters"
+      ],
+      "linked_metric": "export_usage",
+      "owner": "产品/数据",
+      "qa_method": "请求链路日志比对"
     },
     {
-      "name": "export_task_status_change",
-      "trigger": "导出任务状态发生变化时触发，包括处理中、成功、失败。",
-      "linked_metric": "财务流水导出成功率",
-      "owner": "后端/数据",
-      "qa_method": "以任务表状态流转为准回放验证；检查每个任务是否只存在一个最终态；抽样核对生成耗时、记录数与产物文件一致。",
+      "name": "export_success",
+      "trigger": "导出任务成功完成",
       "properties": [
-        "export_task_id",
-        "merchant_id",
-        "user_id",
-        "user_role",
-        "task_status",
-        "previous_status",
-        "final_fail_reason",
-        "record_count",
-        "file_size",
-        "generation_duration_ms",
-        "storage_type",
-        "event_time"
-      ]
+        "duration_ms",
+        "row_count",
+        "file_size"
+      ],
+      "linked_metric": "export_success_rate",
+      "owner": "产品/数据",
+      "qa_method": "服务端日志与埋点对账"
     },
     {
-      "name": "export_download_success",
-      "trigger": "用户点击下载链接且文件下载请求返回成功时触发。",
-      "linked_metric": "下载完成率",
-      "owner": "前端/后端/数据",
-      "qa_method": "校验下载日志、对象存储访问日志与埋点事件三方一致；验证过期链接场景会正确记录 link_expired。",
+      "name": "export_failure",
+      "trigger": "导出任务失败",
       "properties": [
-        "export_task_id",
-        "merchant_id",
-        "user_id",
-        "account_id",
-        "user_role",
-        "download_result",
-        "file_format",
-        "file_size",
-        "link_expired",
-        "download_channel",
-        "event_time"
-      ]
-    },
-    {
-      "name": "export_permission_denied",
-      "trigger": "用户在提交导出或下载导出文件时因权限不足被拒绝时触发。",
-      "linked_metric": "越权导出事件数",
-      "owner": "后端/安全/数据",
-      "qa_method": "通过权限中间件日志核对拒绝事件必上报；人工构造越权测试账号验证不同拒绝原因枚举。",
-      "properties": [
-        "user_id",
-        "account_id",
-        "user_role",
-        "merchant_id",
-        "denied_action",
-        "denied_reason",
-        "target_scope",
-        "is_customer_service_proxy",
-        "event_time"
-      ]
-    },
-    {
-      "name": "export_validation_failed",
-      "trigger": "用户提交导出时因参数校验失败被拒绝时触发，如时间范围超限、数据量超限、字段非法。",
-      "linked_metric": "导出失败率",
-      "owner": "前端/后端/数据",
-      "qa_method": "构造边界值测试用例，验证不同失败原因均能准确上报；与接口错误码映射表逐项核对。",
-      "properties": [
-        "user_id",
-        "account_id",
-        "user_role",
-        "merchant_id",
-        "validation_fail_reason",
-        "time_range_days",
-        "requested_fields_count",
-        "file_format",
-        "event_time"
-      ]
-    },
-    {
-      "name": "customer_service_report_ticket_tagged",
-      "trigger": "客服系统中与财务流水报表/导出相关的工单被创建或被打上对应标签时触发。",
-      "linked_metric": "月末报表相关客服人工处理量",
-      "owner": "客服系统/数据",
-      "qa_method": "与客服工单标签规则对齐；抽样复核工单文本与标签命中准确性；按月核对工单总量与报表类子类占比。",
-      "properties": [
-        "ticket_id",
-        "merchant_id",
-        "creator_role",
-        "ticket_source",
-        "issue_category",
-        "issue_subcategory",
-        "processing_team",
-        "event_time"
-      ]
+        "error_code",
+        "duration_ms",
+        "role"
+      ],
+      "linked_metric": "export_failure_rate",
+      "owner": "产品/数据",
+      "qa_method": "错误码分布核对"
     }
   ]
 }

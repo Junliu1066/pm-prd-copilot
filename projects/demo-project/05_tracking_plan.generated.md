@@ -3,72 +3,44 @@
 请自行核验事件命名、属性定义、采集位置和统计口径后再用于正式开发。
 
 ## Metrics
-- 财务流水导出发起账号数 (north_star)
-  - 定义：在统计窗口内，至少成功发起过1次财务流水导出任务的去重账号数，用于衡量功能被真实采用的程度。
-  - 公式：去重账号数，其中账号在窗口内触发 export_submit 且 submit_result='success'
-  - 观察窗口：按周
-- 财务流水导出成功率 (input)
-  - 定义：财务流水导出任务最终成功生成可下载文件的比例，用于衡量导出链路稳定性。
-  - 公式：export_task_completed_success 数 / export_submit_success 数
-  - 观察窗口：按日/按周
-- 月末报表相关客服人工处理量 (input)
-  - 定义：月底与财务流水报表/导出相关的客服人工处理次数，用于衡量该功能是否减少人工响应压力。
-  - 公式：客服工单系统或客服后台中，报表/流水导出类处理记录数
-  - 观察窗口：按月
-- 导出失败率 (guardrail)
-  - 定义：导出任务在发起后最终失败的比例，包括权限不足、时间范围超限、数据量超限、系统异常等。
-  - 公式：export_task_failed 数 / export_submit_success 数
-  - 观察窗口：按日/按周
-- 越权导出事件数 (guardrail)
-  - 定义：发生未授权角色访问或尝试导出超出其权限范围数据的事件数，用于监控权限风险。
-  - 公式：export_permission_denied 数中确认的越权尝试事件数 + 安全审计确认的真实越权事件数
-  - 观察窗口：按日/按月
-- 下载完成率 (input)
-  - 定义：已成功生成的导出任务中，最终被用户实际下载的比例，用于衡量导出结果是否真正被消费。
-  - 公式：export_download_success 数 / export_task_completed_success 数
-  - 观察窗口：按周
+- export_usage (input)
+  - 定义：导出请求次数
+  - 公式：count(export_submit)
+  - 观察窗口：daily
+- export_success_rate (input)
+  - 定义：导出成功次数 / 导出请求次数
+  - 公式：count(export_success) / count(export_submit)
+  - 观察窗口：daily
+- manual_support_tickets (guardrail)
+  - 定义：相关人工支持工单量
+  - 公式：count(tickets tagged export)
+  - 观察窗口：weekly
+- export_failure_rate (guardrail)
+  - 定义：导出失败次数 / 导出请求次数
+  - 公式：count(export_failure) / count(export_submit)
+  - 观察窗口：daily
 
 ## Events
-- export_page_view
-  - 触发时机：用户进入商家财务流水导出页面或打开导出弹窗时触发。
-  - 属性：user_id、account_id、user_role、entry_source、page_name、merchant_id_default、is_impersonated、client_type、event_time
-  - 关联指标：财务流水导出发起账号数
-  - QA：核对页面曝光PV与前端埋点日志、页面访问日志是否一致；抽样检查不同角色进入页面均有上报。
-- export_filter_confirm
-  - 触发时机：用户在导出前确认筛选条件（如商家、时间范围、流水类型）时触发。
-  - 属性：user_id、account_id、user_role、merchant_id、time_range_start、time_range_end、time_range_days、transaction_types、settlement_status、keyword_type、has_sensitive_fields、file_format、is_async_expected、event_time
-  - 关联指标：财务流水导出发起账号数
-  - QA：对照页面请求参数与埋点属性一致性；重点校验时间范围、商家ID、文件格式是否正确上报。
+- export_click
+  - 触发时机：用户点击导出入口
+  - 属性：role、module、date_range
+  - 关联指标：export_usage
+  - QA：前端事件校验 + 日志抽样核对
 - export_submit
-  - 触发时机：用户点击确认导出并收到系统提交结果时触发。
-  - 属性：user_id、account_id、user_role、merchant_id、export_task_id、submit_result、submit_fail_reason、time_range_days、estimated_record_count、file_format、export_scene、operator_type、event_time
-  - 关联指标：财务流水导出发起账号数
-  - QA：以前后端双端日志对账提交次数；校验 submit_result 与接口返回码一致；确保失败原因枚举可归因。
-- export_task_status_change
-  - 触发时机：导出任务状态发生变化时触发，包括处理中、成功、失败。
-  - 属性：export_task_id、merchant_id、user_id、user_role、task_status、previous_status、final_fail_reason、record_count、file_size、generation_duration_ms、storage_type、event_time
-  - 关联指标：财务流水导出成功率
-  - QA：以任务表状态流转为准回放验证；检查每个任务是否只存在一个最终态；抽样核对生成耗时、记录数与产物文件一致。
-- export_download_success
-  - 触发时机：用户点击下载链接且文件下载请求返回成功时触发。
-  - 属性：export_task_id、merchant_id、user_id、account_id、user_role、download_result、file_format、file_size、link_expired、download_channel、event_time
-  - 关联指标：下载完成率
-  - QA：校验下载日志、对象存储访问日志与埋点事件三方一致；验证过期链接场景会正确记录 link_expired。
-- export_permission_denied
-  - 触发时机：用户在提交导出或下载导出文件时因权限不足被拒绝时触发。
-  - 属性：user_id、account_id、user_role、merchant_id、denied_action、denied_reason、target_scope、is_customer_service_proxy、event_time
-  - 关联指标：越权导出事件数
-  - QA：通过权限中间件日志核对拒绝事件必上报；人工构造越权测试账号验证不同拒绝原因枚举。
-- export_validation_failed
-  - 触发时机：用户提交导出时因参数校验失败被拒绝时触发，如时间范围超限、数据量超限、字段非法。
-  - 属性：user_id、account_id、user_role、merchant_id、validation_fail_reason、time_range_days、requested_fields_count、file_format、event_time
-  - 关联指标：导出失败率
-  - QA：构造边界值测试用例，验证不同失败原因均能准确上报；与接口错误码映射表逐项核对。
-- customer_service_report_ticket_tagged
-  - 触发时机：客服系统中与财务流水报表/导出相关的工单被创建或被打上对应标签时触发。
-  - 属性：ticket_id、merchant_id、creator_role、ticket_source、issue_category、issue_subcategory、processing_team、event_time
-  - 关联指标：月末报表相关客服人工处理量
-  - QA：与客服工单标签规则对齐；抽样复核工单文本与标签命中准确性；按月核对工单总量与报表类子类占比。
+  - 触发时机：用户提交导出请求
+  - 属性：role、row_estimate、filters
+  - 关联指标：export_usage
+  - QA：请求链路日志比对
+- export_success
+  - 触发时机：导出任务成功完成
+  - 属性：duration_ms、row_count、file_size
+  - 关联指标：export_success_rate
+  - QA：服务端日志与埋点对账
+- export_failure
+  - 触发时机：导出任务失败
+  - 属性：error_code、duration_ms、role
+  - 关联指标：export_failure_rate
+  - QA：错误码分布核对
 
 ## Open Questions
 - 导出的核心目标用户是谁：商家自助导出，还是客服后台代导出，或两者都要？

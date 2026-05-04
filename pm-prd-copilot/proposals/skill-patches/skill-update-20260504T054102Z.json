@@ -1,0 +1,196 @@
+{
+  "proposal_id": "skill-update-20260504T054102Z",
+  "created_at": "2026-05-04T05:41:02.780094+00:00",
+  "status": "proposed",
+  "requires_human_approval": true,
+  "must_not_apply_automatically": true,
+  "source_lessons": [
+    {
+      "lesson_id": "LESSON-20260423-001",
+      "title": "Enumerate user universe before narrowing",
+      "source_file": "teaching/accepted_lessons.md",
+      "lesson_type": "general_pm_principle"
+    },
+    {
+      "lesson_id": "LESSON-20260423-002",
+      "title": "Rank scenarios by minimum cost and maximum return",
+      "source_file": "teaching/accepted_lessons.md",
+      "lesson_type": "general_pm_principle"
+    },
+    {
+      "lesson_id": "LESSON-20260423-003",
+      "title": "Competitor analysis should find advantage, not list features",
+      "source_file": "teaching/accepted_lessons.md",
+      "lesson_type": "general_pm_principle"
+    }
+  ],
+  "skill_updates": [
+    {
+      "lesson_id": "LESSON-20260423-001",
+      "lesson_title": "Enumerate user universe before narrowing",
+      "skill": "user-universe-mapper",
+      "plugin": "prd-analysis-suite",
+      "path": "plugins/prd-analysis-suite/skills/user-universe-mapper",
+      "status": "proposed",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "general_pm_principle",
+      "principle": "Do not narrow the target user too early. First enumerate all plausible target-user groups, then analyze pain points, needs, and scenarios.",
+      "expected_behavior": "Product analysis should start from a broad user universe and only narrow after evidence and scenario reasoning.",
+      "verification_hint": "PRD or analysis output should include multiple candidate user groups before selecting the target group.",
+      "suggested_locations": [
+        "Output Contract",
+        "Workflow"
+      ]
+    },
+    {
+      "lesson_id": "LESSON-20260423-001",
+      "lesson_title": "Enumerate user universe before narrowing",
+      "skill": "pain-needs-analyzer",
+      "plugin": "prd-analysis-suite",
+      "path": "plugins/prd-analysis-suite/skills/pain-needs-analyzer",
+      "status": "proposed",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "general_pm_principle",
+      "principle": "Do not narrow the target user too early. First enumerate all plausible target-user groups, then analyze pain points, needs, and scenarios.",
+      "expected_behavior": "Product analysis should start from a broad user universe and only narrow after evidence and scenario reasoning.",
+      "verification_hint": "PRD or analysis output should include multiple candidate user groups before selecting the target group.",
+      "suggested_locations": [
+        "Output Contract",
+        "Workflow"
+      ]
+    },
+    {
+      "lesson_id": "LESSON-20260423-001",
+      "lesson_title": "Enumerate user universe before narrowing",
+      "skill": "scenario-roi-ranker",
+      "plugin": "prd-analysis-suite",
+      "path": "plugins/prd-analysis-suite/skills/scenario-roi-ranker",
+      "status": "proposed",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "general_pm_principle",
+      "principle": "Do not narrow the target user too early. First enumerate all plausible target-user groups, then analyze pain points, needs, and scenarios.",
+      "expected_behavior": "Product analysis should start from a broad user universe and only narrow after evidence and scenario reasoning.",
+      "verification_hint": "PRD or analysis output should include multiple candidate user groups before selecting the target group.",
+      "suggested_locations": [
+        "Output Contract",
+        "Workflow"
+      ]
+    },
+    {
+      "lesson_id": "LESSON-20260423-002",
+      "lesson_title": "Rank scenarios by minimum cost and maximum return",
+      "skill": "scenario-roi-ranker",
+      "plugin": "prd-analysis-suite",
+      "path": "plugins/prd-analysis-suite/skills/scenario-roi-ranker",
+      "status": "proposed",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "general_pm_principle",
+      "principle": "Core scenarios should be selected by minimum implementation cost, maximum user/business return, time saved, and speed to MVP.",
+      "expected_behavior": "Scenario ranking should explain value, cost, frequency, time saving, and MVP speed rather than only importance.",
+      "verification_hint": "Scenario ranking output should include explicit ROI reasoning.",
+      "suggested_locations": [
+        "Output Contract",
+        "Workflow"
+      ]
+    },
+    {
+      "lesson_id": "LESSON-20260423-002",
+      "lesson_title": "Rank scenarios by minimum cost and maximum return",
+      "skill": "mvp-scope-decider",
+      "plugin": "prd-analysis-suite",
+      "path": "plugins/prd-analysis-suite/skills/mvp-scope-decider",
+      "status": "proposed",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "general_pm_principle",
+      "principle": "Core scenarios should be selected by minimum implementation cost, maximum user/business return, time saved, and speed to MVP.",
+      "expected_behavior": "Scenario ranking should explain value, cost, frequency, time saving, and MVP speed rather than only importance.",
+      "verification_hint": "Scenario ranking output should include explicit ROI reasoning.",
+      "suggested_locations": [
+        "Output Contract",
+        "Workflow"
+      ]
+    },
+    {
+      "lesson_id": "LESSON-20260423-003",
+      "lesson_title": "Competitor analysis should find advantage, not list features",
+      "skill": "competitor-gap-analyzer",
+      "plugin": "prd-analysis-suite",
+      "path": "plugins/prd-analysis-suite/skills/competitor-gap-analyzer",
+      "status": "proposed",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "general_pm_principle",
+      "principle": "Competitor analysis should explain how competitors solve the problem, where they are weak, what advantage we can create, and how to amplify it.",
+      "expected_behavior": "Competitor output should include competitor approach, gap, opportunity, advantage, and amplification strategy.",
+      "verification_hint": "Competitor output should not be a plain feature table only.",
+      "suggested_locations": [
+        "Output Contract",
+        "Guardrails"
+      ]
+    },
+    {
+      "lesson_id": "LESSON-20260423-003",
+      "lesson_title": "Competitor analysis should find advantage, not list features",
+      "skill": "scenario-roi-ranker",
+      "plugin": "prd-analysis-suite",
+      "path": "plugins/prd-analysis-suite/skills/scenario-roi-ranker",
+      "status": "proposed",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "general_pm_principle",
+      "principle": "Competitor analysis should explain how competitors solve the problem, where they are weak, what advantage we can create, and how to amplify it.",
+      "expected_behavior": "Competitor output should include competitor approach, gap, opportunity, advantage, and amplification strategy.",
+      "verification_hint": "Competitor output should not be a plain feature table only.",
+      "suggested_locations": [
+        "Output Contract",
+        "Guardrails"
+      ]
+    },
+    {
+      "lesson_id": "LESSON-20260423-003",
+      "lesson_title": "Competitor analysis should find advantage, not list features",
+      "skill": "mvp-scope-decider",
+      "plugin": "prd-analysis-suite",
+      "path": "plugins/prd-analysis-suite/skills/mvp-scope-decider",
+      "status": "proposed",
+      "requires_human_approval": true,
+      "must_not_apply_automatically": true,
+      "lesson_type": "general_pm_principle",
+      "principle": "Competitor analysis should explain how competitors solve the problem, where they are weak, what advantage we can create, and how to amplify it.",
+      "expected_behavior": "Competitor output should include competitor approach, gap, opportunity, advantage, and amplification strategy.",
+      "verification_hint": "Competitor output should not be a plain feature table only.",
+      "suggested_locations": [
+        "Output Contract",
+        "Guardrails"
+      ]
+    }
+  ],
+  "non_skill_targets": [
+    {
+      "lesson_id": "LESSON-20260423-001",
+      "component": "prd-quality-reviewer",
+      "reason": "Component is not a registered skill with a repository path."
+    },
+    {
+      "lesson_id": "LESSON-20260423-002",
+      "component": "prd-quality-reviewer",
+      "reason": "Component is not a registered skill with a repository path."
+    },
+    {
+      "lesson_id": "LESSON-20260423-003",
+      "component": "prd-draft-writer",
+      "reason": "Component is not a registered skill with a repository path."
+    }
+  ],
+  "approval_checklist": [
+    "User confirms the lesson is a durable preference or PM principle.",
+    "User confirms the routed skill is the right owner.",
+    "User approves the exact SKILL.md change before it is applied.",
+    "Skill validation, plugin_boundary, harness, and regression pass after applying."
+  ]
+}

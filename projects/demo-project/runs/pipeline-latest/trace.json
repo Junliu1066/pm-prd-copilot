@@ -16,7 +16,7 @@
         "source_brief_markdown"
       ],
       "status": "completed",
-      "completed_at": "2026-04-23T09:03:37+00:00"
+      "completed_at": "2026-05-04T05:41:03+00:00"
     },
     {
       "stage": "prd",
@@ -31,7 +31,7 @@
         "prd_markdown"
       ],
       "status": "completed",
-      "completed_at": "2026-04-23T09:03:37+00:00"
+      "completed_at": "2026-05-04T05:41:03+00:00"
     },
     {
       "stage": "stories",
@@ -46,7 +46,7 @@
         "user_stories"
       ],
       "status": "completed",
-      "completed_at": "2026-04-23T09:03:37+00:00"
+      "completed_at": "2026-05-04T05:41:04+00:00"
     },
     {
       "stage": "risk",
@@ -61,7 +61,7 @@
         "risk_report"
       ],
       "status": "completed",
-      "completed_at": "2026-04-23T09:03:37+00:00"
+      "completed_at": "2026-05-04T05:41:04+00:00"
     },
     {
       "stage": "tracking",
@@ -76,12 +76,12 @@
         "tracking_plan"
       ],
       "status": "completed",
-      "completed_at": "2026-04-23T09:03:37+00:00"
+      "completed_at": "2026-05-04T05:41:04+00:00"
     }
   ],
   "mcp_calls": [],
   "source_traces": [],
-  "started_at": "2026-04-23T09:03:37+00:00",
+  "started_at": "2026-05-04T05:41:02+00:00",
   "status": "completed",
-  "completed_at": "2026-04-23T09:07:18+00:00"
+  "completed_at": "2026-05-04T05:41:04+00:00"
 }

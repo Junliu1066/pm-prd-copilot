@@ -2,7 +2,7 @@
 
 - 日期：2026-05-04
 - 快照命令：`git status --short`
-- 当前快照：37 项，全部为未跟踪文件 / 目录。
+- 当前快照：38 项，全部为未跟踪文件 / 目录。
 - 当前 tracked 修改：0 项。
 - 目的：把剩余未跟踪材料拆成可审核、可回滚、可分批处理的清单，避免项目产物和临时材料污染稳定治理核心。
 - 规则：本文件只是审计地图，不批准删除、恢复、移动、归档、staging、commit、push、PR、candidate 转 stable、长期记忆写入或项目归档。
@@ -22,8 +22,8 @@
 
 | Root | 当前项数 | 默认处理 |
 |---|---:|---|
-| `projects/` | 14 | 项目产物候选区，不混入稳定治理核心。 |
-| `docs/proposals/` | 20 | 临时审计 / staging / commit 材料，已列 30 天候选。 |
+| `projects/` | 15 | 项目产物候选区，不混入稳定治理核心。 |
+| `docs/proposals/` | 19 | 临时审计 / staging / commit 材料，已列 30 天候选。 |
 | `ai-intel/raw/` | 1 | raw 本地证据，不提交，30 天后复核候选。 |
 | `memory-cache/` | 1 | 项目偏好缓存，不提交、不清空。 |
 | `docs/archive/` 额外材料 | 2 | 未审历史材料，不提交、不删除。 |
@@ -54,6 +54,7 @@ projects/fitness-app-mvp/closeout/
 projects/fitness-app-mvp/prototype/
 projects/fitness-app-mvp/runs/plan-execution-preview-20260425/
 projects/fitness-app-mvp/runs/prototype-preview-20260424/
+projects/geo-service-prd/
 projects/graduation-defense-agent/
 projects/jiaxiaoqian-ai-invest-research/
 projects/prompt-optimization-workbench/
@@ -70,6 +71,8 @@ projects/temp-generated-project/
 - 后续按项目 closeout / archive / 30 天删除候选逐个处理。
 
 当前判断见 `docs/proposals/projects_lifecycle_inventory_review.md`。
+
+新增 `projects/geo-service-prd/` 当前只作为小体量 PRD / 原型层候选样例保留，不提交、不归档、不提炼 stable。
 
 ### 3. Memory Cache
 
@@ -154,4 +157,4 @@ docs/archive/root-files/Remod开发.md
 
 ## 结论
 
-当前工作区已经从“混合变更”收口到“37 个未跟踪候选项”。这些项都不应继续进入稳定治理提交。后续核心不是继续写更多规则，而是按生命周期到期复核：项目归项目，缓存归缓存，raw 归 raw，临时 proposal 到期再删。
+当前工作区已经从“混合变更”收口到“38 个未跟踪候选项”。这些项都不应继续进入稳定治理提交。后续核心不是继续写更多规则，而是按生命周期到期复核：项目归项目，缓存归缓存，raw 归 raw，临时 proposal 到期再删。

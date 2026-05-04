@@ -9,13 +9,19 @@
 
 项目产物已经和稳定治理核心分开。当前 tracked 修改已清空，剩余主要是未跟踪项目目录、原型、closeout、raw、memory-cache 和临时 proposal。
 
+当前 C17 快照：
+
+- `git status --short`：38 项，全部为未跟踪文件 / 目录。
+- `projects/`：15 项，包含新增 `projects/geo-service-prd/`。
+- 当前动作：只刷新台账，不提交项目本体。
+
 当前策略：
 
 1. `demo-project` 继续作为治理测试 fixture。
 2. `fitness-app-mvp` 继续 active；已提交 8 个分析证据文件，但 `memory-cache`、prototype、closeout 暂不提交。
 3. `taxi-hailing-prd-test` 继续 golden sample candidate，不直接 stable。
 4. 高价值项目先保留，不整包提交。
-5. 低证据或 temporary 项目进入 archive / 30 天候选，但不立即删除。
+5. 低证据、小体量或 temporary 项目进入 archive / 30 天候选，但不立即删除。
 
 ## 当前项目分层
 
@@ -24,6 +30,7 @@
 | `demo-project` | `fixture_active` | 保留为治理测试 fixture | 保留能保证 regression / harness 有稳定现场；归档会削弱测试覆盖。 |
 | `fitness-app-mvp` | `active_project` | 项目内保留，后续归档前再处理缓存 | 保持 active 能继续项目；现在归档会打断偏好缓存和原型链路。 |
 | `taxi-hailing-prd-test` | `golden_sample_candidate` | 候选保留，后续脱敏组合成样例集 | 直接 stable 容易过拟合；候选保留更稳。 |
+| `geo-service-prd` | `small_prd_artifact_candidate` | 项目内保留，暂不提交 | 新增小体量 PRD / 原型层材料，可作为后续 0-1 普通项目对比样本；直接提交会扩大项目产物噪音。 |
 | `graduation-defense-agent` | `closeout_candidate_reviewed` | 保留，后续单独 closeout 拍板 | 该项目有 AI、delivery、Codex 开发和原型链路价值，但整包提交会污染仓库。 |
 | `jiaxiaoqian-ai-invest-research` | `high_value_closeout_candidate` | 保留，后续处理 package / zip / B 包 | 价值高但体量大，必须单独审，不混入当前批次。 |
 | `ai-collaboration-efficiency-platform` | `closeout_candidate_refreshed` | 项目内保留，不提交项目产物 | 可作为复杂 AI / Skill 治理产品证据，暂不稳定化。 |
@@ -51,6 +58,7 @@
 | `projects/fitness-app-mvp/runs/plan-execution-preview-20260425/` | 暂缓 | 项目运行证据，和原型/缓存一起归档前再审。 |
 | `projects/fitness-app-mvp/runs/prototype-preview-20260424/` | 暂缓 | 项目运行证据，暂不混入仓库。 |
 | `projects/a-share-ai-quant-strategy-platform/` | 暂缓 | 小体量项目，但尚未完成独立生命周期判断。 |
+| `projects/geo-service-prd/` | 暂缓 / archive candidate | 新增小体量 PRD、source brief 和 prototype layer，先作为本地项目样例保留，不提交、不提炼 stable。 |
 | `projects/ai-collaboration-efficiency-platform/` | 保留候选 | 复杂 AI / Skill 治理产品证据，不能直接归档或提交。 |
 | `projects/graduation-defense-agent/` | 保留候选 | 高价值端到端交付证据，后续单独 closeout。 |
 | `projects/jiaxiaoqian-ai-invest-research/` | 保留候选 | 金融合规、B 包、zip 生命周期价值高，单独审。 |
@@ -67,6 +75,7 @@
 | 是否继续提交 `projects/*` 目录 | 暂不提交 | 工作区继续保留项目上下文，但稳定治理核心不被污染。 |
 | 是否把 `fitness-app-mvp` closeout 提交 | 暂缓 | 避免被误认为项目已归档；等项目暂停或归档前再提交。 |
 | 是否把 `taxi-hailing-prd-test` 转 golden sample | 暂不转 | 保持候选，等多样例组合后更稳。 |
+| 是否把 `geo-service-prd` 作为普通 PRD 样例 | 暂缓 | 先保留为本地候选；后续和 taxi、a-share 样例对比后再决定是否脱敏入样例集。 |
 | 是否清理 `temp-generated-project` | 放入 30 天候选 | 能瘦身，但不会马上删除，保留复核窗口。 |
 | 是否提交原型 / zip / HTML | 暂不提交 | 避免项目体积膨胀和旧口径污染。 |
 | 是否把项目经验写入长期记忆 | 不自动写 | 项目经验先入 architecture inbox 或 closeout，长期记忆必须逐条批准。 |

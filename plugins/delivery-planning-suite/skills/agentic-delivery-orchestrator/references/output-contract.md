@@ -59,6 +59,7 @@ codex_development_plan:
     - "主开发流程"
     - "阶段总览"
     - "通用 Codex 执行框架"
+    - "Codex 多分支工程执行操作系统"
     - "Skill / MCP / Harness 框架"
     - "AI / Prompt / RAG / Memory 框架"
     - "教学与记忆沉淀"
@@ -145,6 +146,119 @@ agentic_delivery_plan:
       goal: ""
       tasks:
         - ""
+  multi_branch_execution:
+    activation_reason: ""
+    input_gate:
+      status: "pass | partial | fail"
+      missing_items:
+        - ""
+      blocked_branches:
+        - ""
+    branch_matrix:
+      - branch_name: ""
+        task_nodes:
+          - ""
+        version_scope: "v0.1 | v0.2 | later | out-of-scope"
+        priority: "P0 | P1 | P2 | P3 | P4"
+        impact_surface:
+          - ""
+        dependencies:
+          - ""
+        can_parallelize: false
+        conflict_prediction: ""
+        risk_level: "low | medium | high"
+        in_current_version: false
+    branch_governance_cards:
+      - branch_name: ""
+        goal: ""
+        allowed_write_paths:
+          - ""
+        forbidden_write_paths:
+          - ""
+        responsible_stewards:
+          - ""
+        action_contract: ""
+        artifact_contract: ""
+        harness_gates:
+          - ""
+        review_gate: ""
+        efficiency_check: ""
+        evidence_required:
+          - ""
+        bug_route: ""
+        failure_return_route: ""
+        closeout_route: ""
+        user_approval_conditions:
+          - ""
+    branch_startup_packages:
+      - branch_name: ""
+        task_goal: ""
+        context_summary: ""
+        allowed_write_paths:
+          - ""
+        forbidden_write_paths:
+          - ""
+        dependency_branches:
+          - ""
+        related_files:
+          - ""
+        execution_steps:
+          - ""
+        validation_commands:
+          - ""
+        acceptance_criteria:
+          - ""
+        failure_handling: ""
+        evidence_required:
+          - ""
+    contract_freeze:
+      - contract: "api | database | ai_output | page_state | permission | config"
+        status: "draft | frozen | changed | deprecated"
+        dependent_branches:
+          - ""
+        change_policy: ""
+    scope_change_control:
+      request_format: "scope_change_request"
+      allowed_decisions:
+        - "expand_current_branch"
+        - "create_new_branch"
+        - "defer_to_next_version"
+        - "user_decision_required"
+    decision_log:
+      - decision: ""
+        reason: ""
+        impact: ""
+        alternatives:
+          - ""
+        final_choice: ""
+        user_approval_required: false
+    branch_state_machine:
+      states:
+        - "planned"
+        - "ready"
+        - "running"
+        - "self_checked"
+        - "reviewed"
+        - "gate_passed"
+        - "integration_pending"
+        - "integration_passed"
+        - "integration_failed"
+        - "fix_required"
+        - "closed"
+        - "blocked"
+    permission_boundaries:
+      cannot_auto:
+        - "merge_main"
+        - "push_or_pr"
+        - "delete_or_migrate_important_data"
+        - "modify_stable_rules"
+        - "create_long_lived_skill"
+        - "create_long_lived_harness"
+        - "publish_external_package"
+        - "accept_high_risk_unresolved_issue"
+        - "expand_version_scope"
+        - "promote_candidate_to_stable"
+        - "write_long_term_memory"
   capability_enablement:
     skill_reuse_decision: ""
     new_skill_route: ""

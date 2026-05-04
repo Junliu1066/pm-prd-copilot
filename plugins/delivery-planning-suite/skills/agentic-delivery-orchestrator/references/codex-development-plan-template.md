@@ -35,28 +35,33 @@ For lightweight Codex development documents, do not copy the full template. Use 
    - Forbidden write boundaries.
    - Validation rules.
 
-7. `Skill / MCP / Harness 框架`
+7. `Codex 多分支工程执行操作系统`
+   - Use only when the project needs multi-module, multi-page, multi-API, multi-agent, AI, DB/API contract, UI/prototype parallel work, or the user explicitly asks for branch parallelism.
+   - Include input gate, branch matrix, branch governance card, branch startup package, Ready / Done standards, Contract Freeze, scope change control, decision log, branch state machine, execution evidence, integration/test strategy, failure return loop, permission boundaries, and closeout / feedback candidates.
+   - Keep ordinary single-file or low-risk work in lightweight mode and state why multi-branch execution is not needed.
+
+8. `Skill / MCP / Harness 框架`
    - Existing skills to reuse.
    - Candidate skills to propose.
    - MCP candidates.
    - Harness checks.
    - Source trace requirements.
 
-8. `AI / Prompt / RAG / Memory 框架`
+9. `AI / Prompt / RAG / Memory 框架`
    - Model routes.
    - Prompt assets.
    - RAG needs.
    - Short memory and long memory boundaries.
    - Privacy and deletion.
 
-9. `教学与记忆沉淀`
+10. `教学与记忆沉淀`
    - User feedback handling.
    - Project preference cache route.
    - Open lesson route.
    - Skill update proposal route.
    - Approval requirements.
 
-10. `人工确认点`
+11. `人工确认点`
     - PRD scope.
     - Database schema.
     - External API / model provider.
@@ -66,7 +71,7 @@ For lightweight Codex development documents, do not copy the full template. Use 
     - Memory update.
     - Destructive data action.
 
-11. `验收与回归`
+12. `验收与回归`
     - Unit / integration checks.
     - Harness checks.
     - Random audit.
@@ -74,7 +79,7 @@ For lightweight Codex development documents, do not copy the full template. Use 
     - Prompt regression if AI is involved.
     - Send-before-review by `codex-development-plan-reviewer`.
 
-12. `阶段文档索引`
+13. `阶段文档索引`
     - `phase_1_codex_plan.md`
     - `phase_2_codex_plan.md`
     - `phase_3_codex_plan.md`
@@ -100,3 +105,4 @@ The full-mode plan must link:
 - Do not approve model, MCP, database, GitHub, memory, or skill changes on behalf of the user.
 - Do not bury teaching/learning in generic notes. It must be a named section.
 - Do not use this full template for ordinary lightweight implementation requests.
+- Do not treat branch execution as approval to push, open PRs, merge main, create long-lived skills/harnesses, modify stable rules, publish external packages, or write long-term memory.

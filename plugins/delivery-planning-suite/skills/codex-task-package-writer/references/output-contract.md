@@ -44,6 +44,16 @@ codex_development_document:
     - ""
   learning_iteration: ""
   overload_escalation: ""
+  multi_branch_execution_when_needed:
+    activation_reason: ""
+    branch_matrix_required: true
+    branch_governance_cards_required: true
+    branch_startup_packages_required: true
+    ready_done_required: true
+    contract_freeze_required: true
+    scope_change_control_required: true
+    evidence_required: true
+    user_approval_conditions_required: true
 codex_task_package_blueprint:
   blueprint_id: ""
   development_document_output:
@@ -133,6 +143,46 @@ codex_task_package_blueprint:
         - ""
       forbidden_write_paths:
         - ""
+  branch_startup_packages:
+    mode: "multi_branch_execution_only"
+    packages:
+      - branch_name: ""
+        task_goal: ""
+        context_summary: ""
+        allowed_write_paths:
+          - ""
+        forbidden_write_paths:
+          - ""
+        dependency_branches:
+          - ""
+        related_files:
+          - ""
+        execution_steps:
+          - ""
+        validation_commands:
+          - ""
+        acceptance_criteria:
+          - ""
+        failure_handling: ""
+        evidence_required:
+          - ""
+        ready_standard:
+          - "goal_clear"
+          - "scope_clear"
+          - "forbidden_scope_clear"
+          - "dependencies_clear"
+          - "acceptance_clear"
+          - "validation_clear"
+          - "rollback_clear"
+        done_standard:
+          - "work_completed"
+          - "self_check_completed"
+          - "tests_completed"
+          - "required_harness_completed"
+          - "review_completed"
+          - "evidence_complete"
+          - "rollback_clear"
+          - "closeout_generated"
   human_confirmation_points:
     - ""
   minimal_fix_strategy:

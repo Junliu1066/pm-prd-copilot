@@ -36,19 +36,21 @@ It also enforces the product/development boundary:
 2. Choose the smallest output mode that satisfies the request:
    - Lightweight Codex delivery: use for ordinary development-ready PRDs, single-phase implementation plans, or when the user asks for a Codex development document.
    - Full agentic delivery: use only when the user explicitly asks for semi-automated agent delivery, multi-phase Codex execution, agent orchestration, or a complete development governance plan.
-3. In lightweight mode, produce only the development document, task packages, human confirmation points, validation, rollback, and review needed for implementation.
-4. In full agentic mode, verify capability enablement, Skill/MCP routing, development governance, and phase planning before producing the complete package.
-5. Split the work into four phase documents only in full agentic mode or when the user explicitly asks for phase plans. Use the standard meanings:
+3. Activate multi-branch execution only when the implementation has multiple modules, pages, APIs, data contracts, AI capability, UI/prototype parallel work, agentic delivery, or explicit branch-parallel user intent. Keep small single-module changes single-branch or no-branch and record the reason.
+4. In lightweight mode, produce only the development document, task packages, human confirmation points, validation, rollback, and review needed for implementation.
+5. In full agentic mode, verify capability enablement, Skill/MCP routing, development governance, and phase planning before producing the complete package.
+6. Split the work into four phase documents only in full agentic mode or when the user explicitly asks for phase plans. Use the standard meanings:
    - Phase 1: MVP / core loop.
    - Phase 2: efficiency, personalization, and experience improvements.
    - Phase 3: collaboration, admin, backstage, or scale features.
    - Final: platformization, long-term intelligence, and advanced integrations.
-6. Split Codex task packages with read/write boundaries.
-7. Define development order, dependencies, and conflict rules.
-8. Define human supervision gates for high-risk changes.
-9. Define required checks and minimal-fix strategy.
-10. Define feedback handling after human review. In lightweight mode, state whether feedback remains project-local, needs a later learning proposal, or requires no persistence.
-11. Before sending development-facing documents to the user or starting implementation, route the generated plan through `codex-development-plan-reviewer` and attach the resulting `codex_development_review`.
+7. Split Codex task packages with read/write boundaries.
+8. When multi-branch execution is active, generate branch matrix, branch governance cards, branch startup packages, Ready / Done standards, Contract Freeze, scope-change control, execution evidence requirements, integration strategy, and permission boundaries.
+9. Define development order, dependencies, and conflict rules.
+10. Define human supervision gates for high-risk changes.
+11. Define required checks and minimal-fix strategy.
+12. Define feedback handling after human review. In lightweight mode, state whether feedback remains project-local, needs a later learning proposal, or requires no persistence.
+13. Before sending development-facing documents to the user or starting implementation, route the generated plan through `codex-development-plan-reviewer` and attach the resulting `codex_development_review`.
 
 ## Output Contract
 
@@ -74,6 +76,8 @@ Use the output contract by mode:
 - Do not let teaching or learning roles update skills without user approval.
 - Do not put database schemas, API contracts, Prompt assets, model routes, GitHub process, or Codex task package details into the PRD/product package. Product feature matrices, product flows, and prototype notes are allowed there.
 - Do not expand a lightweight Codex development request into full phase plans unless the user asks for phase plans or full agentic delivery.
+- Do not expand a lightweight Codex development request into multi-branch execution unless branch parallelism is actually needed or explicitly requested.
 - Do not generate a single vague development plan when the user expects phase plans. When phase plans are requested, separate phase 1, phase 2, phase 3, and final.
 - Do not send development-facing documents as ready for implementation unless `codex_development_review` exists and states pass or warn with explicit blockers.
 - Do not make learning persistent by default. Lightweight output must state whether feedback remains one-off or project-local. Full agentic delivery must state how user feedback becomes project memory, open lessons, skill proposals, or no persistent learning.
+- Do not treat agentic branch execution as approval to merge main, push, open PRs, delete data, change stable rules, create long-lived skills/harnesses, publish external materials, promote candidate work to stable, or write long-term memory.

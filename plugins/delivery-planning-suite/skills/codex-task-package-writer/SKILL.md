@@ -22,17 +22,20 @@ Create the smallest useful Codex development document and task blueprint for Cod
 1. Choose the smallest output mode that satisfies the request:
    - Lightweight development document: default for ordinary development-ready PRDs and single-phase implementation planning.
    - Full supervised package: use only when the user asks for semi-automated delivery, capability enablement, MCP integration, registry/harness work, or multi-agent governance.
+   - Multi-branch execution package: use only when the work has multiple modules, pages, APIs, data contracts, AI capability, UI/prototype parallel work, agentic delivery, or the user explicitly asks for branch parallelism.
+   - Single-file fixes, low-risk document updates, and small single-module changes should stay single-branch or no-branch, with the downgrade reason recorded.
 2. Create `codex_development_document` as the paired development document for the PRD.
 3. Create the `development_document_output` section only as detailed as the selected mode requires.
 4. Define task types only when they are relevant to the selected mode: product code, AI code, QA, review, capability enablement, registry/harness, MCP integration, efficiency, or learning.
-5. For each task, define owner, inputs, allowed write paths, forbidden write paths, expected outputs, validation commands, human confirmation points, and minimal-fix strategy.
-6. Mark tasks that only produce proposals and cannot write implementation files.
-7. Add learning routes after task review, without making learning persistent by default.
-8. Keep tasks small enough to review and avoid overlapping write scopes.
+5. When multi-branch execution is needed, convert the development document into branch matrix, branch governance cards, and branch startup packages before assigning Codex execution tasks.
+6. For each task or branch, define owner, inputs, allowed write paths, forbidden write paths, expected outputs, validation commands, human confirmation points, and minimal-fix strategy.
+7. Mark tasks that only produce proposals and cannot write implementation files.
+8. Add learning routes after task review, without making learning persistent by default.
+9. Keep tasks small enough to review and avoid overlapping write scopes.
 
 ## Output Contract
 
-Read [references/output-contract.md](references/output-contract.md). In lightweight mode, include only `codex_development_document`, relevant `product_development_tasks` or `ai_development_tasks`, `validation_commands`, `human_confirmation_points`, `minimal_fix_strategy`, and a non-persistent `learning_route` note. Include `capability_enablement_tasks`, `skill_creation_tasks`, `mcp_integration_tasks`, and `registry_harness_tasks` only when the user or approved plan explicitly requests that layer.
+Read [references/output-contract.md](references/output-contract.md). In lightweight mode, include only `codex_development_document`, relevant `product_development_tasks` or `ai_development_tasks`, `validation_commands`, `human_confirmation_points`, `minimal_fix_strategy`, and a non-persistent `learning_route` note. Include `branch_startup_packages` only when multi-branch execution is activated. Include `capability_enablement_tasks`, `skill_creation_tasks`, `mcp_integration_tasks`, and `registry_harness_tasks` only when the user or approved plan explicitly requests that layer.
 
 ## Guardrails
 
@@ -42,3 +45,4 @@ Read [references/output-contract.md](references/output-contract.md). In lightwei
 - MCP integration tasks must include source trace and verification requirements.
 - If a task changes scope, route back to PM approval instead of continuing.
 - Do not write the semi-automated development scheme only into a changelog or development note. It must appear in the generated development document output.
+- Do not treat a branch startup package as approval to merge main, push, open PRs, delete data, change stable rules, create long-lived skills/harnesses, publish external materials, promote candidate work to stable, or write long-term memory.

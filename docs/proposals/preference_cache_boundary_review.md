@@ -1,6 +1,6 @@
 # 偏好缓存与长期记忆边界审查
 
-- 日期：2026-04-30
+- 日期：2026-05-04
 - 状态：审查报告，不批准提交 `memory-cache/`，不批准清空缓存，不批准项目偏好进入长期记忆
 - 范围：`pm-prd-copilot/memory/user_preferences.md`、`memory-cache/`、`pm-prd-copilot/scripts/manage_preference_cache.py`、`harness/preference_cache_checker.py`
 - 原则：项目偏好只在项目内使用；长期记忆必须逐条批准；归档或清空必须有用户监督。
@@ -8,6 +8,15 @@
 ## 结论
 
 当前偏好缓存方向正确，但需要把“清空 / 归档清空必须显式获得用户批准”落实到脚本和 checker。
+
+2026-05-04 加速收口结论：
+
+- `memory-cache/` 不提交。
+- `memory-cache/` 不清空。
+- `fitness-app-mvp` 偏好缓存继续项目内保留。
+- 项目归档前再做 preference disposition。
+- 不把 fitness 项目偏好写入长期记忆。
+- 不把项目偏好跨项目复用。
 
 本轮已做最小修复：
 
@@ -24,6 +33,16 @@
 | `memory-cache/projects/fitness-app-mvp/` | 存在 active 项目偏好缓存 | 不提交、不清空，等项目 closeout / 归档前对齐。 |
 | `manage_preference_cache.py` | 已有 init / reset / clear / archive-clear | 已补显式用户批准门槛。 |
 | `preference_cache_checker.py` | 检查项目隔离、清除状态、长期记忆审批字段 | 已补 cleared 状态批准记录检查。 |
+
+## 当前未跟踪缓存清单
+
+| 路径 | 当前处置 | 原因 |
+|---|---|---|
+| `memory-cache/projects/fitness-app-mvp/current.json` | 项目内保留，不提交 | active cache 指针，只对 fitness 项目有效。 |
+| `memory-cache/projects/fitness-app-mvp/cache-20260424T000000+0800/approved_preferences.md` | 项目内保留，不提交 | 记录 fitness 已批准项目偏好，不是长期偏好。 |
+| `memory-cache/projects/fitness-app-mvp/cache-20260424T000000+0800/candidate_preferences.md` | 项目内保留，不提交 | 候选偏好不能跨项目复用。 |
+| `memory-cache/projects/fitness-app-mvp/cache-20260424T000000+0800/manifest.json` | 项目内保留，不提交 | 缓存元数据，只服务项目归档前对齐。 |
+| `memory-cache/projects/fitness-app-mvp/cache-20260424T000000+0800/source_trace.json` | 项目内保留，不提交 | 偏好来源证据，归档前再决定保留或清除。 |
 
 ## `fitness-app-mvp` 项目缓存审查
 
@@ -83,6 +102,17 @@
 | 是否把健身项目偏好提炼为长期规则 | 暂不 | 防止项目经验污染其他项目。 |
 | 是否把 `preference_cache_checker.py` 转 stable | 暂不 | 先作为按需候选；等偏好缓存流程跑过更多项目再决定。 |
 | 是否提交本轮脚本 / checker 最小修复 | 建议单独提交 | 这是防误清理的底线修复，范围小、可回滚。 |
+
+## 和 AI raw 的边界
+
+`memory-cache/` 和 `ai-intel/raw/2026-04-30/` 都属于“本地证据 / 项目现场材料”，但处理原因不同：
+
+| 范围 | 处置 | 原因 |
+|---|---|---|
+| `memory-cache/` | 项目内保留，归档前处置 | 影响项目连续性，不能自动清空。 |
+| `ai-intel/raw/2026-04-30/` | 本地保留，30 天后复核删除候选 | raw 网页快照体积大、噪音高，已由 daily / events / logs 提炼。 |
+
+两者都不进入当前稳定治理提交，也不进入长期记忆。
 
 ## 下一步建议
 

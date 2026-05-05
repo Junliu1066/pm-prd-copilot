@@ -24,30 +24,68 @@ AGENTIC_FILES = {
     "codex_development_review": "delivery/codex_development_review.md",
 }
 
-REQUIRED_FILES = {
+LIGHTWEIGHT_REQUIRED_FILES = {
     "codex_task_packages",
     "human_supervision_plan",
-    "development_governance_report",
     "codex_development_review",
 }
+FULL_ONLY_FILES = {
+    "agentic_delivery_plan",
+    "development_governance_report",
+    "capability_enablement_plan",
+    "skill_mcp_routing_plan",
+    "development_operating_system_plan",
+    "codex_task_package_blueprint",
+    "phase_1_codex_plan",
+    "phase_2_codex_plan",
+    "phase_3_codex_plan",
+    "final_codex_plan",
+}
+FULL_REQUIRED_FILES = LIGHTWEIGHT_REQUIRED_FILES | {"development_governance_report"}
 DEVELOPMENT_DOCUMENT_OPTIONS = ("codex_development_document", "codex_development_plan")
+FULL_MODE_VALUES = {"full", "full_agentic_delivery", "agentic", "supervised", "full_supervised_package"}
+LIGHTWEIGHT_MODE_VALUES = {"lightweight", "lightweight_codex_delivery", "lightweight_development_document"}
+
+
+def _request_context(project_dir: Path, run_id: str | None) -> tuple[dict, dict, set[str], set[str]]:
+    state = read_json(project_dir / "project_state.json")
+    effective_run_id = run_id or state.get("last_run_id")
+    manifest = read_json(project_dir / "runs" / effective_run_id / "manifest.json") if effective_run_id else {}
+    required_outputs = set(manifest.get("required_outputs", []))
+    enabled_skills = set(manifest.get("enabled_skills", []))
+    return state, manifest, required_outputs, enabled_skills
 
 
 def _requested_agentic(project_dir: Path, run_id: str | None) -> bool:
-    state = read_json(project_dir / "project_state.json")
-    if state.get("requires_agentic_delivery") is True:
+    state, _manifest, required_outputs, enabled_skills = _request_context(project_dir, run_id)
+    if state.get("requires_agentic_delivery") is True or state.get("requires_full_agentic_delivery") is True:
         return True
     if "agentic_delivery_planning" in state.get("completed_stages", []):
         return True
-
-    effective_run_id = run_id or state.get("last_run_id")
-    if not effective_run_id:
-        return False
-    manifest = read_json(project_dir / "runs" / effective_run_id / "manifest.json")
-    required_outputs = set(manifest.get("required_outputs", []))
-    enabled_skills = set(manifest.get("enabled_skills", []))
     output_names = set(AGENTIC_FILES) | set(AGENTIC_FILES.values())
     return bool(required_outputs & output_names or "agentic-delivery-orchestrator" in enabled_skills)
+
+
+def _agentic_mode(project_dir: Path, run_id: str | None) -> str:
+    state, _manifest, required_outputs, enabled_skills = _request_context(project_dir, run_id)
+    explicit_mode = str(state.get("agentic_delivery_mode") or state.get("codex_delivery_mode") or "").lower()
+    if explicit_mode in FULL_MODE_VALUES:
+        return "full"
+    if explicit_mode in LIGHTWEIGHT_MODE_VALUES:
+        return "lightweight"
+    if state.get("requires_full_agentic_delivery") is True:
+        return "full"
+    if state.get("requires_agentic_delivery") is True or "agentic_delivery_planning" in state.get("completed_stages", []):
+        return "full"
+
+    full_output_names = FULL_ONLY_FILES | {AGENTIC_FILES[name] for name in FULL_ONLY_FILES}
+    if required_outputs & full_output_names:
+        return "full"
+    if any((project_dir / AGENTIC_FILES[name]).exists() for name in FULL_ONLY_FILES):
+        return "full"
+    if {"capability-enablement-planner", "skill-mcp-routing-planner"} & enabled_skills:
+        return "full"
+    return "lightweight"
 
 
 def _contains_any(text: str, terms: list[str]) -> bool:
@@ -79,13 +117,13 @@ def _development_document(project_dir: Path) -> tuple[str, str]:
     return "codex_development_document.md or codex_development_plan.md", ""
 
 
-def _result(failures: list[str], warnings: list[str]) -> CheckResult:
+def _result(failures: list[str], warnings: list[str], *, mode: str) -> CheckResult:
     details = failures + [f"Advisory: {warning}" for warning in warnings]
     if failures:
         return CheckResult("agentic_delivery", "fail", f"{len(failures)} blocking issue(s) found.", details)
     if warnings:
         return CheckResult("agentic_delivery", "warn", f"{len(warnings)} advisory issue(s) found.", details)
-    return CheckResult("agentic_delivery", "pass", "No issues found.", [])
+    return CheckResult("agentic_delivery", "pass", f"No issues found ({mode} mode).", [])
 
 
 def check_agentic_delivery(base_dir: Path, project: str, *, run_id: str | None = None) -> CheckResult:
@@ -95,10 +133,12 @@ def check_agentic_delivery(base_dir: Path, project: str, *, run_id: str | None =
     if not _requested_agentic(project_dir, run_id) and not has_agentic_files:
         return CheckResult("agentic_delivery", "pass", "Agentic delivery planning not requested for this project.", [])
 
+    mode = _agentic_mode(project_dir, run_id)
     failures: list[str] = []
     warnings: list[str] = []
 
-    for artifact in REQUIRED_FILES:
+    required_files = FULL_REQUIRED_FILES if mode == "full" else LIGHTWEIGHT_REQUIRED_FILES
+    for artifact in required_files:
         path = project_dir / AGENTIC_FILES[artifact]
         if not path.exists():
             failures.append(f"Missing required agentic delivery artifact: {artifact} ({AGENTIC_FILES[artifact]})")
@@ -144,6 +184,19 @@ def check_agentic_delivery(base_dir: Path, project: str, *, run_id: str | None =
             "rollback route": ["rollback", "回滚"],
         },
     )
+    if mode == "full":
+        _require_terms(
+            failures,
+            document_label,
+            development_document_text,
+            {
+                "branch matrix": ["分支矩阵", "branch_matrix", "branch matrix"],
+                "branch governance cards": ["分支治理卡", "branch_governance", "governance card"],
+                "branch startup packages": ["分支启动包", "branch_startup", "startup package"],
+                "multi-manager governance": ["多管家", "责任管家", "multi-manager", "steward"],
+                "harness or gate route": ["Harness", "harness", "Gate", "gate", "门禁"],
+            },
+        )
     _require_terms(
         failures,
         "codex_development_review.md",
@@ -166,11 +219,28 @@ def check_agentic_delivery(base_dir: Path, project: str, *, run_id: str | None =
         report = read_json(report_path)
         status = report.get("review_status")
         if status not in {"pass", "warn", "fail"}:
-            failures.append(f"development_governance_report.json has invalid review_status: {status}")
+            message = f"development_governance_report.json has invalid review_status: {status}"
+            if mode == "full":
+                failures.append(message)
+            else:
+                warnings.append(message)
         if "readiness_score" not in report:
-            failures.append("development_governance_report.json missing readiness_score.")
+            message = "development_governance_report.json missing readiness_score."
+            if mode == "full":
+                failures.append(message)
+            else:
+                warnings.append(message)
         if status == "fail":
             failures.append("development_governance_report.json is fail; agentic delivery is not ready.")
+    elif mode == "lightweight":
+        unexpected_full_files = sorted(
+            name for name in FULL_ONLY_FILES if (project_dir / AGENTIC_FILES[name]).exists()
+        )
+        if unexpected_full_files:
+            warnings.append(
+                "Lightweight agentic delivery contains full-mode artifacts; confirm this is intentional: "
+                + ", ".join(unexpected_full_files)
+            )
 
     optional_checks = {
         "capability_enablement_plan": {
@@ -209,4 +279,4 @@ def check_agentic_delivery(base_dir: Path, project: str, *, run_id: str | None =
     if delivery_dir.exists() and not any(delivery_dir.iterdir()):
         failures.append("delivery directory exists but has no usable agentic artifacts.")
 
-    return _result(failures, warnings)
+    return _result(failures, warnings, mode=mode)

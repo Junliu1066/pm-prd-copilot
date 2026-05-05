@@ -178,9 +178,12 @@ class OpenAIResponsesClient:
                 else:
                     output_text, response_meta = parse_sse_response_output(response_text)
                     parsed = json.loads(output_text)
+                actual_model_id = response_meta.get("model", self.config.model)
                 meta = {
                     "provider": self.config.provider,
-                    "model": response_meta.get("model", self.config.model),
+                    "model": actual_model_id,
+                    "requested_model": self.config.model,
+                    "actual_model_id": actual_model_id,
                     "status": response_meta.get("status"),
                     "response_id": response_meta.get("id"),
                     "usage": response_meta.get("usage", {}),

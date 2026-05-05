@@ -1,7 +1,12 @@
 defaults:
   provider: openai
   mode: auto
-  model: gpt-5.4
+  # GPT-5.4 -> GPT-5.5 compatibility note:
+  # - Default model now targets GPT-5.5 after user approval.
+  # - OPENAI_MODEL overrides this default model for runtime trials or rollback.
+  # - model_client.py records both requested_model and actual_model_id in LLM metadata.
+  # - base_url may point to a local OpenAI-compatible proxy; verify proxy support before changing this default.
+  model: gpt-5.5
   base_url: http://127.0.0.1:8080/v1
   endpoint: responses
   timeout_seconds: 60

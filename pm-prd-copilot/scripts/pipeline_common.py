@@ -385,7 +385,27 @@ def contains_any(text: str, terms: tuple[str, ...] | list[str]) -> bool:
 
 
 def contains_positive_any(text: str, terms: tuple[str, ...] | list[str]) -> bool:
-    negation_markers = ("没有", "无", "未", "暂无", "不是", "不具备", "不能", "不会", "不做", "不涉及", "禁止", "避免", "尚无")
+    negation_markers = (
+        "没有",
+        "无",
+        "未",
+        "暂无",
+        "不是",
+        "不具备",
+        "不能",
+        "不会",
+        "不做",
+        "不涉及",
+        "不承诺",
+        "不保证",
+        "不刷量",
+        "不绕过",
+        "不伪造",
+        "不输出",
+        "禁止",
+        "避免",
+        "尚无",
+    )
     for term in terms:
         if not term:
             continue
@@ -394,7 +414,7 @@ def contains_positive_any(text: str, terms: tuple[str, ...] | list[str]) -> bool
             index = text.find(term, start)
             if index < 0:
                 break
-            context = text[max(0, index - 4) : index + len(term)]
+            context = text[max(0, index - 10) : index + len(term)]
             if not any(marker in context for marker in negation_markers):
                 return True
             start = index + len(term)
@@ -404,7 +424,7 @@ def contains_positive_any(text: str, terms: tuple[str, ...] | list[str]) -> bool
 def detect_payment_evidence_level(raw_text: str) -> int:
     levels = [
         (5, ("真实支付", "已付款", "付款", "签合同", "合同", "已复购", "复购数据", "已续费", "续费数据", "项目收入")),
-        (4, ("定金", "预付款", "预算确认", "确认预算", "已有预算", "有预算", "预算已批", "预算批准", "采购流程", "报价已接受")),
+        (4, ("定金", "预付款", "预算确认", "确认预算", "已有预算", "有预算", "预算已批", "预算批准", "采购流程", "报价已接受", "买单", "已买单", "愿意买单")),
         (3, ("留资", "预约", "进群", "报名", "排队")),
         (2, ("试用", "试点", "愿意体验", "体验")),
         (1, ("感兴趣", "方向不错", "口头兴趣", "想了解")),
@@ -454,7 +474,7 @@ def detect_red_line_risks(raw_text: str) -> list[str]:
     risks = []
     redline_terms = {
         "金融收益或投资建议风险": ("承诺收益", "稳赚", "保本", "荐股", "股票推荐", "投资建议", "高收益"),
-        "医疗诊断风险": ("诊断", "治疗方案", "用药建议", "替代医生", "病情判断"),
+        "医疗诊断风险": ("医疗诊断", "疾病诊断", "病情诊断", "诊断疾病", "治疗方案", "用药建议", "替代医生", "病情判断"),
         "法律责任风险": ("法律意见", "替代律师", "胜诉承诺", "规避法律"),
         "隐私与数据来源风险": ("未授权数据", "爬取个人信息", "身份证", "隐私数据", "敏感个人信息"),
         "支付资金安全风险": ("资金池", "代收代付", "支付清算", "资金托管"),

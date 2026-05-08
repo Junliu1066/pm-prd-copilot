@@ -267,6 +267,31 @@ def validate_value_gate_rules(base_dir: Path) -> list[str]:
             errors.append("Low-cost MVP case must route to mvp_input_package.")
         if expected == "F_NOT_RECOMMENDED" and not gate.get("blocked_reasons"):
             errors.append("Not-recommended case must explain blocked reasons.")
+        package = gate.get("prd_input_package", {})
+        required_v02_sections = [
+            "value_object_detail",
+            "measurability_judgment",
+            "attribution_judgment",
+            "value_quality_judgment",
+            "true_profit_judgment",
+            "resource_fit_judgment",
+            "acquisition_judgment",
+            "project_to_product_judgment",
+            "low_cost_mvp_judgment",
+            "counter_evidence",
+        ]
+        for section in required_v02_sections:
+            if not package.get(section):
+                errors.append(f"Value gate case {label} must include V0.2 section: {section}.")
+        if not gate.get("known_facts"):
+            errors.append(f"Value gate case {label} must separate known facts from assumptions.")
+        if label == "geo_paid_service":
+            metrics = package.get("measurability_judgment", {}).get("metrics", [])
+            primary_intent = gate.get("intent_result", {}).get("primary_intent", "")
+            if "AI 提及率" not in metrics or "多模型一致性" not in metrics:
+                errors.append("GEO paid service case must include GEO-specific metrics.")
+            if "对外商业产品" not in primary_intent:
+                errors.append("GEO paid service case must be classified as an external commercial product.")
     return errors
 
 

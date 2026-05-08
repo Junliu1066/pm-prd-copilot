@@ -119,6 +119,16 @@
         "core_value_loop",
         "mvp_boundary",
         "risk_and_constraints",
+        "value_object_detail",
+        "measurability_judgment",
+        "attribution_judgment",
+        "value_quality_judgment",
+        "true_profit_judgment",
+        "resource_fit_judgment",
+        "acquisition_judgment",
+        "project_to_product_judgment",
+        "low_cost_mvp_judgment",
+        "counter_evidence",
         "evidence_and_assumptions",
         "prd_generation_constraints"
       ],
@@ -157,7 +167,10 @@
         "current_decision_gate",
         "validation_round",
         "last_updated_reason",
-        "next_review_trigger"
+        "next_review_trigger",
+        "success_criteria",
+        "failure_criteria",
+        "next_review_materials"
       ],
       "properties": {
         "current_status": { "type": "string" },
@@ -165,7 +178,19 @@
         "current_decision_gate": { "type": "string" },
         "validation_round": { "type": "integer", "minimum": 1 },
         "last_updated_reason": { "type": "string" },
-        "next_review_trigger": { "type": "string" }
+        "next_review_trigger": { "type": "string" },
+        "success_criteria": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "failure_criteria": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "next_review_materials": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
       },
       "additionalProperties": false
     },

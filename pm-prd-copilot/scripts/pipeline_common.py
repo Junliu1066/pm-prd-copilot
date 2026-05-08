@@ -30,6 +30,19 @@ FIELD_ALIASES = {
 }
 
 TARGET_USER_KEYWORDS = [
+    "企业品牌方",
+    "品牌方",
+    "营销负责人",
+    "内容负责人",
+    "增长负责人",
+    "SEO/GEO 服务商",
+    "SEO 服务商",
+    "GEO 服务商",
+    "服务商",
+    "企业客户",
+    "老板",
+    "决策者",
+    "采购",
     "商家财务",
     "商家管理员",
     "管理员",
@@ -179,6 +192,8 @@ def infer_target_users(raw_text: str, fields: dict[str, str]) -> list[str]:
     for keyword in TARGET_USER_KEYWORDS:
         if keyword in raw_text:
             found.append(keyword)
+    if len(found) > 1 and "用户" in found:
+        found.remove("用户")
     if not found:
         found = ["业务方", "运营"]
     return unique_list(found)
@@ -222,6 +237,8 @@ def infer_business_goal(fields: dict[str, str], title: str) -> str:
 
 def infer_scenarios(raw_text: str, title: str) -> list[str]:
     scenarios = []
+    if is_geo_context(raw_text):
+        scenarios.extend(["AI 检索品牌曝光监测", "竞品曝光对比", "内容资产优化复测"])
     if "月底" in raw_text:
         scenarios.append("月底对账场景")
     if "客服" in raw_text:
@@ -245,6 +262,14 @@ def infer_assumptions(fields: dict[str, str], title: str, request_type: str) -> 
     assumptions = split_items(fields.get("assumptions_raw", ""))
     if assumptions:
         return assumptions
+    if is_geo_context(title):
+        assumptions.extend(
+            [
+                "AI 检索曝光可以通过问题样本、品牌提及、竞品提及和引用来源进行周期性监测",
+                "客户愿意为可解释的诊断报告、优化建议和复测结果持续付费",
+            ]
+        )
+        return unique_list(assumptions)
     if "导出" in title:
         assumptions.append("第一期以 CSV 导出即可覆盖主要使用场景")
     if request_type == "optimization":
@@ -274,7 +299,16 @@ def infer_open_questions(fields: dict[str, str], title: str) -> list[str]:
     questions = split_items(fields.get("open_questions_raw", ""))
     if questions:
         return questions
-    if "导出" in title:
+    if is_geo_context(title):
+        questions.extend(
+            [
+                "首期覆盖哪些 AI 平台和行业？",
+                "品牌曝光、推荐和引用质量的基线如何定义？",
+                "客户买单的是 SaaS、诊断报告、持续监测还是服务交付？",
+                "复测周期和效果归因口径如何定义？",
+            ]
+        )
+    elif "导出" in title:
         questions.extend(
             [
                 "导出字段范围是什么？",
@@ -310,7 +344,7 @@ def infer_scope(title: str, request_type: str) -> dict[str, list[str]]:
     }
 
 
-VALUE_GATE_VERSION = "0.1.1"
+VALUE_GATE_VERSION = "0.2.0"
 VALUE_GATE_ALLOW_PRD = "A_ENTER_PRD"
 VALUE_GATE_DECISIONS = {
     "A_ENTER_PRD",
@@ -382,6 +416,32 @@ VALUE_GATE_CONFLICT_ITEMS = [
 
 def contains_any(text: str, terms: tuple[str, ...] | list[str]) -> bool:
     return any(term and term in text for term in terms)
+
+
+def infer_mentions(raw_text: str, candidates: tuple[str, ...] | list[str], fallback: list[str] | None = None) -> list[str]:
+    found = [candidate for candidate in candidates if candidate and candidate in raw_text]
+    return unique_list(found or (fallback or []))
+
+
+def is_geo_context(raw_text: str) -> bool:
+    return contains_any(
+        raw_text,
+        (
+            "GEO",
+            "AI 检索",
+            "AI搜索",
+            "AI 搜索",
+            "AI 问答",
+            "DeepSeek",
+            "豆包",
+            "Qwen",
+            "通义",
+            "元宝",
+            "品牌提及",
+            "竞品曝光",
+            "检索曝光",
+        ),
+    )
 
 
 def contains_positive_any(text: str, terms: tuple[str, ...] | list[str]) -> bool:
@@ -487,9 +547,11 @@ def detect_red_line_risks(raw_text: str) -> list[str]:
 
 
 def detect_intent(raw_text: str, request_type: str) -> dict:
-    if contains_any(raw_text, ("客户项目", "客户需求", "定制", "交付", "预算", "合同")):
+    if is_geo_context(raw_text) or contains_any(raw_text, ("SaaS", "订阅", "不同行业", "品牌方", "对外", "买单", "产品化平台")):
+        primary = "对外商业产品 / B2B SaaS"
+    elif contains_any(raw_text, ("客户项目", "客户需求", "定制", "交付", "预算", "合同")):
         primary = "客户项目需求"
-    elif contains_any(raw_text, ("内部", "团队", "降本", "增效", "提效", "流程优化")):
+    elif contains_any(raw_text, ("内部提效", "内部工具", "内部流程", "内部团队", "内部交付", "内部运营", "流程优化")):
         primary = "内部提效需求"
     elif contains_any(raw_text, ("帮我写 PRD", "生成 PRD", "PRD")):
         primary = "PRD 生成请求"
@@ -506,6 +568,8 @@ def detect_intent(raw_text: str, request_type: str) -> dict:
         secondary.append("项目转产品判断")
     if contains_any(raw_text, ("技术", "架构", "模型", "AI", "接口")):
         secondary.append("技术可行性判断")
+    if contains_any(raw_text, ("订阅", "会员", "SaaS", "服务收入", "工具授权", "报告")):
+        secondary.append("商业模式判断")
     return {
         "primary_intent": primary,
         "secondary_intents": secondary,
@@ -526,6 +590,250 @@ def infer_value_type(raw_text: str) -> list[str]:
     if contains_any(raw_text, ("数据沉淀", "案例沉淀", "能力沉淀")):
         value_types.append("数据 / 能力沉淀价值")
     return value_types or ["价值类型待验证"]
+
+
+def infer_value_gate_facts(raw_text: str, fields: dict[str, str], bullets: list[str], title: str) -> list[str]:
+    facts = infer_evidence(fields, bullets)
+    fact_terms = (
+        "已做 MVP",
+        "做过 MVP",
+        "完成 MVP",
+        "MVP 实验",
+        "MVP 试验",
+        "已买单",
+        "买单",
+        "真实支付",
+        "已付款",
+        "签合同",
+        "预算确认",
+        "确认预算",
+        "采购流程",
+        "已上线",
+        "使用数据",
+        "复购数据",
+        "试点数据",
+        "交付数据",
+    )
+    for sentence in re.split(r"[。；;\n]", raw_text):
+        stripped = sentence.strip(" -")
+        if stripped and contains_positive_any(stripped, fact_terms):
+            facts.append(stripped)
+    if not facts:
+        facts.append(f"用户提出的原始主题为：{title}")
+    return unique_list(facts)
+
+
+def infer_value_object_detail(raw_text: str, target_users: list[str]) -> dict:
+    commercial_roles = infer_mentions(
+        raw_text,
+        (
+            "企业预算方",
+            "企业品牌方",
+            "品牌方",
+            "老板",
+            "采购决策者",
+            "营销负责人",
+            "内容负责人",
+            "增长负责人",
+            "SEO/GEO 服务商",
+            "SEO 服务商",
+            "GEO 服务商",
+            "同行服务商",
+            "客户验收方",
+            "业务负责人",
+        ),
+    )
+    return {
+        "payer": infer_mentions(raw_text, ("企业预算方", "品牌方", "老板", "客户预算方", "同行服务商", "采购方"), ["待验证"]),
+        "decision_maker": infer_mentions(raw_text, ("老板", "营销负责人", "增长负责人", "采购决策者", "品牌负责人", "业务负责人"), ["待验证"]),
+        "user": target_users,
+        "beneficiary": infer_mentions(raw_text, ("品牌方", "营销团队", "增长团队", "内容团队", "业务方", "客户"), target_users),
+        "cost_bearer": infer_mentions(raw_text, ("企业预算方", "项目方", "内部团队", "客户", "服务商"), ["待验证"]),
+        "acceptance_owner": infer_mentions(raw_text, ("品牌负责人", "客户验收方", "业务负责人", "营销负责人", "老板"), ["待验证"]),
+        "renewal_influencer": infer_mentions(raw_text, ("使用者", "营销团队", "内容团队", "增长团队", "客户成功", "服务商"), ["待验证"]),
+        "possible_opponents": infer_mentions(raw_text, ("法务", "内容团队", "预算负责人", "现有服务商", "合规", "平台规则"), ["待验证"]),
+        "role_clarity": "明确" if len(commercial_roles) >= 3 or len(target_users) >= 3 else "待补充",
+    }
+
+
+def infer_measurability_judgment(raw_text: str) -> dict:
+    if is_geo_context(raw_text):
+        metrics = [
+            "AI 提及率",
+            "品牌推荐率",
+            "竞品覆盖差距",
+            "关键词回答覆盖率",
+            "引用来源质量",
+            "多模型一致性",
+            "复测变化",
+            "线索转化归因",
+        ]
+    else:
+        metrics = ["收入", "真实利润", "获客成本", "交付成本", "效率提升", "错误率", "复购率"]
+    quantified = contains_any(raw_text, ("%", "多少", "提升", "降低", "减少", "缩短", "转化", "收入", "利润", "成本", "次数", "周期"))
+    return {
+        "is_measurable": quantified or is_geo_context(raw_text),
+        "metrics": unique_list(metrics),
+        "missing_metrics": [] if quantified else ["基线值", "目标值", "验证周期", "归因口径"],
+        "judgment": "具备可衡量方向，仍需补齐基线值和验证周期。" if quantified or is_geo_context(raw_text) else "目前只有价值描述，缺少可量化指标。",
+    }
+
+
+def infer_attribution_judgment(raw_text: str) -> dict:
+    factors = []
+    if is_geo_context(raw_text):
+        factors.extend(["内容资产质量", "AI 平台回答机制", "外部可信引用", "品牌已有声量", "竞品内容布局"])
+    if contains_any(raw_text, ("销售", "渠道", "投放", "转介绍")):
+        factors.append("销售和渠道能力")
+    return {
+        "attribution_level": "medium" if factors else "unknown",
+        "core_question": "商业结果是否主要由产品 / 服务直接带来，而不是由渠道、销售或外部平台变化带来。",
+        "influencing_factors": unique_list(factors or ["待验证"]),
+        "tracking_requirement": "需要记录产品动作、交付动作、结果指标和外部干扰因素。",
+    }
+
+
+def infer_value_quality_judgment(raw_text: str, decision: str) -> dict:
+    is_project = contains_any(raw_text, ("定制", "客户项目", "项目交付", "单个客户"))
+    is_service_heavy = contains_any(raw_text, ("人工", "服务", "报告", "审核", "交付", "专家"))
+    is_standardizable = contains_any(raw_text, ("SaaS", "平台", "订阅", "词库", "模板", "监测", "标准化", "工具授权"))
+    return {
+        "continuity": "持续价值" if contains_any(raw_text, ("订阅", "复购", "续费", "持续监测", "周期性")) else "待验证",
+        "gross_margin_risk": "中" if is_service_heavy else "待验证",
+        "delivery_weight": "偏重交付" if is_service_heavy else "待验证",
+        "standardization": "具备标准化线索" if is_standardizable else "待验证",
+        "repurchase_potential": "具备复购 / 续费线索" if contains_any(raw_text, ("复购", "续费", "订阅", "持续监测")) else "待验证",
+        "replicability": "项目价值优先，产品化需继续观察" if is_project and decision == "C_CLIENT_PROJECT_VALIDATION" else "可复制性待用多客户数据验证",
+        "moat": "行业词库、提示词样本库、历史监测数据和优化案例可能形成壁垒" if is_geo_context(raw_text) else "待验证",
+    }
+
+
+def infer_true_profit_judgment(raw_text: str, payment_level: int) -> dict:
+    cost_items = {
+        "获客成本": contains_any(raw_text, ("获客成本", "销售", "渠道", "投放", "线索")),
+        "交付成本": contains_any(raw_text, ("交付成本", "交付", "报告", "服务")),
+        "人工成本": contains_any(raw_text, ("人工", "专家", "审核", "运营")),
+        "维护成本": contains_any(raw_text, ("维护", "持续监测", "周期性", "复测")),
+        "沟通成本": contains_any(raw_text, ("沟通", "客户成功", "服务商")),
+        "售后成本": contains_any(raw_text, ("售后", "客户成功", "续费")),
+        "合规成本": contains_any(raw_text, ("合规", "法务", "隐私", "平台规则")),
+        "风险成本": contains_any(raw_text, ("风险", "波动", "不可控")),
+    }
+    covered = [key for key, present in cost_items.items() if present]
+    return {
+        "status": "初步成立，仍需核算" if payment_level >= 4 else "未验证",
+        "revenue_signal": f"付费证据第 {payment_level} 层" if payment_level else "无明确付费证据",
+        "cost_items_checked": covered,
+        "missing_cost_items": [key for key, present in cost_items.items() if not present],
+        "profit_risk": "服务交付和人工审核成本可能压缩毛利" if contains_any(raw_text, ("人工", "服务", "报告", "审核")) else "待验证",
+        "next_calculation": "补齐客单价、获客成本、单客户交付工时、复购周期和维护成本。",
+    }
+
+
+def infer_resource_fit_judgment(raw_text: str) -> dict:
+    advantages = infer_mentions(raw_text, ("已有企业客户", "现有客户", "SEO", "内容营销", "AI 转型", "同行服务商", "案例", "行业词库", "技术能力"))
+    missing = []
+    if not contains_any(raw_text, ("已有企业客户", "现有客户", "客户资源")):
+        missing.append("客户资源")
+    if not contains_any(raw_text, ("获客渠道", "SEO", "内容营销", "销售线索", "转介绍", "私域")):
+        missing.append("获客渠道")
+    if not contains_any(raw_text, ("行业词库", "行业认知", "SEO", "GEO")):
+        missing.append("行业认知")
+    if not contains_any(raw_text, ("技术能力", "AI", "模型", "平台", "脚本")):
+        missing.append("技术能力")
+    if not contains_any(raw_text, ("交付能力", "服务", "报告", "人工审核", "交付")):
+        missing.append("交付能力")
+    if not contains_any(raw_text, ("案例", "MVP", "已买单", "买单")):
+        missing.append("案例背书")
+    if not contains_any(raw_text, ("成本优势", "低成本", "脚本", "自动化")):
+        missing.append("成本优势")
+    if not contains_any(raw_text, ("合规", "法务", "平台规则", "不承诺", "不刷量")):
+        missing.append("合规能力")
+    return {
+        "status": "有初步资源匹配" if advantages else "待验证",
+        "available_assets": advantages or ["待验证"],
+        "missing_assets": missing,
+        "why_us": "已有客户 / SEO / 内容营销 / AI 转型资源可作为切入口。" if advantages else "需要说明为什么由我们来做，以及进入优势是什么。",
+    }
+
+
+def infer_acquisition_judgment(raw_text: str) -> dict:
+    channels = infer_mentions(raw_text, ("现有客户", "企业客户", "SEO", "内容营销", "AI 转型", "同行服务商", "私域", "销售线索", "转介绍"))
+    return {
+        "first_users": channels or ["待验证"],
+        "reach_method": "从已有客户、服务商和内容营销需求切入。" if channels else "待验证",
+        "trust_basis": infer_mentions(raw_text, ("案例", "MVP", "买单", "服务商", "现有客户"), ["待验证"]),
+        "cac_ltv_risk": "需要验证客单价能否覆盖获客、诊断、交付和持续监测成本。",
+        "repeat_or_referral": "持续监测、复测和服务商工具授权可能带来复购。" if is_geo_context(raw_text) else "待验证",
+    }
+
+
+def infer_project_to_product_judgment(raw_text: str, decision: str) -> dict:
+    return {
+        "project_value": "成立" if contains_any(raw_text, ("客户项目", "买单", "合同", "项目收入", "真实支付")) else "待验证",
+        "service_value": "成立" if contains_any(raw_text, ("服务", "报告", "人工", "交付", "优化建议")) else "待验证",
+        "product_value": "具备候选" if decision == VALUE_GATE_ALLOW_PRD or contains_any(raw_text, ("SaaS", "平台", "订阅", "工具授权")) else "待验证",
+        "standardizable_parts": infer_mentions(raw_text, ("监测", "诊断报告", "竞品对比", "行业词库", "提示词样本库", "内容分析", "复测"), ["核心价值闭环"]),
+        "customized_parts": infer_mentions(raw_text, ("行业", "客户差异", "人工审核", "优化建议", "服务"), ["待验证"]),
+        "productization_risk": "同行买单可能先证明服务价值，不必然证明 SaaS 产品化价值。" if is_geo_context(raw_text) else "待验证",
+        "next_evidence": ["第二类客户买单", "标准化交付模板", "边际交付成本下降", "复购或续费信号"],
+    }
+
+
+def infer_low_cost_mvp_judgment(raw_text: str, target_users: list[str], scenarios: list[str]) -> dict:
+    if is_geo_context(raw_text):
+        core_features = ["品牌 / 产品输入", "关键词样本库", "多模型查询", "竞品曝光对比", "GEO 诊断报告", "优化建议", "复测记录"]
+        data_loop = ["问题样本", "AI 回答", "品牌提及", "竞品提及", "引用来源", "优化动作", "复测结果"]
+    else:
+        core_features = ["核心用户", "核心场景", "核心任务", "核心功能", "核心交付", "核心反馈"]
+        data_loop = ["输入", "处理", "输出", "反馈", "结果指标"]
+    return {
+        "core_user": target_users,
+        "core_scenario": scenarios,
+        "core_task": "验证核心价值闭环",
+        "core_features": core_features,
+        "core_delivery": "可被用户验收的最小结果物",
+        "core_feedback": "用户是否认可结果、是否愿意继续付费或复购",
+        "minimum_data_loop": data_loop,
+        "can_replace_with_manual_or_tools": ["人工处理", "表格记录", "脚本", "第三方工具", "人工审核", "手动交付报告"],
+        "not_mvp": ["完整后台", "复杂权限", "完整商业化系统", "非核心异常流程"],
+    }
+
+
+def infer_counter_evidence(raw_text: str) -> list[str]:
+    items = [
+        "如果用户只愿意试用但不愿意付费，商业价值不成立。",
+        "如果获客成本高于客单价，利润价值不成立。",
+        "如果交付严重依赖人工专家，产品化价值不足。",
+        "如果节省的人力成本小于系统建设成本，内部价值不成立。",
+    ]
+    if is_geo_context(raw_text):
+        items.extend(
+            [
+                "如果 AI 平台回答波动过大且无法归因，GEO 效果难以证明。",
+                "如果客户只为一次性诊断报告付费，不愿持续订阅，SaaS 路径不成立。",
+                "如果优化建议高度依赖人工专家，规模化毛利会受限。",
+                "如果曝光提升无法带来线索、咨询或品牌指标变化，商业结果不成立。",
+                "如果平台规则变化导致方法失效，需要降级为监测和合规内容优化服务。",
+            ]
+        )
+    if contains_any(raw_text, ("定制", "客户项目", "项目交付")):
+        items.append("如果客户只接受强定制，不接受标准化配置，产品化路径不成立。")
+    return unique_list(items)
+
+
+def build_review_loop(decision: str, blocked_reasons: list[str], counter_evidence: list[str]) -> dict:
+    return {
+        "current_status": "initial_judgment",
+        "previous_decision_gate": "",
+        "current_decision_gate": decision,
+        "validation_round": 1,
+        "last_updated_reason": blocked_reasons[0] if blocked_reasons else "价值门禁 V0.2 初判通过。",
+        "next_review_trigger": "补齐证据、完成 MVP / 试点 / 客户项目验证后复判。",
+        "success_criteria": ["真实买单或预算确认", "核心价值指标改善", "交付成本可控", "风险边界可控"],
+        "failure_criteria": counter_evidence[:5],
+        "next_review_materials": ["客户证据", "指标基线和结果", "成本核算", "交付复盘", "风险记录"],
+    }
 
 
 def choose_value_gate_decision(raw_text: str, completeness: dict, evidence_level: str, payment_level: int, redlines: list[str]) -> tuple[str, list[str], list[str]]:
@@ -572,7 +880,8 @@ def build_value_gate(project_id: str, raw_text: str, seed: dict | None = None) -
     can_enter = decision == VALUE_GATE_ALLOW_PRD
     value_types = infer_value_type(raw_text)
     intent = detect_intent(raw_text, request_type)
-    facts = infer_evidence(fields, extract_bullets(raw_text)) or [f"用户提出的原始主题为：{title}"]
+    bullets = extract_bullets(raw_text)
+    facts = infer_value_gate_facts(raw_text, fields, bullets, title)
     assumptions = infer_assumptions(fields, title, request_type)
     open_questions = infer_open_questions(fields, title)
     if decision != VALUE_GATE_ALLOW_PRD:
@@ -581,14 +890,16 @@ def build_value_gate(project_id: str, raw_text: str, seed: dict | None = None) -
         bool(redlines)
         or contains_any(raw_text, ("价格策略", "对外销售", "正式立项", "客户承诺", "高风险", "金融", "医疗", "法律", "支付资金"))
     )
-    value_object = {
-        "payer": "客户 / 预算方" if contains_any(raw_text, ("客户", "预算", "付费", "合同")) else "待验证",
-        "decision_maker": "客户决策者 / 内部负责人" if contains_any(raw_text, ("老板", "负责人", "决策", "采购", "管理者")) else "待验证",
-        "user": "、".join(target_users),
-        "beneficiary": "目标用户 / 业务方",
-        "cost_bearer": "项目方 / 内部团队" if contains_any(raw_text, ("内部", "成本", "交付")) else "待验证",
-        "acceptance_owner": "客户验收方 / 内部业务负责人" if contains_any(raw_text, ("验收", "交付", "客户")) else "待验证",
-    }
+    value_object_detail = infer_value_object_detail(raw_text, target_users)
+    measurability = infer_measurability_judgment(raw_text)
+    attribution = infer_attribution_judgment(raw_text)
+    value_quality = infer_value_quality_judgment(raw_text, decision)
+    true_profit = infer_true_profit_judgment(raw_text, payment_level)
+    resource_fit = infer_resource_fit_judgment(raw_text)
+    acquisition = infer_acquisition_judgment(raw_text)
+    project_to_product = infer_project_to_product_judgment(raw_text, decision)
+    low_cost_mvp = infer_low_cost_mvp_judgment(raw_text, target_users, scenarios)
+    counter_evidence = infer_counter_evidence(raw_text)
     product_summary = {
         "product_name": title,
         "one_sentence_positioning": f"围绕“{title}”验证是否具备可衡量、可归因、可兑现的价值。",
@@ -599,11 +910,11 @@ def build_value_gate(project_id: str, raw_text: str, seed: dict | None = None) -
     value_judgment = {
         "value_type": value_types,
         "core_value": "待通过真实证据验证核心价值闭环" if decision != VALUE_GATE_ALLOW_PRD else "已有较强证据，可进入完整 PRD。",
-        "value_object": value_object,
+        "value_object": value_object_detail,
         "business_result": "、".join(item for item in ["收入 / 利润增长" if "对外商业价值" in value_types else "", "降本增效" if any("内部" in item for item in value_types) else ""] if item) or "待验证",
-        "measurable_metrics": unique_list(["收入", "真实利润", "获客成本", "交付成本", "效率提升", "错误率"] if decision != "G_BLOCKED_BY_REDLINE" else ["红线风险确认"]),
+        "measurable_metrics": measurability["metrics"] if decision != "G_BLOCKED_BY_REDLINE" else ["红线风险确认"],
         "value_realization_cycle": "待验证",
-        "value_attribution": "需验证产品 / 服务是否是商业结果的主要归因来源。",
+        "value_attribution": attribution["core_question"],
     }
     risk_level = "blocked" if redlines else ("controlled" if can_enter else "unknown")
     prd_input_package = {
@@ -630,15 +941,21 @@ def build_value_gate(project_id: str, raw_text: str, seed: dict | None = None) -
             "payment_willingness": f"付费证据第 {payment_level} 层" if payment_level else "无明确付费证据",
             "payment_evidence_level": payment_level,
             "profit_logic": "收入需扣除获客、交付、维护、售后、合规和风险成本。",
-            "true_profit_judgment": "待验证" if payment_level < 5 else "具备强付费证据，仍需核算真实利润。",
+            "payment_evidence_detail": {
+                "level": payment_level,
+                "interpretation": "强付费证据" if payment_level >= 4 else ("弱付费证据" if payment_level else "无明确付费证据"),
+                "must_clarify": ["谁买单", "买的是软件 / 服务 / 报告 / 咨询", "是否可复购", "是否能证明产品化"],
+            },
+            "true_profit_judgment": true_profit,
         },
         "productization_judgment": {
             "is_productizable": decision == VALUE_GATE_ALLOW_PRD,
             "productization_type": "完整 PRD 候选" if can_enter else "暂不进入完整产品化",
-            "standardizable_parts": ["核心价值闭环"] if can_enter else [],
-            "customized_parts": ["客户差异和交付要求需验证"] if decision == "C_CLIENT_PROJECT_VALIDATION" else [],
-            "replicable_parts": ["待验证"],
+            "standardizable_parts": project_to_product["standardizable_parts"],
+            "customized_parts": project_to_product["customized_parts"],
+            "replicable_parts": ["多客户、复购和边际成本下降仍需验证"],
             "not_suitable_for_productization": ["信息不足或证据不足时不得默认产品化"] if not can_enter else [],
+            "project_to_product_judgment": project_to_product,
         },
         "core_value_loop": {
             "core_user_action": "完成核心任务",
@@ -648,12 +965,13 @@ def build_value_gate(project_id: str, raw_text: str, seed: dict | None = None) -
             "success_signal": "真实付费、效率提升或风险降低被验证",
         },
         "mvp_boundary": {
-            "must_have_core_features": ["核心用户", "核心场景", "核心任务", "核心功能", "核心反馈"],
-            "can_use_manual_or_tool_replacement": ["人工处理", "表格记录", "低代码工具", "脚本", "第三方工具"],
+            "must_have_core_features": low_cost_mvp["core_features"],
+            "can_use_manual_or_tool_replacement": low_cost_mvp["can_replace_with_manual_or_tools"],
             "deferred_features": ["完整后台", "复杂权限", "高级数据看板", "完整商业化系统"],
-            "not_do_features": ["非核心异常流程", "未经验证的重型自动化"],
+            "not_do_features": low_cost_mvp["not_mvp"],
             "mvp_success_criteria": ["核心价值闭环被验证", "至少获得明确付费或效率证据"],
             "mvp_failure_criteria": ["用户只愿试用但不愿付费", "获客成本高于客单价", "交付严重依赖人工专家"],
+            "low_cost_mvp_judgment": low_cost_mvp,
         },
         "risk_and_constraints": {
             "red_line_risks": redlines,
@@ -663,6 +981,16 @@ def build_value_gate(project_id: str, raw_text: str, seed: dict | None = None) -
             "technical_constraints": ["待后续方案阶段判断"],
             "resource_constraints": ["团队资源、交付能力、获客渠道需验证"],
         },
+        "value_object_detail": value_object_detail,
+        "measurability_judgment": measurability,
+        "attribution_judgment": attribution,
+        "value_quality_judgment": value_quality,
+        "true_profit_judgment": true_profit,
+        "resource_fit_judgment": resource_fit,
+        "acquisition_judgment": acquisition,
+        "project_to_product_judgment": project_to_product,
+        "low_cost_mvp_judgment": low_cost_mvp,
+        "counter_evidence": counter_evidence,
         "evidence_and_assumptions": {
             "known_facts": facts,
             "reasonable_assumptions": assumptions,
@@ -716,20 +1044,8 @@ def build_value_gate(project_id: str, raw_text: str, seed: dict | None = None) -
         "unverified_assumptions": prd_input_package["evidence_and_assumptions"]["unverified_assumptions"],
         "open_questions": open_questions,
         "red_line_risks": redlines,
-        "counter_evidence": [
-            "如果用户只愿意试用但不愿意付费，商业价值不成立。",
-            "如果获客成本高于客单价，利润价值不成立。",
-            "如果交付严重依赖人工专家，产品化价值不足。",
-            "如果节省的人力成本小于系统建设成本，内部价值不成立。",
-        ],
-        "review_loop": {
-            "current_status": "initial_judgment",
-            "previous_decision_gate": "",
-            "current_decision_gate": decision,
-            "validation_round": 1,
-            "last_updated_reason": blocked_reasons[0] if blocked_reasons else "价值门禁 V0 初判通过。",
-            "next_review_trigger": "补齐证据或完成验证路径后复判。",
-        },
+        "counter_evidence": counter_evidence,
+        "review_loop": build_review_loop(decision, blocked_reasons, counter_evidence),
         "conflict_review": {
             "status": "no_blocking_conflict",
             "items": VALUE_GATE_CONFLICT_ITEMS,
@@ -808,6 +1124,23 @@ def value_gate_markdown(value_gate: dict) -> str:
     product_summary = package.get("product_summary", {})
     value_judgment = package.get("value_judgment", {})
     completeness = value_gate.get("input_completeness", {})
+    business_model = package.get("business_model", {})
+    value_object_detail = package.get("value_object_detail", {})
+    measurability = package.get("measurability_judgment", {})
+    attribution = package.get("attribution_judgment", {})
+    value_quality = package.get("value_quality_judgment", {})
+    true_profit = package.get("true_profit_judgment", {})
+    resource_fit = package.get("resource_fit_judgment", {})
+    acquisition = package.get("acquisition_judgment", {})
+    project_to_product = package.get("project_to_product_judgment", {})
+    low_cost_mvp = package.get("low_cost_mvp_judgment", {})
+    review_loop = value_gate.get("review_loop", {})
+
+    def list_text(items) -> str:
+        if isinstance(items, list):
+            return "、".join(str(item) for item in items) if items else "无"
+        return str(items) if items else "待验证"
+
     lines = [
         f"# {product_summary.get('product_name') or value_gate.get('project_id')} - 产品价值门禁",
         "",
@@ -819,6 +1152,7 @@ def value_gate_markdown(value_gate: dict) -> str:
         f"- payment_evidence_level：{value_gate.get('payment_evidence_level')}",
         f"- risk_level：{value_gate.get('risk_level')}",
         f"- required_human_confirmation：{value_gate.get('required_human_confirmation')}",
+        f"- downstream_input_package：{value_gate.get('downstream_input_package')}",
         "",
         "## 2. 为什么是这个结论",
     ]
@@ -831,16 +1165,19 @@ def value_gate_markdown(value_gate: dict) -> str:
     lines.extend(
         [
             f"- 主意图：{intent.get('primary_intent')}",
-            f"- 价值类型：{'、'.join(value_judgment.get('value_type', []))}",
+            f"- 次级意图：{list_text(intent.get('secondary_intents', []))}",
+            f"- 价值类型：{list_text(value_judgment.get('value_type', []))}",
             f"- 商业结果：{value_judgment.get('business_result')}",
-            f"- 价值归因：{value_judgment.get('value_attribution')}",
+            f"- 核心价值：{value_judgment.get('core_value')}",
+            f"- 价值归因：{attribution.get('core_question')}",
+            f"- 归因影响因素：{list_text(attribution.get('influencing_factors', []))}",
         ]
     )
     lines.extend(["", "## 4. 输入完整度"])
     lines.append(f"- 已覆盖：{'、'.join(completeness.get('present_items', [])) or '无'}")
     lines.append(f"- 缺失：{'、'.join(completeness.get('missing_items', [])) or '无'}")
-    lines.extend(["", "## 5. 事实 / 假设 / 待验证"])
-    lines.append("### 5.1 已知事实")
+    lines.extend(["", "## 5. 证据与假设"])
+    lines.append("### 5.1 已知事实 / 证据")
     lines.extend(f"- {item}" for item in value_gate.get("known_facts", []))
     lines.append("")
     lines.append("### 5.2 合理假设")
@@ -851,18 +1188,98 @@ def value_gate_markdown(value_gate: dict) -> str:
     lines.append("")
     lines.append("### 5.4 开放问题")
     lines.extend(f"- {item}" for item in value_gate.get("open_questions", []))
-    lines.extend(["", "## 6. 风险与红线"])
+    lines.extend(["", "## 6. 价值对象"])
+    lines.extend(
+        [
+            f"- 付费者：{list_text(value_object_detail.get('payer'))}",
+            f"- 决策者：{list_text(value_object_detail.get('decision_maker'))}",
+            f"- 使用者：{list_text(value_object_detail.get('user'))}",
+            f"- 受益者：{list_text(value_object_detail.get('beneficiary'))}",
+            f"- 成本承担者：{list_text(value_object_detail.get('cost_bearer'))}",
+            f"- 验收方：{list_text(value_object_detail.get('acceptance_owner'))}",
+            f"- 复购影响者：{list_text(value_object_detail.get('renewal_influencer'))}",
+            f"- 潜在反对者：{list_text(value_object_detail.get('possible_opponents'))}",
+        ]
+    )
+    lines.extend(["", "## 7. 商业结果与衡量指标"])
+    lines.extend(
+        [
+            f"- 是否可衡量：{measurability.get('is_measurable')}",
+            f"- 应衡量指标：{list_text(measurability.get('metrics', []))}",
+            f"- 缺失指标：{list_text(measurability.get('missing_metrics', []))}",
+            f"- 判断：{measurability.get('judgment')}",
+        ]
+    )
+    lines.extend(["", "## 8. 真实利润与成本"])
+    lines.extend(
+        [
+            f"- 收益模式：{business_model.get('revenue_model')}",
+            f"- 付费证据：{business_model.get('payment_willingness')}",
+            f"- 利润状态：{true_profit.get('status')}",
+            f"- 已识别成本：{list_text(true_profit.get('cost_items_checked', []))}",
+            f"- 缺失成本：{list_text(true_profit.get('missing_cost_items', []))}",
+            f"- 利润风险：{true_profit.get('profit_risk')}",
+            f"- 下一步核算：{true_profit.get('next_calculation')}",
+        ]
+    )
+    lines.extend(["", "## 9. 获客与资源匹配"])
+    lines.extend(
+        [
+            f"- 资源匹配：{resource_fit.get('status')}",
+            f"- 可用资产：{list_text(resource_fit.get('available_assets', []))}",
+            f"- 缺失资产：{list_text(resource_fit.get('missing_assets', []))}",
+            f"- 第一批用户：{list_text(acquisition.get('first_users', []))}",
+            f"- 触达方式：{acquisition.get('reach_method')}",
+            f"- 信任基础：{list_text(acquisition.get('trust_basis', []))}",
+            f"- CAC/LTV 风险：{acquisition.get('cac_ltv_risk')}",
+        ]
+    )
+    lines.extend(["", "## 10. 项目转产品判断"])
+    lines.extend(
+        [
+            f"- 项目价值：{project_to_product.get('project_value')}",
+            f"- 服务价值：{project_to_product.get('service_value')}",
+            f"- 产品价值：{project_to_product.get('product_value')}",
+            f"- 可标准化部分：{list_text(project_to_product.get('standardizable_parts', []))}",
+            f"- 需定制部分：{list_text(project_to_product.get('customized_parts', []))}",
+            f"- 产品化风险：{project_to_product.get('productization_risk')}",
+        ]
+    )
+    lines.extend(["", "## 11. MVP / PRD 输入建议"])
+    lines.extend(
+        [
+            f"- 核心用户：{list_text(low_cost_mvp.get('core_user', []))}",
+            f"- 核心场景：{list_text(low_cost_mvp.get('core_scenario', []))}",
+            f"- 核心功能：{list_text(low_cost_mvp.get('core_features', []))}",
+            f"- 核心交付：{low_cost_mvp.get('core_delivery')}",
+            f"- 最小数据闭环：{list_text(low_cost_mvp.get('minimum_data_loop', []))}",
+            f"- 可人工 / 工具替代：{list_text(low_cost_mvp.get('can_replace_with_manual_or_tools', []))}",
+        ]
+    )
+    lines.extend(["", "## 12. 风险与红线"])
     if value_gate.get("red_line_risks"):
         lines.extend(f"- {item}" for item in value_gate.get("red_line_risks", []))
     else:
-        lines.append("- V0 未识别到明确不可控红线；后续仍需人工确认具体行业边界。")
-    lines.extend(["", "## 7. 反证与停止条件"])
+        lines.append("- V0.2 未识别到明确不可控红线；后续仍需人工确认具体行业边界。")
+    lines.extend(["", "## 13. 反证与停止条件"])
     lines.extend(f"- {item}" for item in value_gate.get("counter_evidence", []))
-    lines.extend(["", "## 8. 后续输入包"])
+    lines.extend(["", "## 14. 复判计划"])
+    lines.extend(
+        [
+            f"- 当前轮次：{review_loop.get('validation_round')}",
+            f"- 下次复判触发：{review_loop.get('next_review_trigger')}",
+            f"- 复判材料：{list_text(review_loop.get('next_review_materials', []))}",
+        ]
+    )
+    lines.append("### 14.1 成功标准")
+    lines.extend(f"- {item}" for item in review_loop.get("success_criteria", []))
+    lines.append("### 14.2 失败标准")
+    lines.extend(f"- {item}" for item in review_loop.get("failure_criteria", []))
+    lines.extend(["", "## 15. 后续输入包"])
     lines.append(f"- 当前应进入：{value_gate.get('downstream_input_package')}")
     constraints = package.get("prd_generation_constraints", {})
     lines.append(f"- PRD 约束：{constraints.get('prd_scope')}")
-    lines.extend(["", "## 9. txt 功能 vs 治理架构对照"])
+    lines.extend(["", "## 16. txt 功能 vs 治理架构对照"])
     lines.extend(
         f"- {item['function']}：{item['classification']}。{item['governance_check']} 建议：{item['recommendation']}"
         for item in value_gate.get("conflict_review", {}).get("items", [])

@@ -118,6 +118,8 @@ It writes:
 - `projects/<project>/00_value_gate.json`
 - `projects/<project>/00_value_gate.md`
 
+V0.2 output is a pre-PRD analysis package, not the PRD itself. It includes the decision gate plus value object details, evidence and assumptions, measurable metrics, attribution, value quality, true profit, acquisition/resource fit, project-to-product judgment, low-cost MVP boundary, counter-evidence, and review-loop criteria.
+
 Only `decision_gate = A_ENTER_PRD` can enter formal full PRD generation. Other decisions route to their own path:
 
 - `B_LOW_COST_MVP`: low-cost MVP validation.

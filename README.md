@@ -81,6 +81,8 @@ python3 harness/run_harness.py --base-dir . --project demo-project --mode adviso
 
 The PM Copilot production chain writes these files under `projects/<project>/`:
 
+- `00_value_gate.json`
+- `00_value_gate.md`
 - `01_requirement_brief.json`
 - `01_requirement_brief.md`
 - `02_prd.generated.json`
@@ -102,6 +104,36 @@ Each pipeline run also writes governance files under `projects/<project>/runs/<r
 - `random_audit_report.json`: random inspector samples and findings when harness runs with `--audit`.
 
 The default pipeline run id is `pipeline-latest`. Pass `--run-id <id>` when you need a stable named run for review.
+
+## Product value gate
+
+Before PRD generation, run the product value gate as the independent front door:
+
+```bash
+python3 pm-prd-copilot/scripts/run_pipeline.py --base-dir . --project demo-project --stage value_gate --mode rule
+```
+
+It writes:
+
+- `projects/<project>/00_value_gate.json`
+- `projects/<project>/00_value_gate.md`
+
+Only `decision_gate = A_ENTER_PRD` can enter formal full PRD generation. Other decisions route to their own path:
+
+- `B_LOW_COST_MVP`: low-cost MVP validation.
+- `C_CLIENT_PROJECT_VALIDATION`: client project validation.
+- `D_INTERNAL_EFFICIENCY`: internal efficiency plan.
+- `E_RESEARCH_REQUIRED`: research completion.
+- `F_NOT_RECOMMENDED`: stop with reason.
+- `G_BLOCKED_BY_REDLINE`: redline block.
+
+Formal PRD generation checks `decision_gate`, `can_enter_full_prd`, `blocked_reasons`, human confirmation, and input completeness. Fast draft can bypass this only when explicitly requested:
+
+```bash
+python3 pm-prd-copilot/scripts/run_pipeline.py --base-dir . --project demo-project --stage prd --mode rule --fast-draft
+```
+
+Fast draft is a labeled draft path only. Its manifest records `value_gate_bypassed: true`; it must not replace formal approval-gated delivery.
 
 Pipeline runs enforce approval gates from `workflow/prd_workflow.yaml` by default before entering gated workflow stages. `--governed` is kept only as a compatibility flag:
 

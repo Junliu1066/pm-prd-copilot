@@ -310,7 +310,7 @@ def infer_scope(title: str, request_type: str) -> dict[str, list[str]]:
     }
 
 
-VALUE_GATE_VERSION = "0.1.0"
+VALUE_GATE_VERSION = "0.1.1"
 VALUE_GATE_ALLOW_PRD = "A_ENTER_PRD"
 VALUE_GATE_DECISIONS = {
     "A_ENTER_PRD",
@@ -384,16 +384,33 @@ def contains_any(text: str, terms: tuple[str, ...] | list[str]) -> bool:
     return any(term and term in text for term in terms)
 
 
+def contains_positive_any(text: str, terms: tuple[str, ...] | list[str]) -> bool:
+    negation_markers = ("没有", "无", "未", "暂无", "不是", "不具备", "不能", "不会", "不做", "不涉及", "禁止", "避免", "尚无")
+    for term in terms:
+        if not term:
+            continue
+        start = 0
+        while True:
+            index = text.find(term, start)
+            if index < 0:
+                break
+            context = text[max(0, index - 4) : index + len(term)]
+            if not any(marker in context for marker in negation_markers):
+                return True
+            start = index + len(term)
+    return False
+
+
 def detect_payment_evidence_level(raw_text: str) -> int:
     levels = [
-        (5, ("真实支付", "已付款", "付款", "签合同", "合同", "复购", "续费", "项目收入")),
-        (4, ("定金", "预付款", "预算确认", "采购流程", "预算", "报价已接受")),
+        (5, ("真实支付", "已付款", "付款", "签合同", "合同", "已复购", "复购数据", "已续费", "续费数据", "项目收入")),
+        (4, ("定金", "预付款", "预算确认", "确认预算", "已有预算", "有预算", "预算已批", "预算批准", "采购流程", "报价已接受")),
         (3, ("留资", "预约", "进群", "报名", "排队")),
         (2, ("试用", "试点", "愿意体验", "体验")),
         (1, ("感兴趣", "方向不错", "口头兴趣", "想了解")),
     ]
     for level, terms in levels:
-        if contains_any(raw_text, terms):
+        if contains_positive_any(raw_text, terms):
             return level
     return 0
 
@@ -444,7 +461,7 @@ def detect_red_line_risks(raw_text: str) -> list[str]:
         "内容安全或平台规则风险": ("诱导", "违规内容", "绕过平台规则", "灰产", "违法"),
     }
     for title, terms in redline_terms.items():
-        if contains_any(raw_text, terms):
+        if contains_positive_any(raw_text, terms):
             risks.append(title)
     return unique_list(risks)
 
@@ -504,11 +521,11 @@ def choose_value_gate_decision(raw_text: str, completeness: dict, evidence_level
         return "F_NOT_RECOMMENDED", ["价值对象、利润、获客或交付条件不成立。"], ["如仍需推进，先补充反证材料。"]
     if contains_any(raw_text, ("客户项目", "定制", "项目交付", "单个客户")) and payment_level >= 4:
         return "C_CLIENT_PROJECT_VALIDATION", ["项目收入可能成立，但产品化复用条件仍需验证。"], ["沉淀第二个相似客户和可标准化范围。"]
-    if contains_any(raw_text, ("内部", "降本", "增效", "提效", "运营效率", "交付效率")):
-        return "D_INTERNAL_EFFICIENCY", ["内部经营价值可能成立，但不默认对外产品化。"], ["量化节省时间、频率、人工成本和建设维护成本。"]
     if evidence_level in {"S", "A"} and payment_level >= 4 and completeness["missing_count"] <= 1:
         return "A_ENTER_PRD", [], []
-    if evidence_level in {"B", "C"} and contains_any(raw_text, ("核心场景", "核心功能", "MVP", "试点", "低成本")):
+    if contains_any(raw_text, ("内部提效", "内部工具", "内部流程", "内部团队", "内部交付", "内部运营", "降本", "人工成本", "运营成本", "返工成本", "错误率", "交付效率")):
+        return "D_INTERNAL_EFFICIENCY", ["内部经营价值可能成立，但不默认对外产品化。"], ["量化节省时间、频率、人工成本和建设维护成本。"]
+    if (payment_level in {1, 2, 3} or evidence_level in {"B", "C"}) and contains_any(raw_text, ("核心场景", "核心功能", "MVP", "试点", "低成本")):
         return "B_LOW_COST_MVP", ["付费、获客、利润或复购证据不足，先验证核心价值闭环。"], ["明确 MVP 成功 / 失败标准。"]
     return "E_RESEARCH_REQUIRED", ["证据强度不足，仍需补齐用户、价值、获客或成本信息。"], ["补充客户访谈、付费意向、成本结构和风险边界。"]
 

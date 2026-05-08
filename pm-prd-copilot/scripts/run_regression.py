@@ -171,6 +171,24 @@ def validate_value_gate_rules(base_dir: Path) -> list[str]:
             "C_CLIENT_PROJECT_VALIDATION",
         ),
         (
+            "low_cost_mvp",
+            "\n".join(
+                [
+                    "# 线索跟进助手低成本 MVP",
+                    "- 目标用户：小微销售团队、销售主管",
+                    "- 价值对象：销售主管、销售使用者、业务负责人",
+                    "- 商业结果：提升线索跟进效率和转化率",
+                    "- 付费/收益方式：当前只有用户试点意向和愿意体验，没有预算确认",
+                    "- 使用场景：销售每天处理新线索并记录跟进状态",
+                    "- 风险边界：只处理企业内部线索，权限和隐私边界可控",
+                    "- 获客路径：现有私域客户和销售社群",
+                    "- 成本结构：先用表格和人工审核降低开发成本",
+                    "- 核心场景明确，核心功能可低成本 MVP 试点",
+                ]
+            ),
+            "B_LOW_COST_MVP",
+        ),
+        (
             "internal",
             "\n".join(
                 [
@@ -186,6 +204,24 @@ def validate_value_gate_rules(base_dir: Path) -> list[str]:
                 ]
             ),
             "D_INTERNAL_EFFICIENCY",
+        ),
+        (
+            "not_recommended",
+            "\n".join(
+                [
+                    "# 重交付定制门户",
+                    "- 目标用户：不明确的企业客户",
+                    "- 价值对象：客户可能感兴趣，但没有明确付费者和决策者",
+                    "- 商业结果：商业结果弱，利润不成立",
+                    "- 付费/收益方式：没人付费，只有口头兴趣",
+                    "- 使用场景：客户临时提出的低频场景",
+                    "- 风险边界：需要大量权限和数据对接",
+                    "- 获客路径：获客困难，没有稳定渠道",
+                    "- 成本结构：交付过重，维护成本高，无法规模化",
+                    "- 不建议继续投入",
+                ]
+            ),
+            "F_NOT_RECOMMENDED",
         ),
         (
             "redline",
@@ -206,6 +242,14 @@ def validate_value_gate_rules(base_dir: Path) -> list[str]:
             errors.append(f"Value gate case {label} must not allow full PRD.")
         if expected == "A_ENTER_PRD" and gate.get("can_enter_full_prd") is not True:
             errors.append("Strong value gate case must allow full PRD.")
+        if not gate.get("prd_input_package"):
+            errors.append(f"Value gate case {label} must include prd_input_package for downstream handoff.")
+        if "missing_count" not in gate.get("input_completeness", {}):
+            errors.append(f"Value gate case {label} must report input completeness.")
+        if expected == "B_LOW_COST_MVP" and gate.get("downstream_input_package") != "mvp_input_package":
+            errors.append("Low-cost MVP case must route to mvp_input_package.")
+        if expected == "F_NOT_RECOMMENDED" and not gate.get("blocked_reasons"):
+            errors.append("Not-recommended case must explain blocked reasons.")
     return errors
 
 

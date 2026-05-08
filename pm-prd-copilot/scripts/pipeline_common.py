@@ -47,6 +47,8 @@ def project_paths(base_dir: Path, project: str) -> dict[str, Path]:
     return {
         "project_dir": project_dir,
         "raw_input": project_dir / "00_raw_input.md",
+        "value_gate_json": project_dir / "00_value_gate.json",
+        "value_gate_md": project_dir / "00_value_gate.md",
         "brief_json": project_dir / "01_requirement_brief.json",
         "brief_md": project_dir / "01_requirement_brief.md",
         "brief_meta": project_dir / "01_requirement_brief.meta.json",
@@ -306,6 +308,529 @@ def infer_scope(title: str, request_type: str) -> dict[str, list[str]]:
         "v1": ["补齐次要场景"],
         "later": ["扩展低频增强能力"],
     }
+
+
+VALUE_GATE_VERSION = "0.1.0"
+VALUE_GATE_ALLOW_PRD = "A_ENTER_PRD"
+VALUE_GATE_DECISIONS = {
+    "A_ENTER_PRD",
+    "B_LOW_COST_MVP",
+    "C_CLIENT_PROJECT_VALIDATION",
+    "D_INTERNAL_EFFICIENCY",
+    "E_RESEARCH_REQUIRED",
+    "F_NOT_RECOMMENDED",
+    "G_BLOCKED_BY_REDLINE",
+}
+VALUE_GATE_NEXT_MODULE = {
+    "A_ENTER_PRD": "full_prd_generation",
+    "B_LOW_COST_MVP": "low_cost_mvp_plan",
+    "C_CLIENT_PROJECT_VALIDATION": "client_project_validation",
+    "D_INTERNAL_EFFICIENCY": "internal_efficiency_plan",
+    "E_RESEARCH_REQUIRED": "research_completion",
+    "F_NOT_RECOMMENDED": "stop_with_reason",
+    "G_BLOCKED_BY_REDLINE": "redline_block",
+}
+VALUE_GATE_INPUT_CHECKS = {
+    "target_user": "目标用户",
+    "value_object": "价值对象",
+    "business_result": "商业结果",
+    "revenue_or_benefit": "付费 / 收益方式",
+    "usage_scenario": "使用场景",
+    "risk_boundary": "风险边界",
+    "acquisition_path": "获客路径",
+    "cost_structure": "成本结构",
+}
+VALUE_GATE_CONFLICT_ITEMS = [
+    {
+        "function": "完整 18 步价值判断链路",
+        "classification": "direct_v0",
+        "governance_check": "V0 只做轻量规则判断，复杂证据和财务深算留到 V1/V2。",
+        "recommendation": "先纳入结构化输出和保守门禁，不扩大成重型自动化。",
+    },
+    {
+        "function": "行业红线规则包",
+        "classification": "v1_v2",
+        "governance_check": "全量行业规则包会变成重能力和持续维护面。",
+        "recommendation": "V0 只做红线关键词和人工确认提醒；V1 再沉淀行业规则包。",
+    },
+    {
+        "function": "后续模块必须读取 decision_gate",
+        "classification": "direct_v0",
+        "governance_check": "符合治理架构，能防止 PRD 绕过前置价值判断。",
+        "recommendation": "直接纳入 pipeline 和 PRD 二次门禁。",
+    },
+    {
+        "function": "自动联网抓取证据",
+        "classification": "needs_user_confirmation",
+        "governance_check": "会引入网络证据、成本、事实核验和来源治理。",
+        "recommendation": "V0 不做；后续如需要，单独走证据能力和来源审核。",
+    },
+    {
+        "function": "新增专门 skill / harness",
+        "classification": "needs_user_confirmation",
+        "governance_check": "违反本轮最小新增原则；真实使用证明必要前不新增。",
+        "recommendation": "V0 用 native script + existing pipeline contract 承接。",
+    },
+    {
+        "function": "复盘闭环和长期规则反哺",
+        "classification": "rewrite_before_include",
+        "governance_check": "不能自动写长期记忆或 stable 规则。",
+        "recommendation": "V0 只输出 closeout/复判候选，长期化必须用户批准。",
+    },
+]
+
+
+def contains_any(text: str, terms: tuple[str, ...] | list[str]) -> bool:
+    return any(term and term in text for term in terms)
+
+
+def detect_payment_evidence_level(raw_text: str) -> int:
+    levels = [
+        (5, ("真实支付", "已付款", "付款", "签合同", "合同", "复购", "续费", "项目收入")),
+        (4, ("定金", "预付款", "预算确认", "采购流程", "预算", "报价已接受")),
+        (3, ("留资", "预约", "进群", "报名", "排队")),
+        (2, ("试用", "试点", "愿意体验", "体验")),
+        (1, ("感兴趣", "方向不错", "口头兴趣", "想了解")),
+    ]
+    for level, terms in levels:
+        if contains_any(raw_text, terms):
+            return level
+    return 0
+
+
+def detect_evidence_level(raw_text: str, payment_level: int) -> str:
+    if payment_level >= 5 or contains_any(raw_text, ("使用数据", "复购数据", "交付数据", "已上线数据")):
+        return "S"
+    if payment_level >= 4 or contains_any(raw_text, ("客户访谈", "强烈需求", "预算意向", "付费意向", "试点意向")):
+        return "A"
+    if contains_any(raw_text, ("竞品", "行业趋势", "相似产品", "市场需求", "市场报告")):
+        return "B"
+    if contains_any(raw_text, ("我觉得", "团队判断", "可能", "方向", "用户说")):
+        return "C"
+    return "D"
+
+
+def detect_value_gate_completeness(raw_text: str, fields: dict[str, str]) -> dict:
+    target_users = split_items(fields.get("target_users_raw", ""))
+    checks = {
+        "target_user": bool(target_users) or contains_any(raw_text, ("目标用户", "用户", "客户", "商家", "企业", "团队", "角色")),
+        "value_object": contains_any(raw_text, ("谁付钱", "付费者", "决策者", "使用者", "受益", "验收", "客户", "内部团队")),
+        "business_result": contains_any(raw_text, ("收入", "利润", "转化", "复购", "降本", "增效", "效率", "错误率", "交付周期", "风险降低")),
+        "revenue_or_benefit": contains_any(raw_text, ("付费", "预算", "合同", "订阅", "会员", "佣金", "抽成", "降本", "节省", "成本")),
+        "usage_scenario": bool(infer_scenarios(raw_text, fields.get("title", ""))) and contains_any(raw_text, ("场景", "流程", "使用", "交付", "运营", "客户", "用户")),
+        "risk_boundary": contains_any(raw_text, ("风险", "合规", "隐私", "权限", "审核", "安全", "红线", "边界", "风控")),
+        "acquisition_path": contains_any(raw_text, ("获客", "渠道", "线索", "转化", "销售", "推广", "投放", "冷启动", "私域")),
+        "cost_structure": contains_any(raw_text, ("成本", "毛利", "利润", "交付成本", "维护成本", "人工成本", "售后", "获客成本")),
+    }
+    missing = [VALUE_GATE_INPUT_CHECKS[key] for key, present in checks.items() if not present]
+    present = [VALUE_GATE_INPUT_CHECKS[key] for key, present in checks.items() if present]
+    return {
+        "checks": checks,
+        "present_items": present,
+        "missing_items": missing,
+        "missing_count": len(missing),
+        "is_complete_for_prd": len(missing) <= 1,
+    }
+
+
+def detect_red_line_risks(raw_text: str) -> list[str]:
+    risks = []
+    redline_terms = {
+        "金融收益或投资建议风险": ("承诺收益", "稳赚", "保本", "荐股", "股票推荐", "投资建议", "高收益"),
+        "医疗诊断风险": ("诊断", "治疗方案", "用药建议", "替代医生", "病情判断"),
+        "法律责任风险": ("法律意见", "替代律师", "胜诉承诺", "规避法律"),
+        "隐私与数据来源风险": ("未授权数据", "爬取个人信息", "身份证", "隐私数据", "敏感个人信息"),
+        "支付资金安全风险": ("资金池", "代收代付", "支付清算", "资金托管"),
+        "内容安全或平台规则风险": ("诱导", "违规内容", "绕过平台规则", "灰产", "违法"),
+    }
+    for title, terms in redline_terms.items():
+        if contains_any(raw_text, terms):
+            risks.append(title)
+    return unique_list(risks)
+
+
+def detect_intent(raw_text: str, request_type: str) -> dict:
+    if contains_any(raw_text, ("客户项目", "客户需求", "定制", "交付", "预算", "合同")):
+        primary = "客户项目需求"
+    elif contains_any(raw_text, ("内部", "团队", "降本", "增效", "提效", "流程优化")):
+        primary = "内部提效需求"
+    elif contains_any(raw_text, ("帮我写 PRD", "生成 PRD", "PRD")):
+        primary = "PRD 生成请求"
+    elif request_type == "new_feature":
+        primary = "功能需求"
+    elif contains_any(raw_text, ("商业模式", "订阅", "会员", "抽成", "分润")):
+        primary = "商业模式判断"
+    elif contains_any(raw_text, ("想法", "机会", "方向", "产品")):
+        primary = "新产品想法"
+    else:
+        primary = "模糊想法"
+    secondary = []
+    if contains_any(raw_text, ("产品化", "标准化", "复用")):
+        secondary.append("项目转产品判断")
+    if contains_any(raw_text, ("技术", "架构", "模型", "AI", "接口")):
+        secondary.append("技术可行性判断")
+    return {
+        "primary_intent": primary,
+        "secondary_intents": secondary,
+        "current_stage": "idea_intake",
+    }
+
+
+def infer_value_type(raw_text: str) -> list[str]:
+    value_types = []
+    if contains_any(raw_text, ("付费", "订阅", "会员", "抽成", "分润", "合同", "客户项目", "项目收入")):
+        value_types.append("对外商业价值")
+    if contains_any(raw_text, ("降本", "人工成本", "运营成本", "维护成本")):
+        value_types.append("内部降本价值")
+    if contains_any(raw_text, ("增效", "效率", "生产周期", "交付效率", "客户成功效率")):
+        value_types.append("内部增效价值")
+    if contains_any(raw_text, ("风险", "合规", "错误率", "流失率")):
+        value_types.append("风险降低价值")
+    if contains_any(raw_text, ("数据沉淀", "案例沉淀", "能力沉淀")):
+        value_types.append("数据 / 能力沉淀价值")
+    return value_types or ["价值类型待验证"]
+
+
+def choose_value_gate_decision(raw_text: str, completeness: dict, evidence_level: str, payment_level: int, redlines: list[str]) -> tuple[str, list[str], list[str]]:
+    blocked_reasons: list[str] = []
+    verify_next: list[str] = []
+    if redlines:
+        return "G_BLOCKED_BY_REDLINE", redlines, ["先确认红线是否可控；不可控时禁止推进。"]
+    if completeness["missing_count"] >= 2:
+        blocked_reasons.append("关键信息缺失 2 项以上，不能判断为价值明确。")
+        verify_next.extend(completeness["missing_items"][:5])
+        return "E_RESEARCH_REQUIRED", blocked_reasons, verify_next
+    if contains_any(raw_text, ("不建议", "没人付费", "获客困难", "交付过重", "利润不成立", "无法规模化")):
+        return "F_NOT_RECOMMENDED", ["价值对象、利润、获客或交付条件不成立。"], ["如仍需推进，先补充反证材料。"]
+    if contains_any(raw_text, ("客户项目", "定制", "项目交付", "单个客户")) and payment_level >= 4:
+        return "C_CLIENT_PROJECT_VALIDATION", ["项目收入可能成立，但产品化复用条件仍需验证。"], ["沉淀第二个相似客户和可标准化范围。"]
+    if contains_any(raw_text, ("内部", "降本", "增效", "提效", "运营效率", "交付效率")):
+        return "D_INTERNAL_EFFICIENCY", ["内部经营价值可能成立，但不默认对外产品化。"], ["量化节省时间、频率、人工成本和建设维护成本。"]
+    if evidence_level in {"S", "A"} and payment_level >= 4 and completeness["missing_count"] <= 1:
+        return "A_ENTER_PRD", [], []
+    if evidence_level in {"B", "C"} and contains_any(raw_text, ("核心场景", "核心功能", "MVP", "试点", "低成本")):
+        return "B_LOW_COST_MVP", ["付费、获客、利润或复购证据不足，先验证核心价值闭环。"], ["明确 MVP 成功 / 失败标准。"]
+    return "E_RESEARCH_REQUIRED", ["证据强度不足，仍需补齐用户、价值、获客或成本信息。"], ["补充客户访谈、付费意向、成本结构和风险边界。"]
+
+
+def _value_gate_field(raw_text: str, fields: dict[str, str], key: str, fallback: str) -> str:
+    if fields.get(key):
+        return fields[key]
+    return fallback if fallback in raw_text else "待验证"
+
+
+def build_value_gate(project_id: str, raw_text: str, seed: dict | None = None) -> dict:
+    fields = extract_template_fields(raw_text)
+    request_type = infer_request_type(raw_text, fields)
+    title = extract_title(raw_text, fields, project_id)
+    target_users = infer_target_users(raw_text, fields)
+    scenarios = infer_scenarios(raw_text, title)
+    completeness = detect_value_gate_completeness(raw_text, fields)
+    payment_level = detect_payment_evidence_level(raw_text)
+    evidence_level = detect_evidence_level(raw_text, payment_level)
+    redlines = detect_red_line_risks(raw_text)
+    decision, blocked_reasons, verify_next = choose_value_gate_decision(
+        raw_text, completeness, evidence_level, payment_level, redlines
+    )
+    can_enter = decision == VALUE_GATE_ALLOW_PRD
+    value_types = infer_value_type(raw_text)
+    intent = detect_intent(raw_text, request_type)
+    facts = infer_evidence(fields, extract_bullets(raw_text)) or [f"用户提出的原始主题为：{title}"]
+    assumptions = infer_assumptions(fields, title, request_type)
+    open_questions = infer_open_questions(fields, title)
+    if decision != VALUE_GATE_ALLOW_PRD:
+        open_questions = unique_list(open_questions + verify_next)
+    human_required = decision in {"A_ENTER_PRD", "C_CLIENT_PROJECT_VALIDATION", "G_BLOCKED_BY_REDLINE"} and (
+        bool(redlines)
+        or contains_any(raw_text, ("价格策略", "对外销售", "正式立项", "客户承诺", "高风险", "金融", "医疗", "法律", "支付资金"))
+    )
+    value_object = {
+        "payer": "客户 / 预算方" if contains_any(raw_text, ("客户", "预算", "付费", "合同")) else "待验证",
+        "decision_maker": "客户决策者 / 内部负责人" if contains_any(raw_text, ("老板", "负责人", "决策", "采购", "管理者")) else "待验证",
+        "user": "、".join(target_users),
+        "beneficiary": "目标用户 / 业务方",
+        "cost_bearer": "项目方 / 内部团队" if contains_any(raw_text, ("内部", "成本", "交付")) else "待验证",
+        "acceptance_owner": "客户验收方 / 内部业务负责人" if contains_any(raw_text, ("验收", "交付", "客户")) else "待验证",
+    }
+    product_summary = {
+        "product_name": title,
+        "one_sentence_positioning": f"围绕“{title}”验证是否具备可衡量、可归因、可兑现的价值。",
+        "product_type": intent["primary_intent"],
+        "target_stage": "value_gate",
+        "business_context": fields.get("business_context") or "待验证",
+    }
+    value_judgment = {
+        "value_type": value_types,
+        "core_value": "待通过真实证据验证核心价值闭环" if decision != VALUE_GATE_ALLOW_PRD else "已有较强证据，可进入完整 PRD。",
+        "value_object": value_object,
+        "business_result": "、".join(item for item in ["收入 / 利润增长" if "对外商业价值" in value_types else "", "降本增效" if any("内部" in item for item in value_types) else ""] if item) or "待验证",
+        "measurable_metrics": unique_list(["收入", "真实利润", "获客成本", "交付成本", "效率提升", "错误率"] if decision != "G_BLOCKED_BY_REDLINE" else ["红线风险确认"]),
+        "value_realization_cycle": "待验证",
+        "value_attribution": "需验证产品 / 服务是否是商业结果的主要归因来源。",
+    }
+    risk_level = "blocked" if redlines else ("controlled" if can_enter else "unknown")
+    prd_input_package = {
+        "product_summary": product_summary,
+        "value_judgment": value_judgment,
+        "user_and_scenario": {
+            "target_users": target_users,
+            "user_segments": target_users,
+            "core_scenarios": scenarios,
+            "trigger_scenarios": scenarios,
+            "high_frequency_scenarios": scenarios[:2],
+            "decision_scenarios": ["付费 / 立项 / 验收场景"] if payment_level >= 4 else ["待验证"],
+        },
+        "problem_definition": {
+            "core_problem": infer_problem_statement(title, fields, extract_bullets(raw_text), target_users),
+            "current_alternative": "待验证",
+            "pain_level": "待验证",
+            "loss_if_unsolved": fields.get("consequence") or "待验证",
+            "why_now": "待验证",
+        },
+        "business_model": {
+            "revenue_model": "客户付费 / 项目收入" if payment_level >= 4 else "待验证",
+            "pricing_assumption": "待验证",
+            "payment_willingness": f"付费证据第 {payment_level} 层" if payment_level else "无明确付费证据",
+            "payment_evidence_level": payment_level,
+            "profit_logic": "收入需扣除获客、交付、维护、售后、合规和风险成本。",
+            "true_profit_judgment": "待验证" if payment_level < 5 else "具备强付费证据，仍需核算真实利润。",
+        },
+        "productization_judgment": {
+            "is_productizable": decision == VALUE_GATE_ALLOW_PRD,
+            "productization_type": "完整 PRD 候选" if can_enter else "暂不进入完整产品化",
+            "standardizable_parts": ["核心价值闭环"] if can_enter else [],
+            "customized_parts": ["客户差异和交付要求需验证"] if decision == "C_CLIENT_PROJECT_VALIDATION" else [],
+            "replicable_parts": ["待验证"],
+            "not_suitable_for_productization": ["信息不足或证据不足时不得默认产品化"] if not can_enter else [],
+        },
+        "core_value_loop": {
+            "core_user_action": "完成核心任务",
+            "product_response": "交付可衡量结果",
+            "value_delivery": value_judgment["business_result"],
+            "feedback_data": "转化、收入、效率、成本、风险指标",
+            "success_signal": "真实付费、效率提升或风险降低被验证",
+        },
+        "mvp_boundary": {
+            "must_have_core_features": ["核心用户", "核心场景", "核心任务", "核心功能", "核心反馈"],
+            "can_use_manual_or_tool_replacement": ["人工处理", "表格记录", "低代码工具", "脚本", "第三方工具"],
+            "deferred_features": ["完整后台", "复杂权限", "高级数据看板", "完整商业化系统"],
+            "not_do_features": ["非核心异常流程", "未经验证的重型自动化"],
+            "mvp_success_criteria": ["核心价值闭环被验证", "至少获得明确付费或效率证据"],
+            "mvp_failure_criteria": ["用户只愿试用但不愿付费", "获客成本高于客单价", "交付严重依赖人工专家"],
+        },
+        "risk_and_constraints": {
+            "red_line_risks": redlines,
+            "controllable_risks": [] if redlines else ["证据不足", "成本结构未完全验证", "获客路径未完全验证"],
+            "compliance_constraints": redlines,
+            "privacy_constraints": ["涉及个人或敏感数据时必须确认授权、存储和使用边界"] if contains_any(raw_text, ("数据", "隐私", "个人")) else [],
+            "technical_constraints": ["待后续方案阶段判断"],
+            "resource_constraints": ["团队资源、交付能力、获客渠道需验证"],
+        },
+        "evidence_and_assumptions": {
+            "known_facts": facts,
+            "reasonable_assumptions": assumptions,
+            "evidence_level": evidence_level,
+            "evidence_sources": facts,
+            "unverified_assumptions": unique_list(assumptions + ["真实利润、获客路径、价值归因仍需验证"]),
+            "must_validate_before_launch": verify_next or ["真实利润", "获客路径", "价值归因"],
+        },
+        "prd_generation_constraints": {
+            "prd_scope": "只允许 A_ENTER_PRD 且输入包完整时进入完整 PRD。",
+            "must_include": ["事实 / 假设分离", "价值对象", "商业结果", "衡量指标", "风险约束", "MVP 边界"],
+            "must_not_include": ["不得把未验证假设写成事实", "不得绕过 decision_gate", "不得自动写长期记忆"],
+            "priority_focus": ["先验证价值，再做产品设计"],
+            "open_questions": open_questions,
+        },
+    }
+    payload = {
+        "project_id": project_id,
+        "module": "product_value_gate",
+        "version": VALUE_GATE_VERSION,
+        "decision_gate": decision,
+        "can_enter_full_prd": can_enter,
+        "next_module": VALUE_GATE_NEXT_MODULE[decision],
+        "evidence_level": evidence_level,
+        "payment_evidence_level": payment_level,
+        "risk_level": risk_level,
+        "required_human_confirmation": human_required,
+        "blocked_reasons": blocked_reasons,
+        "must_verify_before_next_step": verify_next,
+        "human_confirmation": {
+            "required": human_required,
+            "confirmation_items": unique_list(redlines + ["客户付款意向是否真实", "是否允许进入完整 PRD"] if human_required else []),
+            "confirmed": False,
+            "confirmed_by": "",
+            "confirmed_at": "",
+        },
+        "intent_result": intent,
+        "input_completeness": completeness,
+        "prd_input_package": prd_input_package,
+        "downstream_input_package": {
+            "A_ENTER_PRD": "prd_input_package",
+            "B_LOW_COST_MVP": "mvp_input_package",
+            "C_CLIENT_PROJECT_VALIDATION": "client_project_input_package",
+            "D_INTERNAL_EFFICIENCY": "internal_efficiency_input_package",
+            "E_RESEARCH_REQUIRED": "research_input_package",
+            "F_NOT_RECOMMENDED": "stop_reason_package",
+            "G_BLOCKED_BY_REDLINE": "redline_block_package",
+        }[decision],
+        "known_facts": facts,
+        "reasonable_assumptions": assumptions,
+        "unverified_assumptions": prd_input_package["evidence_and_assumptions"]["unverified_assumptions"],
+        "open_questions": open_questions,
+        "red_line_risks": redlines,
+        "counter_evidence": [
+            "如果用户只愿意试用但不愿意付费，商业价值不成立。",
+            "如果获客成本高于客单价，利润价值不成立。",
+            "如果交付严重依赖人工专家，产品化价值不足。",
+            "如果节省的人力成本小于系统建设成本，内部价值不成立。",
+        ],
+        "review_loop": {
+            "current_status": "initial_judgment",
+            "previous_decision_gate": "",
+            "current_decision_gate": decision,
+            "validation_round": 1,
+            "last_updated_reason": blocked_reasons[0] if blocked_reasons else "价值门禁 V0 初判通过。",
+            "next_review_trigger": "补齐证据或完成验证路径后复判。",
+        },
+        "conflict_review": {
+            "status": "no_blocking_conflict",
+            "items": VALUE_GATE_CONFLICT_ITEMS,
+        },
+    }
+    if seed:
+        payload["previous_value_gate"] = {
+            "decision_gate": seed.get("decision_gate", ""),
+            "version": seed.get("version", ""),
+        }
+    return payload
+
+
+def value_gate_allows_full_prd(value_gate: dict) -> bool:
+    if not value_gate:
+        return False
+    if value_gate.get("decision_gate") != VALUE_GATE_ALLOW_PRD:
+        return False
+    if value_gate.get("can_enter_full_prd") is not True:
+        return False
+    if value_gate.get("blocked_reasons"):
+        return False
+    human_confirmation = value_gate.get("human_confirmation", {})
+    if value_gate.get("required_human_confirmation") and not human_confirmation.get("confirmed"):
+        return False
+    package = value_gate.get("prd_input_package", {})
+    if not isinstance(package, dict) or not package:
+        return False
+    completeness = value_gate.get("input_completeness", {})
+    return completeness.get("is_complete_for_prd") is True
+
+
+def value_gate_block_message(value_gate: dict, path: Path | None = None) -> str:
+    if not value_gate:
+        return "Missing product value gate. Run stage `value_gate` before full PRD generation."
+    reasons = value_gate.get("blocked_reasons") or []
+    reason_text = "；".join(str(item) for item in reasons) if reasons else "value gate did not allow full PRD."
+    location = f" ({path})" if path else ""
+    return (
+        f"Value gate blocked full PRD{location}: decision_gate={value_gate.get('decision_gate')}, "
+        f"can_enter_full_prd={value_gate.get('can_enter_full_prd')}. {reason_text}"
+    )
+
+
+def value_gate_to_brief_seed(value_gate: dict) -> dict:
+    if not value_gate:
+        return {}
+    package = value_gate.get("prd_input_package", {})
+    product_summary = package.get("product_summary", {})
+    user_scenario = package.get("user_and_scenario", {})
+    problem = package.get("problem_definition", {})
+    value = package.get("value_judgment", {})
+    evidence = package.get("evidence_and_assumptions", {})
+    scope = package.get("mvp_boundary", {})
+    return {
+        "title": product_summary.get("product_name"),
+        "business_context": product_summary.get("business_context"),
+        "problem_statement": problem.get("core_problem"),
+        "target_users": user_scenario.get("target_users"),
+        "scenarios": user_scenario.get("core_scenarios"),
+        "business_goal": value.get("business_result"),
+        "evidence": evidence.get("evidence_sources"),
+        "facts": evidence.get("known_facts"),
+        "assumptions": evidence.get("reasonable_assumptions"),
+        "open_questions": package.get("prd_generation_constraints", {}).get("open_questions"),
+        "suggested_scope": {
+            "mvp": scope.get("must_have_core_features", []),
+            "v1": scope.get("can_use_manual_or_tool_replacement", []),
+            "later": scope.get("deferred_features", []),
+        },
+    }
+
+
+def value_gate_markdown(value_gate: dict) -> str:
+    package = value_gate.get("prd_input_package", {})
+    product_summary = package.get("product_summary", {})
+    value_judgment = package.get("value_judgment", {})
+    completeness = value_gate.get("input_completeness", {})
+    lines = [
+        f"# {product_summary.get('product_name') or value_gate.get('project_id')} - 产品价值门禁",
+        "",
+        "## 1. 门禁结论",
+        f"- decision_gate：{value_gate.get('decision_gate')}",
+        f"- can_enter_full_prd：{value_gate.get('can_enter_full_prd')}",
+        f"- next_module：{value_gate.get('next_module')}",
+        f"- evidence_level：{value_gate.get('evidence_level')}",
+        f"- payment_evidence_level：{value_gate.get('payment_evidence_level')}",
+        f"- risk_level：{value_gate.get('risk_level')}",
+        f"- required_human_confirmation：{value_gate.get('required_human_confirmation')}",
+        "",
+        "## 2. 为什么是这个结论",
+    ]
+    if value_gate.get("blocked_reasons"):
+        lines.extend(f"- {item}" for item in value_gate.get("blocked_reasons", []))
+    else:
+        lines.append("- 当前证据和输入完整度满足进入下一路径的最低门槛。")
+    lines.extend(["", "## 3. 意图与价值判断"])
+    intent = value_gate.get("intent_result", {})
+    lines.extend(
+        [
+            f"- 主意图：{intent.get('primary_intent')}",
+            f"- 价值类型：{'、'.join(value_judgment.get('value_type', []))}",
+            f"- 商业结果：{value_judgment.get('business_result')}",
+            f"- 价值归因：{value_judgment.get('value_attribution')}",
+        ]
+    )
+    lines.extend(["", "## 4. 输入完整度"])
+    lines.append(f"- 已覆盖：{'、'.join(completeness.get('present_items', [])) or '无'}")
+    lines.append(f"- 缺失：{'、'.join(completeness.get('missing_items', [])) or '无'}")
+    lines.extend(["", "## 5. 事实 / 假设 / 待验证"])
+    lines.append("### 5.1 已知事实")
+    lines.extend(f"- {item}" for item in value_gate.get("known_facts", []))
+    lines.append("")
+    lines.append("### 5.2 合理假设")
+    lines.extend(f"- {item}" for item in value_gate.get("reasonable_assumptions", []))
+    lines.append("")
+    lines.append("### 5.3 未验证假设")
+    lines.extend(f"- {item}" for item in value_gate.get("unverified_assumptions", []))
+    lines.append("")
+    lines.append("### 5.4 开放问题")
+    lines.extend(f"- {item}" for item in value_gate.get("open_questions", []))
+    lines.extend(["", "## 6. 风险与红线"])
+    if value_gate.get("red_line_risks"):
+        lines.extend(f"- {item}" for item in value_gate.get("red_line_risks", []))
+    else:
+        lines.append("- V0 未识别到明确不可控红线；后续仍需人工确认具体行业边界。")
+    lines.extend(["", "## 7. 反证与停止条件"])
+    lines.extend(f"- {item}" for item in value_gate.get("counter_evidence", []))
+    lines.extend(["", "## 8. 后续输入包"])
+    lines.append(f"- 当前应进入：{value_gate.get('downstream_input_package')}")
+    constraints = package.get("prd_generation_constraints", {})
+    lines.append(f"- PRD 约束：{constraints.get('prd_scope')}")
+    lines.extend(["", "## 9. txt 功能 vs 治理架构对照"])
+    lines.extend(
+        f"- {item['function']}：{item['classification']}。{item['governance_check']} 建议：{item['recommendation']}"
+        for item in value_gate.get("conflict_review", {}).get("items", [])
+    )
+    return "\n".join(lines)
 
 
 def classify_open_question_priority(question: str) -> str:

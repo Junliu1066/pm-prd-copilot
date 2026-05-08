@@ -10,11 +10,14 @@ skills:
     description: Normalize raw inputs into source brief artifacts.
     reads:
       - raw_input
+      - value_gate
       - source_brief
       - raw_external_data
       - web_source
       - app_reviews
     writes:
+      - value_gate
+      - value_gate_markdown
       - source_brief
       - source_brief_markdown
       - intake_source_notes
@@ -780,6 +783,7 @@ skills:
     stage: prd_drafting
     description: Draft a PRD from confirmed upstream artifacts.
     reads:
+      - value_gate
       - source_brief
       - mvp_scope
       - prd_structure

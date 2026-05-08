@@ -13,6 +13,7 @@ from pipeline_common import (
     read_json,
     read_text,
     requirement_brief_markdown,
+    value_gate_to_brief_seed,
     validate_schema,
     write_json,
     write_text,
@@ -29,7 +30,8 @@ def main() -> None:
     base_dir = Path(args.base_dir).resolve()
     paths = project_paths(base_dir, args.project)
     raw_text = read_text(paths["raw_input"])
-    seed = read_json(paths["brief_json"])
+    value_gate = read_json(paths["value_gate_json"])
+    seed = {**value_gate_to_brief_seed(value_gate), **read_json(paths["brief_json"])}
     prompt_bundle = build_stage_prompt_bundle(base_dir, "brief", project=args.project, raw_text=raw_text)
     brief, meta = run_stage_with_optional_llm(
         base_dir=base_dir,

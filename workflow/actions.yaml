@@ -1,11 +1,21 @@
 version: 0.1.0
 actions:
+  evaluate_product_value:
+    steward: research-steward
+    skill: source-collector
+    stage: intake
+    inputs:
+    - raw_input
+    outputs:
+    - value_gate
+    - value_gate_markdown
   normalize_requirement:
     steward: research-steward
     skill: source-collector
     stage: intake
     inputs:
     - raw_input
+    - value_gate
     outputs:
     - source_brief
     - source_brief_markdown
@@ -80,6 +90,7 @@ actions:
     skill: prd-draft-writer
     stage: prd_drafting
     inputs:
+    - value_gate
     - source_brief
     - mvp_scope
     - prd_structure

@@ -12,6 +12,8 @@ from pipeline_common import (
     prd_markdown,
     project_paths,
     read_json,
+    value_gate_allows_full_prd,
+    value_gate_block_message,
     validate_schema,
     write_json,
     write_text,
@@ -23,10 +25,18 @@ def main() -> None:
     parser.add_argument("--base-dir", default=".")
     parser.add_argument("--project", required=True)
     parser.add_argument("--mode", default="rule", choices=["rule", "llm", "auto"])
+    parser.add_argument(
+        "--allow-value-gate-bypass",
+        action="store_true",
+        help="Only used by the explicit --fast-draft pipeline path. Formal PRD generation must not bypass the value gate.",
+    )
     args = parser.parse_args()
 
     base_dir = Path(args.base_dir).resolve()
     paths = project_paths(base_dir, args.project)
+    value_gate = read_json(paths["value_gate_json"])
+    if not args.allow_value_gate_bypass and not value_gate_allows_full_prd(value_gate):
+        raise SystemExit(value_gate_block_message(value_gate, paths["value_gate_json"]))
     brief = read_json(paths["brief_json"])
     if not brief:
         raise SystemExit(f"Missing requirement brief: {paths['brief_json']}")

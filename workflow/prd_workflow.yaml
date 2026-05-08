@@ -4,9 +4,11 @@ name: prd_workflow
 stages:
   intake:
     allowed_actions:
+      - evaluate_product_value
       - collect_sources
       - normalize_requirement
     required_outputs:
+      - value_gate
       - source_brief
     next: evidence
 

@@ -102,6 +102,191 @@ def validate_fast_draft_pipeline_path(base_dir: Path) -> list[str]:
     return []
 
 
+def _run_value_gate_case(base_dir: Path, raw_text: str) -> dict:
+    with tempfile.TemporaryDirectory(prefix="pm-value-gate-regression-") as tmp:
+        fixture_dir = Path(tmp)
+        for name in ["pm-prd-copilot", "shared"]:
+            _link_or_copy(base_dir / name, fixture_dir / name)
+        project = "__regression_value_gate__"
+        raw_input = fixture_dir / "projects" / project / "00_raw_input.md"
+        raw_input.parent.mkdir(parents=True, exist_ok=True)
+        raw_input.write_text(raw_text, encoding="utf-8")
+        command = [
+            sys.executable,
+            str(fixture_dir / "pm-prd-copilot" / "scripts" / "generate_value_gate.py"),
+            "--base-dir",
+            str(fixture_dir),
+            "--project",
+            project,
+            "--mode",
+            "rule",
+        ]
+        result = subprocess.run(command, check=False, capture_output=True, text=True)
+        if result.returncode != 0:
+            raise AssertionError(f"Value gate generation failed: {result.stdout}\n{result.stderr}")
+        return json.loads((raw_input.parent / "00_value_gate.json").read_text(encoding="utf-8"))
+
+
+def validate_value_gate_rules(base_dir: Path) -> list[str]:
+    cases = [
+        (
+            "vague",
+            "# AI 平台\n\n我想做一个 AI 平台，帮助企业提升效率。",
+            "E_RESEARCH_REQUIRED",
+        ),
+        (
+            "strong",
+            "\n".join(
+                [
+                    "# 企业经营报告自动化",
+                    "- 目标用户：企业财务用户、经营负责人",
+                    "- 价值对象：客户预算方、采购决策者、财务使用者、客户验收方",
+                    "- 商业结果：增加合同收入和真实利润，提升复购，降低人工成本",
+                    "- 付费/收益方式：客户预算确认，愿意付定金，进入采购流程",
+                    "- 使用场景：客户每周生成经营报告并给管理层复盘",
+                    "- 风险边界：权限、隐私、合规边界已确认，数据来自客户授权",
+                    "- 获客路径：现有客户渠道、销售线索和转介绍",
+                    "- 成本结构：获客成本、交付成本、维护成本、售后成本均需核算",
+                    "- 客户访谈显示强烈需求，预算意向明确，试点意向明确",
+                ]
+            ),
+            "A_ENTER_PRD",
+        ),
+        (
+            "client_project",
+            "\n".join(
+                [
+                    "# 客户定制报表项目",
+                    "- 目标用户：单个客户的运营团队",
+                    "- 价值对象：客户预算方、客户验收方、运营使用者",
+                    "- 商业结果：项目收入和交付案例沉淀",
+                    "- 付费/收益方式：客户已签合同并真实支付",
+                    "- 使用场景：客户项目交付中的定制报表生成",
+                    "- 风险边界：权限和隐私边界由客户确认",
+                    "- 获客路径：现有客户项目渠道",
+                    "- 成本结构：交付成本、维护成本、沟通成本较高",
+                    "- 客户项目强定制，暂不具备标准化复用条件",
+                ]
+            ),
+            "C_CLIENT_PROJECT_VALIDATION",
+        ),
+        (
+            "internal",
+            "\n".join(
+                [
+                    "# 内部交付质检提效",
+                    "- 目标用户：内部交付团队",
+                    "- 价值对象：内部业务负责人、交付团队、验收负责人",
+                    "- 商业结果：降低人工成本，提升交付效率，减少错误率",
+                    "- 付费/收益方式：节省人工成本和返工成本",
+                    "- 使用场景：交付前自动检查材料完整性",
+                    "- 风险边界：只处理内部材料，权限和隐私边界可控",
+                    "- 获客路径：内部流程推广，不涉及对外获客",
+                    "- 成本结构：建设成本、维护成本和人工节省需要核算",
+                ]
+            ),
+            "D_INTERNAL_EFFICIENCY",
+        ),
+        (
+            "redline",
+            "# 投资收益助手\n\n目标用户是散户。承诺收益，自动荐股，帮助用户稳赚。",
+            "G_BLOCKED_BY_REDLINE",
+        ),
+    ]
+    errors: list[str] = []
+    for label, raw_text, expected in cases:
+        try:
+            gate = _run_value_gate_case(base_dir, raw_text)
+        except AssertionError as error:
+            errors.append(str(error))
+            continue
+        if gate.get("decision_gate") != expected:
+            errors.append(f"Value gate case {label} expected {expected}, got {gate.get('decision_gate')}.")
+        if expected != "A_ENTER_PRD" and gate.get("can_enter_full_prd") is not False:
+            errors.append(f"Value gate case {label} must not allow full PRD.")
+        if expected == "A_ENTER_PRD" and gate.get("can_enter_full_prd") is not True:
+            errors.append("Strong value gate case must allow full PRD.")
+    return errors
+
+
+def validate_value_gate_prd_blocking(base_dir: Path) -> list[str]:
+    with tempfile.TemporaryDirectory(prefix="pm-value-gate-pipeline-") as tmp:
+        fixture_dir = Path(tmp)
+        for name in ["pm-prd-copilot", "shared", "workflow", "registry"]:
+            _link_or_copy(base_dir / name, fixture_dir / name)
+        project = "__regression_value_gate_block__"
+        project_dir = fixture_dir / "projects" / project
+        project_dir.mkdir(parents=True)
+        (project_dir / "00_raw_input.md").write_text(
+            "# 模糊平台想法\n\n我想做一个平台，帮企业提升效率。\n",
+            encoding="utf-8",
+        )
+        (project_dir / "project_state.json").write_text(
+            json.dumps(
+                {
+                    "project_id": project,
+                    "current_stage": "intake",
+                    "completed_stages": [],
+                    "approvals": [],
+                    "assumption_overrides": {},
+                    "pipeline_assumption_overrides": {
+                        "target_user_priority": True,
+                        "core_scenario": True,
+                        "mvp_scope": True,
+                        "prototype_preview": True,
+                        "prd_structure": True,
+                    },
+                },
+                ensure_ascii=False,
+                indent=2,
+            ),
+            encoding="utf-8",
+        )
+        blocked_command = [
+            sys.executable,
+            str(fixture_dir / "pm-prd-copilot" / "scripts" / "run_pipeline.py"),
+            "--base-dir",
+            str(fixture_dir),
+            "--project",
+            project,
+            "--stage",
+            "prd",
+            "--mode",
+            "rule",
+            "--no-trace",
+        ]
+        blocked = subprocess.run(blocked_command, check=False, capture_output=True, text=True)
+        if blocked.returncode == 0:
+            return ["Value gate must block full PRD when decision_gate is not A_ENTER_PRD."]
+        if "Value gate blocked full PRD" not in f"{blocked.stdout}\n{blocked.stderr}":
+            return ["Value gate PRD block must explain that the value gate blocked full PRD."]
+
+        fast_command = [
+            sys.executable,
+            str(fixture_dir / "pm-prd-copilot" / "scripts" / "run_pipeline.py"),
+            "--base-dir",
+            str(fixture_dir),
+            "--project",
+            project,
+            "--stage",
+            "prd",
+            "--mode",
+            "rule",
+            "--fast-draft",
+            "--run-id",
+            "fast-draft-regression",
+        ]
+        fast = subprocess.run(fast_command, check=False, capture_output=True, text=True)
+        if fast.returncode != 0:
+            return [f"Fast draft must explicitly bypass value gate for draft PRD. Output: {fast.stdout}\n{fast.stderr}"]
+        manifest = json.loads((project_dir / "runs" / "fast-draft-regression" / "manifest.json").read_text(encoding="utf-8"))
+        if manifest.get("value_gate_bypassed") is not True:
+            return ["Fast draft manifest must mark value_gate_bypassed=true."]
+        if manifest.get("governance_mode") != "fast_draft":
+            return ["Fast draft manifest must keep governance_mode=fast_draft."]
+    return []
+
+
 def validate_pipeline_manifest_stage_actions(base_dir: Path) -> list[str]:
     manifest_path = base_dir / "projects" / "demo-project" / "runs" / "pipeline-latest" / "manifest.json"
     if not manifest_path.exists():
@@ -432,6 +617,11 @@ def main() -> None:
     if schema_path.exists() and candidate_path.exists():
         errors.extend(validate_json(schema_path, candidate_path))
 
+    value_gate_schema_path = base_dir / "shared" / "schemas" / "value_gate.schema.json"
+    value_gate_candidate_path = base_dir / "projects" / "demo-project" / "00_value_gate.json"
+    if value_gate_schema_path.exists() and value_gate_candidate_path.exists():
+        errors.extend(validate_json(value_gate_schema_path, value_gate_candidate_path))
+
     prd_schema_path = base_dir / "shared" / "schemas" / "prd_document.schema.json"
     prd_candidate_path = base_dir / "projects" / "demo-project" / "02_prd.generated.json"
     if prd_schema_path.exists() and prd_candidate_path.exists():
@@ -476,6 +666,8 @@ def main() -> None:
     errors.extend(validate_default_pipeline_gate(base_dir))
     errors.extend(validate_governed_pipeline_gate(base_dir))
     errors.extend(validate_fast_draft_pipeline_path(base_dir))
+    errors.extend(validate_value_gate_rules(base_dir))
+    errors.extend(validate_value_gate_prd_blocking(base_dir))
     errors.extend(validate_pipeline_manifest_stage_actions(base_dir))
     errors.extend(validate_candidate_plugin_visibility(base_dir))
     errors.extend(validate_b_package_packager(base_dir))

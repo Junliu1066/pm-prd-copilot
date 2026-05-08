@@ -10,9 +10,11 @@ from pathlib import Path
 import yaml
 
 from governance_trace import STAGE_TRACE, finalize_governance_run, init_governance_run, record_stage_call
+from pipeline_common import project_paths, read_json, value_gate_allows_full_prd, value_gate_block_message
 
 
 STAGE_TO_SCRIPT = {
+    "value_gate": "generate_value_gate.py",
     "brief": "generate_requirement_brief.py",
     "prd": "generate_prd.py",
     "stories": "generate_user_stories.py",
@@ -97,19 +99,29 @@ def enforce_governance_gate(base_dir: Path, project: str, pipeline_stages: list[
     return required
 
 
-def run_stage(base_dir: Path, project: str, stage: str) -> None:
+def enforce_value_gate_for_prd(base_dir: Path, project: str) -> None:
+    paths = project_paths(base_dir, project)
+    value_gate = read_json(paths["value_gate_json"])
+    if not value_gate_allows_full_prd(value_gate):
+        raise GovernanceGateError(value_gate_block_message(value_gate, paths["value_gate_json"]))
+
+
+def run_stage(base_dir: Path, project: str, stage: str, *, value_gate_bypassed: bool = False) -> None:
     script = base_dir / "pm-prd-copilot" / "scripts" / STAGE_TO_SCRIPT[stage]
+    command = [
+        sys.executable,
+        str(script),
+        "--base-dir",
+        str(base_dir),
+        "--project",
+        project,
+        "--mode",
+        CURRENT_MODE,
+    ]
+    if stage == "prd" and value_gate_bypassed:
+        command.append("--allow-value-gate-bypass")
     subprocess.run(
-        [
-            sys.executable,
-            str(script),
-            "--base-dir",
-            str(base_dir),
-            "--project",
-            project,
-            "--mode",
-            CURRENT_MODE,
-        ],
+        command,
         check=True,
     )
 
@@ -121,7 +133,7 @@ def main() -> None:
     parser.add_argument(
         "--stage",
         default="all",
-        choices=["all", "brief", "prd", "stories", "risk", "tracking"],
+        choices=["all", "value_gate", "brief", "prd", "stories", "risk", "tracking"],
     )
     parser.add_argument("--mode", default="rule", choices=["rule", "llm", "auto"])
     parser.add_argument(
@@ -148,17 +160,19 @@ def main() -> None:
     global CURRENT_MODE
     CURRENT_MODE = args.mode
     if args.stage == "all":
-        ordered_stages = ["brief", "prd", "stories", "risk", "tracking"]
+        ordered_stages = ["value_gate", "brief", "prd", "stories", "risk", "tracking"]
+    elif args.stage == "value_gate":
+        ordered_stages = ["value_gate"]
     elif args.stage == "brief":
-        ordered_stages = ["brief"]
+        ordered_stages = ["value_gate", "brief"]
     elif args.stage == "prd":
-        ordered_stages = ["brief", "prd"]
+        ordered_stages = ["value_gate", "brief", "prd"]
     elif args.stage == "stories":
-        ordered_stages = ["brief", "prd", "stories"]
+        ordered_stages = ["value_gate", "brief", "prd", "stories"]
     elif args.stage == "risk":
-        ordered_stages = ["brief", "prd", "risk"]
+        ordered_stages = ["value_gate", "brief", "prd", "risk"]
     else:
-        ordered_stages = ["brief", "prd", "tracking"]
+        ordered_stages = ["value_gate", "brief", "prd", "tracking"]
 
     enforce_gates = not args.fast_draft
     governance_mode = "governed" if enforce_gates else "fast_draft"
@@ -180,11 +194,14 @@ def main() -> None:
             approval_gate_enforced=enforce_gates,
             required_approvals=required_approvals,
             governance_mode=governance_mode,
+            value_gate_bypassed=args.fast_draft and "prd" in ordered_stages,
         )
 
     try:
         for stage in ordered_stages:
-            run_stage(base_dir, args.project, stage)
+            if stage == "prd" and not args.fast_draft:
+                enforce_value_gate_for_prd(base_dir, args.project)
+            run_stage(base_dir, args.project, stage, value_gate_bypassed=args.fast_draft)
             if run_dir is not None:
                 record_stage_call(run_dir, stage)
         if run_dir is not None:

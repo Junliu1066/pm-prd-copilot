@@ -7,6 +7,18 @@ artifacts:
     owner_stage: intake
     retention: supervised_project_context
     sensitive_boundary: may_contain_user_context_or_business_details
+  value_gate:
+    path_pattern: projects/{project}/00_value_gate.json
+    type: json
+    owner_stage: intake
+    retention: supervised_project_context
+    sensitive_boundary: contains_business_value_judgment_and_unverified_assumptions
+  value_gate_markdown:
+    path_pattern: projects/{project}/00_value_gate.md
+    type: markdown
+    owner_stage: intake
+    retention: supervised_project_context
+    sensitive_boundary: contains_business_value_judgment_and_unverified_assumptions
   raw_external_data:
     path_pattern: projects/{project}/sources/raw_external_data/
     type: directory

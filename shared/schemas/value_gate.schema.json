@@ -1,0 +1,211 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Product Value Gate",
+  "type": "object",
+  "required": [
+    "project_id",
+    "module",
+    "version",
+    "decision_gate",
+    "can_enter_full_prd",
+    "next_module",
+    "evidence_level",
+    "payment_evidence_level",
+    "risk_level",
+    "required_human_confirmation",
+    "blocked_reasons",
+    "must_verify_before_next_step",
+    "human_confirmation",
+    "intent_result",
+    "input_completeness",
+    "prd_input_package",
+    "downstream_input_package",
+    "known_facts",
+    "reasonable_assumptions",
+    "unverified_assumptions",
+    "open_questions",
+    "red_line_risks",
+    "counter_evidence",
+    "review_loop",
+    "conflict_review"
+  ],
+  "properties": {
+    "project_id": { "type": "string", "minLength": 1 },
+    "module": { "const": "product_value_gate" },
+    "version": { "type": "string", "minLength": 1 },
+    "decision_gate": {
+      "enum": [
+        "A_ENTER_PRD",
+        "B_LOW_COST_MVP",
+        "C_CLIENT_PROJECT_VALIDATION",
+        "D_INTERNAL_EFFICIENCY",
+        "E_RESEARCH_REQUIRED",
+        "F_NOT_RECOMMENDED",
+        "G_BLOCKED_BY_REDLINE"
+      ]
+    },
+    "can_enter_full_prd": { "type": "boolean" },
+    "next_module": { "type": "string", "minLength": 1 },
+    "evidence_level": { "enum": ["S", "A", "B", "C", "D"] },
+    "payment_evidence_level": { "type": "integer", "minimum": 0, "maximum": 5 },
+    "risk_level": { "enum": ["controlled", "medium", "high", "blocked", "unknown"] },
+    "required_human_confirmation": { "type": "boolean" },
+    "blocked_reasons": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "must_verify_before_next_step": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "human_confirmation": {
+      "type": "object",
+      "required": ["required", "confirmation_items", "confirmed", "confirmed_by", "confirmed_at"],
+      "properties": {
+        "required": { "type": "boolean" },
+        "confirmation_items": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "confirmed": { "type": "boolean" },
+        "confirmed_by": { "type": "string" },
+        "confirmed_at": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "intent_result": {
+      "type": "object",
+      "required": ["primary_intent", "secondary_intents", "current_stage"],
+      "properties": {
+        "primary_intent": { "type": "string" },
+        "secondary_intents": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "current_stage": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "input_completeness": {
+      "type": "object",
+      "required": ["checks", "present_items", "missing_items", "missing_count", "is_complete_for_prd"],
+      "properties": {
+        "checks": {
+          "type": "object",
+          "additionalProperties": { "type": "boolean" }
+        },
+        "present_items": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "missing_items": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "missing_count": { "type": "integer", "minimum": 0 },
+        "is_complete_for_prd": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "prd_input_package": {
+      "type": "object",
+      "required": [
+        "product_summary",
+        "value_judgment",
+        "user_and_scenario",
+        "problem_definition",
+        "business_model",
+        "productization_judgment",
+        "core_value_loop",
+        "mvp_boundary",
+        "risk_and_constraints",
+        "evidence_and_assumptions",
+        "prd_generation_constraints"
+      ],
+      "additionalProperties": true
+    },
+    "downstream_input_package": { "type": "string", "minLength": 1 },
+    "known_facts": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "reasonable_assumptions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "unverified_assumptions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "open_questions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "red_line_risks": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "counter_evidence": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "review_loop": {
+      "type": "object",
+      "required": [
+        "current_status",
+        "previous_decision_gate",
+        "current_decision_gate",
+        "validation_round",
+        "last_updated_reason",
+        "next_review_trigger"
+      ],
+      "properties": {
+        "current_status": { "type": "string" },
+        "previous_decision_gate": { "type": "string" },
+        "current_decision_gate": { "type": "string" },
+        "validation_round": { "type": "integer", "minimum": 1 },
+        "last_updated_reason": { "type": "string" },
+        "next_review_trigger": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "conflict_review": {
+      "type": "object",
+      "required": ["status", "items"],
+      "properties": {
+        "status": { "type": "string" },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["function", "classification", "governance_check", "recommendation"],
+            "properties": {
+              "function": { "type": "string" },
+              "classification": {
+                "enum": [
+                  "direct_v0",
+                  "v1_v2",
+                  "rewrite_before_include",
+                  "needs_user_confirmation"
+                ]
+              },
+              "governance_check": { "type": "string" },
+              "recommendation": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "previous_value_gate": {
+      "type": "object",
+      "properties": {
+        "decision_gate": { "type": "string" },
+        "version": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

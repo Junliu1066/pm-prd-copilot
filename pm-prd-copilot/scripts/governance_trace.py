@@ -9,18 +9,25 @@ from typing import Any
 
 
 STAGE_TRACE = {
+    "value_gate": {
+        "action": "evaluate_product_value",
+        "skill": "source-collector",
+        "steward": "research-steward",
+        "inputs": ["raw_input"],
+        "outputs": ["value_gate", "value_gate_markdown"],
+    },
     "brief": {
         "action": "normalize_requirement",
         "skill": "source-collector",
         "steward": "research-steward",
-        "inputs": ["raw_input"],
+        "inputs": ["raw_input", "value_gate"],
         "outputs": ["source_brief", "source_brief_markdown"],
     },
     "prd": {
         "action": "draft_prd",
         "skill": "prd-draft-writer",
         "steward": "prd-writing-steward",
-        "inputs": ["source_brief"],
+        "inputs": ["source_brief", "value_gate"],
         "outputs": ["prd_document", "prd_markdown"],
     },
     "stories": {
@@ -78,6 +85,7 @@ def init_governance_run(
     approval_gate_enforced: bool = False,
     required_approvals: list[str] | None = None,
     governance_mode: str | None = None,
+    value_gate_bypassed: bool = False,
 ) -> Path:
     project_dir = base_dir / "projects" / project
     run_dir = project_dir / "runs" / run_id
@@ -97,6 +105,7 @@ def init_governance_run(
         "stage_actions": {stage: STAGE_TRACE[stage]["action"] for stage in stages},
         "governance_mode": governance_mode or ("governed" if approval_gate_enforced else "draft"),
         "approval_gate_enforced": approval_gate_enforced,
+        "value_gate_bypassed": value_gate_bypassed,
         "required_approvals": required_approvals or [],
         "enabled_skills": enabled_skills,
         "enabled_mcps": [],

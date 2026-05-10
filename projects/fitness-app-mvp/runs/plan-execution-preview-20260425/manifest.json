@@ -1,0 +1,19 @@
+{
+  "run_id": "plan-execution-preview-20260425",
+  "project_id": "fitness-app-mvp",
+  "goal": "Create the second prototype preview for the approved plan-first training execution path.",
+  "enabled_skills": [
+    "project-preference-cache-manager",
+    "product-flow-mapper",
+    "low-fi-prototype-designer"
+  ],
+  "enabled_mcps": [],
+  "required_outputs": [
+    "project_preference_cache",
+    "product_flow_map",
+    "prototype_preview"
+  ],
+  "approval_required_before_full_prototype": [
+    "prototype_preview"
+  ]
+}

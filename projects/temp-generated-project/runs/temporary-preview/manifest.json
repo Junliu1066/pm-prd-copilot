@@ -1,0 +1,22 @@
+{
+  "run_id": "temporary-preview-20260430",
+  "project_id": "temp-generated-project",
+  "created_at": "2026-04-30",
+  "run_type": "static_prototype_preview",
+  "inputs": [
+    "../../00_raw_input.md",
+    "../../01_requirement_brief.md",
+    "../../02_prd.md",
+    "../../03_prototype_spec.md",
+    "../../04_development_doc.md"
+  ],
+  "outputs": [
+    "../../prototype/index.html"
+  ],
+  "checks": {
+    "offline_static_html": true,
+    "external_network_dependency": false,
+    "stable_architecture_changed": false
+  }
+}
+

@@ -193,6 +193,8 @@ python3 harness/run_harness.py --base-dir . --project demo-project --mode adviso
 
 ## 10. P1 观察验收期
 
+观察期口径：当前分支线程记录，完成 3 个真实任务后验收；不再以 7 天作为主条件。
+
 观察目标：
 
 | 观察项 | 期望结果 | 异常处理 |
@@ -210,6 +212,30 @@ python3 harness/run_harness.py --base-dir . --project demo-project --mode adviso
 - 只记录真实输出中的误报、漏报、安全边界不足。
 - 没有真实问题时，不继续扩展机制。
 - 若观察稳定，下一步只允许进入 P2 最小两项。
+
+### 10.1 当前分支线程观察台账
+
+| 序号 | 真实任务 | 类型 | 观察状态 | 重点记录 | 初步结论 |
+|---|---|---|---|---|---|
+| 1 | 待记录 | PRD / Codex 开发文档 / 原型或 UI | 未开始 | `lightweight/full`、prototype gate、`requested_model/actual_model_id`、regression、harness、误报/漏报 | 待观察 |
+| 2 | 待记录 | PRD / Codex 开发文档 / 原型或 UI | 未开始 | `lightweight/full`、prototype gate、`requested_model/actual_model_id`、regression、harness、误报/漏报 | 待观察 |
+| 3 | 待记录 | PRD / Codex 开发文档 / 原型或 UI | 未开始 | `lightweight/full`、prototype gate、`requested_model/actual_model_id`、regression、harness、误报/漏报 | 待观察 |
+
+每个真实任务完成后，追加记录：
+
+- 任务名称和类型。
+- 是否触发 `lightweight` 或 `full` agentic checker。
+- 是否出现轻量误杀、完整漏检或安全边界不足。
+- prototype gate 是否仍被页面编号、页面清单或 manifest 问题影响。
+- LLM metadata 是否包含 `requested_model` 和 `actual_model_id`。
+- regression / harness check-only 结果。
+- 是否需要进入 P2，或继续观察。
+
+验收规则：
+
+- 3 个真实任务都未出现 P1 误报 / 漏报 / 安全边界不足，才允许进入 P2 最小两项。
+- 任一任务出现 P1 问题，先修 P1，不进入 P2。
+- 观察台账只作为当前分支线程记录，不自动转 stable，不自动新增 skill / harness。
 
 ## 11. 允许进入的 P2 最小项
 

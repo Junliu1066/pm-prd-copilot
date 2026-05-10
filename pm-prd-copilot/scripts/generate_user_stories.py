@@ -8,6 +8,7 @@ from pathlib import Path
 from llm_stage_runner import run_stage_with_optional_llm
 from prompt_builders import build_stage_prompt_bundle, build_user_stories_schema
 from pipeline_common import (
+    build_prd_context_digest,
     normalize_user_stories,
     prd_to_user_stories,
     project_paths,
@@ -32,8 +33,18 @@ def main() -> None:
     prd = read_json(paths["prd_json"])
     if not brief or not prd:
         raise SystemExit("Missing brief or PRD input.")
+    digest = read_json(paths["prd_context_digest_json"]) or build_prd_context_digest(prd, brief)
+    if not paths["prd_context_digest_json"].exists():
+        write_json(paths["prd_context_digest_json"], digest)
 
-    prompt_bundle = build_stage_prompt_bundle(base_dir, "stories", project=args.project, brief=brief, prd=prd)
+    prompt_bundle = build_stage_prompt_bundle(
+        base_dir,
+        "stories",
+        project=args.project,
+        brief=brief,
+        prd=prd,
+        prd_digest=digest,
+    )
     stories, meta = run_stage_with_optional_llm(
         base_dir=base_dir,
         stage="stories",

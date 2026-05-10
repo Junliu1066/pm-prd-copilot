@@ -1,0 +1,41 @@
+{
+  "run_id": "plan-execution-preview-20260425",
+  "project_id": "fitness-app-mvp",
+  "skill_calls": [
+    {
+      "skill": "project-preference-cache-manager",
+      "steward": "learning-steward",
+      "stage": "learning",
+      "outputs": [
+        "project_preference_cache"
+      ]
+    },
+    {
+      "skill": "product-flow-mapper",
+      "steward": "prd-writing-steward",
+      "stage": "prototype_design",
+      "outputs": [
+        "product_flow_map"
+      ]
+    },
+    {
+      "skill": "low-fi-prototype-designer",
+      "steward": "prd-writing-steward",
+      "stage": "prototype_design",
+      "outputs": [
+        "prototype_preview"
+      ]
+    }
+  ],
+  "mcp_calls": [],
+  "source_traces": [
+    {
+      "source_url": "conversation://approve-plan-first-training-execution",
+      "source_type": "user_feedback",
+      "collected_at": "2026-04-25",
+      "extracted_by": "project-preference-cache-manager",
+      "confidence": "high",
+      "human_verification_required": true
+    }
+  ]
+}

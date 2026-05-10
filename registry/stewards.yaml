@@ -202,7 +202,11 @@ efficiency:
       - inspect_skill_call_count
       - inspect_mcp_call_count
       - detect_repeated_outputs
+      - classify_waste_type
+      - assign_efficiency_owner
       - propose_skill_optimization
+      - retest_optimization_effect
+      - record_efficiency_ledger
     reports_to:
       - pm-copilot-chief
       - user
@@ -212,3 +216,11 @@ efficiency:
       - update_memory
       - lower_quality_thresholds
       - approve_own_proposals
+      - decide_quality_standards
+      - bypass_risk_review
+      - bypass_acceptance_standards
+      - delete_required_evidence
+      - break_downstream_inputs
+      - change_long_term_rules
+      - approve_skill_silencing
+      - approve_architecture_changes

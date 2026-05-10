@@ -1,0 +1,4 @@
+interface:
+  display_name: "Development Test Agent"
+  short_description: "Scoped Codex development and testing"
+  default_prompt: "Use $architecture-development-agent to execute development and tests from an approved PRD or Codex development document."

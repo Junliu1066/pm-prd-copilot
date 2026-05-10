@@ -1,0 +1,19 @@
+{
+  "project_id": "fitness-app-mvp",
+  "status": "active",
+  "active_cache_id": "cache-20260424T000000+0800",
+  "active_cache_path": "memory-cache/projects/fitness-app-mvp/cache-20260424T000000+0800",
+  "created_at": "2026-04-24T00:00:00+08:00",
+  "updated_at": "2026-04-25T00:00:01+08:00",
+  "policy": {
+    "scope": "project_only",
+    "candidate_requires_approval": true,
+    "cleared_cache_must_not_be_used": true,
+    "do_not_store_secrets": true,
+    "cross_project_reuse_allowed": false,
+    "long_term_memory_requires_user_approval": true,
+    "archive_alignment_required": true,
+    "clear_after_project_archive_alignment": true,
+    "store_in_project_closeout": true
+  }
+}

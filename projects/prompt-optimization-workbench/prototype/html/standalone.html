@@ -1,0 +1,1871 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Prompt 优化工作台 HTML 原型</title>
+    <style>
+:root {
+  --blue: #1664ff;
+  --blue-50: #eef5ff;
+  --green: #12a66a;
+  --green-50: #eaf8f1;
+  --orange: #f59e0b;
+  --orange-50: #fff7ed;
+  --red: #ef4444;
+  --red-50: #fff1f2;
+  --purple: #7c3aed;
+  --purple-50: #f3edff;
+  --text: #172033;
+  --muted: #667085;
+  --line: #dde5f1;
+  --soft: #f6f8fc;
+  --card: #fff;
+  --shadow: 0 16px 42px rgba(31, 41, 55, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: #f7f9fd;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  min-height: 34px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+  cursor: pointer;
+}
+
+button:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.primary {
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #fff;
+}
+
+.primary:hover {
+  color: #fff;
+  filter: brightness(0.96);
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 176px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 14px 10px;
+  border-right: 1px solid var(--line);
+  background: #fff;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  font-size: 13px;
+}
+
+.logo {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  background: var(--blue);
+  color: #fff;
+  font-weight: 800;
+}
+
+.side-nav {
+  display: grid;
+  gap: 4px;
+}
+
+.side-nav button {
+  justify-content: flex-start;
+  min-height: 38px;
+  border: 0;
+  background: transparent;
+  color: #344054;
+  text-align: left;
+}
+
+.side-nav button::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  margin-right: 9px;
+  border: 1px solid #98a2b3;
+  border-radius: 4px;
+  display: inline-block;
+  vertical-align: -2px;
+}
+
+.side-nav button.active {
+  background: #edf4ff;
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.side-nav button.active::before {
+  border-color: var(--blue);
+  background: var(--blue);
+}
+
+.collapse {
+  margin-top: auto;
+}
+
+.main {
+  min-width: 0;
+  padding: 0 22px 36px;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 250px minmax(220px, 1fr) auto;
+  gap: 18px;
+  align-items: center;
+  min-height: 58px;
+  margin: 0 -22px 18px;
+  padding: 10px 22px;
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.search {
+  position: relative;
+}
+
+.search span {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #98a2b3;
+  font-size: 12px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+}
+
+textarea {
+  min-height: 120px;
+  padding: 12px;
+  resize: vertical;
+}
+
+.search input {
+  padding-left: 46px;
+}
+
+.top-actions,
+.filters,
+.toolbar,
+.quick-grid,
+.tabs,
+.form-grid,
+.provider-cards,
+.queue-stats,
+.case-compare,
+.candidate-metrics {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.icon-btn {
+  width: 34px;
+  padding: 0;
+  color: var(--red);
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+.stat-grid {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.stat-grid.four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.stat-grid.five {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.stat-grid.compact .stat-card {
+  min-height: 88px;
+}
+
+.stat-card,
+.panel,
+.candidate {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--card);
+  box-shadow: var(--shadow);
+}
+
+.stat-card {
+  min-height: 96px;
+  display: grid;
+  grid-template-columns: 46px 1fr;
+  gap: 4px 14px;
+  align-items: center;
+  padding: 16px;
+}
+
+.stat-card small {
+  color: var(--muted);
+}
+
+.stat-card strong {
+  font-size: 28px;
+}
+
+.stat-card em {
+  color: var(--green);
+  font-style: normal;
+  font-size: 12px;
+}
+
+.icon {
+  grid-row: span 3;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-weight: 800;
+}
+
+.icon.blue { background: var(--blue-50); color: var(--blue); }
+.icon.green { background: var(--green-50); color: var(--green); }
+.icon.orange { background: var(--orange-50); color: var(--orange); }
+.icon.purple { background: var(--purple-50); color: var(--purple); }
+
+.panel {
+  margin-bottom: 16px;
+  padding: 16px;
+  min-width: 0;
+}
+
+.panel header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.stack-title {
+  display: grid;
+  gap: 8px;
+}
+
+.stack-title p {
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.panel h2,
+.panel h3 {
+  margin: 0;
+}
+
+.panel h2 {
+  font-size: 18px;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.content-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.content-grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.content-grid.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.content-grid.two-right {
+  grid-template-columns: minmax(0, 1fr) 330px;
+}
+
+.content-grid.sidebar-left {
+  grid-template-columns: 230px minmax(0, 1fr);
+}
+
+.content-grid.models-grid {
+  grid-template-columns: minmax(0, 1fr) 300px;
+  align-items: start;
+}
+
+.settings-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 290px;
+  gap: 16px;
+  align-items: start;
+}
+
+.main-stack,
+.settings-main,
+.side-stack {
+  min-width: 0;
+}
+
+.side-stack {
+  display: grid;
+  gap: 16px;
+  align-content: start;
+}
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-wrap.short {
+  max-height: 260px;
+  overflow: auto;
+}
+
+table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 13px;
+}
+
+th,
+td {
+  padding: 11px 12px;
+  border-bottom: 1px solid #e9eef6;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+th {
+  color: #475467;
+  background: #f8fafc;
+}
+
+tr.selected,
+tbody tr:hover {
+  background: #f5f9ff;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #eef2f7;
+  color: #475467;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.pill.good,
+.good-text {
+  background: var(--green-50);
+  color: var(--green);
+}
+
+.pill.warn,
+.warn-text {
+  background: var(--orange-50);
+  color: var(--orange);
+}
+
+.pill.danger,
+.danger {
+  background: var(--red-50);
+  color: var(--red);
+}
+
+.tabs {
+  flex-wrap: wrap;
+  margin: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.tabs button {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+}
+
+.tabs button.active {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+  font-weight: 700;
+}
+
+.tabs.wide {
+  justify-content: flex-start;
+  margin-bottom: 16px;
+}
+
+.toolbar {
+  flex-wrap: wrap;
+  margin: 10px 0 14px;
+}
+
+.toolbar input,
+.filters input,
+.filters select {
+  max-width: 260px;
+}
+
+.kv-list,
+.timeline,
+.check-list,
+.task-list,
+.category-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kv-list li,
+.task-list li,
+.category-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid #edf1f7;
+}
+
+.check-list {
+  padding-left: 18px;
+  list-style: disc;
+  color: #344054;
+}
+
+.timeline li {
+  padding: 8px 0 8px 18px;
+  border-left: 2px solid #d8e4f5;
+  color: #475467;
+}
+
+.form-grid {
+  display: grid;
+  align-items: end;
+}
+
+.form-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.form-grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.form-grid.five { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.form-grid.six { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+
+label {
+  display: grid;
+  gap: 6px;
+  color: #475467;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.full-field {
+  margin-top: 16px;
+}
+
+.code-sample {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #0f172a;
+  color: #e5edff;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.insight-list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.decision-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 10px 0 14px;
+}
+
+.decision-row button {
+  min-height: 40px;
+}
+
+.decision-row button.selected {
+  border-color: var(--blue);
+  background: var(--blue-50);
+  color: var(--blue);
+  font-weight: 800;
+}
+
+.field-group {
+  display: grid;
+  gap: 8px;
+  color: #475467;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.check-inline {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  margin-right: 8px;
+  font-weight: 600;
+}
+
+.check-inline input {
+  width: auto;
+  min-height: auto;
+}
+
+.user-row {
+  display: grid;
+  grid-template-columns: 58px 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.avatar {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #111827;
+  color: #fff;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: 8px 12px;
+  margin: 0;
+}
+
+dt {
+  color: var(--muted);
+}
+
+dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.progress-list {
+  display: grid;
+  gap: 12px;
+}
+
+.progress-list span,
+.bar {
+  display: block;
+  height: 8px;
+  border-radius: 999px;
+  background: #e9eef6;
+  position: relative;
+}
+
+.progress-list span {
+  height: auto;
+  padding-bottom: 14px;
+  color: var(--muted);
+}
+
+.progress-list b,
+.bar b {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 8px;
+  border-radius: inherit;
+  background: var(--blue);
+}
+
+.filter-side {
+  position: sticky;
+  top: 76px;
+}
+
+.detail-panel {
+  min-height: 240px;
+}
+
+.module-anchor {
+  scroll-margin-top: 82px;
+}
+
+.module-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.module-card-grid section {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fbfcff;
+}
+
+.module-card-grid p {
+  color: var(--muted);
+}
+
+.version-card dl {
+  margin-bottom: 14px;
+}
+
+.pass-badge {
+  margin: 8px 0 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: var(--green-50);
+  color: var(--green);
+  font-weight: 800;
+  text-align: center;
+}
+
+.case-compare {
+  align-items: stretch;
+}
+
+.case-compare section {
+  flex: 1;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.candidates {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) 280px;
+}
+
+.candidate {
+  padding: 16px;
+}
+
+.candidate.selected {
+  border-color: var(--green);
+  background: #fbfffd;
+}
+
+.tag {
+  color: var(--green);
+  font-weight: 800;
+}
+
+.candidate-metrics {
+  justify-content: space-between;
+  margin: 18px 0;
+}
+
+.circle-score,
+.big-score {
+  display: grid;
+  place-items: center;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  margin: 12px auto;
+  background: conic-gradient(var(--blue) 0 72%, #e8eef8 72% 100%);
+  color: var(--blue);
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.big-score {
+  background: #eef5ff;
+  font-size: 42px;
+}
+
+.radar {
+  width: 160px;
+  height: 130px;
+  margin: 10px auto;
+  clip-path: polygon(50% 0, 95% 35%, 78% 100%, 22% 100%, 5% 35%);
+  background: linear-gradient(135deg, rgba(22, 100, 255, 0.16), rgba(22, 100, 255, 0.42));
+  border: 2px solid var(--blue);
+}
+
+.donut {
+  width: 132px;
+  height: 132px;
+  display: grid;
+  place-items: center;
+  margin: 12px auto;
+  border-radius: 50%;
+  background: conic-gradient(var(--green) 0 78%, var(--red) 78% 100%);
+}
+
+.donut span {
+  width: 74px;
+  height: 74px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #fff;
+  font-weight: 900;
+}
+
+.queue-stats {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin-bottom: 12px;
+}
+
+.queue-stats span {
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+}
+
+.queue-stats b {
+  display: block;
+  color: var(--text);
+  font-size: 22px;
+}
+
+.provider-cards {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.provider-cards button {
+  min-height: 116px;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  padding: 14px;
+}
+
+.provider-cards span {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--blue-50);
+  color: var(--blue);
+  font-weight: 900;
+}
+
+.model-defaults label {
+  margin-bottom: 16px;
+}
+
+.model-defaults button {
+  width: 100%;
+}
+
+.empty-state {
+  min-height: 360px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.editor-box {
+  min-height: 360px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fbfcff;
+  color: #25324a;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 14px;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 50;
+  transform: translateX(-50%);
+  padding: 12px 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #111827;
+  color: #fff;
+  box-shadow: var(--shadow);
+}
+
+.toast[hidden] {
+  display: none;
+}
+
+.editing {
+  outline: 2px solid var(--blue);
+  background: var(--blue-50);
+  border-radius: 4px;
+}
+
+@media (max-width: 1180px) {
+  .app-shell {
+    grid-template-columns: 150px minmax(0, 1fr);
+  }
+
+  .topbar,
+  .content-grid.two,
+  .content-grid.three,
+  .content-grid.two-right,
+  .content-grid.sidebar-left,
+  .content-grid.models-grid,
+  .module-card-grid,
+  .settings-layout,
+  .candidates {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-grid.four,
+  .stat-grid.five,
+  .form-grid.three,
+  .form-grid.four,
+  .form-grid.five,
+  .form-grid.six,
+  .queue-stats,
+  .provider-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    display: block;
+  }
+
+  .sidebar {
+    position: relative;
+    height: auto;
+  }
+
+  .main {
+    padding: 0 12px 24px;
+  }
+
+  .topbar,
+  .stat-grid.four,
+  .stat-grid.five,
+  .form-grid.three,
+  .form-grid.four,
+  .form-grid.five,
+  .form-grid.six,
+  .queue-stats,
+  .provider-cards,
+  .user-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+    </style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="logo">P</span>
+          <strong class="editable">Prompt 优化工作台</strong>
+        </div>
+        <nav class="side-nav" aria-label="主导航">
+          <button data-route="dashboard">Dashboard</button>
+          <button data-route="prompts">Prompts</button>
+          <button data-route="datasets" class="active">Datasets</button>
+          <button data-route="models">Models</button>
+          <button data-route="runs">Runs</button>
+          <button data-route="review">Review</button>
+          <button data-route="evaluations">Evaluations</button>
+          <button data-route="optimize">Optimize</button>
+          <button data-route="compare">Compare</button>
+          <button data-route="knowledge">Knowledge</button>
+          <button data-route="settings">Settings</button>
+        </nav>
+        <button class="collapse" data-action="toast" data-message="侧边栏可在真实产品中折叠">收起侧栏</button>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <h1 id="pageTitle" class="editable">Datasets 页面</h1>
+          <label class="search">
+            <span>搜索</span>
+            <input placeholder="搜索 Prompts、Runs、Datasets...">
+          </label>
+          <div class="top-actions">
+            <button class="primary" data-route="runs">新建 Run</button>
+            <button data-route="prompt-create">创建 Prompt</button>
+            <button class="icon-btn" data-action="toast" data-message="暂无新通知">●</button>
+            <button data-action="toast" data-message="已打开用户菜单">张三</button>
+          </div>
+        </header>
+
+        <section class="screen" data-screen="dashboard">
+          <div class="stat-grid four">
+            <article class="stat-card"><span class="icon blue">R</span><small>今日 Run</small><strong>42</strong><em>较昨日 +12%</em></article>
+            <article class="stat-card"><span class="icon green">E</span><small>评测任务</small><strong>18</strong><em>待处理 3 个</em></article>
+            <article class="stat-card"><span class="icon orange">F</span><small>高风险 Case</small><strong>37</strong><em>需优先优化</em></article>
+            <article class="stat-card"><span class="icon purple">P</span><small>Prompt 版本</small><strong>126</strong><em>本周新增 8 个</em></article>
+          </div>
+          <div class="content-grid two">
+            <article class="panel">
+              <header><h2>工作台待办</h2><button data-route="evaluations">查看评测</button></header>
+              <ul class="task-list">
+                <li><b>商标侵权判断助手 v1.8 评测复盘</b><span class="pill warn">高优先级</span></li>
+                <li><b>候选 Prompt A 回归测试</b><span class="pill good">进行中</span></li>
+                <li><b>知识库失败模式沉淀</b><span class="pill">待处理</span></li>
+              </ul>
+            </article>
+            <article class="panel">
+              <header><h2>快捷入口</h2></header>
+              <div class="quick-grid">
+                <button data-route="datasets">管理 Datasets</button>
+                <button data-route="review">人工 Review</button>
+                <button data-route="optimize">进入 Optimize</button>
+                <button data-route="compare">版本 Compare</button>
+                <button data-route="models">模型设置</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="screen active" data-screen="datasets">
+          <div class="stat-grid four">
+            <article class="stat-card"><span class="icon blue">D</span><small>测试集总数</small><strong>26</strong><em>较上周 +8%</em></article>
+            <article class="stat-card"><span class="icon green">C</span><small>Case 总数</small><strong>12,842</strong><em>较上周 +12.5%</em></article>
+            <article class="stat-card"><span class="icon orange">!</span><small>风险 Case 数量</small><strong>1,328</strong><em>占比 10.33%</em></article>
+            <article class="stat-card"><span class="icon purple">✓</span><small>已配置评分规则</small><strong>18</strong><em>占比 69.2%</em></article>
+          </div>
+
+          <article class="panel">
+            <header><h2>测试集列表</h2><div class="filters"><input placeholder="搜索测试集名称、标签"><select><option>任务类型：全部</option></select><button data-action="toast" data-message="已刷新列表">刷新</button></div></header>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>测试集名称</th><th>任务类型</th><th>Case 数量</th><th>风险 Case 数量</th><th>最近更新时间</th><th>操作</th></tr></thead>
+                <tbody>
+                  <tr class="selected"><td>商标侵权覆盖测试集</td><td><span class="pill good">商标侵权判断</span></td><td>2,048</td><td><span class="danger">345（12.8%）</span></td><td>2024-05-24 10:30</td><td><button data-action="dataset-view" data-dataset="trademark">查看</button><button data-action="dataset-edit" data-dataset="trademark">编辑</button></td></tr>
+                  <tr><td>合同风险评测样本</td><td>合同审核</td><td>1,890</td><td>89（5.0%）</td><td>2024-05-23 16:40</td><td><button data-action="dataset-view" data-dataset="contract">查看</button><button data-action="dataset-more" data-dataset="contract">更多</button></td></tr>
+                  <tr><td>客服问答合规测试集</td><td>客服问答</td><td>1,256</td><td>97（7.7%）</td><td>2024-05-21 14:00</td><td><button data-action="dataset-view" data-dataset="service">查看</button><button data-action="dataset-more" data-dataset="service">更多</button></td></tr>
+                  <tr><td>法律咨询边界测试集</td><td>法律咨询</td><td>3,312</td><td>221（6.7%）</td><td>2024-05-21 09:11</td><td><button data-action="dataset-view" data-dataset="legal">查看</button><button data-action="dataset-more" data-dataset="legal">更多</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <div class="content-grid two-right">
+            <article class="panel">
+              <header><h2>商标侵权覆盖测试集</h2><button data-action="toast" data-message="测试集信息已保存">保存变更</button></header>
+              <p class="muted editable">用于评估商标侵权判断助手在近似商标、商品类别、混淆可能性与法律依据方面的表现。</p>
+              <nav class="tabs"><button class="active">Dataset Overview</button><button>Cases</button><button>Rules</button><button>Import/Export</button></nav>
+              <div class="toolbar"><button class="primary" data-action="toast" data-message="已新增 Case">新增 Case</button><button data-action="toast" data-message="已导入样本">批量导入</button><button data-action="toast" data-message="已删除选中项">删除</button><input placeholder="搜索 Case ID、关键词、标签"></div>
+              <div class="table-wrap short">
+                <table>
+                  <thead><tr><th>Case ID</th><th>输入内容</th><th>标准答案</th><th>风险等级</th><th>评分项</th><th>星标</th></tr></thead>
+                  <tbody>
+                    <tr><td>CASE-0001</td><td>某品牌文字与图形近似判断...</td><td>高风险</td><td><span class="pill danger">高风险</span></td><td>5 项</td><td>★</td></tr>
+                    <tr><td>CASE-0002</td><td>商品类别与服务类别冲突...</td><td>中风险</td><td><span class="pill warn">中风险</span></td><td>5 项</td><td>☆</td></tr>
+                    <tr><td>CASE-0003</td><td>判断读音与含义是否近似...</td><td>中风险</td><td><span class="pill warn">中风险</span></td><td>5 项</td><td>☆</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+            <aside class="side-stack">
+              <article class="panel"><header><h2>评分规则配置</h2><button>查看全部规则</button></header><ul class="kv-list"><li><span>准确性</span><b>0.30</b></li><li><span>完整性</span><b>0.20</b></li><li><span>合规性</span><b>0.20</b></li><li><span>安全性</span><b>0.15</b></li><li><span>相关性</span><b>0.15</b></li></ul></article>
+              <article class="panel"><header><h2>导入 / 导出</h2></header><div class="quick-grid"><button data-action="toast" data-message="已导入 Case">导入 Case</button><button data-action="toast" data-message="已导出 Case">导出 Case</button></div></article>
+              <article class="panel"><header><h2>导入历史</h2></header><ul class="timeline"><li>商标侵权新增样本_20240524.xlsx</li><li>近似商标 Case 补充_20240520.csv</li><li>高风险样本修订_20240518.xlsx</li></ul></article>
+            </aside>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="dataset-detail">
+          <article class="panel detail-hero-panel">
+            <header>
+              <div class="stack-title">
+                <button data-route="datasets">返回 Datasets</button>
+                <h2 data-dataset-field="name">商标侵权覆盖测试集</h2>
+                <p class="muted" data-dataset-field="description">用于评估商标侵权判断助手在近似商标、商品类别、混淆可能性与法律依据方面的表现。</p>
+              </div>
+              <div class="header-actions">
+                <button data-action="dataset-edit-current">编辑测试集</button>
+                <button class="primary" data-route="evaluations">发起评测</button>
+              </div>
+            </header>
+            <div class="stat-grid four compact">
+              <article class="stat-card"><span class="icon blue">ID</span><small>Dataset ID</small><strong data-dataset-field="id">DST-0001</strong><em data-dataset-field="status">已启用</em></article>
+              <article class="stat-card"><span class="icon green">C</span><small>Case 数量</small><strong data-dataset-field="cases">2,048</strong><em data-dataset-field="updated">2024-05-24 10:30</em></article>
+              <article class="stat-card"><span class="icon orange">!</span><small>风险 Case</small><strong data-dataset-field="risk">345</strong><em data-dataset-field="riskRate">12.8%</em></article>
+              <article class="stat-card"><span class="icon purple">R</span><small>评分规则</small><strong>5</strong><em>已配置</em></article>
+            </div>
+          </article>
+          <div class="content-grid two-right">
+            <section class="main-stack">
+              <article class="panel">
+                <header><h2>Case 明细</h2><div class="filters"><input placeholder="搜索 Case ID / 内容 / 标签"><button data-action="toast" data-message="已筛选 Case">筛选</button></div></header>
+                <div class="table-wrap">
+                  <table>
+                    <thead><tr><th>Case ID</th><th>输入摘要</th><th>标准答案</th><th>风险等级</th><th>最近评测</th><th>操作</th></tr></thead>
+                    <tbody id="datasetCaseRows">
+                      <tr><td>CASE-0001</td><td>文字与图形近似判断</td><td>高风险</td><td><span class="pill danger">高风险</span></td><td>38 / 100</td><td><button data-route="evaluations">查看评测</button></td></tr>
+                      <tr><td>CASE-0002</td><td>商品类别与服务冲突</td><td>中风险</td><td><span class="pill warn">中风险</span></td><td>68 / 100</td><td><button data-route="evaluations">查看评测</button></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </article>
+              <article class="panel">
+                <header><h2>评分规则与导入历史</h2><button data-action="dataset-edit-current">编辑规则</button></header>
+                <div class="content-grid two">
+                  <ul class="kv-list"><li><span>准确性</span><b>0.30</b></li><li><span>完整性</span><b>0.20</b></li><li><span>合规性</span><b>0.20</b></li><li><span>安全性</span><b>0.15</b></li><li><span>相关性</span><b>0.15</b></li></ul>
+                  <ul class="timeline" id="datasetHistoryRows"><li>商标侵权新增样本_20240524.xlsx</li><li>近似商标 Case 补充_20240520.csv</li><li>高风险样本修订_20240518.xlsx</li></ul>
+                </div>
+              </article>
+            </section>
+            <aside class="side-stack">
+              <article class="panel"><header><h2>基础信息</h2></header><ul class="kv-list"><li><span>任务类型</span><b data-dataset-field="type">商标侵权判断</b></li><li><span>负责人</span><b data-dataset-field="owner">张三</b></li><li><span>更新时间</span><b data-dataset-field="updated">2024-05-24 10:30</b></li><li><span>标签</span><b data-dataset-field="tags">商标、近似、法务</b></li></ul></article>
+              <article class="panel"><header><h2>快捷操作</h2></header><div class="quick-grid one"><button data-action="dataset-edit-current">编辑测试集</button><button data-action="toast" data-message="已导出当前测试集">导出测试集</button><button data-route="optimize">进入 Optimize</button><button data-route="compare">进入 Compare</button></div></article>
+            </aside>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="dataset-edit">
+          <article class="panel">
+            <header>
+              <div class="stack-title">
+                <button data-route="dataset-detail">返回详情</button>
+                <h2>编辑测试集</h2>
+                <p class="muted">修改测试集基础信息、评分规则与导入导出策略。</p>
+              </div>
+              <button class="primary" data-action="save-dataset">保存变更</button>
+            </header>
+            <div class="form-grid three">
+              <label>测试集名称<input data-dataset-input="name" value="商标侵权覆盖测试集"></label>
+              <label>任务类型<select data-dataset-input="type"><option>商标侵权判断</option><option>合同审核</option><option>客服问答</option><option>法律咨询</option></select></label>
+              <label>负责人<input data-dataset-input="owner" value="张三"></label>
+              <label>状态<select data-dataset-input="status"><option>已启用</option><option>草稿</option><option>暂停</option></select></label>
+              <label>标签<input data-dataset-input="tags" value="商标、近似、法务"></label>
+              <label>最近更新时间<input data-dataset-input="updated" value="2024-05-24 10:30"></label>
+            </div>
+            <label class="full-field">说明<textarea data-dataset-input="description">用于评估商标侵权判断助手在近似商标、商品类别、混淆可能性与法律依据方面的表现。</textarea></label>
+          </article>
+          <div class="content-grid two">
+            <article class="panel"><header><h2>评分权重</h2></header><div class="form-grid five"><label>准确性<input value="30%"></label><label>完整性<input value="20%"></label><label>合规性<input value="20%"></label><label>安全性<input value="15%"></label><label>相关性<input value="15%"></label></div></article>
+            <article class="panel"><header><h2>导入 / 导出设置</h2></header><div class="form-grid three"><label>导入模板<select><option>标准 Case 模板</option></select></label><label>去重策略<select><option>按 Case ID 去重</option></select></label><label>导出格式<select><option>Excel</option><option>CSV</option></select></label></div></article>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="settings">
+          <div class="settings-layout">
+            <div class="settings-main">
+              <article class="panel user-info"><header><h2>用户信息</h2><button data-action="toast" data-message="资料已更新">编辑资料</button></header><div class="user-row"><div class="avatar">张</div><dl><dt>姓名</dt><dd>张三</dd><dt>邮箱</dt><dd>zhangsan@example.com</dd><dt>角色</dt><dd>Prompt 优化配置</dd></dl><dl><dt>用户角色</dt><dd>系统管理员</dd><dt>登入时间</dt><dd>2024-03-12 09:15</dd><dt>最后登录</dt><dd>2024-05-20 11:06:32</dd></dl></div></article>
+              <article class="panel"><header><h2>默认参数</h2></header><div class="form-grid five"><label>Temperature<input value="0.70"></label><label>Top P<input value="0.90"></label><label>Max Tokens<input value="2048"></label><label>重试次数<input value="2"></label><label>超时时间<input value="60"></label></div></article>
+              <article class="panel"><header><h2>模型默认配置</h2></header><div class="form-grid three"><label>默认模型<select><option>GPT-4o</option></select></label><label>默认评测模型<select><option>GPT-4o-mini</option></select></label><label>默认优化模型<select><option>GPT-4o</option></select></label></div></article>
+              <article class="panel"><header><h2>评测配置</h2></header><div class="form-grid five"><label>准确性<input value="30%"></label><label>完整性<input value="25%"></label><label>相关性<input value="20%"></label><label>安全性<input value="15%"></label><label>合规性<input value="10%"></label></div></article>
+              <article class="panel"><header><h2>导出与日志设置</h2></header><div class="form-grid four"><label>报告模板<select><option>标准评测报告模板</option></select></label><label>导出格式<select><option>PDF</option></select></label><label>日志保留<select><option>90 天</option></select></label><label>审计日志<select><option>启用</option></select></label></div></article>
+            </div>
+            <aside class="side-stack">
+              <article class="panel"><header><h2>系统概览</h2></header><ul class="kv-list"><li><span>当前环境</span><b>生产环境</b></li><li><span>应用版本</span><b>v1.8.0</b></li><li><span>运行时间</span><b>31 天 4 小时</b></li></ul></article>
+              <article class="panel"><header><h2>系统状态</h2></header><ul class="check-list"><li>API 服务 正常</li><li>评测服务 正常</li><li>模型服务 正常</li><li>任务队列 正常</li></ul></article>
+              <article class="panel"><header><h2>资源使用</h2></header><div class="progress-list"><span>CPU 使用率 <b style="width:62%"></b></span><span>内存使用率 <b style="width:48%"></b></span><span>存储使用率 <b style="width:24%"></b></span></div></article>
+              <article class="panel"><header><h2>快捷操作</h2></header><div class="quick-grid one"><button>备份系统配置</button><button>查看系统审计</button><button>重置为默认设置</button></div></article>
+            </aside>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="knowledge">
+          <div class="stat-grid five">
+            <article class="stat-card"><span class="icon orange">!</span><small>失败模式集合数量</small><strong>128</strong><em>较上周 +18%</em></article>
+            <article class="stat-card"><span class="icon green">R</span><small>行业规则数</small><strong>236</strong><em>较上周 +5%</em></article>
+            <article class="stat-card"><span class="icon purple">F</span><small>few-shot 样例数</small><strong>512</strong><em>较上周 +22%</em></article>
+            <article class="stat-card"><span class="icon orange">B</span><small>优化实践数</small><strong>167</strong><em>较上周 +15%</em></article>
+            <article class="stat-card"><span class="icon blue">S</span><small>Skill 候选数</small><strong>89</strong><em>较上周 +8%</em></article>
+          </div>
+          <nav class="tabs wide">
+            <button class="active" data-module-target="knowledge-rules">规则库</button>
+            <button data-module-target="knowledge-examples">样例库</button>
+            <button data-module-target="knowledge-failures">失败模式库</button>
+            <button data-module-target="knowledge-practices">最佳实践</button>
+            <button data-module-target="knowledge-skills">Skill 候选池</button>
+          </nav>
+          <div class="content-grid sidebar-left">
+            <aside class="panel filter-side"><header><h2>分类与筛选</h2></header><input placeholder="搜索知识条目"><ul class="category-list"><li>通用规则 <b>64</b></li><li>电商与客服 <b>42</b></li><li>金融风控 <b>38</b></li><li>法律与合规 <b>31</b></li><li>内容生成 <b>29</b></li></ul></aside>
+            <section class="main-stack">
+              <article class="panel module-anchor" id="knowledge-rules"><header><h2>规则库条目（236）</h2><div class="filters"><input placeholder="搜索规则标题"><button data-action="toast" data-message="已导入规则">导入</button><button data-action="toast" data-message="已导出规则">导出</button></div></header><div class="table-wrap"><table><thead><tr><th>标题</th><th>类型</th><th>标签</th><th>适用场景</th><th>最后更新时间</th><th>操作</th></tr></thead><tbody><tr><td>使用明确的指令动词可提高执行准确性</td><td>规则</td><td>指令增强</td><td>通用生成</td><td>2024-05-20 11:32</td><td><button data-action="knowledge-view" data-knowledge="instruction">查看</button></td></tr><tr><td>输出指定 JSON 字段，避免自由文本</td><td>规则</td><td>格式约束</td><td>数据处理</td><td>2024-05-19 10:45</td><td><button data-action="knowledge-view" data-knowledge="json">查看</button></td></tr><tr><td>先给结论再解释，可提升可读性</td><td>规则</td><td>结构优化</td><td>问答场景</td><td>2024-05-18 17:21</td><td><button data-action="knowledge-view" data-knowledge="conclusion">查看</button></td></tr></tbody></table></div></article>
+              <article class="panel detail-panel"><header><h2>使用明确的指令动词提高执行准确性</h2><button data-action="toast" data-message="知识条目已收藏">收藏</button></header><p class="editable">在 Prompt 中使用“识别、判断、分类、提取、输出”等明确动词，可降低模型理解偏差。</p><div class="content-grid two"><div><h3>适用条件</h3><ul class="check-list"><li>任务目标明确</li><li>输出格式稳定</li><li>需要降低歧义</li></ul></div><div><h3>关联资源</h3><ul class="timeline"><li>关联 Prompt：PPT-20240518-0034</li><li>关联 Dataset：DST-20240520-0021</li><li>关联失败模式：FM-20240506-0012</li></ul></div></div></article>
+              <article class="panel module-anchor" id="knowledge-examples">
+                <header><h2>样例库（512）</h2><button data-action="toast" data-message="已新增样例">新增样例</button></header>
+                <div class="module-card-grid">
+                  <section><h3>商标近似判断样例</h3><p>输入商标名称、类别、图形描述，输出风险等级与判断依据。</p><button data-route="prompt-create">使用同类样例</button></section>
+                  <section><h3>客服拒答边界样例</h3><p>覆盖退款承诺、隐私信息、敏感问题等常见边界场景。</p><button data-route="datasets">查看关联 Dataset</button></section>
+                  <section><h3>合同条款抽取样例</h3><p>示例包含付款周期、违约责任、争议解决与风险提示。</p><button data-route="evaluations">查看评测影响</button></section>
+                </div>
+              </article>
+              <article class="panel module-anchor" id="knowledge-failures">
+                <header><h2>失败模式库（128）</h2><button data-action="toast" data-message="已导出失败模式">导出失败模式</button></header>
+                <div class="table-wrap">
+                  <table><thead><tr><th>失败模式</th><th>触发场景</th><th>影响</th><th>建议动作</th><th>操作</th></tr></thead><tbody><tr><td>法律依据不足</td><td>商标侵权判断</td><td>高</td><td>补充判例与规则</td><td><button data-route="optimize">进入 Optimize</button></td></tr><tr><td>输出格式漂移</td><td>批量评测</td><td>中</td><td>增加 JSON 约束</td><td><button data-action="knowledge-view" data-knowledge="json">查看规则</button></td></tr><tr><td>结论位置不稳定</td><td>问答场景</td><td>中</td><td>采用结论优先结构</td><td><button data-action="knowledge-view" data-knowledge="conclusion">查看规则</button></td></tr></tbody></table>
+                </div>
+              </article>
+              <article class="panel module-anchor" id="knowledge-practices">
+                <header><h2>最佳实践（167）</h2><button data-action="toast" data-message="已收藏最佳实践">收藏</button></header>
+                <div class="module-card-grid">
+                  <section><h3>结论优先</h3><p>复杂判断类任务先给风险等级，再展开依据和建议。</p></section>
+                  <section><h3>边界声明</h3><p>法律、医疗、金融等风险场景明确人工复核边界。</p></section>
+                  <section><h3>样例驱动</h3><p>将高频失败 Case 转成 few-shot 样例进入优化链路。</p></section>
+                </div>
+              </article>
+              <article class="panel module-anchor" id="knowledge-skills">
+                <header><h2>Skill 候选池（89）</h2><button class="primary" data-action="toast" data-message="已生成 Skill 候选说明">生成候选说明</button></header>
+                <div class="table-wrap">
+                  <table><thead><tr><th>候选 Skill</th><th>来源</th><th>适用场景</th><th>成熟度</th><th>下一步</th></tr></thead><tbody><tr><td>商标侵权评测助手</td><td>失败模式沉淀</td><td>法务评测</td><td>高</td><td><button data-route="evaluations">验证</button></td></tr><tr><td>Prompt 结构检查器</td><td>规则库</td><td>Prompt 审核</td><td>中</td><td><button data-route="compare">对比效果</button></td></tr><tr><td>客服拒答样例生成器</td><td>样例库</td><td>客服问答</td><td>中</td><td><button data-route="datasets">补充 Dataset</button></td></tr></tbody></table>
+                </div>
+              </article>
+            </section>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="knowledge-detail">
+          <article class="panel detail-hero-panel">
+            <header>
+              <div class="stack-title">
+                <button data-route="knowledge">返回 Knowledge</button>
+                <h2 data-knowledge-field="title">使用明确的指令动词可提高执行准确性</h2>
+                <p class="muted" data-knowledge-field="summary">在 Prompt 中使用“识别、判断、分类、提取、输出”等明确动词，可降低模型理解偏差。</p>
+              </div>
+              <div class="header-actions">
+                <button data-action="toast" data-message="知识条目已收藏">收藏</button>
+                <button class="primary" data-route="prompt-create">基于此创建 Prompt</button>
+              </div>
+            </header>
+            <div class="stat-grid four compact">
+              <article class="stat-card"><span class="icon blue">K</span><small>知识 ID</small><strong data-knowledge-field="id">K-0001</strong><em data-knowledge-field="type">规则</em></article>
+              <article class="stat-card"><span class="icon green">T</span><small>标签</small><strong data-knowledge-field="tag">指令增强</strong><em>可复用</em></article>
+              <article class="stat-card"><span class="icon purple">S</span><small>适用场景</small><strong data-knowledge-field="scenario">通用生成</strong><em>高频使用</em></article>
+              <article class="stat-card"><span class="icon orange">U</span><small>最后更新</small><strong data-knowledge-field="updated">2024-05-20</strong><em>11:32</em></article>
+            </div>
+          </article>
+          <div class="content-grid two-right">
+            <section class="main-stack">
+              <article class="panel">
+                <header><h2>规则说明</h2><button data-action="toast" data-message="已复制规则内容">复制</button></header>
+                <p class="editable" data-knowledge-field="body">明确动词能让模型更快识别任务边界，例如“识别风险”“判断是否侵权”“提取证据字段”“按 JSON 输出”。避免只写“帮我看看”“分析一下”这类开放表达。</p>
+                <h3>推荐写法</h3>
+                <div class="code-sample" data-knowledge-field="example">请识别输入文本中的商标近似风险，并按风险等级、判断依据、建议动作三个字段输出。</div>
+              </article>
+              <article class="panel">
+                <header><h2>适用条件与收益</h2></header>
+                <div class="content-grid two">
+                  <div><h3>适用条件</h3><ul class="insight-list" id="knowledgeConditionList"><li>任务目标明确</li><li>输出格式稳定</li><li>需要降低歧义</li></ul></div>
+                  <div><h3>预期收益</h3><ul class="insight-list" id="knowledgeBenefitList"><li>减少模型自由发挥</li><li>提高字段输出稳定性</li><li>方便评测规则对齐</li></ul></div>
+                </div>
+              </article>
+            </section>
+            <aside class="side-stack">
+              <article class="panel"><header><h2>关联资源</h2></header><ul class="timeline" id="knowledgeResourceList"><li>关联 Prompt：PPT-20240518-0034</li><li>关联 Dataset：DST-20240520-0021</li><li>关联失败模式：FM-20240506-0012</li></ul></article>
+              <article class="panel"><header><h2>快捷操作</h2></header><div class="quick-grid one"><button data-route="prompt-create">创建 Prompt</button><button data-route="datasets">查看关联 Dataset</button><button data-route="evaluations">查看评测影响</button><button data-route="optimize">进入 Optimize</button></div></article>
+            </aside>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="compare">
+          <article class="panel"><header><h2>版本对比配置</h2><button class="primary" data-action="toast" data-message="已开始对比">查询对比</button></header><div class="form-grid four"><label>对比版本<select><option>v1.1 / v1.2</option></select></label><label>测试集<select><option>商标侵权评测集</option></select></label><label>模型<select><option>gpt-4o-2024-05-13</option></select></label><label>对比时间<input value="2024-05-24"></label></div></article>
+          <div class="stat-grid five"><article class="stat-card"><small>总分提升</small><strong>+6.8</strong><em>85.6 → 92.4</em></article><article class="stat-card"><small>通过率变化</small><strong>+8.7%</strong><em>73.7% → 82.4%</em></article><article class="stat-card"><small>改进 / 退化</small><strong>+36 / -12</strong><em>Case 数</em></article><article class="stat-card"><small>风险 Case 对比</small><strong>-9</strong><em>33 → 24</em></article><article class="stat-card"><small>平均响应时长</small><strong>-0.42s</strong><em>2.31s → 1.89s</em></article></div>
+          <div class="content-grid three">
+            <article class="panel version-card"><header><h2>旧版（v1.1）</h2></header><dl><dt>综合得分</dt><dd>85.6</dd><dt>准确率</dt><dd>72.7%</dd><dt>平均响应时长</dt><dd>2.31s</dd><dt>失败 Case</dt><dd>33</dd></dl><button>查看详情</button></article>
+            <article class="panel version-card"><header><h2>新版（v1.2）</h2></header><dl><dt>综合得分</dt><dd>92.4</dd><dt>准确率</dt><dd>80.4%</dd><dt>平均响应时长</dt><dd>1.89s</dd><dt>失败 Case</dt><dd>24</dd></dl><button>查看详情</button></article>
+            <article class="panel release-card"><header><h2>发布决策建议</h2></header><div class="pass-badge">推荐发布</div><strong>置信度 92%</strong><ul class="check-list"><li>总分提升 +6.8</li><li>通过率提升 +8.7%</li><li>风险 Case 减少 9 个</li></ul><button class="primary" data-action="toast" data-message="已进入发布流程">一键发布新版</button></article>
+          </div>
+          <article class="panel"><header><h2>Case 对比</h2></header><div class="case-compare"><section><h3>改进 Case（+36）</h3><table><tr><td>TC-0007</td><td>输出更完整</td><td class="good-text">+7</td></tr><tr><td>TC-0012</td><td>规则覆盖提升</td><td class="good-text">+8</td></tr></table></section><section><h3>退化 Case（-12）</h3><table><tr><td>TC-0011</td><td>响应变慢</td><td class="danger">-4</td></tr><tr><td>TC-0025</td><td>格式不稳定</td><td class="danger">-5</td></tr></table></section><section><h3>风险 Case（24）</h3><table><tr><td>TC-0009</td><td>证据不足</td><td class="warn-text">中</td></tr><tr><td>TC-0046</td><td>合规风险</td><td class="warn-text">中</td></tr></table></section></div></article>
+        </section>
+
+        <section class="screen" data-screen="optimize">
+          <article class="panel"><header><h2>Optimize Builder</h2><button class="primary" data-action="toast" data-message="已生成候选版本">生成候选版本</button></header><div class="form-grid four"><label>选择待优化 Prompt<select><option>商标侵权判断助手 v1.8</option></select></label><label>选择失败分析结果<select><option>商标侵权判定失败分析_0519</option></select></label><label>选择优化方向<select><option>提升综合得分</option></select></label><div class="field-group"><span>保留模块</span><label class="check-inline"><input type="checkbox" checked> rules</label><label class="check-inline"><input type="checkbox" checked> examples</label></div></div></article>
+          <div class="stat-grid four"><article class="stat-card"><small>目标 Dataset</small><strong>v3.0</strong><em>样本数 300</em></article><article class="stat-card"><small>目标 Model</small><strong>GPT-4o</strong><em>Temp 0.2</em></article><article class="stat-card"><small>基线表现</small><strong>78.6</strong><em>/100</em></article><article class="stat-card"><small>失败率</small><strong>66.7%</strong><em>40 / 120</em></article></div>
+          <div class="content-grid candidates">
+            <article class="candidate selected"><span class="tag">候选版本 A</span><h2>快速版本 A</h2><p>补充相似性判断链路、法律依据和不确定性说明。</p><div class="candidate-metrics"><b>72.5%</b><b>33/120</b><b>86.4</b></div><button class="primary" data-action="toast" data-message="已设为最佳候选">设为最佳候选</button></article>
+            <article class="candidate"><span class="tag">候选版本 B</span><h2>稳健版本 B</h2><p>强调边界条件和人工复核，降低错误结论风险。</p><div class="candidate-metrics"><b>72.5%</b><b>33/120</b><b>83.1</b></div><button>设为最佳候选</button></article>
+            <article class="candidate"><span class="tag">候选版本 C</span><h2>高召回版本 C</h2><p>扩大风险识别范围，适合高风险场景初筛。</p><div class="candidate-metrics"><b>67.5%</b><b>39/120</b><b>79.2</b></div><button>设为最佳候选</button></article>
+            <aside class="panel"><header><h2>Re-test Result</h2></header><div class="circle-score">72.5%</div><ul class="kv-list"><li><span>样本数</span><b>120</b></li><li><span>通过</span><b>87</b></li><li><span>失败</span><b>33</b></li></ul></aside>
+          </div>
+          <article class="panel"><header><h2>最佳候选 / Candidate Detail</h2><button class="primary" data-action="toast" data-message="已保存为候选优化方案">保存为候选优化方案</button></header><div class="content-grid three"><section><h3>推荐版本 A</h3><p>综合得分 86.4，失败 Case 33/120。</p></section><section><h3>关键提升点</h3><ul class="check-list"><li>相似性判断更完整</li><li>法律依据引用更稳定</li><li>边界和人工复核更清晰</li></ul></section><section><h3>风险提示</h3><p class="muted">仍需补充跨类别近似判断样本。</p></section></div></article>
+        </section>
+
+        <section class="screen" data-screen="evaluations">
+          <div class="stat-grid five"><article class="stat-card"><small>总分</small><strong>83.6</strong><em>/100</em></article><article class="stat-card"><small>准确率</small><strong>78.4%</strong><em>较上周 +6.6%</em></article><article class="stat-card"><small>失败 Case 数</small><strong>32</strong><em>/128</em></article><article class="stat-card"><small>正常风险统计</small><strong>12</strong><em>37.5%</em></article><article class="stat-card"><small>格式错误统计</small><strong>20</strong><em>62.5%</em></article></div>
+          <article class="panel"><header><h2>筛选条件</h2><div class="filters"><select><option>Prompt 版本 v1.8</option></select><select><option>Dataset 商标评测集</option></select><select><option>Model GPT-4o</option></select><button class="primary">查询</button></div></header></article>
+          <div class="content-grid three"><article class="panel"><header><h2>Summary</h2></header><div class="big-score">83.6</div><p class="good-text">较上周 +5.2</p></article><article class="panel"><header><h2>Score Breakdown</h2></header><div class="radar"></div><ul class="kv-list"><li><span>准确性</span><b>85.2</b></li><li><span>完整性</span><b>81.7</b></li><li><span>相关性</span><b>78.3</b></li></ul></article><article class="panel"><header><h2>通过 / 失败分布</h2></header><div class="donut"><span>128</span></div><ul class="kv-list"><li><span>通过</span><b>103</b></li><li><span>失败</span><b>25</b></li></ul></article></div>
+          <div class="content-grid two"><article class="panel"><header><h2>失败 Case Top 5</h2><button>查看全部失败 Case</button></header><table><tr><th>Case ID</th><th>问题类型</th><th>得分</th><th>失败原因</th></tr><tr><td>C-20240519-0005</td><td>法律依据缺失</td><td>20</td><td>缺少判例引用</td></tr><tr><td>C-20240519-0002</td><td>描述不完整</td><td>45</td><td>未覆盖读音含义</td></tr></table></article><article class="panel"><header><h2>风险 Case Top 5</h2><button>查看全部风险 Case</button></header><table><tr><th>Case ID</th><th>风险类型</th><th>风险等级</th><th>建议</th></tr><tr><td>C-20240519-0008</td><td>商标近似</td><td>高风险</td><td>人工复核</td></tr><tr><td>C-20240519-0012</td><td>证据不足</td><td>中风险</td><td>补充信息</td></tr></table></article></div>
+          <article class="panel"><header><h2>Case 评分与详情</h2></header><div class="content-grid two"><div class="table-wrap short"><table><tr><th>Case ID</th><th>得分</th><th>风险</th><th>操作</th></tr><tr><td>C-20240519-0008</td><td>38</td><td><span class="pill danger">高风险</span></td><td><button>查看</button></td></tr><tr><td>C-20240519-0009</td><td>68</td><td><span class="pill warn">中风险</span></td><td><button>查看</button></td></tr></table></div><div class="case-detail"><h3>C-20240519-0008</h3><p>模型输出缺少法律依据，且对近似商标判断链路不完整。</p><div class="score-box">扣分 38 / 100</div></div></div></article>
+        </section>
+
+        <section class="screen" data-screen="runs">
+          <article class="panel"><header><h2>Run Builder</h2><button class="primary" data-action="toast" data-message="Run 已启动">开始运行</button></header><div class="form-grid six"><label>选择 Prompt<select><option>商标侵权判断助手 v1.8</option></select></label><label>选择 Dataset<select><option>商标侵权覆盖测试集 v1.0</option></select></label><label>选择 Model<select><option>GPT-4o</option></select></label><label>并发数<input value="5"></label><label>Temperature<input value="0.2"></label><label>Top P<input value="0.9"></label></div></article>
+          <article class="panel"><header><h2>运行队列</h2><button>失败重跑</button></header><div class="queue-stats"><span>总 Case 数 <b>1,000</b></span><span>运行中 <b>3</b></span><span>已完成 <b>7</b></span><span>失败 <b>1</b></span><span>成功率 <b>95.01%</b></span><span>平均延迟 <b>2.31s</b></span></div><table><tr><th>Run ID</th><th>进度</th><th>状态</th><th>模型</th><th>开始时间</th><th>操作</th></tr><tr><td>RUN-20240520-0012</td><td><div class="bar"><b style="width:63%"></b></div></td><td>运行中</td><td>GPT-4o</td><td>2024-05-20 10:26</td><td><button>查看</button></td></tr><tr><td>RUN-20240520-0011</td><td><div class="bar"><b style="width:100%"></b></div></td><td>完成</td><td>Claude-3</td><td>2024-05-20 10:10</td><td><button>详情</button></td></tr></table></article>
+          <div class="content-grid two-right"><article class="panel"><header><h2>Run List</h2></header><table><tr><th>Run ID</th><th>Prompt</th><th>Dataset</th><th>Model</th><th>状态</th><th>得分</th><th>操作</th></tr><tr><td>RUN-20240520-0012</td><td>商标侵权判断助手</td><td>商标评测集</td><td>GPT-4o</td><td><span class="pill">运行中</span></td><td>--</td><td><button>详情</button></td></tr><tr><td>RUN-20240520-0011</td><td>客服问答助手</td><td>客服测试集</td><td>Claude-3</td><td><span class="pill good">已完成</span></td><td>86.30%</td><td><button data-route="review">提交评审</button></td></tr></table></article><aside class="panel"><header><h2>Run Detail</h2><button>关闭</button></header><h3>RUN-20240520-0012</h3><ul class="kv-list"><li><span>总样本</span><b>1,000</b></li><li><span>已完成</span><b>632</b></li><li><span>成功率</span><b>95.11%</b></li><li><span>平均延迟</span><b>2.18s</b></li></ul><h3>运行日志</h3><ul class="timeline"><li>10:15:18 任务启动</li><li>10:18:21 已完成 450 条</li><li>10:21:03 当前成功率 95.11%</li></ul><button class="primary" data-route="review">提交人工评审</button></aside></div>
+        </section>
+
+        <section class="screen" data-screen="review">
+          <article class="panel detail-hero-panel">
+            <header>
+              <div class="stack-title">
+                <h2>人工评审任务：商标侵权判断助手 v1.8</h2>
+                <p class="muted">用于多人对话型 Prompt 的人工评审，包含语境对比、规则检查、打分、评论与最终决策记录。</p>
+              </div>
+              <div class="header-actions">
+                <button data-route="runs">返回 Runs</button>
+                <button class="primary" data-action="review-submit">提交评审</button>
+              </div>
+            </header>
+            <div class="stat-grid four compact">
+              <article class="stat-card"><span class="icon blue">V</span><small>候选版本</small><strong>v1.8</strong><em>待评审</em></article>
+              <article class="stat-card"><span class="icon green">P</span><small>评审进度</small><strong>6 / 9</strong><em>66%</em></article>
+              <article class="stat-card"><span class="icon orange">R</span><small>规则检查</small><strong>24</strong><em>通过 20 条</em></article>
+              <article class="stat-card"><span class="icon purple">S</span><small>我的评分</small><strong id="reviewScoreValue">92</strong><em>/100</em></article>
+            </div>
+          </article>
+          <div class="content-grid two-right">
+            <section class="main-stack">
+              <article class="panel">
+                <header><h2>版本对比与核心指标</h2><button data-route="compare">进入 Compare</button></header>
+                <div class="table-wrap">
+                  <table>
+                    <thead><tr><th>指标</th><th>基准版本 v1.7</th><th>候选版本 v1.8</th><th>变化</th><th>评审关注点</th></tr></thead>
+                    <tbody>
+                      <tr><td>综合得分</td><td>86.5</td><td>92.7</td><td class="good-text">+6.2</td><td>提升是否来自真实 Case 改善</td></tr>
+                      <tr><td>召回率</td><td>88.3%</td><td>93.7%</td><td class="good-text">+5.4%</td><td>高风险 Case 是否漏判</td></tr>
+                      <tr><td>安全性</td><td>90.2%</td><td>96.8%</td><td class="good-text">+6.6%</td><td>合规边界是否过度保守</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </article>
+              <article class="panel">
+                <header><h2>规则检查与 Case 变更示例</h2><button data-route="evaluations">查看评测结果</button></header>
+                <div class="content-grid two">
+                  <div>
+                    <h3>规则检查</h3>
+                    <ul class="check-list"><li>安全合规：通过 20 条，警告 3 条</li><li>输出格式：存在 1 条不稳定样本</li><li>知识引用：2 条 Case 需补充出处</li></ul>
+                  </div>
+                  <div>
+                    <h3>Case 变更示例</h3>
+                    <ul class="timeline"><li>CASE-20240519-0001：法律依据补充完整</li><li>CASE-20240519-0004：结论位置前置</li><li>CASE-20240519-0008：仍需人工复核</li></ul>
+                  </div>
+                </div>
+              </article>
+              <article class="panel">
+                <header><h2>历史评论</h2><button data-action="toast" data-message="已展开全部评论">查看全部意见</button></header>
+                <ul class="timeline">
+                  <li>王五：建议补充近似商标证据要求。</li>
+                  <li>李四：安全性表现不错，建议通过。</li>
+                  <li>张三：保留条件通过，进入回归测试。</li>
+                </ul>
+              </article>
+            </section>
+            <aside class="side-stack">
+              <article class="panel">
+                <header><h2>我的评审操作</h2><span class="pill" id="reviewDecisionStatus">未提交</span></header>
+                <label>综合评分<input id="reviewScoreInput" type="range" min="0" max="100" value="92" data-action="review-score"></label>
+                <h3>决策</h3>
+                <div class="decision-row">
+                  <button data-action="review-decision" data-decision="通过">通过</button>
+                  <button data-action="review-decision" data-decision="有条件通过">有条件通过</button>
+                  <button data-action="review-decision" data-decision="不通过">不通过</button>
+                </div>
+                <label>我的评论<textarea id="reviewComment">整体符合 2 条规则，建议补充证据链要求，并完善输出安全兜底。</textarea></label>
+                <button class="primary" data-action="review-submit">提交评审</button>
+                <button data-action="review-draft">保存草稿</button>
+              </article>
+              <article class="panel">
+                <header><h2>下一步</h2></header>
+                <div class="quick-grid one">
+                  <button data-route="optimize">返回 Optimize</button>
+                  <button data-route="evaluations">查看评测</button>
+                  <button data-route="knowledge">沉淀知识</button>
+                </div>
+              </article>
+            </aside>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="models">
+          <div class="stat-grid four"><article class="stat-card"><span class="icon blue">DB</span><small>已接入 Provider 数量</small><strong>5</strong><em>较上周 +25%</em></article><article class="stat-card"><span class="icon green">↔</span><small>在线模型连接数</small><strong>18</strong><em>较上周 +12%</em></article><article class="stat-card"><span class="icon purple">★</span><small>默认模型</small><strong>gpt-4o</strong><em>OpenAI</em></article><article class="stat-card"><span class="icon orange">✓</span><small>最近连接测试结果</small><strong>成功</strong><em>95.2%</em></article></div>
+          <article class="panel providers-panel"><header><h2>Providers</h2><button>查看全部 Providers</button></header><div class="provider-cards"><button><span>◎</span><b>OpenAI</b><small>在线 · 6 个模型</small></button><button><span>AI</span><b>Anthropic</b><small>在线 · 4 个模型</small></button><button><span>G</span><b>Google</b><small>在线 · 3 个模型</small></button><button><span>✦</span><b>Qwen</b><small>在线 · 3 个模型</small></button><button><span>A</span><b>Azure OpenAI</b><small>在线 · 2 个模型</small></button></div></article>
+          <div class="content-grid models-grid">
+            <section class="main-stack">
+              <article class="panel"><header><h2>Credentials</h2><button class="primary" data-action="toast" data-message="已打开新增凭证">新增凭证</button></header><div class="table-wrap"><table><thead><tr><th>Provider</th><th>名称</th><th>API Key</th><th>Base URL</th><th>状态</th><th>最近测试时间</th><th>操作</th></tr></thead><tbody><tr><td>OpenAI</td><td>OpenAI 主账号</td><td>sk-****abcd</td><td>https://api.openai.com/v1</td><td><span class="pill good">在线</span></td><td>2024-05-20 11:32</td><td><button>测试连接</button></td></tr><tr><td>OpenAI</td><td>OpenAI 备用</td><td>sk-****efgh</td><td>https://api.openai.com/v1</td><td><span class="pill good">在线</span></td><td>2024-05-20 09:18</td><td><button>测试连接</button></td></tr><tr><td>Anthropic</td><td>Anthropic 主账号</td><td>sk-****ijkl</td><td>https://api.anthropic.com/v1</td><td><span class="pill good">在线</span></td><td>2024-05-20 10:45</td><td><button>测试连接</button></td></tr><tr><td>Azure</td><td>Azure OpenAI 备用</td><td>sk-****yz12</td><td>https://my-aoai2.openai.azure.com</td><td><span class="pill danger">离线</span></td><td>2024-05-19 18:22</td><td><button>测试连接</button></td></tr></tbody></table></div></article>
+              <article class="panel"><header><h2>Logs（最近连接日志）</h2><button>查看全部日志</button></header><div class="table-wrap short"><table><tr><th>时间</th><th>Provider</th><th>名称</th><th>操作</th><th>状态</th><th>响应时间</th><th>详情</th></tr><tr><td>2024-05-20 11:32:45</td><td>OpenAI</td><td>OpenAI 主账号</td><td>测试连接</td><td><span class="pill good">成功</span></td><td>512 ms</td><td>连接成功，返回 200 OK</td></tr><tr><td>2024-05-20 08:20:11</td><td>Azure</td><td>Azure OpenAI 备用</td><td>测试连接</td><td><span class="pill danger">失败</span></td><td>--</td><td>认证错误（401 Unauthorized）</td></tr></table></div></article>
+            </section>
+            <aside class="panel model-defaults"><header><h2>Model Defaults</h2></header><label>默认模型设置<select><option>gpt-4o（OpenAI）</option></select></label><label>默认评测模型设置<select><option>claude-3-opus（Anthropic）</option></select></label><label>默认优化模型设置<select><option>gpt-4o-mini（OpenAI）</option></select></label><button class="primary">保存设置</button></aside>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="prompts">
+          <article class="panel">
+            <header><h2>Prompts 页面</h2><button class="primary" data-route="prompt-create">创建 Prompt</button></header>
+            <p class="muted editable">当前图片组未包含完整 Prompts 详情页，本页保留为 Prompt 管理入口，创建流程已可点击进入。</p>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Prompt 名称</th><th>版本</th><th>状态</th><th>所属库</th><th>最近更新</th><th>操作</th></tr></thead>
+                <tbody>
+                  <tr><td>产品咨询助手 Prompt</td><td>v2.3.0</td><td><span class="pill good">已发布</span></td><td>客服</td><td>2024-05-20 10:21</td><td><button data-route="prompt-create">复制创建</button></td></tr>
+                  <tr><td>商标侵权判断助手</td><td>v1.8</td><td><span class="pill">草稿</span></td><td>法务</td><td>2024-05-19 15:32</td><td><button data-action="toast" data-message="已打开 Prompt 详情">查看</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <section class="screen" data-screen="prompt-create">
+          <article class="panel">
+            <header><h2>创建 Prompt</h2><button data-route="prompts">返回 Prompts</button></header>
+            <p class="muted editable">进入 Prompt 创建流程，可从当前评测、Dataset 或失败 Case 带入上下文，后续可继续补齐完整编辑页截图。</p>
+            <div class="form-grid three">
+              <label>Prompt 名称<input value="商标侵权判断助手优化版"></label>
+              <label>所属库<select><option>法务</option><option>客服</option><option>通用</option></select></label>
+              <label>目标模型<select><option>GPT-4o-mini</option><option>GPT-4o</option></select></label>
+            </div>
+          </article>
+          <div class="content-grid two-right">
+            <article class="panel">
+              <header><h2>Prompt 初稿</h2><button class="primary" data-action="toast" data-message="Prompt 草稿已保存">保存草稿</button></header>
+              <div class="editor-box editable">
+# 角色
+你是一名专业的商标侵权判断助手。
+
+# 任务
+根据用户输入的商标名称、类别、商品服务和证据材料，判断是否存在商标侵权风险。
+
+# 输出要求
+先给出风险等级，再给出判断依据和建议。
+              </div>
+            </article>
+            <aside class="side-stack">
+              <article class="panel"><header><h2>带入上下文</h2></header><ul class="kv-list"><li><span>来源</span><b>评测报告 / Dataset</b></li><li><span>失败类型</span><b>法律依据不足</b></li><li><span>风险等级</span><b>高风险</b></li></ul></article>
+              <article class="panel"><header><h2>下一步</h2></header><div class="quick-grid one"><button class="primary" data-action="toast" data-message="已发布新版本">发布版本</button><button data-route="runs">发起测试</button><button data-route="evaluations">进入评测</button><button data-route="optimize">进入优化</button></div></article>
+            </aside>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" hidden></div>
+    <script>
+const routeTitles = {
+  dashboard: "Dashboard 页面",
+  prompts: "Prompts 页面",
+  "prompt-create": "创建 Prompt 页面",
+  "dataset-detail": "Dataset 详情",
+  "dataset-edit": "编辑 Dataset",
+  datasets: "Datasets 页面",
+  models: "Models 页面",
+  runs: "Runs 页面",
+  review: "人工评审",
+  evaluations: "Evaluations 页面",
+  optimize: "Optimize 页面",
+  compare: "Compare 页面",
+  knowledge: "Knowledge 页面",
+  "knowledge-detail": "知识条目详情",
+  settings: "Settings 页面"
+};
+
+const editKey = "prompt-workbench-v2-inline-edits";
+const toast = document.querySelector("#toast");
+const pageTitle = document.querySelector("#pageTitle");
+let activeDataset = "trademark";
+let activeKnowledge = "instruction";
+
+const datasetStore = {
+  trademark: {
+    id: "DST-0001",
+    name: "商标侵权覆盖测试集",
+    type: "商标侵权判断",
+    owner: "张三",
+    status: "已启用",
+    cases: "2,048",
+    risk: "345",
+    riskRate: "12.8%",
+    updated: "2024-05-24 10:30",
+    tags: "商标、近似、法务",
+    description: "用于评估商标侵权判断助手在近似商标、商品类别、混淆可能性与法律依据方面的表现。",
+    casesRows: [
+      ["CASE-0001", "文字与图形近似判断", "高风险", "高风险", "38 / 100"],
+      ["CASE-0002", "商品类别与服务冲突", "中风险", "中风险", "68 / 100"]
+    ],
+    history: ["商标侵权新增样本_20240524.xlsx", "近似商标 Case 补充_20240520.csv", "高风险样本修订_20240518.xlsx"]
+  },
+  contract: {
+    id: "DST-0002",
+    name: "合同风险评测样本",
+    type: "合同审核",
+    owner: "李四",
+    status: "已启用",
+    cases: "1,890",
+    risk: "89",
+    riskRate: "5.0%",
+    updated: "2024-05-23 16:40",
+    tags: "合同、条款、风控",
+    description: "用于评估合同审核 Prompt 对违约责任、付款条款、争议解决和高风险措辞的识别能力。",
+    casesRows: [
+      ["CASE-0101", "付款周期与违约金冲突", "中风险", "中风险", "72 / 100"],
+      ["CASE-0102", "责任边界描述不完整", "低风险", "低风险", "84 / 100"]
+    ],
+    history: ["合同风险样本补充_20240523.xlsx", "争议条款 Case_20240519.csv"]
+  },
+  service: {
+    id: "DST-0003",
+    name: "客服问答合规测试集",
+    type: "客服问答",
+    owner: "王五",
+    status: "已启用",
+    cases: "1,256",
+    risk: "97",
+    riskRate: "7.7%",
+    updated: "2024-05-21 14:00",
+    tags: "客服、合规、拒答",
+    description: "用于评估客服 Prompt 在售后承诺、隐私信息、敏感问题和拒答边界上的稳定性。",
+    casesRows: [
+      ["CASE-0201", "用户要求越权退款", "拒答", "中风险", "76 / 100"],
+      ["CASE-0202", "用户询问隐私信息", "拒答", "高风险", "42 / 100"]
+    ],
+    history: ["客服问答合规样本_20240521.xlsx", "拒答边界补充_20240518.csv"]
+  },
+  legal: {
+    id: "DST-0004",
+    name: "法律咨询边界测试集",
+    type: "法律咨询",
+    owner: "赵六",
+    status: "草稿",
+    cases: "3,312",
+    risk: "221",
+    riskRate: "6.7%",
+    updated: "2024-05-21 09:11",
+    tags: "法律、边界、免责声明",
+    description: "用于评估法律咨询 Prompt 是否能区分通用信息、法律建议、风险提示和人工咨询边界。",
+    casesRows: [
+      ["CASE-0301", "用户要求直接给诉讼结论", "建议咨询律师", "高风险", "35 / 100"],
+      ["CASE-0302", "用户询问法规条文解释", "可回答", "低风险", "88 / 100"]
+    ],
+    history: ["法律咨询边界样本_20240521.xlsx", "免责声明 Case_20240517.csv"]
+  }
+};
+
+const knowledgeStore = {
+  instruction: {
+    id: "K-0001",
+    title: "使用明确的指令动词可提高执行准确性",
+    type: "规则",
+    tag: "指令增强",
+    scenario: "通用生成",
+    updated: "2024-05-20 11:32",
+    summary: "在 Prompt 中使用“识别、判断、分类、提取、输出”等明确动词，可降低模型理解偏差。",
+    body: "明确动词能让模型更快识别任务边界，例如“识别风险”“判断是否侵权”“提取证据字段”“按 JSON 输出”。避免只写“帮我看看”“分析一下”这类开放表达。",
+    example: "请识别输入文本中的商标近似风险，并按风险等级、判断依据、建议动作三个字段输出。",
+    conditions: ["任务目标明确", "输出格式稳定", "需要降低歧义"],
+    benefits: ["减少模型自由发挥", "提高字段输出稳定性", "方便评测规则对齐"],
+    resources: ["关联 Prompt：PPT-20240518-0034", "关联 Dataset：DST-20240520-0021", "关联失败模式：FM-20240506-0012"]
+  },
+  json: {
+    id: "K-0002",
+    title: "输出指定 JSON 字段，避免自由文本",
+    type: "规则",
+    tag: "格式约束",
+    scenario: "数据处理",
+    updated: "2024-05-19 10:45",
+    summary: "当下游需要解析结果时，应明确字段名、字段类型和缺失值处理方式。",
+    body: "结构化输出可以减少人工二次整理，并让评测脚本更容易判断字段是否完整。建议同时声明禁止输出额外解释。",
+    example: "仅输出 JSON：{\"risk_level\":\"高|中|低\", \"reason\":\"...\", \"next_action\":\"...\"}",
+    conditions: ["下游有结构化解析", "字段集合稳定", "需要批量评测"],
+    benefits: ["降低解析失败率", "提升自动化评测效率", "减少多余文本"],
+    resources: ["关联 Prompt：PPT-20240519-0010", "关联 Dataset：DST-20240519-0008", "关联失败模式：FM-JSON-0004"]
+  },
+  conclusion: {
+    id: "K-0003",
+    title: "先给结论再解释，可提升可读性",
+    type: "规则",
+    tag: "结构优化",
+    scenario: "问答场景",
+    updated: "2024-05-18 17:21",
+    summary: "面向业务用户时，先输出结论，再补充依据、风险和建议，能降低阅读成本。",
+    body: "在复杂判断任务中，如果先长篇解释再给结论，用户很难快速判断结果。建议采用“结论-依据-建议”的稳定结构。",
+    example: "结论：存在中风险。依据：... 建议：补充证据并人工复核。",
+    conditions: ["用户需要快速决策", "答案包含判断结果", "解释内容较长"],
+    benefits: ["提升扫读效率", "降低误读风险", "方便后续追问"],
+    resources: ["关联 Prompt：PPT-20240518-0021", "关联 Dataset：DST-20240518-0014", "关联最佳实践：BP-STRUCT-0007"]
+  }
+};
+
+function showToast(message) {
+  toast.textContent = message || "操作已完成";
+  toast.hidden = false;
+  clearTimeout(showToast.timer);
+  showToast.timer = setTimeout(() => {
+    toast.hidden = true;
+  }, 1600);
+}
+
+function showRoute(route) {
+  const screen = document.querySelector(`[data-screen="${route}"]`);
+  if (!screen) {
+    showToast("该页面还未配置");
+    return;
+  }
+  const navRoute = {
+    "prompt-create": "prompts",
+    "dataset-detail": "datasets",
+    "dataset-edit": "datasets",
+    "knowledge-detail": "knowledge"
+  }[route] || route;
+  document.querySelectorAll(".screen").forEach((item) => item.classList.toggle("active", item === screen));
+  document.querySelectorAll(".side-nav button").forEach((item) => item.classList.toggle("active", item.dataset.route === navRoute));
+  pageTitle.textContent = routeTitles[route] || "Prompt 优化工作台";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function getEdits() {
+  try {
+    return JSON.parse(localStorage.getItem(editKey) || "{}");
+  } catch {
+    return {};
+  }
+}
+
+function setEdits(edits) {
+  localStorage.setItem(editKey, JSON.stringify(edits));
+}
+
+function editId(element) {
+  if (element.dataset.editId) return element.dataset.editId;
+  const all = Array.from(document.querySelectorAll(".editable, h1, h2, h3, p, td, th, li, small, strong"));
+  const id = `edit-${all.indexOf(element)}`;
+  element.dataset.editId = id;
+  return id;
+}
+
+function applyEdits() {
+  const edits = getEdits();
+  document.querySelectorAll(".editable, h1, h2, h3, p, td, th, li, small, strong").forEach((element) => {
+    if (element.closest("button") || element.closest("select") || element.closest("input") || !element.textContent.trim()) return;
+    const id = editId(element);
+    if (edits[id]) element.textContent = edits[id];
+    element.dataset.inlineEditable = "true";
+    element.title = "双击修改文本";
+  });
+}
+
+function startEdit(element) {
+  if (!element || element.closest("button") || element.closest("input") || element.closest("select")) return;
+  const before = element.textContent;
+  element.contentEditable = "true";
+  element.classList.add("editing");
+  element.focus();
+  document.getSelection().selectAllChildren(element);
+
+  function save() {
+    element.contentEditable = "false";
+    element.classList.remove("editing");
+    const edits = getEdits();
+    edits[editId(element)] = element.textContent.trim();
+    setEdits(edits);
+    cleanup();
+    showToast("文本已保存到当前浏览器");
+  }
+
+  function cancel() {
+    element.textContent = before;
+    element.contentEditable = "false";
+    element.classList.remove("editing");
+    cleanup();
+  }
+
+  function onKeydown(event) {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      save();
+    }
+    if (event.key === "Escape") {
+      event.preventDefault();
+      cancel();
+    }
+  }
+
+  function cleanup() {
+    element.removeEventListener("blur", save);
+    element.removeEventListener("keydown", onKeydown);
+  }
+
+  element.addEventListener("blur", save);
+  element.addEventListener("keydown", onKeydown);
+}
+
+function renderList(items, targetId) {
+  const target = document.querySelector(`#${targetId}`);
+  if (!target) return;
+  target.innerHTML = items.map((item) => `<li>${item}</li>`).join("");
+}
+
+function syncDatasetFields(dataset) {
+  document.querySelectorAll("[data-dataset-field]").forEach((element) => {
+    const key = element.dataset.datasetField;
+    if (dataset[key]) element.textContent = dataset[key];
+  });
+}
+
+function syncDatasetInputs(dataset) {
+  document.querySelectorAll("[data-dataset-input]").forEach((element) => {
+    const key = element.dataset.datasetInput;
+    if (dataset[key]) element.value = dataset[key];
+  });
+}
+
+function renderDataset(datasetId) {
+  const dataset = datasetStore[datasetId] || datasetStore.trademark;
+  activeDataset = datasetId in datasetStore ? datasetId : "trademark";
+  syncDatasetFields(dataset);
+  syncDatasetInputs(dataset);
+
+  const caseRows = document.querySelector("#datasetCaseRows");
+  if (caseRows) {
+    caseRows.innerHTML = dataset.casesRows.map((row) => {
+      const riskClass = row[3] === "高风险" ? "danger" : row[3] === "中风险" ? "warn" : "good";
+      return `<tr><td>${row[0]}</td><td>${row[1]}</td><td>${row[2]}</td><td><span class="pill ${riskClass}">${row[3]}</span></td><td>${row[4]}</td><td><button data-route="evaluations">查看评测</button></td></tr>`;
+    }).join("");
+  }
+  renderList(dataset.history, "datasetHistoryRows");
+}
+
+function openDataset(datasetId, route) {
+  renderDataset(datasetId);
+  showRoute(route);
+  showToast(route === "dataset-edit" ? "已进入测试集编辑页" : "已进入测试集详情页");
+}
+
+function saveDataset() {
+  const dataset = datasetStore[activeDataset] || datasetStore.trademark;
+  document.querySelectorAll("[data-dataset-input]").forEach((element) => {
+    dataset[element.dataset.datasetInput] = element.value;
+  });
+  renderDataset(activeDataset);
+  showRoute("dataset-detail");
+  showToast("测试集变更已保存");
+}
+
+function renderKnowledge(knowledgeId) {
+  const item = knowledgeStore[knowledgeId] || knowledgeStore.instruction;
+  activeKnowledge = knowledgeId in knowledgeStore ? knowledgeId : "instruction";
+  document.querySelectorAll("[data-knowledge-field]").forEach((element) => {
+    const key = element.dataset.knowledgeField;
+    if (item[key]) element.textContent = item[key];
+  });
+  renderList(item.conditions, "knowledgeConditionList");
+  renderList(item.benefits, "knowledgeBenefitList");
+  renderList(item.resources, "knowledgeResourceList");
+}
+
+function openKnowledge(knowledgeId) {
+  renderKnowledge(knowledgeId);
+  showRoute("knowledge-detail");
+  showToast("已进入知识条目详情页");
+}
+
+function scrollToModule(targetId, label) {
+  const target = document.querySelector(`#${targetId}`);
+  if (!target) {
+    showToast("该模块还未配置");
+    return;
+  }
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
+  showToast(`已跳转到「${label}」模块`);
+}
+
+document.addEventListener("click", (event) => {
+  const routeTarget = event.target.closest("[data-route]");
+  if (routeTarget) {
+    showRoute(routeTarget.dataset.route);
+    return;
+  }
+
+  const tab = event.target.closest(".tabs button");
+  if (tab) {
+    tab.parentElement.querySelectorAll("button").forEach((item) => item.classList.remove("active"));
+    tab.classList.add("active");
+    if (tab.dataset.moduleTarget) {
+      scrollToModule(tab.dataset.moduleTarget, tab.textContent.trim());
+      return;
+    }
+    showToast(`已切换到「${tab.textContent.trim()}」`);
+    return;
+  }
+
+  const action = event.target.closest("[data-action]");
+  if (action) {
+    if (action.dataset.action === "dataset-view") {
+      openDataset(action.dataset.dataset, "dataset-detail");
+      return;
+    }
+    if (action.dataset.action === "dataset-edit") {
+      openDataset(action.dataset.dataset, "dataset-edit");
+      return;
+    }
+    if (action.dataset.action === "dataset-edit-current") {
+      openDataset(activeDataset, "dataset-edit");
+      return;
+    }
+    if (action.dataset.action === "dataset-more") {
+      openDataset(action.dataset.dataset, "dataset-detail");
+      showToast("已打开更多操作所在的测试集详情");
+      return;
+    }
+    if (action.dataset.action === "save-dataset") {
+      saveDataset();
+      return;
+    }
+    if (action.dataset.action === "knowledge-view") {
+      openKnowledge(action.dataset.knowledge);
+      return;
+    }
+    if (action.dataset.action === "review-decision") {
+      action.parentElement.querySelectorAll("button").forEach((item) => item.classList.remove("selected"));
+      action.classList.add("selected");
+      const status = document.querySelector("#reviewDecisionStatus");
+      if (status) status.textContent = action.dataset.decision;
+      showToast(`已选择「${action.dataset.decision}」`);
+      return;
+    }
+    if (action.dataset.action === "review-submit") {
+      const status = document.querySelector("#reviewDecisionStatus");
+      if (status) {
+        status.textContent = status.textContent === "未提交" ? "已提交" : status.textContent;
+        status.classList.add("good");
+      }
+      showToast("人工评审已提交");
+      return;
+    }
+    if (action.dataset.action === "review-draft") {
+      const status = document.querySelector("#reviewDecisionStatus");
+      if (status) status.textContent = "草稿已保存";
+      showToast("评审草稿已保存");
+      return;
+    }
+    if (action.dataset.action === "select-row") {
+      action.closest("tbody").querySelectorAll("tr").forEach((row) => row.classList.remove("selected"));
+      action.closest("tr").classList.add("selected");
+      showToast("已切换当前记录详情");
+      return;
+    }
+    showToast(action.dataset.message || "操作已记录");
+    return;
+  }
+
+  const button = event.target.closest("button");
+  if (button) {
+    const label = button.textContent.trim() || "按钮";
+    showToast(`已点击「${label}」`);
+  }
+});
+
+document.addEventListener("dblclick", (event) => {
+  const target = event.target.closest("[data-inline-editable='true']");
+  if (!target) return;
+  event.preventDefault();
+  startEdit(target);
+});
+
+document.addEventListener("input", (event) => {
+  if (event.target.id === "reviewScoreInput") {
+    const score = document.querySelector("#reviewScoreValue");
+    if (score) score.textContent = event.target.value;
+  }
+});
+
+applyEdits();
+renderDataset(activeDataset);
+renderKnowledge(activeKnowledge);
+showRoute("datasets");
+
+    </script>
+  </body>
+</html>

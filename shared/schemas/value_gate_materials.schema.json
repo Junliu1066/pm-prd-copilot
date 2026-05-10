@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Product Value Gate Materials",
+  "type": "object",
+  "required": ["project_id", "version", "materials"],
+  "properties": {
+    "project_id": { "type": "string", "minLength": 1 },
+    "version": { "type": "string", "minLength": 1 },
+    "materials": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "material_id",
+          "slot_key",
+          "material_type",
+          "title",
+          "occurred_at",
+          "source_path_or_url",
+          "redaction_status",
+          "summary",
+          "proves",
+          "does_not_prove",
+          "review_status"
+        ],
+        "properties": {
+          "material_id": { "type": "string", "minLength": 1 },
+          "slot_key": {
+            "enum": [
+              "payment_proof",
+              "customer_record",
+              "mvp_experiment_record",
+              "delivery_acceptance_record",
+              "repurchase_or_referral_record",
+              "price_or_quote_record",
+              "delivery_time_record",
+              "acquisition_source_record"
+            ]
+          },
+          "material_type": { "type": "string" },
+          "title": { "type": "string" },
+          "occurred_at": { "type": "string" },
+          "source_path_or_url": { "type": "string" },
+          "redaction_status": { "type": "string" },
+          "summary": { "type": "string" },
+          "proves": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "does_not_prove": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "review_status": {
+            "enum": [
+              "missing",
+              "submitted_pending_review",
+              "reviewed_accepted",
+              "reviewed_rejected",
+              "needs_more_context"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

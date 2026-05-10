@@ -1,0 +1,5366 @@
+{
+  "project_id": "geo-service-prd",
+  "module": "product_value_gate",
+  "version": "2.6.0",
+  "agent": {
+    "name": "Product Value Gate Agent",
+    "mode": "evidence_fetcher_rule_agent_v0",
+    "responsibilities": [
+      "evidence_collection",
+      "commercial_judgment",
+      "prd_input_sanitization",
+      "owner_decision_report"
+    ],
+    "does_not_do": [
+      "generate_full_prd",
+      "write_long_term_memory",
+      "promote_candidate_to_stable",
+      "create_skill_or_harness"
+    ]
+  },
+  "evidence_fetcher": {
+    "enabled": true,
+    "scope": "external_public_source_urls_only",
+    "raw_snapshot_saved": false,
+    "rule": "只校验公开来源可达性和摘录，不自动把外部信息提升为商业价值成立证据。"
+  },
+  "decision_gate": "B_LOW_COST_MVP",
+  "route_decision": {
+    "canonical_decision": "B_LOW_COST_MVP",
+    "recommended_path": "服务化 MVP PRD",
+    "allowed_prd_type": "服务化 MVP PRD",
+    "can_enter_full_prd": false,
+    "execution_status": "routed_to_mvp",
+    "downstream_input_package": "mvp_input_package",
+    "next_module": "low_cost_mvp_plan",
+    "business_worth": "worth_testing",
+    "evidence_sufficiency": "sufficient_for_mvp",
+    "material_status": "missing_critical_materials",
+    "roi_status": "roi_unavailable_missing_inputs",
+    "route_package_status": "complete",
+    "owner_decision_required": true,
+    "allowed_paths": [
+      "服务化 MVP",
+      "客户项目验证",
+      "PRD 小修订"
+    ],
+    "deferred_paths": [
+      "完整 SaaS PRD",
+      "自动化平台建设"
+    ],
+    "blocked_paths": [
+      "承诺 AI 推荐结果",
+      "黑灰产 GEO",
+      "无验证直接重研发"
+    ],
+    "rule": "下游模块以 route_decision 为唯一主路由结论；decision_gate、execution_status、allowed_prd_type 只作为兼容和审计字段。"
+  },
+  "allowed_prd_type": "服务化 MVP PRD",
+  "value_judgment_passed": false,
+  "execution_status": "routed_to_mvp",
+  "can_enter_full_prd": false,
+  "next_module": "low_cost_mvp_plan",
+  "evidence_level": "S",
+  "payment_evidence_level": 5,
+  "risk_level": "unknown",
+  "required_human_confirmation": true,
+  "blocked_reasons": [
+    "证据支持服务化 MVP / 客户项目验证，但不足以支持完整 SaaS PRD。"
+  ],
+  "must_verify_before_next_step": [
+    "补齐客单价、获客成本、交付工时、复购周期、多客户复用和产品化边际成本证据。"
+  ],
+  "human_confirmation": {
+    "required": true,
+    "confirmation_items": [
+      "客户付款意向是否真实",
+      "是否允许进入当前推荐路径",
+      "价格 / 行业 / 客户承诺边界是否确认",
+      "是否确认不得直接升级为完整 PRD"
+    ],
+    "confirmed": false,
+    "confirmed_by": "",
+    "confirmed_at": ""
+  },
+  "intent_result": {
+    "primary_intent": "对外商业产品 / B2B SaaS",
+    "secondary_intents": [
+      "项目转产品判断",
+      "技术可行性判断",
+      "商业模式判断"
+    ],
+    "current_stage": "idea_intake"
+  },
+  "input_completeness": {
+    "checks": {
+      "target_user": true,
+      "value_object": true,
+      "business_result": true,
+      "revenue_or_benefit": true,
+      "usage_scenario": true,
+      "risk_boundary": true,
+      "acquisition_path": true,
+      "cost_structure": true
+    },
+    "present_items": [
+      "目标用户",
+      "价值对象",
+      "商业结果",
+      "付费 / 收益方式",
+      "使用场景",
+      "风险边界",
+      "获客路径",
+      "成本结构"
+    ],
+    "missing_items": [],
+    "missing_count": 0,
+    "is_complete_for_prd": true
+  },
+  "input_package_quality_gate": {
+    "overall_status": "failed",
+    "content_ready_for_prd": false,
+    "missing_items": [],
+    "over_generic_items": [],
+    "human_confirmation_items": [
+      "客户付款意向是否真实",
+      "是否允许进入当前推荐路径",
+      "价格 / 行业 / 客户承诺边界是否确认",
+      "是否确认不得直接升级为完整 PRD"
+    ],
+    "quality_items": [
+      {
+        "key": "product_positioning",
+        "label": "产品定位",
+        "status": "qualified",
+        "value": "GEO 服务商业化产品价值门禁输入"
+      },
+      {
+        "key": "target_users",
+        "label": "目标用户",
+        "status": "qualified",
+        "value": [
+          "企业品牌方",
+          "品牌方",
+          "营销负责人",
+          "增长负责人",
+          "SEO/GEO 服务商",
+          "GEO 服务商",
+          "服务商",
+          "老板",
+          "决策者",
+          "运营"
+        ]
+      },
+      {
+        "key": "payer",
+        "label": "付费者",
+        "status": "qualified",
+        "value": [
+          "企业预算方",
+          "品牌方",
+          "老板"
+        ]
+      },
+      {
+        "key": "decision_maker",
+        "label": "决策者",
+        "status": "qualified",
+        "value": [
+          "老板",
+          "营销负责人",
+          "增长负责人",
+          "品牌负责人",
+          "业务负责人"
+        ]
+      },
+      {
+        "key": "business_result",
+        "label": "商业结果",
+        "status": "qualified",
+        "value": "服务收入 / 项目收入 / 复购或复测收入"
+      },
+      {
+        "key": "metrics",
+        "label": "衡量指标",
+        "status": "qualified",
+        "value": [
+          "AI 提及率",
+          "品牌推荐率",
+          "竞品覆盖差距",
+          "关键词回答覆盖率",
+          "引用来源质量",
+          "多模型一致性",
+          "复测变化",
+          "线索转化归因"
+        ]
+      },
+      {
+        "key": "profit_condition",
+        "label": "真实利润条件",
+        "status": "qualified",
+        "value": "客单价必须覆盖获客、交付、人工复核、维护、售后、合规和风险成本，并保留可接受毛利。"
+      },
+      {
+        "key": "acquisition_path",
+        "label": "获客路径",
+        "status": "qualified",
+        "value": "从已有客户、服务商和内容营销需求切入。"
+      },
+      {
+        "key": "human_confirmation",
+        "label": "人工确认",
+        "status": "needs_human_confirmation",
+        "value": [
+          "客户付款意向是否真实",
+          "是否允许进入当前推荐路径",
+          "价格 / 行业 / 客户承诺边界是否确认",
+          "是否确认不得直接升级为完整 PRD"
+        ]
+      }
+    ]
+  },
+  "prd_input_package": {
+    "product_summary": {
+      "product_name": "GEO 服务商业化产品价值门禁输入",
+      "one_sentence_positioning": "围绕“GEO 服务商业化产品价值门禁输入”验证是否具备可衡量、可归因、可兑现的价值。",
+      "product_type": "对外商业产品 / B2B SaaS",
+      "target_stage": "value_gate",
+      "business_context": "待验证"
+    },
+    "value_judgment": {
+      "value_type": [
+        "对外商业价值",
+        "内部降本价值",
+        "内部增效价值",
+        "风险降低价值"
+      ],
+      "primary_value_type": "对外商业价值",
+      "secondary_value_types": [
+        "内部降本价值",
+        "内部增效价值",
+        "风险降低价值",
+        "服务收入价值",
+        "项目收入价值",
+        "产品化收入候选",
+        "数据 / 能力沉淀价值"
+      ],
+      "value_type_reasoning": "GEO 当前首要验证对外服务收入和项目收入；内部 Agent / 工作台只作为交付降本工具，不能当作客户核心产品价值。",
+      "must_not_treat_as": [
+        "不能把内部 Agent 降本工具当作客户核心产品价值。",
+        "不能把一次服务买单直接写成完整 SaaS 产品化成立。",
+        "不能把竞品存在直接写成本项目利润或 ROI 成立。"
+      ],
+      "core_value": "待通过真实证据验证核心价值闭环",
+      "value_object": {
+        "core_user": [
+          "企业品牌方",
+          "品牌方",
+          "营销负责人",
+          "增长负责人",
+          "SEO/GEO 服务商",
+          "GEO 服务商",
+          "服务商",
+          "老板",
+          "决策者",
+          "运营"
+        ],
+        "payer": [
+          "企业预算方",
+          "品牌方",
+          "老板"
+        ],
+        "decision_maker": [
+          "老板",
+          "营销负责人",
+          "增长负责人",
+          "品牌负责人",
+          "业务负责人"
+        ],
+        "user": [
+          "企业品牌方",
+          "品牌方",
+          "营销负责人",
+          "增长负责人",
+          "SEO/GEO 服务商",
+          "GEO 服务商",
+          "服务商",
+          "老板",
+          "决策者",
+          "运营"
+        ],
+        "beneficiary": [
+          "品牌方",
+          "营销团队",
+          "增长团队",
+          "内容团队",
+          "客户"
+        ],
+        "cost_bearer": [
+          "企业预算方",
+          "客户",
+          "服务商"
+        ],
+        "acceptance_owner": [
+          "品牌负责人",
+          "客户验收方",
+          "业务负责人",
+          "营销负责人",
+          "老板"
+        ],
+        "renewal_influencer": [
+          "使用者",
+          "营销团队",
+          "内容团队",
+          "增长团队",
+          "客户成功",
+          "服务商"
+        ],
+        "possible_opponents": [
+          "法务",
+          "内容团队",
+          "预算负责人",
+          "合规",
+          "平台规则"
+        ],
+        "role_clarity": "明确"
+      },
+      "business_result": "服务收入 / 项目收入 / 复购或复测收入",
+      "business_result_definition": {
+        "primary_business_result": "服务收入 / 项目收入 / 复购或复测收入",
+        "secondary_business_results": [
+          "AI 提及率提升",
+          "品牌推荐率提升",
+          "竞品覆盖差距缩小",
+          "引用来源质量改善",
+          "后续优化项目转化",
+          "月度代运营复购 / 续费"
+        ],
+        "result_metrics": [
+          "免费检测提交数",
+          "有效线索率",
+          "加顾问率",
+          "体检报告成交率",
+          "后续优化项目转化率",
+          "月度代运营复购 / 续费率",
+          "单客户交付工时",
+          "真实利润"
+        ],
+        "result_not_proven_yet": [
+          "高 ROI 已成立",
+          "完整 SaaS 收入成立",
+          "规模化获客成立",
+          "复购周期稳定",
+          "边际交付成本已下降"
+        ],
+        "definition_rule": "商业结果必须能被收入、利润、复购、交付成本和可归因指标验证；不能只写曝光提升或市场机会。"
+      },
+      "primary_business_result": "服务收入 / 项目收入 / 复购或复测收入",
+      "secondary_business_results": [
+        "AI 提及率提升",
+        "品牌推荐率提升",
+        "竞品覆盖差距缩小",
+        "引用来源质量改善",
+        "后续优化项目转化",
+        "月度代运营复购 / 续费"
+      ],
+      "result_metrics": [
+        "免费检测提交数",
+        "有效线索率",
+        "加顾问率",
+        "体检报告成交率",
+        "后续优化项目转化率",
+        "月度代运营复购 / 续费率",
+        "单客户交付工时",
+        "真实利润"
+      ],
+      "result_not_proven_yet": [
+        "高 ROI 已成立",
+        "完整 SaaS 收入成立",
+        "规模化获客成立",
+        "复购周期稳定",
+        "边际交付成本已下降"
+      ],
+      "measurable_metrics": [
+        "AI 提及率",
+        "品牌推荐率",
+        "竞品覆盖差距",
+        "关键词回答覆盖率",
+        "引用来源质量",
+        "多模型一致性",
+        "复测变化",
+        "线索转化归因"
+      ],
+      "value_realization_cycle": "待验证",
+      "value_attribution": "商业结果是否主要由产品 / 服务直接带来，而不是由渠道、销售或外部平台变化带来。"
+    },
+    "user_and_scenario": {
+      "target_users": [
+        "企业品牌方",
+        "品牌方",
+        "营销负责人",
+        "增长负责人",
+        "SEO/GEO 服务商",
+        "GEO 服务商",
+        "服务商",
+        "老板",
+        "决策者",
+        "运营",
+        "法务"
+      ],
+      "user_segments": [
+        "企业品牌方",
+        "品牌方",
+        "营销负责人",
+        "增长负责人",
+        "SEO/GEO 服务商",
+        "GEO 服务商",
+        "服务商",
+        "老板",
+        "决策者",
+        "运营",
+        "法务"
+      ],
+      "core_scenarios": [
+        "AI 检索品牌曝光监测",
+        "竞品曝光对比",
+        "内容资产优化复测"
+      ],
+      "trigger_scenarios": [
+        "AI 检索品牌曝光监测",
+        "竞品曝光对比",
+        "内容资产优化复测"
+      ],
+      "high_frequency_scenarios": [
+        "AI 检索品牌曝光监测",
+        "竞品曝光对比"
+      ],
+      "decision_scenarios": [
+        "付费 / 立项 / 验收场景"
+      ]
+    },
+    "problem_definition": {
+      "core_problem": "输入状态：V0.2 实战验收输入，需要通过“GEO 服务商业化产品价值门禁输入”提升业务处理效率。",
+      "current_alternative": "待验证",
+      "pain_level": "待验证",
+      "loss_if_unsolved": "待验证",
+      "why_now": "待验证"
+    },
+    "business_model": {
+      "revenue_model": "客户付费 / 项目收入",
+      "pricing_assumption": "待验证",
+      "payment_willingness": "付费证据第 5 层",
+      "payment_evidence_level": 5,
+      "profit_logic": "收入需扣除获客、交付、维护、售后、合规和风险成本。",
+      "payment_evidence_detail": {
+        "level": 5,
+        "interpretation": "强付费证据",
+        "must_clarify": [
+          "谁买单",
+          "买的是软件 / 服务 / 报告 / 咨询",
+          "是否可复购",
+          "是否能证明产品化"
+        ]
+      },
+      "true_profit_judgment": {
+        "status": "初步成立，仍需核算",
+        "revenue_signal": "付费证据第 5 层",
+        "price_assumption": "待确认客单价 / 报告价格 / 服务价格",
+        "acquisition_cost_assumption": "待核算单个有效线索和成交客户获客成本",
+        "delivery_hours_assumption": "待记录单客户交付工时",
+        "human_review_cost_assumption": "待核算人工检测、复核和报告修订成本",
+        "maintenance_after_sales_cost_assumption": "待核算看板维护、复测、客户成功和售后成本",
+        "cost_items_checked": [
+          "获客成本",
+          "交付成本",
+          "人工成本",
+          "维护成本",
+          "沟通成本",
+          "售后成本",
+          "合规成本",
+          "风险成本"
+        ],
+        "missing_cost_items": [],
+        "minimum_profit_condition": "客单价必须覆盖获客、交付、人工复核、维护、售后、合规和风险成本，并保留可接受毛利。",
+        "profit_risk": "服务交付和人工审核成本可能压缩毛利",
+        "next_calculation": "补齐客单价、获客成本、单客户交付工时、复购周期和维护成本。"
+      }
+    },
+    "productization_judgment": {
+      "is_productizable": false,
+      "productization_type": "暂不进入完整产品化",
+      "standardizable_parts": [
+        "监测",
+        "诊断报告",
+        "竞品对比",
+        "复测"
+      ],
+      "customized_parts": [
+        "行业",
+        "人工审核",
+        "优化建议",
+        "服务"
+      ],
+      "replicable_parts": [
+        "多客户、复购和边际成本下降仍需验证"
+      ],
+      "not_suitable_for_productization": [
+        "信息不足或证据不足时不得默认产品化"
+      ],
+      "project_to_product_judgment": {
+        "project_value": "成立",
+        "service_value": "成立",
+        "product_value": "具备候选",
+        "standardizable_parts": [
+          "监测",
+          "诊断报告",
+          "竞品对比",
+          "复测"
+        ],
+        "customized_parts": [
+          "行业",
+          "人工审核",
+          "优化建议",
+          "服务"
+        ],
+        "productization_risk": "同行买单可能先证明服务价值，不必然证明 SaaS 产品化价值。",
+        "next_evidence": [
+          "第二类客户买单",
+          "标准化交付模板",
+          "边际交付成本下降",
+          "复购或续费信号"
+        ]
+      }
+    },
+    "core_value_loop": {
+      "core_user_action": "完成核心任务",
+      "product_response": "交付可衡量结果",
+      "value_delivery": "服务收入 / 项目收入 / 复购或复测收入",
+      "feedback_data": "转化、收入、效率、成本、风险指标",
+      "success_signal": "真实付费、效率提升或风险降低被验证"
+    },
+    "mvp_boundary": {
+      "must_have_core_features": [
+        "品牌 / 产品输入",
+        "关键词样本库",
+        "多模型查询",
+        "竞品曝光对比",
+        "GEO 诊断报告",
+        "优化建议",
+        "复测记录"
+      ],
+      "can_use_manual_or_tool_replacement": [
+        "人工处理",
+        "表格记录",
+        "脚本",
+        "第三方工具",
+        "人工审核",
+        "手动交付报告"
+      ],
+      "deferred_features": [
+        "完整后台",
+        "复杂权限",
+        "高级数据看板",
+        "完整商业化系统"
+      ],
+      "not_do_features": [
+        "完整后台",
+        "复杂权限",
+        "完整商业化系统",
+        "非核心异常流程"
+      ],
+      "mvp_success_criteria": [
+        "核心价值闭环被验证",
+        "至少获得明确付费或效率证据"
+      ],
+      "mvp_failure_criteria": [
+        "用户只愿试用但不愿付费",
+        "获客成本高于客单价",
+        "交付严重依赖人工专家"
+      ],
+      "low_cost_mvp_judgment": {
+        "core_user": [
+          "企业品牌方",
+          "品牌方",
+          "营销负责人",
+          "增长负责人",
+          "SEO/GEO 服务商",
+          "GEO 服务商",
+          "服务商",
+          "老板",
+          "决策者",
+          "运营"
+        ],
+        "core_scenario": [
+          "AI 检索品牌曝光监测",
+          "竞品曝光对比",
+          "内容资产优化复测"
+        ],
+        "core_task": "验证核心价值闭环",
+        "core_hypotheses": [
+          "目标用户存在明确高频或高价值场景",
+          "核心交付能让用户感知到结果",
+          "用户愿意为结果付费、复购、节省成本或继续投入"
+        ],
+        "core_features": [
+          "品牌 / 产品输入",
+          "关键词样本库",
+          "多模型查询",
+          "竞品曝光对比",
+          "GEO 诊断报告",
+          "优化建议",
+          "复测记录"
+        ],
+        "core_delivery": "可被用户验收的最小结果物",
+        "core_feedback": "用户是否认可结果、是否愿意继续付费或复购",
+        "minimum_data_loop": [
+          "问题样本",
+          "AI 回答",
+          "品牌提及",
+          "竞品提及",
+          "引用来源",
+          "优化动作",
+          "复测结果"
+        ],
+        "validation_method_boundaries": {
+          "research": "验证有没有需求，不等于 MVP。",
+          "pre_sale": "验证有没有付费信号，不等于产品已经成立。",
+          "prototype": "验证用户是否理解，不等于交付成立。",
+          "pilot": "验证单次交付是否成立，不等于可规模化。",
+          "low_cost_mvp": "保留核心功能和核心价值闭环，用最低成本验证价值是否成立。"
+        },
+        "can_replace_with_manual_or_tools": [
+          "人工处理",
+          "表格记录",
+          "脚本",
+          "第三方工具",
+          "人工审核",
+          "手动交付报告"
+        ],
+        "not_mvp": [
+          "完整后台",
+          "复杂权限",
+          "完整商业化系统",
+          "非核心异常流程"
+        ]
+      }
+    },
+    "risk_and_constraints": {
+      "red_line_risks": [],
+      "controllable_risks": [
+        "证据不足",
+        "成本结构未完全验证",
+        "获客路径未完全验证"
+      ],
+      "compliance_constraints": [],
+      "privacy_constraints": [
+        "涉及个人或敏感数据时必须确认授权、存储和使用边界"
+      ],
+      "technical_constraints": [
+        "待后续方案阶段判断"
+      ],
+      "resource_constraints": [
+        "团队资源、交付能力、获客渠道需验证"
+      ]
+    },
+    "value_object_detail": {
+      "core_user": [
+        "企业品牌方",
+        "品牌方",
+        "营销负责人",
+        "增长负责人",
+        "SEO/GEO 服务商",
+        "GEO 服务商",
+        "服务商",
+        "老板",
+        "决策者",
+        "运营"
+      ],
+      "payer": [
+        "企业预算方",
+        "品牌方",
+        "老板"
+      ],
+      "decision_maker": [
+        "老板",
+        "营销负责人",
+        "增长负责人",
+        "品牌负责人",
+        "业务负责人"
+      ],
+      "user": [
+        "企业品牌方",
+        "品牌方",
+        "营销负责人",
+        "增长负责人",
+        "SEO/GEO 服务商",
+        "GEO 服务商",
+        "服务商",
+        "老板",
+        "决策者",
+        "运营"
+      ],
+      "beneficiary": [
+        "品牌方",
+        "营销团队",
+        "增长团队",
+        "内容团队",
+        "客户"
+      ],
+      "cost_bearer": [
+        "企业预算方",
+        "客户",
+        "服务商"
+      ],
+      "acceptance_owner": [
+        "品牌负责人",
+        "客户验收方",
+        "业务负责人",
+        "营销负责人",
+        "老板"
+      ],
+      "renewal_influencer": [
+        "使用者",
+        "营销团队",
+        "内容团队",
+        "增长团队",
+        "客户成功",
+        "服务商"
+      ],
+      "possible_opponents": [
+        "法务",
+        "内容团队",
+        "预算负责人",
+        "合规",
+        "平台规则"
+      ],
+      "role_clarity": "明确"
+    },
+    "measurability_judgment": {
+      "is_measurable": true,
+      "metrics": [
+        "AI 提及率",
+        "品牌推荐率",
+        "竞品覆盖差距",
+        "关键词回答覆盖率",
+        "引用来源质量",
+        "多模型一致性",
+        "复测变化",
+        "线索转化归因"
+      ],
+      "missing_metrics": [],
+      "judgment": "具备可衡量方向，仍需补齐基线值和验证周期。"
+    },
+    "attribution_judgment": {
+      "attribution_level": "medium",
+      "core_question": "商业结果是否主要由产品 / 服务直接带来，而不是由渠道、销售或外部平台变化带来。",
+      "influencing_factors": [
+        "内容资产质量",
+        "AI 平台回答机制",
+        "外部可信引用",
+        "品牌已有声量",
+        "竞品内容布局",
+        "销售和渠道能力"
+      ],
+      "baseline_metrics": [
+        "当前指标基线",
+        "优化前样本",
+        "转化前后对比"
+      ],
+      "product_or_service_actions": [
+        "交付动作",
+        "内容优化动作",
+        "复测动作"
+      ],
+      "external_interference_factors": [
+        "内容资产质量",
+        "AI 平台回答机制",
+        "外部可信引用",
+        "品牌已有声量",
+        "竞品内容布局",
+        "销售和渠道能力"
+      ],
+      "attribution_risk": "中",
+      "review_materials": [
+        "基线数据",
+        "动作记录",
+        "结果指标",
+        "外部干扰记录"
+      ],
+      "tracking_requirement": "需要记录产品动作、交付动作、结果指标和外部干扰因素。"
+    },
+    "value_quality_judgment": {
+      "continuity": "持续价值",
+      "gross_margin_risk": "中",
+      "delivery_weight": "偏重交付",
+      "standardization": "具备标准化线索",
+      "repurchase_potential": "具备复购 / 续费线索",
+      "replicability": "可复制性待用多客户数据验证",
+      "moat": "行业词库、提示词样本库、历史监测数据和优化案例可能形成壁垒"
+    },
+    "true_profit_judgment": {
+      "status": "初步成立，仍需核算",
+      "revenue_signal": "付费证据第 5 层",
+      "price_assumption": "待确认客单价 / 报告价格 / 服务价格",
+      "acquisition_cost_assumption": "待核算单个有效线索和成交客户获客成本",
+      "delivery_hours_assumption": "待记录单客户交付工时",
+      "human_review_cost_assumption": "待核算人工检测、复核和报告修订成本",
+      "maintenance_after_sales_cost_assumption": "待核算看板维护、复测、客户成功和售后成本",
+      "cost_items_checked": [
+        "获客成本",
+        "交付成本",
+        "人工成本",
+        "维护成本",
+        "沟通成本",
+        "售后成本",
+        "合规成本",
+        "风险成本"
+      ],
+      "missing_cost_items": [],
+      "minimum_profit_condition": "客单价必须覆盖获客、交付、人工复核、维护、售后、合规和风险成本，并保留可接受毛利。",
+      "profit_risk": "服务交付和人工审核成本可能压缩毛利",
+      "next_calculation": "补齐客单价、获客成本、单客户交付工时、复购周期和维护成本。"
+    },
+    "resource_fit_judgment": {
+      "status": "有初步资源匹配",
+      "available_assets": [
+        "SEO",
+        "内容营销",
+        "AI 转型"
+      ],
+      "missing_assets": [
+        "客户资源"
+      ],
+      "why_us": "已有客户 / SEO / 内容营销 / AI 转型资源可作为切入口。"
+    },
+    "acquisition_judgment": {
+      "first_users": [
+        "SEO",
+        "内容营销",
+        "AI 转型",
+        "私域",
+        "转介绍"
+      ],
+      "reach_method": "从已有客户、服务商和内容营销需求切入。",
+      "trust_basis": [
+        "MVP",
+        "买单",
+        "服务商"
+      ],
+      "cac_ltv_risk": "需要验证客单价能否覆盖获客、诊断、交付和持续监测成本。",
+      "repeat_or_referral": "持续监测、复测和服务商工具授权可能带来复购。"
+    },
+    "project_to_product_judgment": {
+      "project_value": "成立",
+      "service_value": "成立",
+      "product_value": "具备候选",
+      "standardizable_parts": [
+        "监测",
+        "诊断报告",
+        "竞品对比",
+        "复测"
+      ],
+      "customized_parts": [
+        "行业",
+        "人工审核",
+        "优化建议",
+        "服务"
+      ],
+      "productization_risk": "同行买单可能先证明服务价值，不必然证明 SaaS 产品化价值。",
+      "next_evidence": [
+        "第二类客户买单",
+        "标准化交付模板",
+        "边际交付成本下降",
+        "复购或续费信号"
+      ]
+    },
+    "low_cost_mvp_judgment": {
+      "core_user": [
+        "企业品牌方",
+        "品牌方",
+        "营销负责人",
+        "增长负责人",
+        "SEO/GEO 服务商",
+        "GEO 服务商",
+        "服务商",
+        "老板",
+        "决策者",
+        "运营"
+      ],
+      "core_scenario": [
+        "AI 检索品牌曝光监测",
+        "竞品曝光对比",
+        "内容资产优化复测"
+      ],
+      "core_task": "验证核心价值闭环",
+      "core_hypotheses": [
+        "目标用户存在明确高频或高价值场景",
+        "核心交付能让用户感知到结果",
+        "用户愿意为结果付费、复购、节省成本或继续投入"
+      ],
+      "core_features": [
+        "品牌 / 产品输入",
+        "关键词样本库",
+        "多模型查询",
+        "竞品曝光对比",
+        "GEO 诊断报告",
+        "优化建议",
+        "复测记录"
+      ],
+      "core_delivery": "可被用户验收的最小结果物",
+      "core_feedback": "用户是否认可结果、是否愿意继续付费或复购",
+      "minimum_data_loop": [
+        "问题样本",
+        "AI 回答",
+        "品牌提及",
+        "竞品提及",
+        "引用来源",
+        "优化动作",
+        "复测结果"
+      ],
+      "validation_method_boundaries": {
+        "research": "验证有没有需求，不等于 MVP。",
+        "pre_sale": "验证有没有付费信号，不等于产品已经成立。",
+        "prototype": "验证用户是否理解，不等于交付成立。",
+        "pilot": "验证单次交付是否成立，不等于可规模化。",
+        "low_cost_mvp": "保留核心功能和核心价值闭环，用最低成本验证价值是否成立。"
+      },
+      "can_replace_with_manual_or_tools": [
+        "人工处理",
+        "表格记录",
+        "脚本",
+        "第三方工具",
+        "人工审核",
+        "手动交付报告"
+      ],
+      "not_mvp": [
+        "完整后台",
+        "复杂权限",
+        "完整商业化系统",
+        "非核心异常流程"
+      ]
+    },
+    "counter_evidence": [
+      "如果用户只愿意试用但不愿意付费，商业价值不成立。",
+      "如果获客成本高于客单价，利润价值不成立。",
+      "如果交付严重依赖人工专家，产品化价值不足。",
+      "如果节省的人力成本小于系统建设成本，内部价值不成立。",
+      "如果 AI 平台回答波动过大且无法归因，GEO 效果难以证明。",
+      "如果客户只为一次性诊断报告付费，不愿持续订阅，SaaS 路径不成立。",
+      "如果优化建议高度依赖人工专家，规模化毛利会受限。",
+      "如果曝光提升无法带来线索、咨询或品牌指标变化，商业结果不成立。",
+      "如果平台规则变化导致方法失效，需要降级为监测和合规内容优化服务。"
+    ],
+    "evidence_and_assumptions": {
+      "known_facts": [
+        "低价 GEO 体检报告",
+        "可以先用人工 + 半自动方式交付，降低首期研发成本。",
+        "我们已经做过 GEO 服务 MVP 实验",
+        "同行已经为 GEO 服务买单，存在真实付费信号",
+        "已有 MVP 实验经验",
+        "已有同行买单信号",
+        "同行买单可以证明服务价值和项目价值有初步信号，但不能直接证明完整 SaaS 产品化成立",
+        "有真实买单或预算确认"
+      ],
+      "reasonable_assumptions": [
+        "AI 检索曝光可以通过问题样本、品牌提及、竞品提及和引用来源进行周期性监测",
+        "客户愿意为可解释的诊断报告、优化建议和复测结果持续付费"
+      ],
+      "evidence_level": "S",
+      "evidence_sources": [
+        "低价 GEO 体检报告",
+        "可以先用人工 + 半自动方式交付，降低首期研发成本。",
+        "我们已经做过 GEO 服务 MVP 实验",
+        "同行已经为 GEO 服务买单，存在真实付费信号",
+        "已有 MVP 实验经验",
+        "已有同行买单信号",
+        "同行买单可以证明服务价值和项目价值有初步信号，但不能直接证明完整 SaaS 产品化成立",
+        "有真实买单或预算确认"
+      ],
+      "unverified_assumptions": [
+        "AI 检索曝光可以通过问题样本、品牌提及、竞品提及和引用来源进行周期性监测",
+        "客户愿意为可解释的诊断报告、优化建议和复测结果持续付费",
+        "真实利润、获客路径、价值归因仍需验证"
+      ],
+      "must_validate_before_launch": [
+        "补齐客单价、获客成本、交付工时、复购周期、多客户复用和产品化边际成本证据。"
+      ]
+    },
+    "prd_generation_constraints": {
+      "prd_scope": "只允许 A_ENTER_PRD 且输入包完整时进入完整 PRD。",
+      "must_include": [
+        "事实 / 假设分离",
+        "价值对象",
+        "商业结果",
+        "衡量指标",
+        "风险约束",
+        "MVP 边界"
+      ],
+      "must_not_include": [
+        "不得把未验证假设写成事实",
+        "不得绕过 decision_gate",
+        "不得自动写长期记忆"
+      ],
+      "priority_focus": [
+        "先验证价值，再做产品设计"
+      ],
+      "open_questions": [
+        "首期覆盖哪些 AI 平台和行业？",
+        "品牌曝光、推荐和引用质量的基线如何定义？",
+        "客户买单的是 SaaS、诊断报告、持续监测还是服务交付？",
+        "复测周期和效果归因口径如何定义？",
+        "补齐客单价、获客成本、交付工时、复购周期、多客户复用和产品化边际成本证据。"
+      ]
+    }
+  },
+  "mvp_input_package": {
+    "product_summary": {
+      "product_name": "GEO 服务商业化产品价值门禁输入",
+      "one_sentence_positioning": "围绕“GEO 服务商业化产品价值门禁输入”验证是否具备可衡量、可归因、可兑现的价值。",
+      "product_type": "对外商业产品 / B2B SaaS",
+      "target_stage": "value_gate",
+      "business_context": "待验证"
+    },
+    "path_goal": "用 2-4 周服务化 MVP 验证 GEO 商业闭环：免费检测获客、体检报告成交、复测证明价值、后续优化 / 代运营转化。",
+    "core_user": [
+      "企业品牌方",
+      "品牌方",
+      "营销负责人",
+      "增长负责人",
+      "SEO/GEO 服务商",
+      "GEO 服务商",
+      "服务商",
+      "老板",
+      "决策者",
+      "运营"
+    ],
+    "core_scenario": [
+      "AI 检索品牌曝光监测",
+      "竞品曝光对比",
+      "内容资产优化复测"
+    ],
+    "core_task": "验证核心价值闭环",
+    "core_hypotheses": [
+      "目标用户存在明确高频或高价值场景",
+      "核心交付能让用户感知到结果",
+      "用户愿意为结果付费、复购、节省成本或继续投入"
+    ],
+    "core_features": [
+      "品牌 / 产品输入",
+      "关键词样本库",
+      "多模型查询",
+      "竞品曝光对比",
+      "GEO 诊断报告",
+      "优化建议",
+      "复测记录"
+    ],
+    "core_delivery": "免费检测结果 + 付费 GEO 体检报告 + 复测记录 + 后续优化建议，不是完整 SaaS。",
+    "core_feedback": "客户是否购买体检报告、认可报告、愿意复测、愿意进入后续优化 / 代运营。",
+    "minimum_data_loop": [
+      "品牌 / 产品输入",
+      "问题样本",
+      "AI 回答",
+      "品牌提及",
+      "竞品提及",
+      "引用来源",
+      "诊断报告",
+      "优化动作",
+      "复测结果",
+      "成交 / 复购记录"
+    ],
+    "validation_method_boundaries": {
+      "research": "验证有没有需求，不等于 MVP。",
+      "pre_sale": "验证有没有付费信号，不等于产品已经成立。",
+      "prototype": "验证用户是否理解，不等于交付成立。",
+      "pilot": "验证单次交付是否成立，不等于可规模化。",
+      "low_cost_mvp": "保留核心功能和核心价值闭环，用最低成本验证价值是否成立。"
+    },
+    "manual_or_tool_replacement": [
+      "人工处理",
+      "表格记录",
+      "脚本",
+      "第三方工具",
+      "人工审核",
+      "手动交付报告"
+    ],
+    "success_criteria": [
+      "免费检测提交数达到本轮验证目标",
+      "有效线索率可被记录并解释",
+      "加顾问率可被记录并解释",
+      "体检报告成交率可被记录并解释",
+      "复盘预约率可被记录并解释",
+      "至少出现第二个付费信号或明确复测 / 续费 / 后续优化 / 代运营意向",
+      "单客户交付工时进入可接受上限",
+      "客户认可报告和复测结果"
+    ],
+    "failure_criteria": [
+      "客户只愿免费检测但不愿付费体检报告",
+      "报告结论不被客户认可",
+      "单客户交付工时持续过高",
+      "GEO 指标变化无法归因",
+      "客户不愿复测 / 复购 / 续费 / 推荐",
+      "获客成本高于客单价且无法回收"
+    ],
+    "must_not_include": [
+      "完整后台",
+      "复杂权限",
+      "完整商业化系统",
+      "非核心异常流程"
+    ],
+    "free_diagnosis_entry": {
+      "purpose": "用低门槛免费检测获取目标客户线索。",
+      "required_inputs": [
+        "品牌 / 产品名称",
+        "官网或主要内容资产",
+        "3-10 个核心业务词",
+        "主要竞品",
+        "联系人或顾问承接方式"
+      ],
+      "output": "AI 检索曝光初筛结果和是否值得做完整体检报告的判断。",
+      "records_required": [
+        "免费检测提交数",
+        "有效线索数",
+        "加顾问数",
+        "无效线索原因"
+      ]
+    },
+    "diagnosis_report": {
+      "purpose": "把 GEO 价值转成客户能理解和愿意付费的服务结果。",
+      "must_include": [
+        "品牌 AI 提及率",
+        "品牌推荐率",
+        "竞品覆盖差距",
+        "关键词回答覆盖率",
+        "引用来源质量",
+        "多模型一致性",
+        "问题样本和复测建议"
+      ],
+      "acceptance_signal": [
+        "客户认可报告结论",
+        "客户愿意付费进入优化 / 复测",
+        "客户愿意提供更多词库或内容资产"
+      ]
+    },
+    "metric_dashboard": {
+      "purpose": "用轻量表格 / 看板记录验证数据，不做完整 SaaS。",
+      "minimum_metrics": [
+        "免费检测提交数",
+        "有效线索率",
+        "加顾问率",
+        "体检报告成交率",
+        "后续优化项目转化率",
+        "月度代运营复购 / 续费率",
+        "单客户交付工时",
+        "真实利润"
+      ],
+      "must_not_build_yet": [
+        "完整多租户后台",
+        "复杂权限系统",
+        "自动化投放系统",
+        "完整 SaaS 计费系统"
+      ]
+    },
+    "recheck_mechanism": {
+      "purpose": "通过复测证明服务动作是否带来可解释变化。",
+      "cadence": "首轮报告后 1-2 周复测一次，服务化 MVP 期至少保留前后对比。",
+      "records_required": [
+        "基线截图 / 表格",
+        "优化动作记录",
+        "复测结果",
+        "变化解释",
+        "外部干扰因素"
+      ]
+    },
+    "optimization_suggestions": {
+      "purpose": "把诊断报告转成可销售的后续服务。",
+      "examples": [
+        "内容资产补齐",
+        "FAQ / 问答页优化",
+        "行业词库扩展",
+        "品牌叙事统一",
+        "引用来源优化",
+        "竞品回答差距修复"
+      ],
+      "boundary": "只能输出建议和可验证动作，不承诺 AI 平台排名或推荐结果。"
+    },
+    "service_conversion_path": [
+      "免费检测提交",
+      "有效线索筛选",
+      "加顾问 / 沟通需求",
+      "付费体检报告",
+      "报告解释和优化建议",
+      "复测",
+      "后续优化项目 / 月度代运营"
+    ],
+    "execution_record_template": [
+      "客户行业",
+      "线索来源",
+      "免费检测提交时间",
+      "是否有效线索",
+      "是否加顾问",
+      "是否购买体检报告",
+      "首期服务价格",
+      "报告交付周期",
+      "单客户交付工时",
+      "是否复测",
+      "是否转后续优化 / 代运营",
+      "客户认可度"
+    ]
+  },
+  "client_project_input_package": {
+    "product_summary": {
+      "product_name": "GEO 服务商业化产品价值门禁输入",
+      "one_sentence_positioning": "围绕“GEO 服务商业化产品价值门禁输入”验证是否具备可衡量、可归因、可兑现的价值。",
+      "product_type": "对外商业产品 / B2B SaaS",
+      "target_stage": "value_gate",
+      "business_context": "待验证"
+    },
+    "path_goal": "验证项目价值和服务价值，沉淀共性需求，不直接包装成完整产品。",
+    "project_value": "成立",
+    "service_value": "成立",
+    "standardizable_parts": [
+      "监测",
+      "诊断报告",
+      "竞品对比",
+      "复测"
+    ],
+    "customized_parts": [
+      "行业",
+      "人工审核",
+      "优化建议",
+      "服务"
+    ],
+    "next_evidence": [
+      "第二类客户买单",
+      "标准化交付模板",
+      "边际交付成本下降",
+      "复购或续费信号"
+    ],
+    "project_to_product_watchlist": [
+      "第二个相似客户",
+      "共性流程",
+      "配置化边界",
+      "边际交付成本",
+      "复购或续费"
+    ],
+    "delivery_scope": [
+      "本客户明确需求",
+      "服务交付过程",
+      "可复用材料沉淀",
+      "验收记录"
+    ],
+    "acceptance_criteria": [
+      "客户确认交付结果可用",
+      "交付范围未无限扩张",
+      "复盘出可标准化部分"
+    ],
+    "reuse_observation_table": [
+      "相似客户问题",
+      "可复用流程",
+      "不可复用定制",
+      "边际成本变化",
+      "产品化风险"
+    ],
+    "customer_validation_metrics": [
+      "付款或预算确认",
+      "验收通过率",
+      "交付工时",
+      "返工轮次",
+      "复购 / 续费意愿"
+    ],
+    "project_closeout_required": true,
+    "productization_rejudgment_materials": [
+      "第二个相似客户",
+      "可配置需求比例",
+      "交付工时下降证据",
+      "复购或转介绍材料"
+    ],
+    "do_not_productize_until": [
+      "至少出现第二个相似客户",
+      "定制部分和标准部分可分离",
+      "边际交付成本可被记录并下降"
+    ]
+  },
+  "internal_efficiency_input_package": {
+    "product_summary": {
+      "product_name": "GEO 服务商业化产品价值门禁输入",
+      "one_sentence_positioning": "围绕“GEO 服务商业化产品价值门禁输入”验证是否具备可衡量、可归因、可兑现的价值。",
+      "product_type": "对外商业产品 / B2B SaaS",
+      "target_stage": "value_gate",
+      "business_context": "待验证"
+    },
+    "path_goal": "验证内部降本、增效、降错或风险降低，不默认对外产品化。",
+    "efficiency_value": "服务收入 / 项目收入 / 复购或复测收入",
+    "metrics": [
+      "AI 提及率",
+      "品牌推荐率",
+      "竞品覆盖差距",
+      "关键词回答覆盖率",
+      "引用来源质量",
+      "多模型一致性",
+      "复测变化",
+      "线索转化归因"
+    ],
+    "cost_items": [
+      "获客成本",
+      "交付成本",
+      "人工成本",
+      "维护成本",
+      "沟通成本",
+      "售后成本",
+      "合规成本",
+      "风险成本"
+    ],
+    "validation_materials": [
+      "当前流程耗时",
+      "使用频率",
+      "人工成本",
+      "错误率",
+      "建设维护成本"
+    ],
+    "must_quantify": [
+      "节省谁的时间",
+      "每次节省多久",
+      "发生频率",
+      "对应人工成本",
+      "建设和维护成本",
+      "回本周期"
+    ],
+    "time_saved_per_run": "待确认",
+    "frequency": "待确认",
+    "labor_cost_baseline": "待确认",
+    "build_maintenance_cost": "待确认",
+    "payback_period": "待确认",
+    "roi_inputs_required": [
+      "单次节省时间",
+      "使用频率",
+      "人力成本",
+      "建设成本",
+      "维护成本",
+      "错误率下降"
+    ],
+    "efficiency_acceptance_criteria": [
+      "节省时间可记录",
+      "错误率或返工下降可记录",
+      "建设维护成本低于节省价值"
+    ],
+    "do_not_externalize_until": [
+      "外部付费者明确",
+      "外部场景和内部场景差异被验证",
+      "权限和数据边界可控"
+    ]
+  },
+  "research_input_package": {
+    "product_summary": {
+      "product_name": "GEO 服务商业化产品价值门禁输入",
+      "one_sentence_positioning": "围绕“GEO 服务商业化产品价值门禁输入”验证是否具备可衡量、可归因、可兑现的价值。",
+      "product_type": "对外商业产品 / B2B SaaS",
+      "target_stage": "value_gate",
+      "business_context": "待验证"
+    },
+    "path_goal": "补齐价值判断缺口，不进入 PRD 或 MVP 开发。",
+    "missing_or_unclear_items": [
+      "补齐客单价、获客成本、交付工时、复购周期、多客户复用和产品化边际成本证据。"
+    ],
+    "open_questions": [
+      "首期覆盖哪些 AI 平台和行业？",
+      "品牌曝光、推荐和引用质量的基线如何定义？",
+      "客户买单的是 SaaS、诊断报告、持续监测还是服务交付？",
+      "复测周期和效果归因口径如何定义？",
+      "补齐客单价、获客成本、交付工时、复购周期、多客户复用和产品化边际成本证据。"
+    ],
+    "recommended_research": [
+      "用户访谈",
+      "付费验证",
+      "成本核算",
+      "获客路径验证",
+      "风险边界确认"
+    ],
+    "research_outputs_required": [
+      "事实 / 假设分离",
+      "证据等级",
+      "付费层级",
+      "成本结构",
+      "风险边界",
+      "是否复判"
+    ],
+    "interview_questions": [
+      "谁是付费者、决策者、使用者和验收方？",
+      "当前替代方案是什么，为什么不够好？",
+      "愿意为什么结果付费，最低可接受价格区间是多少？",
+      "什么结果出现后会复购、续费或推荐？"
+    ],
+    "minimum_sample_size": "至少 5 个目标用户 / 客户访谈，或 2 个明确付费 / 预算信号。",
+    "payment_test_method": [
+      "付费预售",
+      "报价接受度测试",
+      "试点转付费",
+      "明确预算确认"
+    ],
+    "competitor_research_tasks": [
+      "竞品定价",
+      "竞品交付方式",
+      "竞品指标体系",
+      "客户评价和痛点"
+    ],
+    "risk_research_tasks": [
+      "合规边界",
+      "数据授权",
+      "平台规则",
+      "行业红线",
+      "责任边界"
+    ],
+    "exit_criteria": [
+      "没有明确付费对象",
+      "用户只愿免费试用",
+      "成本结构无法覆盖",
+      "风险边界不可控"
+    ],
+    "rejudgment_required_materials": [
+      "访谈记录",
+      "付费证据",
+      "成本估算",
+      "竞品证据",
+      "风险确认"
+    ]
+  },
+  "stop_reason_package": {
+    "product_summary": {
+      "product_name": "GEO 服务商业化产品价值门禁输入",
+      "one_sentence_positioning": "围绕“GEO 服务商业化产品价值门禁输入”验证是否具备可衡量、可归因、可兑现的价值。",
+      "product_type": "对外商业产品 / B2B SaaS",
+      "target_stage": "value_gate",
+      "business_context": "待验证"
+    },
+    "path_goal": "停止正式 PRD 和开发投入，只允许低成本复判。",
+    "blocked_reasons": [
+      "证据支持服务化 MVP / 客户项目验证，但不足以支持完整 SaaS PRD。"
+    ],
+    "counter_evidence": [
+      "如果用户只愿意试用但不愿意付费，商业价值不成立。",
+      "如果获客成本高于客单价，利润价值不成立。",
+      "如果交付严重依赖人工专家，产品化价值不足。",
+      "如果节省的人力成本小于系统建设成本，内部价值不成立。",
+      "如果 AI 平台回答波动过大且无法归因，GEO 效果难以证明。",
+      "如果客户只为一次性诊断报告付费，不愿持续订阅，SaaS 路径不成立。",
+      "如果优化建议高度依赖人工专家，规模化毛利会受限。",
+      "如果曝光提升无法带来线索、咨询或品牌指标变化，商业结果不成立。",
+      "如果平台规则变化导致方法失效，需要降级为监测和合规内容优化服务。"
+    ],
+    "reopen_conditions": [
+      "出现真实付费",
+      "获客成本可控",
+      "交付成本下降",
+      "价值对象明确"
+    ]
+  },
+  "redline_block_package": {
+    "product_summary": {
+      "product_name": "GEO 服务商业化产品价值门禁输入",
+      "one_sentence_positioning": "围绕“GEO 服务商业化产品价值门禁输入”验证是否具备可衡量、可归因、可兑现的价值。",
+      "product_type": "对外商业产品 / B2B SaaS",
+      "target_stage": "value_gate",
+      "business_context": "待验证"
+    },
+    "path_goal": "禁止推进，先完成专业风险确认。",
+    "red_line_risks": [],
+    "required_confirmation": [
+      "专业合规确认",
+      "风险边界重写",
+      "禁止承诺和高风险动作清单"
+    ]
+  },
+  "downstream_input_package": "mvp_input_package",
+  "evidence_ledger": [
+    {
+      "claim": "用户声明已经完成过 MVP 实验。",
+      "source_type": "user_provided_fact",
+      "source_title": "项目原始输入",
+      "source_url": "projects/geo-service-prd/00_raw_input.md",
+      "captured_at": "2026-05-10",
+      "confidence": "high_user_claim",
+      "prd_usage": "safe_fact_with_user_source",
+      "note": "可作为业务方声明事实写入 PRD，但不得伪装为外部独立验证。",
+      "fetch_status": "not_applicable",
+      "checked_at": "",
+      "http_status": null,
+      "retrieved_title": "",
+      "evidence_excerpt": "",
+      "fetch_error": ""
+    },
+    {
+      "claim": "用户声明已有同行或客户为相关服务买单。",
+      "source_type": "user_provided_fact",
+      "source_title": "项目原始输入",
+      "source_url": "projects/geo-service-prd/00_raw_input.md",
+      "captured_at": "2026-05-10",
+      "confidence": "high_user_claim",
+      "prd_usage": "safe_fact_with_user_source",
+      "note": "证明服务价值有强信号；不能直接证明完整 SaaS 产品化已经成立。",
+      "fetch_status": "not_applicable",
+      "checked_at": "",
+      "http_status": null,
+      "retrieved_title": "",
+      "evidence_excerpt": "",
+      "fetch_error": ""
+    },
+    {
+      "claim": "Gartner 预测到 2026 年传统搜索量将下降 25%，搜索营销会被 AI chatbots 和虚拟代理分流。",
+      "source_type": "external_public_source",
+      "source_title": "Gartner search volume forecast",
+      "source_url": "https://www.gartner.com/en/newsroom/press-releases/2024-02-19-gartner-predicts-search-engine-volume-will-drop-25-percent-by-2026-due-to-ai-chatbots-and-other-virtual-agents",
+      "captured_at": "2026-05-10",
+      "confidence": "industry_research_source",
+      "prd_usage": "safe_fact_with_external_source",
+      "note": "证明搜索行为迁移趋势和营销渠道调整压力，不证明具体 GEO 项目一定有利润。",
+      "fetch_status": "non_success_status",
+      "checked_at": "2026-05-10",
+      "http_status": 403,
+      "retrieved_title": "Just a moment... | Gartner",
+      "evidence_excerpt": "Just a moment... | Gartner Gartner.com To ensure a secure connection and verify you're human, please complete the validation process, if prompted. Enable JavaScript and cookies to continue Ray ID: 9f96a4380fa0dff1",
+      "fetch_error": ""
+    },
+    {
+      "claim": "Bain 引用 Sensor Tower 数据显示 2025 年上半年 ChatGPT prompt 量增长近 70%，购物相关 prompts 在占比和绝对量上明显增长。",
+      "source_type": "external_public_source",
+      "source_title": "Bain AI Search Research",
+      "source_url": "https://www.bain.com/insights/how-customers-are-using-ai-search/",
+      "captured_at": "2026-05-10",
+      "confidence": "consulting_research_source",
+      "prd_usage": "safe_fact_with_external_source",
+      "note": "证明用户正在把 AI 用于搜索、购物和链接点击，不证明客户会为本 GEO 服务持续付费。",
+      "fetch_status": "reachable",
+      "checked_at": "2026-05-10",
+      "http_status": 200,
+      "retrieved_title": "How Customers Are Using AI Search [2025 Research] | Bain &amp; Company",
+      "evidence_excerpt": "How Customers Are Using AI Search [2025 Research] | Bain &amp; Company Skip to Content Offices Close Offices North &amp; Latin America Atlanta Austin Bogota Boston Buenos Aires Chicago Dallas Denver Houston Los Angeles Mexico City Minneapolis Monterrey Montrea",
+      "fetch_error": ""
+    },
+    {
+      "claim": "公开 GEO agency pricing 资料显示，GEO 服务常见月费区间约为 3,000-25,000 美元。",
+      "source_type": "external_public_source",
+      "source_title": "RevvGrowth GEO pricing guide",
+      "source_url": "https://www.revvgrowth.com/geo/geo-agency-pricing",
+      "captured_at": "2026-05-10",
+      "confidence": "market_pricing_reference",
+      "prd_usage": "assumption_or_inference_only",
+      "note": "只能作为海外服务价格锚点，不能直接证明国内客户可接受同等价格或 ROI。",
+      "fetch_status": "reachable",
+      "checked_at": "2026-05-10",
+      "http_status": 200,
+      "retrieved_title": "GEO Pricing 2026: What AI Visibility Costs",
+      "evidence_excerpt": "GEO Pricing 2026: What AI Visibility Costs Revv up your B2B growth with AI. See our results. Learn more B2B growth meets AI innovation. Get cutting-edge insights from RevvGrowth Learn more Services Demand generation Qualified pipeline, every week Content Marke",
+      "fetch_error": ""
+    },
+    {
+      "claim": "Goodie 将 AI search visibility 定义为品牌被 ChatGPT、Perplexity、Gemini 等 AI 搜索引用的频率，并跟踪引用频率、排名位置、情绪和 share of voice。",
+      "source_type": "external_public_source",
+      "source_title": "Goodie pricing and FAQ",
+      "source_url": "https://higoodie.com/pricing/",
+      "captured_at": "2026-05-10",
+      "confidence": "competitor_product_source",
+      "prd_usage": "safe_fact_with_external_source",
+      "note": "证明竞品已经把 AI 可见度指标产品化，不证明本项目已有同等产品化能力。",
+      "fetch_status": "reachable",
+      "checked_at": "2026-05-10",
+      "http_status": 200,
+      "retrieved_title": "Pricing Plans | Power Your AI Search Visibility | Goodie",
+      "evidence_excerpt": "--> Pricing Plans | Power Your AI Search Visibility | Goodie Skip to main content Product Use Case resources Pricing About Log In Log In GET A DEMO GET A DEMO Open main navigation Product Prompt Research Agentic Commerce Suite Visibility Monitoring Crawlers &a",
+      "fetch_error": ""
+    },
+    {
+      "claim": "SEORCE 定义 prompt tracking 为监测 ChatGPT、Gemini、Perplexity、Google AI 中品牌或 URL 是否出现在回答里，并提供面向个人站点的低价 Lite 计划。",
+      "source_type": "external_public_source",
+      "source_title": "SEORCE pricing",
+      "source_url": "https://seorce.com/pricing",
+      "captured_at": "2026-05-10",
+      "confidence": "competitor_product_source",
+      "prd_usage": "safe_fact_with_external_source",
+      "note": "证明 AI visibility 监测已有 SaaS 化和低价入口形态，不证明服务化交付利润更高。",
+      "fetch_status": "reachable",
+      "checked_at": "2026-05-10",
+      "http_status": 200,
+      "retrieved_title": "SEORCE - AI-Powered SEO Platform",
+      "evidence_excerpt": "SEORCE - AI-Powered SEO Platform Product Solutions Pricing About Us Blog Feed Log in Contact Us Get started What&#x27;s new Rank in AI search, not just Google. SEORCE is the first platform built for the AI search era — tracking your brand across ChatGPT, Gemin",
+      "fetch_error": ""
+    },
+    {
+      "claim": "DeepSeek 有公开官方服务和 API 文档，是 GEO 监测可覆盖的 AI 平台之一。",
+      "source_type": "external_public_source",
+      "source_title": "DeepSeek API Docs",
+      "source_url": "https://api-docs.deepseek.com/api/deepseek-api/",
+      "captured_at": "2026-05-10",
+      "confidence": "official_source",
+      "prd_usage": "safe_fact_with_external_source",
+      "note": "只证明平台和官方文档存在，不证明客户需求或商业价值成立。",
+      "fetch_status": "reachable",
+      "checked_at": "2026-05-10",
+      "http_status": 200,
+      "retrieved_title": "DeepSeek API | DeepSeek API Docs",
+      "evidence_excerpt": "DeepSeek API | DeepSeek API Docs Skip to main content DeepSeek API Docs English English 中文（中国） DeepSeek Platform Quick Start Your First API Call Models &amp; Pricing Token &amp; Token Usage Rate Limit Error Codes Agent Integrations API Guides Thinking Mode Mul",
+      "fetch_error": ""
+    },
+    {
+      "claim": "豆包有公开 AI 助手入口，是 GEO 监测可覆盖的 AI 平台之一。",
+      "source_type": "external_public_source",
+      "source_title": "豆包官网",
+      "source_url": "https://www.doubao.com/chat/",
+      "captured_at": "2026-05-10",
+      "confidence": "official_source",
+      "prd_usage": "safe_fact_with_external_source",
+      "note": "只证明平台入口存在，不证明 GEO 服务商业化成立。",
+      "fetch_status": "reachable",
+      "checked_at": "2026-05-10",
+      "http_status": 200,
+      "retrieved_title": "",
+      "evidence_excerpt": "",
+      "fetch_error": ""
+    },
+    {
+      "claim": "Qwen 官方页面将 Qwen Studio 定位为面向用户的 AI assistant。",
+      "source_type": "external_public_source",
+      "source_title": "Qwen Chat",
+      "source_url": "https://qwen.ai/qwenchat",
+      "captured_at": "2026-05-10",
+      "confidence": "official_source",
+      "prd_usage": "safe_fact_with_external_source",
+      "note": "只证明平台和产品定位存在，不证明 GEO 服务商业化成立。",
+      "fetch_status": "reachable",
+      "checked_at": "2026-05-10",
+      "http_status": 200,
+      "retrieved_title": "Qwen",
+      "evidence_excerpt": "Qwen",
+      "fetch_error": ""
+    },
+    {
+      "claim": "腾讯元宝官网将元宝描述为可问答和创作的智能助手。",
+      "source_type": "external_public_source",
+      "source_title": "腾讯元宝官网",
+      "source_url": "https://yuanbao.tencent.com/",
+      "captured_at": "2026-05-10",
+      "confidence": "official_source",
+      "prd_usage": "safe_fact_with_external_source",
+      "note": "只证明平台和产品定位存在，不证明 GEO 服务商业化成立。",
+      "fetch_status": "reachable",
+      "checked_at": "2026-05-10",
+      "http_status": 200,
+      "retrieved_title": "",
+      "evidence_excerpt": "搜索 前往下载中心 Hi~ 我是元宝 Hi~ 我是元宝 你身边的智能助手，可以为你答疑解惑、尽情创作，快来点击以下任一功能体验吧～ 内容由AI生成，仅供参考",
+      "fetch_error": ""
+    },
+    {
+      "claim": "可以先用人工 + 半自动方式交付，降低首期研发成本。",
+      "source_type": "inference",
+      "source_title": "价值门禁规则推断",
+      "source_url": "",
+      "captured_at": "2026-05-10",
+      "confidence": "derived",
+      "prd_usage": "assumption_or_inference_only",
+      "note": "只能作为推论，不能在 PRD 中写成已验证事实。",
+      "fetch_status": "not_applicable",
+      "checked_at": "",
+      "http_status": null,
+      "retrieved_title": "",
+      "evidence_excerpt": "",
+      "fetch_error": ""
+    },
+    {
+      "claim": "同行买单可以证明服务价值和项目价值有初步信号，但不能直接证明完整 SaaS 产品化成立",
+      "source_type": "inference",
+      "source_title": "价值门禁规则推断",
+      "source_url": "",
+      "captured_at": "2026-05-10",
+      "confidence": "derived",
+      "prd_usage": "assumption_or_inference_only",
+      "note": "只能作为推论，不能在 PRD 中写成已验证事实。",
+      "fetch_status": "not_applicable",
+      "checked_at": "",
+      "http_status": null,
+      "retrieved_title": "",
+      "evidence_excerpt": "",
+      "fetch_error": ""
+    }
+  ],
+  "safe_facts_for_prd": [
+    "用户声明已经完成过 MVP 实验。",
+    "用户声明已有同行或客户为相关服务买单。",
+    "Gartner 预测到 2026 年传统搜索量将下降 25%，搜索营销会被 AI chatbots 和虚拟代理分流。",
+    "Bain 引用 Sensor Tower 数据显示 2025 年上半年 ChatGPT prompt 量增长近 70%，购物相关 prompts 在占比和绝对量上明显增长。",
+    "Goodie 将 AI search visibility 定义为品牌被 ChatGPT、Perplexity、Gemini 等 AI 搜索引用的频率，并跟踪引用频率、排名位置、情绪和 share of voice。",
+    "SEORCE 定义 prompt tracking 为监测 ChatGPT、Gemini、Perplexity、Google AI 中品牌或 URL 是否出现在回答里，并提供面向个人站点的低价 Lite 计划。",
+    "DeepSeek 有公开官方服务和 API 文档，是 GEO 监测可覆盖的 AI 平台之一。",
+    "豆包有公开 AI 助手入口，是 GEO 监测可覆盖的 AI 平台之一。",
+    "Qwen 官方页面将 Qwen Studio 定位为面向用户的 AI assistant。",
+    "腾讯元宝官网将元宝描述为可问答和创作的智能助手。"
+  ],
+  "assumptions_for_prd": [
+    "AI 检索曝光可以通过问题样本、品牌提及、竞品提及和引用来源进行周期性监测",
+    "客户愿意为可解释的诊断报告、优化建议和复测结果持续付费",
+    "真实利润、获客路径、价值归因仍需验证"
+  ],
+  "blocked_claims": [
+    "完整 SaaS 产品化已经成立",
+    "GEO 优化一定能提升 AI 推荐或排名",
+    "AI 平台一定会稳定采纳优化内容",
+    "同行买单可以直接证明规模化产品收入成立",
+    "获客成本、交付工时、复购周期已经验证完成",
+    "可以承诺确定性收益或确定性排名"
+  ],
+  "unsupported_claims": [
+    "完整 SaaS 产品化已经成立",
+    "GEO 优化一定能提升 AI 推荐或排名",
+    "AI 平台一定会稳定采纳优化内容",
+    "同行买单可以直接证明规模化产品收入成立",
+    "获客成本、交付工时、复购周期已经验证完成",
+    "可以承诺确定性收益或确定性排名"
+  ],
+  "hard_gate_scorecard": [
+    {
+      "key": "value_object",
+      "label": "价值对象",
+      "status": "Pass",
+      "reason": "已识别付费者、决策者、使用者和潜在反对者。",
+      "blocks_full_prd": false,
+      "next_action": "保持价值对象矩阵，PRD 不要混淆付费者、使用者和验收方。"
+    },
+    {
+      "key": "business_result",
+      "label": "商业结果",
+      "status": "Pass",
+      "reason": "商业结果为：服务收入 / 项目收入 / 复购或复测收入。",
+      "blocks_full_prd": false,
+      "next_action": "把商业结果写成可验收指标，不写泛泛的“提升体验”。"
+    },
+    {
+      "key": "metrics",
+      "label": "衡量指标",
+      "status": "Pass",
+      "reason": "已给出可衡量指标。",
+      "blocks_full_prd": false,
+      "next_action": "补齐基线值、复测周期和指标口径。"
+    },
+    {
+      "key": "attribution",
+      "label": "价值归因",
+      "status": "Warning",
+      "reason": "归因风险：中。",
+      "blocks_full_prd": false,
+      "next_action": "PRD 必须记录产品动作、服务动作、外部干扰和复测材料。"
+    },
+    {
+      "key": "evidence_level",
+      "label": "证据等级",
+      "status": "Pass",
+      "reason": "证据等级为 S。",
+      "blocks_full_prd": false,
+      "next_action": "低于 A 级时，不得直接进入完整 PRD。"
+    },
+    {
+      "key": "payment_evidence",
+      "label": "付费证据",
+      "status": "Pass",
+      "reason": "付费证据第 5 层。",
+      "blocks_full_prd": false,
+      "next_action": "确认真实付款、合同、预算或复购证据。"
+    },
+    {
+      "key": "true_profit",
+      "label": "真实利润",
+      "status": "Warning",
+      "reason": "客单价必须覆盖获客、交付、人工复核、维护、售后、合规和风险成本，并保留可接受毛利。",
+      "blocks_full_prd": false,
+      "next_action": "补齐客单价、获客成本、交付工时、人工复核和售后维护成本。"
+    },
+    {
+      "key": "acquisition",
+      "label": "获客路径",
+      "status": "Warning",
+      "reason": "需要验证客单价能否覆盖获客、诊断、交付和持续监测成本。",
+      "blocks_full_prd": false,
+      "next_action": "确认第一批用户、触达方式、信任来源和 CAC/LTV 风险。"
+    },
+    {
+      "key": "resource_fit",
+      "label": "资源匹配",
+      "status": "Warning",
+      "reason": "可用资产：SEO、内容营销、AI 转型；缺失资产：客户资源。",
+      "blocks_full_prd": false,
+      "next_action": "把缺失资源转为 PRD 上线前拍板项。"
+    },
+    {
+      "key": "productization",
+      "label": "产品化价值",
+      "status": "Warning",
+      "reason": "同行买单可能先证明服务价值，不必然证明 SaaS 产品化价值。",
+      "blocks_full_prd": true,
+      "next_action": "先区分项目价值、服务价值和完整 SaaS 产品化价值。"
+    },
+    {
+      "key": "redline",
+      "label": "红线风险",
+      "status": "Pass",
+      "reason": "未识别到不可控红线，但仍需保留行业和平台规则边界。",
+      "blocks_full_prd": false,
+      "next_action": "红线不可控时禁止推进；可控时进入风险约束版路径。"
+    }
+  ],
+  "path_recommendation": {
+    "recommended_path": "服务化 MVP PRD",
+    "allowed_paths": [
+      "服务化 MVP",
+      "客户项目验证",
+      "PRD 小修订"
+    ],
+    "deferred_paths": [
+      "完整 SaaS PRD",
+      "自动化平台建设"
+    ],
+    "blocked_paths": [
+      "承诺 AI 推荐结果",
+      "黑灰产 GEO",
+      "无验证直接重研发"
+    ],
+    "reason": "已有 MVP 和买单信号，但真实利润、获客、交付成本和 SaaS 产品化仍需验证。"
+  },
+  "business_worth_verdict": {
+    "verdict": "worth_testing",
+    "plain_conclusion": "值得继续做，但只值得先做服务化 MVP；不值得现在直接做完整 SaaS 或重研发自动化平台。",
+    "worth_doing_scope": [
+      "服务化 MVP PRD",
+      "客户项目验证",
+      "PRD 小修订"
+    ],
+    "not_worth_doing_scope": [
+      "完整 SaaS PRD",
+      "自动化平台建设",
+      "无验证重研发"
+    ],
+    "confidence": "medium_high",
+    "evidence_basis": [
+      "用户声明已经完成过 MVP 实验。",
+      "用户声明已有同行或客户为相关服务买单。",
+      "Gartner 预测到 2026 年传统搜索量将下降 25%，搜索营销会被 AI chatbots 和虚拟代理分流。",
+      "Bain 引用 Sensor Tower 数据显示 2025 年上半年 ChatGPT prompt 量增长近 70%，购物相关 prompts 在占比和绝对量上明显增长。",
+      "Goodie 将 AI search visibility 定义为品牌被 ChatGPT、Perplexity、Gemini 等 AI 搜索引用的频率，并跟踪引用频率、排名位置、情绪和 share of voice。",
+      "SEORCE 定义 prompt tracking 为监测 ChatGPT、Gemini、Perplexity、Google AI 中品牌或 URL 是否出现在回答里，并提供面向个人站点的低价 Lite 计划。",
+      "DeepSeek 有公开官方服务和 API 文档，是 GEO 监测可覆盖的 AI 平台之一。",
+      "豆包有公开 AI 助手入口，是 GEO 监测可覆盖的 AI 平台之一。",
+      "Qwen 官方页面将 Qwen Studio 定位为面向用户的 AI assistant。",
+      "腾讯元宝官网将元宝描述为可问答和创作的智能助手。"
+    ],
+    "critical_gaps": [
+      "真实利润未核算完成",
+      "获客成本未验证",
+      "交付工时未记录",
+      "复购周期未确认",
+      "完整 SaaS 产品化证据不足"
+    ],
+    "next_decision": "是否按服务化 MVP 路径推进，而不是直接做完整 SaaS。"
+  },
+  "material_intake_summary": {
+    "status": "missing_critical_materials",
+    "material_file_version": "2.5.0",
+    "slot_rows": [
+      {
+        "slot_key": "payment_proof",
+        "label": "付款 / 合同证据",
+        "category": "商业价值证据",
+        "slot_status": "missing",
+        "material_count": 0,
+        "accepted_count": 0,
+        "submitted_count": 0,
+        "decision_use": "真实买单 / 预算 / 采购流程 / S_claimed 复核",
+        "cannot_prove": "复购 / ROI / SaaS 产品化成立"
+      },
+      {
+        "slot_key": "customer_record",
+        "label": "客户 / 行业记录",
+        "category": "需求证据",
+        "slot_status": "missing",
+        "material_count": 0,
+        "accepted_count": 0,
+        "submitted_count": 0,
+        "decision_use": "目标客户清晰 / 决策 / 付费对象清晰",
+        "cannot_prove": "客户复购 / 获客成本可控"
+      },
+      {
+        "slot_key": "mvp_experiment_record",
+        "label": "MVP 实验记录",
+        "category": "需求证据",
+        "slot_status": "missing",
+        "material_count": 0,
+        "accepted_count": 0,
+        "submitted_count": 0,
+        "decision_use": "服务闭环已试跑 / 核心价值链路可复判",
+        "cannot_prove": "真实利润 / 规模化产品化"
+      },
+      {
+        "slot_key": "delivery_acceptance_record",
+        "label": "交付 / 验收记录",
+        "category": "经营证据",
+        "slot_status": "missing",
+        "material_count": 0,
+        "accepted_count": 0,
+        "submitted_count": 0,
+        "decision_use": "交付结果和验收状态 / 返工 / 维护成本复判",
+        "cannot_prove": "获客成本 / 复购意愿"
+      },
+      {
+        "slot_key": "repurchase_or_referral_record",
+        "label": "复购 / 续费 / 转介绍记录",
+        "category": "产品化证据",
+        "slot_status": "missing",
+        "material_count": 0,
+        "accepted_count": 0,
+        "submitted_count": 0,
+        "decision_use": "持续价值 / LTV / 产品化升级候选",
+        "cannot_prove": "首单获客成本 / 交付边际成本下降"
+      },
+      {
+        "slot_key": "price_or_quote_record",
+        "label": "报价 / 客单价证据",
+        "category": "经营证据",
+        "slot_status": "missing",
+        "material_count": 0,
+        "accepted_count": 0,
+        "submitted_count": 0,
+        "decision_use": "收入输入 / 最低利润条件",
+        "cannot_prove": "成交真实 / 交付成本可控"
+      },
+      {
+        "slot_key": "delivery_time_record",
+        "label": "交付工时证据",
+        "category": "经营证据",
+        "slot_status": "missing",
+        "material_count": 0,
+        "accepted_count": 0,
+        "submitted_count": 0,
+        "decision_use": "交付成本 / 边际成本判断",
+        "cannot_prove": "客户愿意付费 / 获客可控"
+      },
+      {
+        "slot_key": "acquisition_source_record",
+        "label": "获客来源证据",
+        "category": "经营证据",
+        "slot_status": "missing",
+        "material_count": 0,
+        "accepted_count": 0,
+        "submitted_count": 0,
+        "decision_use": "冷启动来源 / CAC/LTV 复判输入",
+        "cannot_prove": "服务价值成立 / 复购成立"
+      }
+    ],
+    "status_counts": {
+      "missing": 8,
+      "needs_more_context": 0,
+      "reviewed_accepted": 0,
+      "reviewed_rejected": 0,
+      "submitted_pending_review": 0
+    },
+    "missing_critical_slots": [
+      "付款 / 合同证据",
+      "客户 / 行业记录",
+      "MVP 实验记录",
+      "报价 / 客单价证据",
+      "交付工时证据",
+      "获客来源证据"
+    ],
+    "rule": "材料存在不等于验证通过；只有 reviewed_accepted 材料才能作为 verified evidence 候选。"
+  },
+  "material_to_evidence_mapping": [
+    {
+      "material_id": "mat-001",
+      "slot_key": "payment_proof",
+      "slot_label": "付款 / 合同证据",
+      "material_type": "待填写",
+      "title": "付款 / 合同证据",
+      "occurred_at": "待填写",
+      "source_path_or_url": "待填写",
+      "review_status": "missing",
+      "evidence_category": "商业价值证据",
+      "proves": [
+        "真实买单",
+        "预算 / 采购流程",
+        "S_claimed 复核"
+      ],
+      "does_not_prove": [
+        "复购",
+        "ROI",
+        "SaaS 产品化成立"
+      ],
+      "usable_for_verified_evidence": false,
+      "decision_effect": "只能作为待复核材料或缺失项"
+    },
+    {
+      "material_id": "mat-002",
+      "slot_key": "customer_record",
+      "slot_label": "客户 / 行业记录",
+      "material_type": "待填写",
+      "title": "客户 / 行业记录",
+      "occurred_at": "待填写",
+      "source_path_or_url": "待填写",
+      "review_status": "missing",
+      "evidence_category": "需求证据",
+      "proves": [
+        "目标客户清晰",
+        "决策 / 付费对象清晰"
+      ],
+      "does_not_prove": [
+        "客户复购",
+        "获客成本可控"
+      ],
+      "usable_for_verified_evidence": false,
+      "decision_effect": "只能作为待复核材料或缺失项"
+    },
+    {
+      "material_id": "mat-003",
+      "slot_key": "mvp_experiment_record",
+      "slot_label": "MVP 实验记录",
+      "material_type": "待填写",
+      "title": "MVP 实验记录",
+      "occurred_at": "待填写",
+      "source_path_or_url": "待填写",
+      "review_status": "missing",
+      "evidence_category": "需求证据",
+      "proves": [
+        "服务闭环已试跑",
+        "核心价值链路可复判"
+      ],
+      "does_not_prove": [
+        "真实利润",
+        "规模化产品化"
+      ],
+      "usable_for_verified_evidence": false,
+      "decision_effect": "只能作为待复核材料或缺失项"
+    },
+    {
+      "material_id": "mat-004",
+      "slot_key": "delivery_acceptance_record",
+      "slot_label": "交付 / 验收记录",
+      "material_type": "待填写",
+      "title": "交付 / 验收记录",
+      "occurred_at": "待填写",
+      "source_path_or_url": "待填写",
+      "review_status": "missing",
+      "evidence_category": "经营证据",
+      "proves": [
+        "交付结果和验收状态",
+        "返工 / 维护成本复判"
+      ],
+      "does_not_prove": [
+        "获客成本",
+        "复购意愿"
+      ],
+      "usable_for_verified_evidence": false,
+      "decision_effect": "只能作为待复核材料或缺失项"
+    },
+    {
+      "material_id": "mat-005",
+      "slot_key": "repurchase_or_referral_record",
+      "slot_label": "复购 / 续费 / 转介绍记录",
+      "material_type": "待填写",
+      "title": "复购 / 续费 / 转介绍记录",
+      "occurred_at": "待填写",
+      "source_path_or_url": "待填写",
+      "review_status": "missing",
+      "evidence_category": "产品化证据",
+      "proves": [
+        "持续价值",
+        "LTV / 产品化升级候选"
+      ],
+      "does_not_prove": [
+        "首单获客成本",
+        "交付边际成本下降"
+      ],
+      "usable_for_verified_evidence": false,
+      "decision_effect": "只能作为待复核材料或缺失项"
+    },
+    {
+      "material_id": "mat-006",
+      "slot_key": "price_or_quote_record",
+      "slot_label": "报价 / 客单价证据",
+      "material_type": "待填写",
+      "title": "报价 / 客单价证据",
+      "occurred_at": "待填写",
+      "source_path_or_url": "待填写",
+      "review_status": "missing",
+      "evidence_category": "经营证据",
+      "proves": [
+        "收入输入",
+        "最低利润条件"
+      ],
+      "does_not_prove": [
+        "成交真实",
+        "交付成本可控"
+      ],
+      "usable_for_verified_evidence": false,
+      "decision_effect": "只能作为待复核材料或缺失项"
+    },
+    {
+      "material_id": "mat-007",
+      "slot_key": "delivery_time_record",
+      "slot_label": "交付工时证据",
+      "material_type": "待填写",
+      "title": "交付工时证据",
+      "occurred_at": "待填写",
+      "source_path_or_url": "待填写",
+      "review_status": "missing",
+      "evidence_category": "经营证据",
+      "proves": [
+        "交付成本",
+        "边际成本判断"
+      ],
+      "does_not_prove": [
+        "客户愿意付费",
+        "获客可控"
+      ],
+      "usable_for_verified_evidence": false,
+      "decision_effect": "只能作为待复核材料或缺失项"
+    },
+    {
+      "material_id": "mat-008",
+      "slot_key": "acquisition_source_record",
+      "slot_label": "获客来源证据",
+      "material_type": "待填写",
+      "title": "获客来源证据",
+      "occurred_at": "待填写",
+      "source_path_or_url": "待填写",
+      "review_status": "missing",
+      "evidence_category": "经营证据",
+      "proves": [
+        "冷启动来源",
+        "CAC/LTV 复判输入"
+      ],
+      "does_not_prove": [
+        "服务价值成立",
+        "复购成立"
+      ],
+      "usable_for_verified_evidence": false,
+      "decision_effect": "只能作为待复核材料或缺失项"
+    }
+  ],
+  "rejudgment_readiness_gate": {
+    "status": "not_ready_missing_materials",
+    "payment_ready": false,
+    "service_loop_ready": false,
+    "roi_ready": false,
+    "productization_ready": false,
+    "accepted_slots": [],
+    "submitted_slots": [],
+    "missing_critical_slots": [
+      "付款 / 合同证据",
+      "客户 / 行业记录",
+      "MVP 实验记录",
+      "报价 / 客单价证据",
+      "交付工时证据",
+      "获客来源证据"
+    ],
+    "next_action": "先人工复核 submitted_pending_review 材料；缺失关键槽位时不得升级证据或 ROI 结论。"
+  },
+  "external_research_results": {
+    "status": "available",
+    "generated_from_queue": "ready_for_manual_or_agentic_research",
+    "row_count": 20,
+    "rows": [
+      {
+        "source_title": "Gartner search volume forecast",
+        "url": "https://www.gartner.com/en/newsroom/press-releases/2024-02-19-gartner-predicts-search-engine-volume-will-drop-25-percent-by-2026-due-to-ai-chatbots-and-other-virtual-agents",
+        "captured_at": "2026-05-10",
+        "excerpt": "Just a moment... | Gartner Gartner.com To ensure a secure connection and verify you're human, please complete the validation process, if prompted. Enable JavaScript and cookies to continue Ray ID: 9f96a4380fa0dff1",
+        "can_prove": "证明传统搜索流量可能被 AI 助手分流，企业搜索营销预算存在被重新配置的外部压力。",
+        "cannot_prove": "不能证明你的 GEO 服务一定能获客、成交、盈利或取得高 ROI。",
+        "credibility": "B：行业趋势证据",
+        "decision_effect": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。",
+        "fetch_status": "non_success_status"
+      },
+      {
+        "source_title": "Bain AI Search Research",
+        "url": "https://www.bain.com/insights/how-customers-are-using-ai-search/",
+        "captured_at": "2026-05-10",
+        "excerpt": "How Customers Are Using AI Search [2025 Research] | Bain &amp; Company Skip to Content Offices Close Offices North &amp; Latin America Atlanta Austin Bogota Boston Buenos Aires Chicago Dallas Denver Houston Los Angeles Mexico City Minneapolis Monterrey Montrea",
+        "can_prove": "证明用户正在把 AI 用于搜索、购物和链接点击，品牌需要关注 AI 搜索可见度。",
+        "cannot_prove": "不能证明国内目标客户愿意持续付费，也不能证明单个 GEO 项目的投产比。",
+        "credibility": "B：用户行为趋势证据",
+        "decision_effect": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。",
+        "fetch_status": "reachable"
+      },
+      {
+        "source_title": "RevvGrowth GEO pricing guide",
+        "url": "https://www.revvgrowth.com/geo/geo-agency-pricing",
+        "captured_at": "2026-05-10",
+        "excerpt": "GEO Pricing 2026: What AI Visibility Costs Revv up your B2B growth with AI. See our results. Learn more B2B growth meets AI innovation. Get cutting-edge insights from RevvGrowth Learn more Services Demand generation Qualified pipeline, every week Content Marke",
+        "can_prove": "证明海外 GEO 服务存在公开价格锚点，可用于设计本项目价格验证区间。",
+        "cannot_prove": "不能证明国内客户接受同等价格，也不能证明在本团队交付成本下 ROI 高。",
+        "credibility": "B：价格锚点证据",
+        "decision_effect": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。",
+        "fetch_status": "reachable"
+      },
+      {
+        "source_title": "Goodie pricing and FAQ",
+        "url": "https://higoodie.com/pricing/",
+        "captured_at": "2026-05-10",
+        "excerpt": "--> Pricing Plans | Power Your AI Search Visibility | Goodie Skip to main content Product Use Case resources Pricing About Log In Log In GET A DEMO GET A DEMO Open main navigation Product Prompt Research Agentic Commerce Suite Visibility Monitoring Crawlers &a",
+        "can_prove": "证明 AI search visibility 已被竞品拆成引用频率、排名位置、情绪、share of voice 等可产品化指标。",
+        "cannot_prove": "不能证明本项目已具备同等产品能力，也不能证明客户会为本项目复购。",
+        "credibility": "B：竞品产品化证据",
+        "decision_effect": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。",
+        "fetch_status": "reachable"
+      },
+      {
+        "source_title": "SEORCE pricing",
+        "url": "https://seorce.com/pricing",
+        "captured_at": "2026-05-10",
+        "excerpt": "SEORCE - AI-Powered SEO Platform Product Solutions Pricing About Us Blog Feed Log in Contact Us Get started What&#x27;s new Rank in AI search, not just Google. SEORCE is the first platform built for the AI search era — tracking your brand across ChatGPT, Gemin",
+        "can_prove": "证明 AI tracking 已出现 SaaS 化低价入口，说明该方向有工具化竞争形态。",
+        "cannot_prove": "不能证明服务化交付利润更高，也不能证明应立即重研发完整平台。",
+        "credibility": "B：竞品产品化证据",
+        "decision_effect": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。",
+        "fetch_status": "reachable"
+      },
+      {
+        "source_title": "DeepSeek API Docs",
+        "url": "https://api-docs.deepseek.com/api/deepseek-api/",
+        "captured_at": "2026-05-10",
+        "excerpt": "DeepSeek API | DeepSeek API Docs Skip to main content DeepSeek API Docs English English 中文（中国） DeepSeek Platform Quick Start Your First API Call Models &amp; Pricing Token &amp; Token Usage Rate Limit Error Codes Agent Integrations API Guides Thinking Mode Mul",
+        "can_prove": "证明 GEO 监测对象真实存在，PRD 可以把这些平台作为检测范围候选。",
+        "cannot_prove": "不能证明客户一定愿意持续付费，也不能证明 GEO 服务商业化成立。",
+        "credibility": "C：外部官方事实",
+        "decision_effect": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。",
+        "fetch_status": "reachable"
+      },
+      {
+        "source_title": "豆包官网",
+        "url": "https://www.doubao.com/chat/",
+        "captured_at": "2026-05-10",
+        "excerpt": "豆包有公开 AI 助手入口，是 GEO 监测可覆盖的 AI 平台之一。",
+        "can_prove": "证明 GEO 监测对象真实存在，PRD 可以把这些平台作为检测范围候选。",
+        "cannot_prove": "不能证明客户一定愿意持续付费，也不能证明 GEO 服务商业化成立。",
+        "credibility": "C：外部官方事实",
+        "decision_effect": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。",
+        "fetch_status": "reachable"
+      },
+      {
+        "source_title": "Qwen Chat",
+        "url": "https://qwen.ai/qwenchat",
+        "captured_at": "2026-05-10",
+        "excerpt": "Qwen",
+        "can_prove": "证明 GEO 监测对象真实存在，PRD 可以把这些平台作为检测范围候选。",
+        "cannot_prove": "不能证明客户一定愿意持续付费，也不能证明 GEO 服务商业化成立。",
+        "credibility": "C：外部官方事实",
+        "decision_effect": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。",
+        "fetch_status": "reachable"
+      },
+      {
+        "source_title": "腾讯元宝官网",
+        "url": "https://yuanbao.tencent.com/",
+        "captured_at": "2026-05-10",
+        "excerpt": "搜索 前往下载中心 Hi~ 我是元宝 Hi~ 我是元宝 你身边的智能助手，可以为你答疑解惑、尽情创作，快来点击以下任一功能体验吧～ 内容由AI生成，仅供参考",
+        "can_prove": "证明 GEO 监测对象真实存在，PRD 可以把这些平台作为检测范围候选。",
+        "cannot_prove": "不能证明客户一定愿意持续付费，也不能证明 GEO 服务商业化成立。",
+        "credibility": "C：外部官方事实",
+        "decision_effect": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。",
+        "fetch_status": "reachable"
+      },
+      {
+        "source_title": "GEO域见 - KAWO",
+        "url": "https://geo.kawo.com/zh/",
+        "captured_at": "2026-05-10",
+        "excerpt": "品牌 AI 可见度监测、叙事健康度、竞品对标、提示词挖掘和优化建议。",
+        "can_prove": "中国市场已有面向品牌的 GEO/AEO 监测和优化产品形态。",
+        "cannot_prove": "不能证明本项目能获客、盈利或高 ROI。",
+        "credibility": "competitor_public_reference",
+        "decision_effect": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。",
+        "fetch_status": "reachable"
+      },
+      {
+        "source_title": "商脉通GEO",
+        "url": "https://www.smt.wang/",
+        "captured_at": "2026-05-10",
+        "excerpt": "面向中国企业的 AI 搜索优化，覆盖豆包、DeepSeek、Kimi 等平台的品牌曝光诊断和周期看板。",
+        "can_prove": "国内已有围绕 DeepSeek、豆包等平台做 GEO 服务化交付的公开竞品。",
+        "cannot_prove": "不能证明本项目的交付成本、复购和利润成立。",
+        "credibility": "competitor_public_reference",
+        "decision_effect": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。",
+        "fetch_status": "reachable"
+      },
+      {
+        "source_title": "广拓时代 GT-GEO",
+        "url": "https://geo.cantotimes.com/",
+        "captured_at": "2026-05-10",
+        "excerpt": "覆盖 DeepSeek、豆包、文心一言、通义千问、Kimi、腾讯元宝的品牌监测、竞品分析和诊断报告。",
+        "can_prove": "国内竞品已把多平台监测、竞品分析和报告交付打包成 GEO 服务。",
+        "cannot_prove": "不能证明本项目可直接做完整 SaaS。",
+        "credibility": "competitor_public_reference",
+        "decision_effect": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。",
+        "fetch_status": "reachable"
+      },
+      {
+        "source_title": "GEOBase",
+        "url": "https://geobase.org.cn/",
+        "captured_at": "2026-05-10",
+        "excerpt": "GEO 排名检测、GEO 指数查询、品牌可见度和引用/推荐路径分析。",
+        "can_prove": "国内存在低门槛检测工具，说明服务化 MVP 需要差异化深度和交付质量。",
+        "cannot_prove": "不能证明低价工具模式适合本项目。",
+        "credibility": "competitor_public_reference",
+        "decision_effect": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。",
+        "fetch_status": "reachable"
+      },
+      {
+        "source_title": "711AI-GEO优化监测平台",
+        "url": "https://www.711.cn/",
+        "captured_at": "2026-05-10",
+        "excerpt": "AI 搜索查询、品牌检测、关键词热度趋势和行业 GEO 数据报告。",
+        "can_prove": "国内已有用行业报告和查询工具承接 GEO 需求的竞品形态。",
+        "cannot_prove": "不能证明单客户服务利润或复购成立。",
+        "credibility": "competitor_public_reference",
+        "decision_effect": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。",
+        "fetch_status": "reachable"
+      },
+      {
+        "source_title": "Profound",
+        "url": "https://www.tryprofound.com/",
+        "captured_at": "2026-05-10",
+        "excerpt": "AI search visibility、answer engine 监测、引用和品牌表现分析。",
+        "can_prove": "海外已有企业级 AI visibility/GEO 平台方向。",
+        "cannot_prove": "不能证明中国市场客户愿意按海外价格付费。",
+        "credibility": "competitor_public_reference",
+        "decision_effect": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。",
+        "fetch_status": "reachable"
+      },
+      {
+        "source_title": "Peec AI",
+        "url": "https://peec.ai/",
+        "captured_at": "2026-05-10",
+        "excerpt": "AI search analytics、品牌可见度、情绪、位置、来源和竞品 benchmark。",
+        "can_prove": "海外产品已把品牌可见度、竞品、来源和行动建议做成平台能力。",
+        "cannot_prove": "不能证明本项目已具备同等产品能力。",
+        "credibility": "competitor_public_reference",
+        "decision_effect": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。",
+        "fetch_status": "reachable"
+      },
+      {
+        "source_title": "Scrunch",
+        "url": "https://scrunch.com/faqs/",
+        "captured_at": "2026-05-10",
+        "excerpt": "AI search monitoring、AEO/GEO audit、optimization、agent traffic/referral tracking。",
+        "can_prove": "海外成熟竞品已把 prompt、presence、citation、referral traffic 组合成完整监测框架。",
+        "cannot_prove": "不能证明本项目第一版需要完整复制这些能力。",
+        "credibility": "competitor_public_reference",
+        "decision_effect": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。",
+        "fetch_status": "reachable"
+      },
+      {
+        "source_title": "Otterly AI",
+        "url": "https://otterly.ai/",
+        "captured_at": "2026-05-10",
+        "excerpt": "ChatGPT、Google AI Overviews/AI Mode、Gemini、Perplexity、Copilot 的品牌覆盖和竞品 share of voice。",
+        "can_prove": "海外存在偏轻量、面向 SEO/营销团队的 AI visibility tracker。",
+        "cannot_prove": "不能证明服务化交付利润成立。",
+        "credibility": "competitor_public_reference",
+        "decision_effect": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。",
+        "fetch_status": "reachable"
+      },
+      {
+        "source_title": "Goodie",
+        "url": "https://higoodie.com/pricing/",
+        "captured_at": "2026-05-10",
+        "excerpt": "品牌在 AI 搜索中的引用频率、排名位置、情绪和 share of voice。",
+        "can_prove": "AI visibility 可被拆成可监测指标并作为 SaaS/服务销售。",
+        "cannot_prove": "不能证明本项目高 ROI 已成立。",
+        "credibility": "competitor_public_reference",
+        "decision_effect": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。",
+        "fetch_status": "reachable"
+      },
+      {
+        "source_title": "Evertune",
+        "url": "https://www.evertune.ai/",
+        "captured_at": "2026-05-10",
+        "excerpt": "AI brand monitoring、AI search optimization、品牌在 LLM 响应中的推荐和提及监测。",
+        "can_prove": "海外已有围绕 AI 品牌监测和优化的 SaaS 公司。",
+        "cannot_prove": "不能证明国内 GEO 产品化速度或定价。",
+        "credibility": "competitor_public_reference",
+        "decision_effect": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。",
+        "fetch_status": "reachable"
+      }
+    ],
+    "decision_rule": "外部证据只能证明市场、竞品、趋势、规则或对象存在；不能单独证明本项目利润、ROI、获客、复购或产品化成立。"
+  },
+  "source_quality_scorecard": {
+    "overall_status": "has_source_risk",
+    "source_quality_gate_status": "usable_for_mvp_not_full_prd",
+    "counts": {
+      "total_external_rows": 20,
+      "reachable": 19,
+      "non_success": 1,
+      "not_checked": 0
+    },
+    "rows": [
+      {
+        "source_title": "Gartner search volume forecast",
+        "url": "https://www.gartner.com/en/newsroom/press-releases/2024-02-19-gartner-predicts-search-engine-volume-will-drop-25-percent-by-2026-due-to-ai-chatbots-and-other-virtual-agents",
+        "fetch_status": "non_success_status",
+        "credibility": "B：行业趋势证据",
+        "decision_use": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。"
+      },
+      {
+        "source_title": "Bain AI Search Research",
+        "url": "https://www.bain.com/insights/how-customers-are-using-ai-search/",
+        "fetch_status": "reachable",
+        "credibility": "B：用户行为趋势证据",
+        "decision_use": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。"
+      },
+      {
+        "source_title": "RevvGrowth GEO pricing guide",
+        "url": "https://www.revvgrowth.com/geo/geo-agency-pricing",
+        "fetch_status": "reachable",
+        "credibility": "B：价格锚点证据",
+        "decision_use": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。"
+      },
+      {
+        "source_title": "Goodie pricing and FAQ",
+        "url": "https://higoodie.com/pricing/",
+        "fetch_status": "reachable",
+        "credibility": "B：竞品产品化证据",
+        "decision_use": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。"
+      },
+      {
+        "source_title": "SEORCE pricing",
+        "url": "https://seorce.com/pricing",
+        "fetch_status": "reachable",
+        "credibility": "B：竞品产品化证据",
+        "decision_use": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。"
+      },
+      {
+        "source_title": "DeepSeek API Docs",
+        "url": "https://api-docs.deepseek.com/api/deepseek-api/",
+        "fetch_status": "reachable",
+        "credibility": "C：外部官方事实",
+        "decision_use": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。"
+      },
+      {
+        "source_title": "豆包官网",
+        "url": "https://www.doubao.com/chat/",
+        "fetch_status": "reachable",
+        "credibility": "C：外部官方事实",
+        "decision_use": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。"
+      },
+      {
+        "source_title": "Qwen Chat",
+        "url": "https://qwen.ai/qwenchat",
+        "fetch_status": "reachable",
+        "credibility": "C：外部官方事实",
+        "decision_use": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。"
+      },
+      {
+        "source_title": "腾讯元宝官网",
+        "url": "https://yuanbao.tencent.com/",
+        "fetch_status": "reachable",
+        "credibility": "C：外部官方事实",
+        "decision_use": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。"
+      },
+      {
+        "source_title": "GEO域见 - KAWO",
+        "url": "https://geo.kawo.com/zh/",
+        "fetch_status": "reachable",
+        "credibility": "competitor_public_reference",
+        "decision_use": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。"
+      },
+      {
+        "source_title": "商脉通GEO",
+        "url": "https://www.smt.wang/",
+        "fetch_status": "reachable",
+        "credibility": "competitor_public_reference",
+        "decision_use": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。"
+      },
+      {
+        "source_title": "广拓时代 GT-GEO",
+        "url": "https://geo.cantotimes.com/",
+        "fetch_status": "reachable",
+        "credibility": "competitor_public_reference",
+        "decision_use": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。"
+      },
+      {
+        "source_title": "GEOBase",
+        "url": "https://geobase.org.cn/",
+        "fetch_status": "reachable",
+        "credibility": "competitor_public_reference",
+        "decision_use": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。"
+      },
+      {
+        "source_title": "711AI-GEO优化监测平台",
+        "url": "https://www.711.cn/",
+        "fetch_status": "reachable",
+        "credibility": "competitor_public_reference",
+        "decision_use": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。"
+      },
+      {
+        "source_title": "Profound",
+        "url": "https://www.tryprofound.com/",
+        "fetch_status": "reachable",
+        "credibility": "competitor_public_reference",
+        "decision_use": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。"
+      },
+      {
+        "source_title": "Peec AI",
+        "url": "https://peec.ai/",
+        "fetch_status": "reachable",
+        "credibility": "competitor_public_reference",
+        "decision_use": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。"
+      },
+      {
+        "source_title": "Scrunch",
+        "url": "https://scrunch.com/faqs/",
+        "fetch_status": "reachable",
+        "credibility": "competitor_public_reference",
+        "decision_use": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。"
+      },
+      {
+        "source_title": "Otterly AI",
+        "url": "https://otterly.ai/",
+        "fetch_status": "reachable",
+        "credibility": "competitor_public_reference",
+        "decision_use": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。"
+      },
+      {
+        "source_title": "Goodie",
+        "url": "https://higoodie.com/pricing/",
+        "fetch_status": "reachable",
+        "credibility": "competitor_public_reference",
+        "decision_use": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。"
+      },
+      {
+        "source_title": "Evertune",
+        "url": "https://www.evertune.ai/",
+        "fetch_status": "reachable",
+        "credibility": "competitor_public_reference",
+        "decision_use": "证明竞品形态、市场参照或价格锚点存在；不证明本项目利润、ROI、复购或获客成立。"
+      }
+    ],
+    "decision_rule": "来源质量只决定外部证据能否作为市场上下文使用；不能把外部来源自动升级为自身商业验证。"
+  },
+  "competitor_pricing_evidence": {
+    "status": "available",
+    "rows": [
+      {
+        "source_title": "RevvGrowth GEO pricing guide",
+        "url": "https://www.revvgrowth.com/geo/geo-agency-pricing",
+        "pricing_signal": "公开 GEO agency pricing 资料显示，GEO 服务常见月费区间约为 3,000-25,000 美元。",
+        "can_prove": "证明海外 GEO 服务存在公开价格锚点，可用于设计本项目价格验证区间。",
+        "cannot_prove": "不能证明国内客户接受同等价格，也不能证明在本团队交付成本下 ROI 高。",
+        "decision_effect": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。"
+      },
+      {
+        "source_title": "Goodie pricing and FAQ",
+        "url": "https://higoodie.com/pricing/",
+        "pricing_signal": "Goodie 将 AI search visibility 定义为品牌被 ChatGPT、Perplexity、Gemini 等 AI 搜索引用的频率，并跟踪引用频率、排名位置、情绪和 share of voice。",
+        "can_prove": "证明 AI search visibility 已被竞品拆成引用频率、排名位置、情绪、share of voice 等可产品化指标。",
+        "cannot_prove": "不能证明本项目已具备同等产品能力，也不能证明客户会为本项目复购。",
+        "decision_effect": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。"
+      },
+      {
+        "source_title": "SEORCE pricing",
+        "url": "https://seorce.com/pricing",
+        "pricing_signal": "SEORCE 定义 prompt tracking 为监测 ChatGPT、Gemini、Perplexity、Google AI 中品牌或 URL 是否出现在回答里，并提供面向个人站点的低价 Lite 计划。",
+        "can_prove": "证明 AI tracking 已出现 SaaS 化低价入口，说明该方向有工具化竞争形态。",
+        "cannot_prove": "不能证明服务化交付利润更高，也不能证明应立即重研发完整平台。",
+        "decision_effect": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。"
+      },
+      {
+        "source_title": "DeepSeek API Docs",
+        "url": "https://api-docs.deepseek.com/api/deepseek-api/",
+        "pricing_signal": "DeepSeek 有公开官方服务和 API 文档，是 GEO 监测可覆盖的 AI 平台之一。",
+        "can_prove": "证明 GEO 监测对象真实存在，PRD 可以把这些平台作为检测范围候选。",
+        "cannot_prove": "不能证明客户一定愿意持续付费，也不能证明 GEO 服务商业化成立。",
+        "decision_effect": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。"
+      },
+      {
+        "source_title": "Goodie",
+        "url": "https://higoodie.com/pricing/",
+        "pricing_signal": "GEO 指标产品化 + 定价参照。",
+        "can_prove": "AI visibility 可被拆成可监测指标并作为 SaaS/服务销售。",
+        "cannot_prove": "不能证明本项目高 ROI 已成立。",
+        "decision_effect": "可作为竞品价格和服务方式锚点；不能证明本项目 ROI。"
+      }
+    ],
+    "decision_rule": "竞品价格只能作为定价参照和用户预算假设来源；本项目 ROI 必须用自身客单价、获客成本、交付工时、工具成本和复购材料计算。"
+  },
+  "platform_rule_evidence": {
+    "status": "needs_platform_boundary_review",
+    "rows": [
+      {
+        "source_title": "DeepSeek API Docs",
+        "url": "https://api-docs.deepseek.com/api/deepseek-api/",
+        "excerpt": "DeepSeek API | DeepSeek API Docs Skip to main content DeepSeek API Docs English English 中文（中国） DeepSeek Platform Quick Start Your First API Call Models &amp; Pricing Token &amp; Token Usage Rate Limit Error Codes Agent Integrations API Guides Thinking Mode Mul",
+        "can_prove": "证明 GEO 监测对象真实存在，PRD 可以把这些平台作为检测范围候选。",
+        "cannot_prove": "不能证明客户一定愿意持续付费，也不能证明 GEO 服务商业化成立。",
+        "decision_effect": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。"
+      },
+      {
+        "source_title": "豆包官网",
+        "url": "https://www.doubao.com/chat/",
+        "excerpt": "豆包有公开 AI 助手入口，是 GEO 监测可覆盖的 AI 平台之一。",
+        "can_prove": "证明 GEO 监测对象真实存在，PRD 可以把这些平台作为检测范围候选。",
+        "cannot_prove": "不能证明客户一定愿意持续付费，也不能证明 GEO 服务商业化成立。",
+        "decision_effect": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。"
+      },
+      {
+        "source_title": "Qwen Chat",
+        "url": "https://qwen.ai/qwenchat",
+        "excerpt": "Qwen",
+        "can_prove": "证明 GEO 监测对象真实存在，PRD 可以把这些平台作为检测范围候选。",
+        "cannot_prove": "不能证明客户一定愿意持续付费，也不能证明 GEO 服务商业化成立。",
+        "decision_effect": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。"
+      },
+      {
+        "source_title": "腾讯元宝官网",
+        "url": "https://yuanbao.tencent.com/",
+        "excerpt": "搜索 前往下载中心 Hi~ 我是元宝 Hi~ 我是元宝 你身边的智能助手，可以为你答疑解惑、尽情创作，快来点击以下任一功能体验吧～ 内容由AI生成，仅供参考",
+        "can_prove": "证明 GEO 监测对象真实存在，PRD 可以把这些平台作为检测范围候选。",
+        "cannot_prove": "不能证明客户一定愿意持续付费，也不能证明 GEO 服务商业化成立。",
+        "decision_effect": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。"
+      }
+    ],
+    "active_domains": [
+      "平台规则",
+      "数据隐私",
+      "内容安全",
+      "品牌风险"
+    ],
+    "active_rules": [
+      "不得承诺 AI 推荐、排名或确定性曝光。",
+      "不得刷量、伪造内容、虚假评价、虚假报道、伪造背书或黑帽 GEO。",
+      "必须确认客户授权材料、监测样本、截图和看板数据的使用边界。",
+      "必须避免误导性品牌承诺和平台规则违规。"
+    ],
+    "human_confirmation_required": true,
+    "decision_rule": "平台可达性和公开文档只能证明监测对象存在；GEO 操作方式、内容优化、截图/数据使用和客户授权边界仍需人工确认。"
+  },
+  "verified_evidence_assessment": {
+    "status": "S_claimed",
+    "accepted_material_count": 0,
+    "pending_material_count": 0,
+    "rejected_material_count": 0,
+    "accepted_slots": [],
+    "evidence_rows": [],
+    "rule": "只有 reviewed_accepted 材料可以支撑 verified evidence；pending 材料不能进入完整 PRD 事实层。"
+  },
+  "s_claimed_to_s_verified_gate": {
+    "current_level": "S_claimed",
+    "can_upgrade_to_s_verified": false,
+    "upgrade_blockers": [
+      "付款 / 合同证据",
+      "客户 / 行业记录",
+      "MVP 实验记录",
+      "报价 / 客单价证据",
+      "交付工时证据",
+      "获客来源证据"
+    ],
+    "allowed_decision_use": "服务化 MVP / 客户项目验证",
+    "forbidden_use": [
+      "未复核材料不得进入完整 PRD 事实层",
+      "外部竞品不得升级自身商业价值证据",
+      "只有截图但缺客户 / 时间 / 场景不得直接 S_verified"
+    ]
+  },
+  "real_profit_calculation": {
+    "status": "missing_required_inputs",
+    "can_calculate": false,
+    "formula": "真实利润 = 客单价 - 获客成本 - 交付工时成本 - 人工复核成本 - 工具/模型成本 - 维护/售后成本 - 风险成本",
+    "known_inputs": [],
+    "missing_inputs": [
+      "首期服务价格 / 最低客单价",
+      "单个有效客户获客成本",
+      "单客户交付工时",
+      "人工复核成本",
+      "工具 / 模型 / 监测成本",
+      "维护 / 售后成本",
+      "复购 / 续费 / 复测信号"
+    ],
+    "verified_evidence_level": "S_claimed",
+    "minimum_profit_condition": "至少基准场景为正毛利，且服务交付不依赖不可复制的专家工时。",
+    "conclusion": "缺少关键 ROI 输入，不能证明高 ROI。"
+  },
+  "roi_scenario_analysis": {
+    "status": "roi_unavailable_missing_inputs",
+    "scenarios": [
+      {
+        "scenario": "保守场景",
+        "assumption": "按最低客单价、最高获客成本、最高交付工时和最高维护成本估算。",
+        "revenue": "待确认",
+        "total_cost": "待确认",
+        "gross_profit": "待确认",
+        "roi_status": "not_calculable",
+        "decision_effect": "不能支持高 ROI 或产品化升级"
+      },
+      {
+        "scenario": "基准场景",
+        "assumption": "按当前最可能成交价格、可控获客成本和可复用交付流程估算。",
+        "revenue": "待确认",
+        "total_cost": "待确认",
+        "gross_profit": "待确认",
+        "roi_status": "not_calculable",
+        "decision_effect": "不能支持高 ROI 或产品化升级"
+      },
+      {
+        "scenario": "乐观场景",
+        "assumption": "按复购 / 转介绍出现、边际交付成本下降后估算。",
+        "revenue": "待确认",
+        "total_cost": "待确认",
+        "gross_profit": "待确认",
+        "roi_status": "not_calculable",
+        "decision_effect": "不能支持高 ROI 或产品化升级"
+      }
+    ],
+    "missing_inputs": [
+      "首期服务价格 / 最低客单价",
+      "单个有效客户获客成本",
+      "单客户交付工时",
+      "人工复核成本",
+      "工具 / 模型 / 监测成本",
+      "维护 / 售后成本",
+      "复购 / 续费 / 复测信号"
+    ],
+    "rule": "没有客单价、获客成本、交付工时、工具成本、维护成本和复购信号时，不允许声称 ROI 很高。"
+  },
+  "investment_decision_gate": {
+    "conclusion": "roi_unavailable_missing_inputs",
+    "reason": "强业务证据尚未从 S_claimed 升级到 S_verified。",
+    "allowed_next_path": "服务化 MVP / 客户项目验证",
+    "blocked_paths": [
+      "完整 SaaS PRD",
+      "重研发自动化平台",
+      "高 ROI 对外承诺"
+    ],
+    "requires_owner_approval": true,
+    "rule": "投资结论只作为 value gate 复判输入；升级完整 PRD、SaaS、stable 或重研发必须用户拍板。"
+  },
+  "evidence_sufficiency_gate": {
+    "overall_status": "sufficient_for_mvp",
+    "supported_paths": [
+      "服务化 MVP",
+      "客户项目验证"
+    ],
+    "unsupported_paths": [
+      "完整 SaaS PRD",
+      "重研发自动化平台",
+      "规模化产品化判断"
+    ],
+    "missing_evidence_types": [
+      "经营证据",
+      "产品化证据"
+    ],
+    "downgrade_reason": "已有 MVP 和买单信号支持服务化 MVP / 客户项目验证，但客单价、获客成本、交付工时、复购周期、多客户复用和 SaaS 产品化证据不足。",
+    "must_not_claim": [
+      "不得把服务化 MVP 证据写成完整 SaaS 产品化已经成立。",
+      "不得把用户提供的买单事实伪装成外部验证。",
+      "不得把平台存在性证据写成客户愿意持续付费。",
+      "不得把未验证价格、成本、复购、获客写成事实。"
+    ],
+    "next_evidence_to_collect": [
+      "真实付款 / 合同 / 明确预算附件或记录",
+      "首期服务价格区间",
+      "外部价格锚点与国内目标行业可接受价格对比",
+      "单客户交付工时",
+      "单客户 ROI 计算：收入 - 获客成本 - 交付成本 - 工具成本 - 维护成本",
+      "复购 / 复测 / 续费意愿",
+      "获客成本和第一批行业来源",
+      "多客户相似需求",
+      "GEO 指标复测变化和归因材料"
+    ]
+  },
+  "source_quality_gate": {
+    "overall_status": "usable_for_mvp_not_full_prd",
+    "source_counts": {
+      "user_provided_fact": 2,
+      "external_public_source": 9,
+      "internal_project_evidence": 0,
+      "inference": 2,
+      "unsupported_claim": 0,
+      "reachable_external": 8,
+      "non_success_external": 1,
+      "not_checked_external": 0,
+      "competitor_rows": 11
+    },
+    "rows": [
+      {
+        "claim": "用户声明已经完成过 MVP 实验。",
+        "source_type": "user_provided_fact",
+        "source_title": "项目原始输入",
+        "source_url": "projects/geo-service-prd/00_raw_input.md",
+        "fetch_status": "not_applicable",
+        "strength": "A：强业务事实（用户提供，仍需附件 / 记录复核）",
+        "decision_use": "支持“值得测试 / 服务化 MVP”，但不足以支持直接完整 SaaS。",
+        "cannot_prove": "不能证明可规模化、可复购、真实利润成立或 SaaS 产品化成立。"
+      },
+      {
+        "claim": "用户声明已有同行或客户为相关服务买单。",
+        "source_type": "user_provided_fact",
+        "source_title": "项目原始输入",
+        "source_url": "projects/geo-service-prd/00_raw_input.md",
+        "fetch_status": "not_applicable",
+        "strength": "A：强业务事实（用户提供，仍需附件 / 记录复核）",
+        "decision_use": "支持“值得测试 / 服务化 MVP”，但不足以支持直接完整 SaaS。",
+        "cannot_prove": "不能证明客单价、复购、获客成本、交付工时、毛利或 SaaS 产品化已经成立。"
+      },
+      {
+        "claim": "Gartner 预测到 2026 年传统搜索量将下降 25%，搜索营销会被 AI chatbots 和虚拟代理分流。",
+        "source_type": "external_public_source",
+        "source_title": "Gartner search volume forecast",
+        "source_url": "https://www.gartner.com/en/newsroom/press-releases/2024-02-19-gartner-predicts-search-engine-volume-will-drop-25-percent-by-2026-due-to-ai-chatbots-and-other-virtual-agents",
+        "fetch_status": "non_success_status",
+        "strength": "B：行业趋势证据",
+        "decision_use": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。",
+        "cannot_prove": "不能证明你的 GEO 服务一定能获客、成交、盈利或取得高 ROI。"
+      },
+      {
+        "claim": "Bain 引用 Sensor Tower 数据显示 2025 年上半年 ChatGPT prompt 量增长近 70%，购物相关 prompts 在占比和绝对量上明显增长。",
+        "source_type": "external_public_source",
+        "source_title": "Bain AI Search Research",
+        "source_url": "https://www.bain.com/insights/how-customers-are-using-ai-search/",
+        "fetch_status": "reachable",
+        "strength": "B：用户行为趋势证据",
+        "decision_use": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。",
+        "cannot_prove": "不能证明国内目标客户愿意持续付费，也不能证明单个 GEO 项目的投产比。"
+      },
+      {
+        "claim": "公开 GEO agency pricing 资料显示，GEO 服务常见月费区间约为 3,000-25,000 美元。",
+        "source_type": "external_public_source",
+        "source_title": "RevvGrowth GEO pricing guide",
+        "source_url": "https://www.revvgrowth.com/geo/geo-agency-pricing",
+        "fetch_status": "reachable",
+        "strength": "B：价格锚点证据",
+        "decision_use": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。",
+        "cannot_prove": "不能证明国内客户接受同等价格，也不能证明在本团队交付成本下 ROI 高。"
+      },
+      {
+        "claim": "Goodie 将 AI search visibility 定义为品牌被 ChatGPT、Perplexity、Gemini 等 AI 搜索引用的频率，并跟踪引用频率、排名位置、情绪和 share of voice。",
+        "source_type": "external_public_source",
+        "source_title": "Goodie pricing and FAQ",
+        "source_url": "https://higoodie.com/pricing/",
+        "fetch_status": "reachable",
+        "strength": "B：竞品产品化证据",
+        "decision_use": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。",
+        "cannot_prove": "不能证明本项目已具备同等产品能力，也不能证明客户会为本项目复购。"
+      },
+      {
+        "claim": "SEORCE 定义 prompt tracking 为监测 ChatGPT、Gemini、Perplexity、Google AI 中品牌或 URL 是否出现在回答里，并提供面向个人站点的低价 Lite 计划。",
+        "source_type": "external_public_source",
+        "source_title": "SEORCE pricing",
+        "source_url": "https://seorce.com/pricing",
+        "fetch_status": "reachable",
+        "strength": "B：竞品产品化证据",
+        "decision_use": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。",
+        "cannot_prove": "不能证明服务化交付利润更高，也不能证明应立即重研发完整平台。"
+      },
+      {
+        "claim": "DeepSeek 有公开官方服务和 API 文档，是 GEO 监测可覆盖的 AI 平台之一。",
+        "source_type": "external_public_source",
+        "source_title": "DeepSeek API Docs",
+        "source_url": "https://api-docs.deepseek.com/api/deepseek-api/",
+        "fetch_status": "reachable",
+        "strength": "C：外部官方事实",
+        "decision_use": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。",
+        "cannot_prove": "不能证明客户一定愿意持续付费，也不能证明 GEO 服务商业化成立。"
+      },
+      {
+        "claim": "豆包有公开 AI 助手入口，是 GEO 监测可覆盖的 AI 平台之一。",
+        "source_type": "external_public_source",
+        "source_title": "豆包官网",
+        "source_url": "https://www.doubao.com/chat/",
+        "fetch_status": "reachable",
+        "strength": "C：外部官方事实",
+        "decision_use": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。",
+        "cannot_prove": "不能证明客户一定愿意持续付费，也不能证明 GEO 服务商业化成立。"
+      },
+      {
+        "claim": "Qwen 官方页面将 Qwen Studio 定位为面向用户的 AI assistant。",
+        "source_type": "external_public_source",
+        "source_title": "Qwen Chat",
+        "source_url": "https://qwen.ai/qwenchat",
+        "fetch_status": "reachable",
+        "strength": "C：外部官方事实",
+        "decision_use": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。",
+        "cannot_prove": "不能证明客户一定愿意持续付费，也不能证明 GEO 服务商业化成立。"
+      },
+      {
+        "claim": "腾讯元宝官网将元宝描述为可问答和创作的智能助手。",
+        "source_type": "external_public_source",
+        "source_title": "腾讯元宝官网",
+        "source_url": "https://yuanbao.tencent.com/",
+        "fetch_status": "reachable",
+        "strength": "C：外部官方事实",
+        "decision_use": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。",
+        "cannot_prove": "不能证明客户一定愿意持续付费，也不能证明 GEO 服务商业化成立。"
+      },
+      {
+        "claim": "可以先用人工 + 半自动方式交付，降低首期研发成本。",
+        "source_type": "inference",
+        "source_title": "价值门禁规则推断",
+        "source_url": "",
+        "fetch_status": "not_applicable",
+        "strength": "D：推理判断",
+        "decision_use": "只支持待验证判断，不作为拍板事实。",
+        "cannot_prove": "只能作为推论，不能写成已验证事实。"
+      },
+      {
+        "claim": "同行买单可以证明服务价值和项目价值有初步信号，但不能直接证明完整 SaaS 产品化成立",
+        "source_type": "inference",
+        "source_title": "价值门禁规则推断",
+        "source_url": "",
+        "fetch_status": "not_applicable",
+        "strength": "D：推理判断",
+        "decision_use": "支持“值得测试 / 服务化 MVP”，但不足以支持直接完整 SaaS。",
+        "cannot_prove": "不能证明客单价、复购、获客成本、交付工时、毛利或 SaaS 产品化已经成立。"
+      },
+      {
+        "claim": "竞品参照：KAWO GEO域见",
+        "source_type": "competitor_public_source",
+        "source_title": "GEO域见 - KAWO",
+        "source_url": "https://geo.kawo.com/zh/",
+        "fetch_status": "reachable",
+        "strength": "B：竞品形态证据",
+        "decision_use": "competitor_reference",
+        "cannot_prove": "不能证明本项目能获客、盈利或高 ROI。"
+      },
+      {
+        "claim": "竞品参照：商脉通GEO",
+        "source_type": "competitor_public_source",
+        "source_title": "商脉通GEO",
+        "source_url": "https://www.smt.wang/",
+        "fetch_status": "reachable",
+        "strength": "B：竞品形态证据",
+        "decision_use": "competitor_reference",
+        "cannot_prove": "不能证明本项目的交付成本、复购和利润成立。"
+      },
+      {
+        "claim": "竞品参照：GT-GEO",
+        "source_type": "competitor_public_source",
+        "source_title": "广拓时代 GT-GEO",
+        "source_url": "https://geo.cantotimes.com/",
+        "fetch_status": "reachable",
+        "strength": "B：竞品形态证据",
+        "decision_use": "competitor_reference",
+        "cannot_prove": "不能证明本项目可直接做完整 SaaS。"
+      },
+      {
+        "claim": "竞品参照：GEOBase",
+        "source_type": "competitor_public_source",
+        "source_title": "GEOBase",
+        "source_url": "https://geobase.org.cn/",
+        "fetch_status": "reachable",
+        "strength": "B：竞品形态证据",
+        "decision_use": "competitor_reference",
+        "cannot_prove": "不能证明低价工具模式适合本项目。"
+      },
+      {
+        "claim": "竞品参照：711AI",
+        "source_type": "competitor_public_source",
+        "source_title": "711AI-GEO优化监测平台",
+        "source_url": "https://www.711.cn/",
+        "fetch_status": "reachable",
+        "strength": "B：竞品形态证据",
+        "decision_use": "competitor_reference",
+        "cannot_prove": "不能证明单客户服务利润或复购成立。"
+      },
+      {
+        "claim": "竞品参照：Profound",
+        "source_type": "competitor_public_source",
+        "source_title": "Profound",
+        "source_url": "https://www.tryprofound.com/",
+        "fetch_status": "reachable",
+        "strength": "B：竞品形态证据",
+        "decision_use": "competitor_reference",
+        "cannot_prove": "不能证明中国市场客户愿意按海外价格付费。"
+      },
+      {
+        "claim": "竞品参照：Peec AI",
+        "source_type": "competitor_public_source",
+        "source_title": "Peec AI",
+        "source_url": "https://peec.ai/",
+        "fetch_status": "reachable",
+        "strength": "B：竞品形态证据",
+        "decision_use": "competitor_reference",
+        "cannot_prove": "不能证明本项目已具备同等产品能力。"
+      },
+      {
+        "claim": "竞品参照：Scrunch",
+        "source_type": "competitor_public_source",
+        "source_title": "Scrunch",
+        "source_url": "https://scrunch.com/faqs/",
+        "fetch_status": "reachable",
+        "strength": "B：竞品形态证据",
+        "decision_use": "competitor_reference",
+        "cannot_prove": "不能证明本项目第一版需要完整复制这些能力。"
+      },
+      {
+        "claim": "竞品参照：Otterly.AI",
+        "source_type": "competitor_public_source",
+        "source_title": "Otterly AI",
+        "source_url": "https://otterly.ai/",
+        "fetch_status": "reachable",
+        "strength": "B：竞品形态证据",
+        "decision_use": "competitor_reference",
+        "cannot_prove": "不能证明服务化交付利润成立。"
+      },
+      {
+        "claim": "竞品参照：Goodie",
+        "source_type": "competitor_public_source",
+        "source_title": "Goodie",
+        "source_url": "https://higoodie.com/pricing/",
+        "fetch_status": "reachable",
+        "strength": "B：竞品形态证据",
+        "decision_use": "competitor_reference",
+        "cannot_prove": "不能证明本项目高 ROI 已成立。"
+      },
+      {
+        "claim": "竞品参照：Evertune",
+        "source_type": "competitor_public_source",
+        "source_title": "Evertune",
+        "source_url": "https://www.evertune.ai/",
+        "fetch_status": "reachable",
+        "strength": "B：竞品形态证据",
+        "decision_use": "competitor_reference",
+        "cannot_prove": "不能证明国内 GEO 产品化速度或定价。"
+      }
+    ],
+    "blocking_gaps_for_full_prd": [
+      "经营证据",
+      "产品化证据",
+      "强业务事实尚未附件 / 内部记录复核，不能当作 S 级已验证证据。",
+      "付款 / 买单 / MVP 信号目前只能作为用户提供事实，不能直接证明完整 PRD 或 SaaS 产品化成立。",
+      "首期服务价格 / 最低客单价",
+      "单个有效客户获客成本",
+      "单客户交付工时",
+      "人工复核成本",
+      "工具 / 模型 / 监测成本",
+      "维护 / 售后成本",
+      "复购 / 续费 / 复测信号",
+      "付款 / 合同 / 复购材料尚未复核"
+    ],
+    "warning_items": [
+      "部分外部公开来源返回非成功状态，需要替换或人工复核。"
+    ],
+    "minimum_source_rule": "完整 PRD 至少需要自身业务证据、经营证据、产品化证据和红线证据同时达标；外部趋势和竞品只能作为机会参照。",
+    "prd_usage_rule": "只有 safe_facts_for_prd 和已标注来源的事实可进入 PRD；claimed 用户事实必须标注为用户提供，不能伪装成独立验证。"
+  },
+  "evidence_research_agent": {
+    "mode": "v2_research_plan",
+    "current_route_package": "mvp_input_package",
+    "mission": "收集可溯源证据，判断当前项目是否值得投入、投入到什么范围，以及是否允许升级完整 PRD / SaaS。",
+    "research_tracks": [
+      {
+        "key": "customer_payment_verification",
+        "purpose": "确认真实付款、预算、合同或采购流程",
+        "current_sources": [
+          "付款 / 合同证据",
+          "客户 / 行业记录"
+        ],
+        "required_source_types": [
+          "付款截图",
+          "合同 / 报价单",
+          "客户脱敏记录",
+          "预算或采购流程记录"
+        ],
+        "related_current_gap": [
+          "S_claimed 待复核"
+        ],
+        "decision_effect": "决定 S_claimed 是否可升级为 S_verified，并决定是否允许完整 PRD。",
+        "next_action": "补齐可溯源材料后回流 value gate 复判。"
+      },
+      {
+        "key": "roi_operating_inputs",
+        "purpose": "补齐真实利润和 ROI 的关键输入",
+        "current_sources": [
+          "报价 / 客单价证据",
+          "交付工时证据",
+          "获客来源证据"
+        ],
+        "required_source_types": [
+          "首期价格",
+          "获客成本",
+          "单客户交付工时",
+          "工具 / 模型成本",
+          "维护和售后成本"
+        ],
+        "related_current_gap": [
+          "经营证据"
+        ],
+        "decision_effect": "决定是否只能服务化 MVP，还是可以讨论产品化放大。",
+        "next_action": "补齐可溯源材料后回流 value gate 复判。"
+      },
+      {
+        "key": "competitor_productization",
+        "purpose": "继续跟踪国内外 GEO 竞品的产品形态、定价和交付边界",
+        "current_sources": [
+          "KAWO GEO域见",
+          "商脉通GEO",
+          "GT-GEO",
+          "GEOBase",
+          "711AI",
+          "Profound"
+        ],
+        "required_source_types": [
+          "竞品定价页",
+          "功能页",
+          "案例页",
+          "服务条款",
+          "公开客户案例"
+        ],
+        "related_current_gap": [
+          "产品化证据"
+        ],
+        "decision_effect": "只能证明市场和产品形态存在，不能单独证明本项目利润成立。",
+        "next_action": "补齐可溯源材料后回流 value gate 复判。"
+      },
+      {
+        "key": "platform_rule_risk",
+        "purpose": "确认 DeepSeek、豆包、Qwen、元宝等平台对自动化采集、内容优化和排名承诺的边界",
+        "current_sources": [
+          "平台官方页面 / API 文档"
+        ],
+        "required_source_types": [
+          "平台条款",
+          "robots / API 限制",
+          "数据授权",
+          "内容安全规则"
+        ],
+        "related_current_gap": [],
+        "decision_effect": "决定是否存在红线风险，以及 PRD 是否必须限制采集和承诺边界。",
+        "next_action": "补齐可溯源材料后回流 value gate 复判。"
+      },
+      {
+        "key": "acquisition_channel_validation",
+        "purpose": "验证第一批客户从哪里来以及 CAC 是否可控",
+        "current_sources": [
+          "获客来源证据"
+        ],
+        "required_source_types": [
+          "免费检测提交记录",
+          "加顾问记录",
+          "转介绍记录",
+          "内容获客记录",
+          "销售触达记录"
+        ],
+        "related_current_gap": [],
+        "decision_effect": "决定获客路径是否足以支撑服务化 MVP 或后续产品化。",
+        "next_action": "补齐可溯源材料后回流 value gate 复判。"
+      },
+      {
+        "key": "market_shift_monitoring",
+        "purpose": "补充 AI 搜索行为变化、品牌 AI 可见度需求和行业预算变化",
+        "current_sources": [
+          "Gartner / Bain / 公开行业资料"
+        ],
+        "required_source_types": [
+          "行业报告",
+          "平台公开数据",
+          "品牌营销预算变化",
+          "AI 搜索使用数据"
+        ],
+        "related_current_gap": [],
+        "decision_effect": "只能证明机会窗口，不证明本项目必然盈利。",
+        "next_action": "补齐可溯源材料后回流 value gate 复判。"
+      }
+    ],
+    "verification_slots_reused": [
+      "付款 / 合同证据",
+      "客户 / 行业记录",
+      "MVP 实验记录",
+      "交付 / 验收记录",
+      "复购 / 续费 / 转介绍记录",
+      "报价 / 客单价证据",
+      "交付工时证据",
+      "获客来源证据"
+    ],
+    "does_not_do": [
+      "不伪造数据",
+      "不保存未授权 raw HTML",
+      "不自动把用户声明升级为 verified evidence",
+      "不自动生成完整 PRD",
+      "不自动修改 stable 规则"
+    ],
+    "output_rule": "每条证据必须带来源、日期、可信度、能证明什么、不能证明什么；无来源内容只能进入假设或待验证。"
+  },
+  "research_execution_queue": {
+    "mode": "v2_1_executable_research_queue",
+    "queue_status": "ready_for_manual_or_agentic_research",
+    "current_route_package": "mvp_input_package",
+    "max_parallel_tasks": 3,
+    "p0_task_count": 2,
+    "tasks": [
+      {
+        "task_id": "research.01.customer_payment_verification",
+        "track_key": "customer_payment_verification",
+        "priority": "P0",
+        "objective": "确认真实付款、预算、合同或采购流程",
+        "source_request": [
+          "付款截图",
+          "合同 / 报价单",
+          "客户脱敏记录",
+          "预算或采购流程记录"
+        ],
+        "related_attachment_slots": [
+          "付款 / 合同证据",
+          "客户 / 行业记录",
+          "MVP 实验记录"
+        ],
+        "accepted_evidence": [
+          "公开网页 / 官方文档 / 公开报告，必须有 URL 和抓取日期",
+          "用户提供的付款、合同、客户、实验、交付、复购、报价、工时或获客材料，必须标注为 user_provided_fact 或 internal_project_evidence",
+          "推理判断必须绑定上游事实，不允许单独作为结论证据"
+        ],
+        "evidence_acceptance_criteria": [
+          "来源可追溯：必须有来源标题、来源类型、URL 或项目内材料路径、记录日期",
+          "证明边界清楚：必须写明能证明什么、不能证明什么",
+          "商业价值相关：必须能影响付款、ROI、获客、交付、复购、产品化或红线判断中的至少一项",
+          "未验证材料不得升级为 S_verified"
+        ],
+        "output_fields_required": [
+          "source_type",
+          "source_title",
+          "source_url_or_material_path",
+          "captured_at",
+          "proof_excerpt_or_material_summary",
+          "proves",
+          "does_not_prove",
+          "confidence",
+          "decision_effect"
+        ],
+        "decision_impact": "决定 S_claimed 是否可升级为 S_verified，并决定是否允许完整 PRD。",
+        "done_definition": "至少补齐一条可追溯证据，或明确记录未找到可验证来源及其降级影响。",
+        "fail_or_downgrade_rule": "找不到材料时不得编造；当前路径保持 MVP / 调研 / 客户项目验证，完整 PRD 和 SaaS 升级继续阻断。",
+        "owner_material_required": true,
+        "writes_repo_files": false
+      },
+      {
+        "task_id": "research.02.roi_operating_inputs",
+        "track_key": "roi_operating_inputs",
+        "priority": "P0",
+        "objective": "补齐真实利润和 ROI 的关键输入",
+        "source_request": [
+          "首期价格",
+          "获客成本",
+          "单客户交付工时",
+          "工具 / 模型成本",
+          "维护和售后成本"
+        ],
+        "related_attachment_slots": [
+          "报价 / 客单价证据",
+          "交付工时证据",
+          "获客来源证据"
+        ],
+        "accepted_evidence": [
+          "公开网页 / 官方文档 / 公开报告，必须有 URL 和抓取日期",
+          "用户提供的付款、合同、客户、实验、交付、复购、报价、工时或获客材料，必须标注为 user_provided_fact 或 internal_project_evidence",
+          "推理判断必须绑定上游事实，不允许单独作为结论证据"
+        ],
+        "evidence_acceptance_criteria": [
+          "来源可追溯：必须有来源标题、来源类型、URL 或项目内材料路径、记录日期",
+          "证明边界清楚：必须写明能证明什么、不能证明什么",
+          "商业价值相关：必须能影响付款、ROI、获客、交付、复购、产品化或红线判断中的至少一项",
+          "未验证材料不得升级为 S_verified"
+        ],
+        "output_fields_required": [
+          "source_type",
+          "source_title",
+          "source_url_or_material_path",
+          "captured_at",
+          "proof_excerpt_or_material_summary",
+          "proves",
+          "does_not_prove",
+          "confidence",
+          "decision_effect"
+        ],
+        "decision_impact": "决定是否只能服务化 MVP，还是可以讨论产品化放大。",
+        "done_definition": "至少补齐一条可追溯证据，或明确记录未找到可验证来源及其降级影响。",
+        "fail_or_downgrade_rule": "找不到材料时不得编造；当前路径保持 MVP / 调研 / 客户项目验证，完整 PRD 和 SaaS 升级继续阻断。",
+        "owner_material_required": true,
+        "writes_repo_files": false
+      },
+      {
+        "task_id": "research.03.competitor_productization",
+        "track_key": "competitor_productization",
+        "priority": "P1",
+        "objective": "继续跟踪国内外 GEO 竞品的产品形态、定价和交付边界",
+        "source_request": [
+          "竞品定价页",
+          "功能页",
+          "案例页",
+          "服务条款",
+          "公开客户案例"
+        ],
+        "related_attachment_slots": [],
+        "accepted_evidence": [
+          "公开网页 / 官方文档 / 公开报告，必须有 URL 和抓取日期",
+          "用户提供的付款、合同、客户、实验、交付、复购、报价、工时或获客材料，必须标注为 user_provided_fact 或 internal_project_evidence",
+          "推理判断必须绑定上游事实，不允许单独作为结论证据"
+        ],
+        "evidence_acceptance_criteria": [
+          "来源可追溯：必须有来源标题、来源类型、URL 或项目内材料路径、记录日期",
+          "证明边界清楚：必须写明能证明什么、不能证明什么",
+          "商业价值相关：必须能影响付款、ROI、获客、交付、复购、产品化或红线判断中的至少一项",
+          "未验证材料不得升级为 S_verified"
+        ],
+        "output_fields_required": [
+          "source_type",
+          "source_title",
+          "source_url_or_material_path",
+          "captured_at",
+          "proof_excerpt_or_material_summary",
+          "proves",
+          "does_not_prove",
+          "confidence",
+          "decision_effect"
+        ],
+        "decision_impact": "只能证明市场和产品形态存在，不能单独证明本项目利润成立。",
+        "done_definition": "至少补齐一条可追溯证据，或明确记录未找到可验证来源及其降级影响。",
+        "fail_or_downgrade_rule": "找不到材料时不得编造；当前路径保持 MVP / 调研 / 客户项目验证，完整 PRD 和 SaaS 升级继续阻断。",
+        "owner_material_required": false,
+        "writes_repo_files": false
+      },
+      {
+        "task_id": "research.04.platform_rule_risk",
+        "track_key": "platform_rule_risk",
+        "priority": "P1",
+        "objective": "确认 DeepSeek、豆包、Qwen、元宝等平台对自动化采集、内容优化和排名承诺的边界",
+        "source_request": [
+          "平台条款",
+          "robots / API 限制",
+          "数据授权",
+          "内容安全规则"
+        ],
+        "related_attachment_slots": [],
+        "accepted_evidence": [
+          "公开网页 / 官方文档 / 公开报告，必须有 URL 和抓取日期",
+          "用户提供的付款、合同、客户、实验、交付、复购、报价、工时或获客材料，必须标注为 user_provided_fact 或 internal_project_evidence",
+          "推理判断必须绑定上游事实，不允许单独作为结论证据"
+        ],
+        "evidence_acceptance_criteria": [
+          "来源可追溯：必须有来源标题、来源类型、URL 或项目内材料路径、记录日期",
+          "证明边界清楚：必须写明能证明什么、不能证明什么",
+          "商业价值相关：必须能影响付款、ROI、获客、交付、复购、产品化或红线判断中的至少一项",
+          "未验证材料不得升级为 S_verified"
+        ],
+        "output_fields_required": [
+          "source_type",
+          "source_title",
+          "source_url_or_material_path",
+          "captured_at",
+          "proof_excerpt_or_material_summary",
+          "proves",
+          "does_not_prove",
+          "confidence",
+          "decision_effect"
+        ],
+        "decision_impact": "决定是否存在红线风险，以及 PRD 是否必须限制采集和承诺边界。",
+        "done_definition": "至少补齐一条可追溯证据，或明确记录未找到可验证来源及其降级影响。",
+        "fail_or_downgrade_rule": "找不到材料时不得编造；当前路径保持 MVP / 调研 / 客户项目验证，完整 PRD 和 SaaS 升级继续阻断。",
+        "owner_material_required": false,
+        "writes_repo_files": false
+      },
+      {
+        "task_id": "research.05.acquisition_channel_validation",
+        "track_key": "acquisition_channel_validation",
+        "priority": "P1",
+        "objective": "验证第一批客户从哪里来以及 CAC 是否可控",
+        "source_request": [
+          "免费检测提交记录",
+          "加顾问记录",
+          "转介绍记录",
+          "内容获客记录",
+          "销售触达记录"
+        ],
+        "related_attachment_slots": [
+          "获客来源证据"
+        ],
+        "accepted_evidence": [
+          "公开网页 / 官方文档 / 公开报告，必须有 URL 和抓取日期",
+          "用户提供的付款、合同、客户、实验、交付、复购、报价、工时或获客材料，必须标注为 user_provided_fact 或 internal_project_evidence",
+          "推理判断必须绑定上游事实，不允许单独作为结论证据"
+        ],
+        "evidence_acceptance_criteria": [
+          "来源可追溯：必须有来源标题、来源类型、URL 或项目内材料路径、记录日期",
+          "证明边界清楚：必须写明能证明什么、不能证明什么",
+          "商业价值相关：必须能影响付款、ROI、获客、交付、复购、产品化或红线判断中的至少一项",
+          "未验证材料不得升级为 S_verified"
+        ],
+        "output_fields_required": [
+          "source_type",
+          "source_title",
+          "source_url_or_material_path",
+          "captured_at",
+          "proof_excerpt_or_material_summary",
+          "proves",
+          "does_not_prove",
+          "confidence",
+          "decision_effect"
+        ],
+        "decision_impact": "决定获客路径是否足以支撑服务化 MVP 或后续产品化。",
+        "done_definition": "至少补齐一条可追溯证据，或明确记录未找到可验证来源及其降级影响。",
+        "fail_or_downgrade_rule": "找不到材料时不得编造；当前路径保持 MVP / 调研 / 客户项目验证，完整 PRD 和 SaaS 升级继续阻断。",
+        "owner_material_required": true,
+        "writes_repo_files": false
+      },
+      {
+        "task_id": "research.06.market_shift_monitoring",
+        "track_key": "market_shift_monitoring",
+        "priority": "P2",
+        "objective": "补充 AI 搜索行为变化、品牌 AI 可见度需求和行业预算变化",
+        "source_request": [
+          "行业报告",
+          "平台公开数据",
+          "品牌营销预算变化",
+          "AI 搜索使用数据"
+        ],
+        "related_attachment_slots": [],
+        "accepted_evidence": [
+          "公开网页 / 官方文档 / 公开报告，必须有 URL 和抓取日期",
+          "用户提供的付款、合同、客户、实验、交付、复购、报价、工时或获客材料，必须标注为 user_provided_fact 或 internal_project_evidence",
+          "推理判断必须绑定上游事实，不允许单独作为结论证据"
+        ],
+        "evidence_acceptance_criteria": [
+          "来源可追溯：必须有来源标题、来源类型、URL 或项目内材料路径、记录日期",
+          "证明边界清楚：必须写明能证明什么、不能证明什么",
+          "商业价值相关：必须能影响付款、ROI、获客、交付、复购、产品化或红线判断中的至少一项",
+          "未验证材料不得升级为 S_verified"
+        ],
+        "output_fields_required": [
+          "source_type",
+          "source_title",
+          "source_url_or_material_path",
+          "captured_at",
+          "proof_excerpt_or_material_summary",
+          "proves",
+          "does_not_prove",
+          "confidence",
+          "decision_effect"
+        ],
+        "decision_impact": "只能证明机会窗口，不证明本项目必然盈利。",
+        "done_definition": "至少补齐一条可追溯证据，或明确记录未找到可验证来源及其降级影响。",
+        "fail_or_downgrade_rule": "找不到材料时不得编造；当前路径保持 MVP / 调研 / 客户项目验证，完整 PRD 和 SaaS 升级继续阻断。",
+        "owner_material_required": false,
+        "writes_repo_files": false
+      }
+    ],
+    "task_output_contract": {
+      "required_fields": [
+        "task_id",
+        "source_type",
+        "source_title",
+        "source_url_or_material_path",
+        "captured_at",
+        "proof_excerpt_or_material_summary",
+        "proves",
+        "does_not_prove",
+        "confidence",
+        "decision_effect"
+      ],
+      "invalid_outputs": [
+        "没有来源的市场规模数字",
+        "无法追溯的客户付款说法",
+        "把竞品存在当作本项目 ROI 成立",
+        "把用户声明伪装成外部验证",
+        "把未验证材料升级为 S_verified"
+      ],
+      "handoff_rule": "任务输出只能作为 value gate 复判输入，不得绕过门禁直接进入完整 PRD。"
+    },
+    "execution_boundary": [
+      "不自动联网扩展到未批准的数据源",
+      "不自动读取或上传私密附件",
+      "不自动写长期记忆",
+      "不自动生成完整 PRD",
+      "不自动升级 stable 规则"
+    ],
+    "next_rejudgment_inputs": [
+      "客户证据",
+      "指标基线和结果",
+      "成本核算",
+      "交付复盘",
+      "风险记录",
+      "真实付款 / 合同 / 明确预算附件或记录",
+      "首期服务价格区间",
+      "外部价格锚点与国内目标行业可接受价格对比",
+      "单客户交付工时",
+      "单客户 ROI 计算：收入 - 获客成本 - 交付成本 - 工具成本 - 维护成本"
+    ]
+  },
+  "evidence_grade_gate": {
+    "status": "passes_current_gate_but_not_full_prd",
+    "current_grade": "S/A + B",
+    "payment_evidence_level": 5,
+    "grade_counts": {
+      "S": 1,
+      "A": 2,
+      "B": 5,
+      "C": 4,
+      "D": 2
+    },
+    "minimum_required_for_current_gate": "B 级或 C+ 级证据即可，但必须有清晰核心假设和核心价值闭环。",
+    "meets_current_gate": true,
+    "full_prd_requirement": "A_ENTER_PRD 至少需要 A 级证据或 B 级证据 + 明确低风险 + 明确资源优势，同时真实利润、获客路径、红线和输入包完整度达标。",
+    "full_prd_gap": [
+      "经营证据",
+      "产品化证据",
+      "当前 decision_gate 不是 A_ENTER_PRD"
+    ],
+    "upgrade_evidence_required": [
+      "付款 / 合同 / 明确预算附件",
+      "第二个相似客户或复购 / 复测证据",
+      "客单价和获客成本",
+      "单客户交付工时和工具成本",
+      "可标准化交付流程和边际成本下降证据"
+    ],
+    "downgrade_rule": "如果证据只能证明趋势、竞品存在或用户兴趣，不能进入 A；只能进入 MVP、客户项目、内部提效或调研路径。"
+  },
+  "verified_evidence_gate": {
+    "status": "claimed_strong_evidence_pending_verification",
+    "claimed_evidence_grade": "S_claimed",
+    "verified_evidence_grade": "unverified",
+    "can_treat_as_s_level": false,
+    "claimed_strong_evidence": [
+      "用户声明已经完成过 MVP 实验。",
+      "用户声明已有同行或客户为相关服务买单。"
+    ],
+    "verified_strong_evidence": [],
+    "verification_required": [
+      "付款截图 / 收款记录 / 发票 / 合同",
+      "客户名称或可脱敏客户记录",
+      "MVP 实验记录、交付物或复测记录",
+      "客户验收记录或明确预算记录",
+      "复购、续费、复测或转介绍记录"
+    ],
+    "full_prd_blocking_gap": [
+      "强业务事实尚未附件 / 内部记录复核，不能当作 S 级已验证证据。",
+      "付款 / 买单 / MVP 信号目前只能作为用户提供事实，不能直接证明完整 PRD 或 SaaS 产品化成立。"
+    ],
+    "prd_fact_rule": "用户提供事实可以进入 PRD 事实层，但必须标注为用户提供；未经附件或内部记录复核，不得写成独立验证或 S 级已验证证据。"
+  },
+  "payment_evidence_verification": {
+    "claimed_payment_layer": 5,
+    "verified_payment_layer": 0,
+    "usable_payment_layer_for_decision": 4,
+    "usable_for_current_path": "服务化 MVP / 客户项目验证",
+    "cannot_support": [
+      "完整 SaaS PRD",
+      "高 ROI 结论",
+      "规模化产品化判断"
+    ],
+    "layer_rows": [
+      {
+        "level": 1,
+        "label": "感兴趣",
+        "status": "claimed",
+        "meaning": "只能证明方向可能有兴趣",
+        "required_evidence": "用户行为或意向记录"
+      },
+      {
+        "level": 2,
+        "label": "愿意试用",
+        "status": "claimed",
+        "meaning": "只能证明愿意体验",
+        "required_evidence": "用户行为或意向记录"
+      },
+      {
+        "level": 3,
+        "label": "愿意留资 / 预约 / 进群",
+        "status": "claimed",
+        "meaning": "只能证明轻量行动",
+        "required_evidence": "用户行为或意向记录"
+      },
+      {
+        "level": 4,
+        "label": "愿意付定金 / 预付款 / 进入采购流程",
+        "status": "claimed",
+        "meaning": "强付费候选，需复核",
+        "required_evidence": "客户记录、预算、定金、付款、合同或复购材料"
+      },
+      {
+        "level": 5,
+        "label": "真实支付 / 签合同 / 复购",
+        "status": "claimed",
+        "meaning": "强付费证据，必须有材料",
+        "required_evidence": "客户记录、预算、定金、付款、合同或复购材料"
+      }
+    ],
+    "decision_rule": "用户声明的第 5 层付费信号未复核前，只能作为 claimed evidence；不得当作 S_verified 或完整 PRD 证据。"
+  },
+  "evidence_verification_intake": {
+    "status": "verification_required",
+    "purpose": "把用户声明、外部来源和项目材料分层复核，决定哪些证据能进入 PRD 事实层、哪些只能作为假设或待验证项。",
+    "accepted_evidence_types": [
+      "付款 / 合同",
+      "客户记录",
+      "MVP 实验记录",
+      "交付验收",
+      "复购 / 续费 / 转介绍",
+      "报价 / 客单价",
+      "交付工时",
+      "获客来源"
+    ],
+    "verification_slots": [
+      {
+        "key": "payment_proof",
+        "label": "付款 / 合同证据",
+        "current_status": "missing",
+        "accepted_materials": [
+          "付款截图",
+          "收款记录",
+          "发票",
+          "合同",
+          "定金记录",
+          "采购流程记录"
+        ],
+        "verification_effect": "将用户声明的买单信号从 S_claimed 推进到 S_verified 候选。",
+        "cannot_prove": "不能单独证明复购、获客成本、交付利润或 SaaS 产品化成立。",
+        "required_for": "完整 PRD / 产品化复判"
+      },
+      {
+        "key": "customer_record",
+        "label": "客户 / 行业记录",
+        "current_status": "missing",
+        "accepted_materials": [
+          "客户名称",
+          "脱敏客户记录",
+          "行业类型",
+          "联系人角色",
+          "预算方 / 决策方说明"
+        ],
+        "verification_effect": "证明付费对象、决策者和第一批行业不是泛泛假设。",
+        "cannot_prove": "不能单独证明客户会复购、转介绍或接受标准化产品。",
+        "required_for": "获客和目标客户边界"
+      },
+      {
+        "key": "mvp_experiment_record",
+        "label": "MVP 实验记录",
+        "current_status": "missing",
+        "accepted_materials": [
+          "实验目标",
+          "样本客户",
+          "检测结果",
+          "报告样例",
+          "复测记录",
+          "客户反馈"
+        ],
+        "verification_effect": "证明已有实验不是概念讨论，而是有可复判过程。",
+        "cannot_prove": "不能单独证明真实利润、获客效率或多客户可复制。",
+        "required_for": "服务化 MVP / 价值兑现周期"
+      },
+      {
+        "key": "delivery_acceptance_record",
+        "label": "交付 / 验收记录",
+        "current_status": "missing",
+        "accepted_materials": [
+          "交付周期",
+          "交付工时",
+          "人工复核轮次",
+          "返工次数",
+          "客户验收记录"
+        ],
+        "verification_effect": "证明交付成本和验收结果可被记录。",
+        "cannot_prove": "不能单独证明长期复购或获客成本可控。",
+        "required_for": "真实利润和交付成本判断"
+      },
+      {
+        "key": "repurchase_or_referral_record",
+        "label": "复购 / 续费 / 转介绍记录",
+        "current_status": "missing",
+        "accepted_materials": [
+          "复购记录",
+          "续费意向",
+          "复测意愿",
+          "转介绍记录",
+          "代运营意向"
+        ],
+        "verification_effect": "证明价值不是一次性项目，有持续收入或扩展机会。",
+        "cannot_prove": "不能单独证明边际交付成本已经下降或 SaaS 产品化已成立。",
+        "required_for": "产品化升级和 ROI 复判"
+      },
+      {
+        "key": "price_or_quote_record",
+        "label": "报价 / 客单价证据",
+        "current_status": "missing",
+        "accepted_materials": [
+          "报价单",
+          "客户接受价格记录",
+          "服务套餐价格",
+          "议价记录",
+          "最低可接受价格确认"
+        ],
+        "verification_effect": "证明服务价格区间和最低客单价不是主观假设。",
+        "cannot_prove": "不能单独证明毛利成立，仍需交付、获客、工具和维护成本。",
+        "required_for": "ROI / 最小利润复判"
+      },
+      {
+        "key": "delivery_time_record",
+        "label": "交付工时证据",
+        "current_status": "missing",
+        "accepted_materials": [
+          "报告制作工时",
+          "数据采集工时",
+          "人工复核工时",
+          "返工工时",
+          "客户解释 / 售后工时"
+        ],
+        "verification_effect": "证明单客户交付成本可被核算。",
+        "cannot_prove": "不能单独证明客户愿意付费或复购。",
+        "required_for": "真实利润 / 是否可标准化"
+      },
+      {
+        "key": "acquisition_source_record",
+        "label": "获客来源证据",
+        "current_status": "missing",
+        "accepted_materials": [
+          "线索来源",
+          "转介绍记录",
+          "内容获客记录",
+          "销售触达记录",
+          "免费检测提交记录",
+          "加顾问记录"
+        ],
+        "verification_effect": "证明第一批客户从哪里来，以及 CAC/LTV 是否可以继续验证。",
+        "cannot_prove": "不能单独证明服务价值成立，仍需成交和交付结果。",
+        "required_for": "获客路径 / CAC 复判"
+      }
+    ],
+    "current_blocking_items": [
+      "强业务事实尚未附件 / 内部记录复核，不能当作 S 级已验证证据。",
+      "付款 / 买单 / MVP 信号目前只能作为用户提供事实，不能直接证明完整 PRD 或 SaaS 产品化成立。"
+    ],
+    "verification_table_status": "all_missing_until_user_materials_attached",
+    "s_verified_upgrade_requirements": [
+      "付款 / 合同证据至少补齐一项",
+      "MVP 实验记录或交付验收记录至少补齐一项",
+      "报价 / 客单价和交付工时必须能支持最小利润判断",
+      "复购 / 复测 / 转介绍材料用于产品化升级，不用于首轮服务化 MVP 放行"
+    ],
+    "upgrade_rule": "只有付款 / 合同、MVP 实验、交付验收、报价、交付工时或复购等材料被项目内记录复核后，才允许从 S_claimed 升级为 S_verified；未补齐前只能支持服务化 MVP 或客户项目验证。",
+    "prd_usage_rule": "用户提供事实可以进入 PRD 事实层，但必须标注为用户提供；未经附件或内部记录复核，不得写成独立验证或 S 级已验证证据。",
+    "next_action": "补齐付款、客户、MVP、交付、复购、报价、工时和获客来源材料后重新运行价值门禁；未补齐前只能支撑服务化 MVP 或客户项目验证。"
+  },
+  "attachment_verification_plan": {
+    "current_status": "waiting_for_user_materials",
+    "slots": [
+      {
+        "key": "payment_proof",
+        "label": "付款 / 合同证据",
+        "current_status": "missing",
+        "materials_to_request": [
+          "付款截图",
+          "收款记录",
+          "发票",
+          "合同",
+          "定金记录",
+          "采购流程记录"
+        ],
+        "manual_review_method": "由用户提供附件 / 截图 / 脱敏记录后人工核对真实性、时间、客户对象和可复用性。",
+        "upgrade_effect": "将用户声明的买单信号从 S_claimed 推进到 S_verified 候选。",
+        "cannot_prove": "不能单独证明复购、获客成本、交付利润或 SaaS 产品化成立。",
+        "storage_rule": "项目 closeout 前作为项目证据候选保存；是否进入长期证据库或删除候选需用户批准。"
+      },
+      {
+        "key": "customer_record",
+        "label": "客户 / 行业记录",
+        "current_status": "missing",
+        "materials_to_request": [
+          "客户名称",
+          "脱敏客户记录",
+          "行业类型",
+          "联系人角色",
+          "预算方 / 决策方说明"
+        ],
+        "manual_review_method": "由用户提供附件 / 截图 / 脱敏记录后人工核对真实性、时间、客户对象和可复用性。",
+        "upgrade_effect": "证明付费对象、决策者和第一批行业不是泛泛假设。",
+        "cannot_prove": "不能单独证明客户会复购、转介绍或接受标准化产品。",
+        "storage_rule": "项目 closeout 前作为项目证据候选保存；是否进入长期证据库或删除候选需用户批准。"
+      },
+      {
+        "key": "mvp_experiment_record",
+        "label": "MVP 实验记录",
+        "current_status": "missing",
+        "materials_to_request": [
+          "实验目标",
+          "样本客户",
+          "检测结果",
+          "报告样例",
+          "复测记录",
+          "客户反馈"
+        ],
+        "manual_review_method": "由用户提供附件 / 截图 / 脱敏记录后人工核对真实性、时间、客户对象和可复用性。",
+        "upgrade_effect": "证明已有实验不是概念讨论，而是有可复判过程。",
+        "cannot_prove": "不能单独证明真实利润、获客效率或多客户可复制。",
+        "storage_rule": "项目 closeout 前作为项目证据候选保存；是否进入长期证据库或删除候选需用户批准。"
+      },
+      {
+        "key": "delivery_acceptance_record",
+        "label": "交付 / 验收记录",
+        "current_status": "missing",
+        "materials_to_request": [
+          "交付周期",
+          "交付工时",
+          "人工复核轮次",
+          "返工次数",
+          "客户验收记录"
+        ],
+        "manual_review_method": "由用户提供附件 / 截图 / 脱敏记录后人工核对真实性、时间、客户对象和可复用性。",
+        "upgrade_effect": "证明交付成本和验收结果可被记录。",
+        "cannot_prove": "不能单独证明长期复购或获客成本可控。",
+        "storage_rule": "项目 closeout 前作为项目证据候选保存；是否进入长期证据库或删除候选需用户批准。"
+      },
+      {
+        "key": "repurchase_or_referral_record",
+        "label": "复购 / 续费 / 转介绍记录",
+        "current_status": "missing",
+        "materials_to_request": [
+          "复购记录",
+          "续费意向",
+          "复测意愿",
+          "转介绍记录",
+          "代运营意向"
+        ],
+        "manual_review_method": "由用户提供附件 / 截图 / 脱敏记录后人工核对真实性、时间、客户对象和可复用性。",
+        "upgrade_effect": "证明价值不是一次性项目，有持续收入或扩展机会。",
+        "cannot_prove": "不能单独证明边际交付成本已经下降或 SaaS 产品化已成立。",
+        "storage_rule": "项目 closeout 前作为项目证据候选保存；是否进入长期证据库或删除候选需用户批准。"
+      },
+      {
+        "key": "price_or_quote_record",
+        "label": "报价 / 客单价证据",
+        "current_status": "missing",
+        "materials_to_request": [
+          "报价单",
+          "客户接受价格记录",
+          "服务套餐价格",
+          "议价记录",
+          "最低可接受价格确认"
+        ],
+        "manual_review_method": "由用户提供附件 / 截图 / 脱敏记录后人工核对真实性、时间、客户对象和可复用性。",
+        "upgrade_effect": "证明服务价格区间和最低客单价不是主观假设。",
+        "cannot_prove": "不能单独证明毛利成立，仍需交付、获客、工具和维护成本。",
+        "storage_rule": "项目 closeout 前作为项目证据候选保存；是否进入长期证据库或删除候选需用户批准。"
+      },
+      {
+        "key": "delivery_time_record",
+        "label": "交付工时证据",
+        "current_status": "missing",
+        "materials_to_request": [
+          "报告制作工时",
+          "数据采集工时",
+          "人工复核工时",
+          "返工工时",
+          "客户解释 / 售后工时"
+        ],
+        "manual_review_method": "由用户提供附件 / 截图 / 脱敏记录后人工核对真实性、时间、客户对象和可复用性。",
+        "upgrade_effect": "证明单客户交付成本可被核算。",
+        "cannot_prove": "不能单独证明客户愿意付费或复购。",
+        "storage_rule": "项目 closeout 前作为项目证据候选保存；是否进入长期证据库或删除候选需用户批准。"
+      },
+      {
+        "key": "acquisition_source_record",
+        "label": "获客来源证据",
+        "current_status": "missing",
+        "materials_to_request": [
+          "线索来源",
+          "转介绍记录",
+          "内容获客记录",
+          "销售触达记录",
+          "免费检测提交记录",
+          "加顾问记录"
+        ],
+        "manual_review_method": "由用户提供附件 / 截图 / 脱敏记录后人工核对真实性、时间、客户对象和可复用性。",
+        "upgrade_effect": "证明第一批客户从哪里来，以及 CAC/LTV 是否可以继续验证。",
+        "cannot_prove": "不能单独证明服务价值成立，仍需成交和交付结果。",
+        "storage_rule": "项目 closeout 前作为项目证据候选保存；是否进入长期证据库或删除候选需用户批准。"
+      }
+    ],
+    "s_verified_rule": "只有付款 / 合同、MVP 实验、交付验收、报价、交付工时或复购等材料被项目内记录复核后，才允许从 S_claimed 升级为 S_verified；未补齐前只能支持服务化 MVP 或客户项目验证。",
+    "no_auto_verification": true,
+    "owner_action_required": "提供可脱敏材料，或确认本轮只按 claimed evidence 做服务化 MVP。"
+  },
+  "competitor_benchmark_table": {
+    "status": "available",
+    "scope": "GEO / AI search visibility / AI brand monitoring 国内外竞品标杆。",
+    "coverage": {
+      "china_count": 5,
+      "international_count": 6
+    },
+    "rows": [
+      {
+        "name": "KAWO GEO域见",
+        "market": "中国",
+        "source_title": "GEO域见 - KAWO",
+        "source_url": "https://geo.kawo.com/zh/",
+        "focus": "品牌 AI 可见度监测、叙事健康度、竞品对标、提示词挖掘和优化建议。",
+        "benchmark_signal": "国内品牌监测 + 合规/技术准备 + 闭环优化。",
+        "what_it_proves": "中国市场已有面向品牌的 GEO/AEO 监测和优化产品形态。",
+        "what_it_does_not_prove": "不能证明本项目能获客、盈利或高 ROI。",
+        "prd_usage": "competitor_reference",
+        "fetch_status": "reachable",
+        "checked_at": "2026-05-10",
+        "http_status": 200,
+        "retrieved_title": "GEO域见 - GEO / AEO / LLM SEO 监测平台 | KAWO",
+        "evidence_excerpt": "GEO域见 - GEO / AEO / LLM SEO 监测平台 | KAWO GEO 域见 解决方案 功能 资源 合作伙伴 常见问题 演示申请 English 演示申请 English 让 AI 发现你的品牌 AI驱动的一站式GEO监测及优化平台 专注中国B2B市场 多模型覆盖 数据驱动 演示申请 通过多元化监测指标，轻松获取GEO洞察 我们支持监测中国主流的AI平台 选择平台 DeepSeek 在线 豆包 在线 元宝 在线 通义千问 即将上线 更多... KAWO科握 GEO 企业解决方案 公关部门 企业传播 ",
+        "fetch_error": ""
+      },
+      {
+        "name": "商脉通GEO",
+        "market": "中国",
+        "source_title": "商脉通GEO",
+        "source_url": "https://www.smt.wang/",
+        "focus": "面向中国企业的 AI 搜索优化，覆盖豆包、DeepSeek、Kimi 等平台的品牌曝光诊断和周期看板。",
+        "benchmark_signal": "国内服务化 GEO 诊断 + 持续监测看板。",
+        "what_it_proves": "国内已有围绕 DeepSeek、豆包等平台做 GEO 服务化交付的公开竞品。",
+        "what_it_does_not_prove": "不能证明本项目的交付成本、复购和利润成立。",
+        "prd_usage": "competitor_reference",
+        "fetch_status": "reachable",
+        "checked_at": "2026-05-10",
+        "http_status": 200,
+        "retrieved_title": "商脉通GEO - AI搜索优化平台 | 让品牌在豆包DeepSeek排名靠前",
+        "evidence_excerpt": "商脉通GEO - AI搜索优化平台 | 让品牌在豆包DeepSeek排名靠前 脉 商脉通 AI全域搜索 AI时代的生意增长引擎 AI-Powered Business Growth Engine 为什么选择我们 Why Us 核心功能 Features 产品矩阵 Products 工作原理 How It Works 定价 Pricing 中文 EN 客户登录 Login 免费试用 → Free Trial → ✦ AI 搜索时代新营销范式 ✦ New Marketing Paradigm for the AI Se",
+        "fetch_error": ""
+      },
+      {
+        "name": "GT-GEO",
+        "market": "中国",
+        "source_title": "广拓时代 GT-GEO",
+        "source_url": "https://geo.cantotimes.com/",
+        "focus": "覆盖 DeepSeek、豆包、文心一言、通义千问、Kimi、腾讯元宝的品牌监测、竞品分析和诊断报告。",
+        "benchmark_signal": "国内多 AI 平台覆盖 + 竞品分析 + 诊断报告。",
+        "what_it_proves": "国内竞品已把多平台监测、竞品分析和报告交付打包成 GEO 服务。",
+        "what_it_does_not_prove": "不能证明本项目可直接做完整 SaaS。",
+        "prd_usage": "competitor_reference",
+        "fetch_status": "reachable",
+        "checked_at": "2026-05-10",
+        "http_status": 200,
+        "retrieved_title": "广拓时代GT-GEO-AI搜索品牌优化平台-GEO优化服务商",
+        "evidence_excerpt": "广拓时代GT-GEO-AI搜索品牌优化平台-GEO优化服务商 产品功能 GEO诊断报告 客户案例 定价方案 关于我们 登录 申请试用 → 产品功能 GEO诊断报告 客户案例 定价方案 GEO知识库 关于我们 登录 申请试用 → 国内领先的AI搜索品牌优化平台 让品牌成为 AI搜索的首选答案 GT-GEO 覆盖 DeepSeek、豆包、文心一言、通义千问、Kimi、腾讯元宝 6大国内AI平台 ，提供品牌监测、竞品分析、GEO诊断报告与优化建议，帮助企业在AI搜索时代抢占品牌心智。 开始使用 → ▶ 观看演示视频 ✓ ",
+        "fetch_error": ""
+      },
+      {
+        "name": "GEOBase",
+        "market": "中国",
+        "source_title": "GEOBase",
+        "source_url": "https://geobase.org.cn/",
+        "focus": "GEO 排名检测、GEO 指数查询、品牌可见度和引用/推荐路径分析。",
+        "benchmark_signal": "免费/轻量工具入口 + 品牌可见度检测。",
+        "what_it_proves": "国内存在低门槛检测工具，说明服务化 MVP 需要差异化深度和交付质量。",
+        "what_it_does_not_prove": "不能证明低价工具模式适合本项目。",
+        "prd_usage": "competitor_reference",
+        "fetch_status": "reachable",
+        "checked_at": "2026-05-10",
+        "http_status": 200,
+        "retrieved_title": "GEOBase - 免费GEO排名检测 GEO指数查询工具",
+        "evidence_excerpt": "GEOBase - 免费GEO排名检测 GEO指数查询工具 GEOBase 功能 解决方案 定价 首页 GEO排名查询工具 GEO查询工具现已升级 立即体验 GEOBase 全球领先的 GEO 优化服务商。一键分析 DeepSeek、ChatGPT、Gemini 等 AI 平台的品牌可见度。 平台: DeepSeek 元宝 文心 豆包 千问 一键查询 了解功能 可见度评分 排名趋势 品牌声量 92 平均可见度 +37% 曝光增幅 1.8x 提示词复用 Top3 核心排名 核心功能 Power by GEOBase ",
+        "fetch_error": ""
+      },
+      {
+        "name": "711AI",
+        "market": "中国",
+        "source_title": "711AI-GEO优化监测平台",
+        "source_url": "https://www.711.cn/",
+        "focus": "AI 搜索查询、品牌检测、关键词热度趋势和行业 GEO 数据报告。",
+        "benchmark_signal": "查询工具 + 行业数据报告。",
+        "what_it_proves": "国内已有用行业报告和查询工具承接 GEO 需求的竞品形态。",
+        "what_it_does_not_prove": "不能证明单客户服务利润或复购成立。",
+        "prd_usage": "competitor_reference",
+        "fetch_status": "reachable",
+        "checked_at": "2026-05-10",
+        "http_status": 200,
+        "retrieved_title": "711AI-GEO优化监测平台-AI搜索查询工具",
+        "evidence_excerpt": "711AI-GEO优化监测平台-AI搜索查询工具 711AI GEO排名查询 真机检测 GEO分析报告 批量监测 工具 热度查询 关键词挖掘 行业词库 AI词汇集 排名监测 违禁词检测 新闻中心 --> 联系我们 扫码添加客服微信 微信号：joe777i --> A ai用户001 99+ GEO优化监测 一站式 GEO优化监测 平台 实时检测品牌在各大AI平台的表现，精准识别优化机会 检测 热度 挖掘 词库 开始检测 真机检测 真机检测更精准 | 需登录并安装浏览器插件 5000+ 企业信赖 5大平台 全面覆盖 ",
+        "fetch_error": ""
+      },
+      {
+        "name": "Profound",
+        "market": "海外",
+        "source_title": "Profound",
+        "source_url": "https://www.tryprofound.com/",
+        "focus": "AI search visibility、answer engine 监测、引用和品牌表现分析。",
+        "benchmark_signal": "海外企业级 AI 可见度平台参照。",
+        "what_it_proves": "海外已有企业级 AI visibility/GEO 平台方向。",
+        "what_it_does_not_prove": "不能证明中国市场客户愿意按海外价格付费。",
+        "prd_usage": "competitor_reference",
+        "fetch_status": "reachable",
+        "checked_at": "2026-05-10",
+        "http_status": 200,
+        "retrieved_title": "Profound | Optimize Your Brand&#x27;s Visibility in AI Search",
+        "evidence_excerpt": "Profound | Optimize Your Brand&#x27;s Visibility in AI Search Platform Resources Solutions Enterprise Pricing Careers Log in Get a Demo Platform Monitor Answer Engine Insights Agent Analytics Prompt Volumes Shopping Create Agents Resources Resources Customers ",
+        "fetch_error": ""
+      },
+      {
+        "name": "Peec AI",
+        "market": "海外",
+        "source_title": "Peec AI",
+        "source_url": "https://peec.ai/",
+        "focus": "AI search analytics、品牌可见度、情绪、位置、来源和竞品 benchmark。",
+        "benchmark_signal": "可见度指标 + 竞品 benchmark + action 建议。",
+        "what_it_proves": "海外产品已把品牌可见度、竞品、来源和行动建议做成平台能力。",
+        "what_it_does_not_prove": "不能证明本项目已具备同等产品能力。",
+        "prd_usage": "competitor_reference",
+        "fetch_status": "reachable",
+        "checked_at": "2026-05-10",
+        "http_status": 200,
+        "retrieved_title": "Peec AI - AI Search Analytics for Marketing Teams",
+        "evidence_excerpt": "Peec AI - AI Search Analytics for Marketing Teams ')\"> Pricing Resources Partnerships MCP Careers Log in Sign up ')\"> We are hiring AI search analytics for marketing teams Track, analyze, and improve brand performance on AI search platforms Track, analyze, and",
+        "fetch_error": ""
+      },
+      {
+        "name": "Scrunch",
+        "market": "海外",
+        "source_title": "Scrunch",
+        "source_url": "https://scrunch.com/faqs/",
+        "focus": "AI search monitoring、AEO/GEO audit、optimization、agent traffic/referral tracking。",
+        "benchmark_signal": "监测 + 审计 + 优化 + AI agent traffic/referral 数据。",
+        "what_it_proves": "海外成熟竞品已把 prompt、presence、citation、referral traffic 组合成完整监测框架。",
+        "what_it_does_not_prove": "不能证明本项目第一版需要完整复制这些能力。",
+        "prd_usage": "competitor_reference",
+        "fetch_status": "reachable",
+        "checked_at": "2026-05-10",
+        "http_status": 200,
+        "retrieved_title": "Scrunch | FAQs",
+        "evidence_excerpt": "Scrunch | FAQs Scrunch home Product Agent Experience AXP (Agent Experience Platform) Deliver an optimized experience to AI agents. Agent Traffic Analyze AI website traffic. Site Maps Understand how AI consumes your site. Monitoring & Insights Monitoring &amp; ",
+        "fetch_error": ""
+      },
+      {
+        "name": "Otterly.AI",
+        "market": "海外",
+        "source_title": "Otterly AI",
+        "source_url": "https://otterly.ai/",
+        "focus": "ChatGPT、Google AI Overviews/AI Mode、Gemini、Perplexity、Copilot 的品牌覆盖和竞品 share of voice。",
+        "benchmark_signal": "多平台品牌覆盖率 + 竞品 share of voice。",
+        "what_it_proves": "海外存在偏轻量、面向 SEO/营销团队的 AI visibility tracker。",
+        "what_it_does_not_prove": "不能证明服务化交付利润成立。",
+        "prd_usage": "competitor_reference",
+        "fetch_status": "reachable",
+        "checked_at": "2026-05-10",
+        "http_status": 200,
+        "retrieved_title": "AI Search Monitoring Tool: Track ChatGPT, Perplexity &amp; Google AIO",
+        "evidence_excerpt": "AI Search Monitoring Tool: Track ChatGPT, Perplexity &amp; Google AIO Features Solutions For Agencies For Marketing Teams Resources Blog Help Center Contact Us Agency Partners Technology Partners Case Studies Ambassadors Optimize for AI Search (Guide) Free GEO",
+        "fetch_error": ""
+      },
+      {
+        "name": "Goodie",
+        "market": "海外",
+        "source_title": "Goodie",
+        "source_url": "https://higoodie.com/pricing/",
+        "focus": "品牌在 AI 搜索中的引用频率、排名位置、情绪和 share of voice。",
+        "benchmark_signal": "GEO 指标产品化 + 定价参照。",
+        "what_it_proves": "AI visibility 可被拆成可监测指标并作为 SaaS/服务销售。",
+        "what_it_does_not_prove": "不能证明本项目高 ROI 已成立。",
+        "prd_usage": "competitor_reference",
+        "fetch_status": "reachable",
+        "checked_at": "2026-05-10",
+        "http_status": 200,
+        "retrieved_title": "Pricing Plans | Power Your AI Search Visibility | Goodie",
+        "evidence_excerpt": "--> Pricing Plans | Power Your AI Search Visibility | Goodie Skip to main content Product Use Case resources Pricing About Log In Log In GET A DEMO GET A DEMO Open main navigation Product Prompt Research Agentic Commerce Suite Visibility Monitoring Crawlers &a",
+        "fetch_error": ""
+      },
+      {
+        "name": "Evertune",
+        "market": "海外",
+        "source_title": "Evertune",
+        "source_url": "https://www.evertune.ai/",
+        "focus": "AI brand monitoring、AI search optimization、品牌在 LLM 响应中的推荐和提及监测。",
+        "benchmark_signal": "品牌监测 + AI search optimization。",
+        "what_it_proves": "海外已有围绕 AI 品牌监测和优化的 SaaS 公司。",
+        "what_it_does_not_prove": "不能证明国内 GEO 产品化速度或定价。",
+        "prd_usage": "competitor_reference",
+        "fetch_status": "reachable",
+        "checked_at": "2026-05-10",
+        "http_status": 200,
+        "retrieved_title": "Evertune | The AI Visibility &amp; Generative Engine Optimization Platform",
+        "evidence_excerpt": "Evertune | The AI Visibility &amp; Generative Engine Optimization Platform Research: The New Face of ChatGPT Shopping Read more → Products User Insights AI Brand Monitoring AI Website Optimization Content Strategy AI Retargeting Resources GEO 101 Research AI S",
+        "fetch_error": ""
+      }
+    ],
+    "decision_rule": "竞品只能证明赛道和能力形态存在，不能单独证明本项目商业价值、利润或 ROI 成立；是否值得做仍必须由付款、ROI、获客、交付、复购和资源优势证据决定。",
+    "prd_usage_rule": "PRD 可引用竞品作为市场和能力参照，但不得把竞品存在写成本项目必然盈利、必然高 ROI 或完整 SaaS 已成立。"
+  },
+  "industry_redline_rule_pack": {
+    "status": "needs_human_confirmation",
+    "triggered_domains": [
+      "医疗",
+      "法律",
+      "教育",
+      "支付资金",
+      "平台规则"
+    ],
+    "triggered_rules": [
+      "不得替代医生诊断",
+      "不得输出确定性治疗建议",
+      "必须保留专业人工确认",
+      "不得替代律师意见",
+      "不得承诺法律结果",
+      "必须明确责任边界",
+      "不得承诺升学或考试结果",
+      "涉及未成年人时必须加强合规和隐私边界",
+      "必须明确资金安全、交易链路和责任边界",
+      "不得形成未授权资金池或清算行为",
+      "不得承诺 AI 推荐、排名或确定性曝光",
+      "不得刷量、伪造内容、绕过平台规则或做黑灰产优化"
+    ],
+    "unresolved_questions": [
+      "需确认各 AI 平台可接受的监测、内容优化和复测边界"
+    ],
+    "full_prd_rule": "红线未解除或行业边界未确认前，不允许进入完整 PRD。",
+    "allowed_when_uncertain": "可进入调研、风险复核、低成本 MVP 或服务化验证，但必须保留边界和人工确认。"
+  },
+  "contextual_redline_filter": {
+    "status": "contextual_review_required",
+    "active_domains": [
+      "平台规则",
+      "数据隐私",
+      "内容安全",
+      "品牌风险"
+    ],
+    "conditional_domains": [
+      "法律服务行业",
+      "教育行业",
+      "医疗 / 医美行业",
+      "财税 / 金融相邻行业"
+    ],
+    "excluded_domains": [
+      "支付资金"
+    ],
+    "active_rules": [
+      "不得承诺 AI 推荐、排名或确定性曝光。",
+      "不得刷量、伪造内容、虚假评价、虚假报道、伪造背书或黑帽 GEO。",
+      "必须确认客户授权材料、监测样本、截图和看板数据的使用边界。",
+      "必须避免误导性品牌承诺和平台规则违规。"
+    ],
+    "why_filtered": "GEO 当前核心风险是平台规则、数据授权、内容安全和品牌承诺；医疗、法律、教育、金融等只在选定对应客户行业时进入专项红线复核。",
+    "blocks_current_path": false,
+    "full_prd_condition": "完整 PRD 前必须确认首批行业边界和平台可接受操作范围。",
+    "human_confirmation_required": true
+  },
+  "value_realization_timeline": {
+    "status": "timeline_unverified_blocks_scaling",
+    "milestones": [
+      {
+        "stage": "初筛检测",
+        "expected_cycle": "1-3 天",
+        "evidence_status": "待用首批客户记录确认",
+        "required_material": "品牌 / 关键词 / 竞品在 DeepSeek、豆包、Qwen、元宝等平台的首轮检测记录。"
+      },
+      {
+        "stage": "首单成交",
+        "expected_cycle": "2-4 周",
+        "evidence_status": "待确认",
+        "required_material": "真实付款、合同、预算或明确付费承诺记录。"
+      },
+      {
+        "stage": "报告交付",
+        "expected_cycle": "待确认",
+        "evidence_status": "待确认",
+        "required_material": "单客户报告交付周期、人工复核轮次和返工记录。"
+      },
+      {
+        "stage": "复测验证",
+        "expected_cycle": "2-4 周复测",
+        "evidence_status": "待确认",
+        "required_material": "AI 提及率、品牌推荐率、竞品覆盖差距、引用来源质量、多模型一致性复测变化。"
+      },
+      {
+        "stage": "复购 / 续费",
+        "expected_cycle": "4-8 周观察",
+        "evidence_status": "待确认",
+        "required_material": "复购、续费、代运营意向或转介绍记录。"
+      },
+      {
+        "stage": "产品化复判",
+        "expected_cycle": "完成 2-3 个相似客户后",
+        "evidence_status": "未满足",
+        "required_material": "相似客户、标准化流程、边际交付成本下降和可复用能力证据。"
+      }
+    ],
+    "unknowns": [
+      "真实报告交付周期",
+      "成交周期",
+      "复购周期",
+      "单客户交付工时",
+      "复测归因周期",
+      "最低客单价",
+      "获客成本",
+      "复购 / 复测意愿",
+      "第一批行业边界",
+      "平台规则风险"
+    ],
+    "decision_effect": "价值兑现周期未被真实记录前，只能支撑验证路径，不能支撑完整 SaaS、重研发或规模化产品化判断。"
+  },
+  "value_quality_scorecard": {
+    "overall_status": "needs_validation",
+    "rows": [
+      {
+        "key": "continuity",
+        "label": "一次性 / 持续价值",
+        "status": "Pass",
+        "current_judgment": "持续价值",
+        "required_evidence": "持续价值或周期性复购证据",
+        "decision_effect": "允许继续验证，但不能当作产品化已成立"
+      },
+      {
+        "key": "gross_margin",
+        "label": "高毛利 / 低毛利风险",
+        "status": "Pass",
+        "current_judgment": "中",
+        "required_evidence": "扣除交付、人工、工具、维护后的毛利证据",
+        "decision_effect": "允许继续验证，但不能当作产品化已成立"
+      },
+      {
+        "key": "delivery_weight",
+        "label": "轻交付 / 重交付",
+        "status": "Warning",
+        "current_judgment": "偏重交付",
+        "required_evidence": "单客户交付工时和返工记录",
+        "decision_effect": "阻断完整 PRD / 产品化放大"
+      },
+      {
+        "key": "standardization",
+        "label": "标准化 / 强定制",
+        "status": "Pass",
+        "current_judgment": "具备标准化线索",
+        "required_evidence": "标准化流程、配置边界和模板化交付",
+        "decision_effect": "允许继续验证，但不能当作产品化已成立"
+      },
+      {
+        "key": "repurchase",
+        "label": "可复购 / 一次性",
+        "status": "Pass",
+        "current_judgment": "具备复购 / 续费线索",
+        "required_evidence": "复购、续费、复测或转介绍记录",
+        "decision_effect": "允许继续验证，但不能当作产品化已成立"
+      },
+      {
+        "key": "replicability",
+        "label": "可复制 / 单客户",
+        "status": "Pass",
+        "current_judgment": "可复制性待用多客户数据验证",
+        "required_evidence": "第二个相似客户和多行业复用证据",
+        "decision_effect": "允许继续验证，但不能当作产品化已成立"
+      },
+      {
+        "key": "capability_asset",
+        "label": "能力沉淀",
+        "status": "Pass",
+        "current_judgment": "监测、诊断报告、竞品对比、复测",
+        "required_evidence": "可沉淀的数据、流程、报告、词库或工具能力",
+        "decision_effect": "允许继续验证，但不能当作产品化已成立"
+      },
+      {
+        "key": "moat",
+        "label": "壁垒 / 易替代",
+        "status": "Pass",
+        "current_judgment": "行业词库、提示词样本库、历史监测数据和优化案例可能形成壁垒",
+        "required_evidence": "数据积累、行业 know-how、交付质量或渠道优势",
+        "decision_effect": "允许继续验证，但不能当作产品化已成立"
+      }
+    ],
+    "blocking_items_for_full_prd": [
+      "轻交付 / 重交付"
+    ],
+    "warning_items": [
+      "轻交付 / 重交付"
+    ],
+    "full_prd_rule": "价值质量关键项未被证据支持时，只能进入 MVP / 项目验证，不能直接进入完整 PRD 或产品化放大。"
+  },
+  "resource_advantage_matrix": {
+    "overall_status": "needs_evidence",
+    "why_us": "已有客户 / SEO / 内容营销 / AI 转型资源可作为切入口。",
+    "claimed_resource_advantages": [
+      "SEO",
+      "内容营销",
+      "AI 转型"
+    ],
+    "verified_resource_advantages": [],
+    "unverified_resource_advantages": [
+      "SEO",
+      "内容营销",
+      "AI 转型"
+    ],
+    "why_us_not_proven": [
+      "客户资源尚未形成可复核清单"
+    ],
+    "rows": [
+      {
+        "key": "customer_resource",
+        "label": "客户资源",
+        "status": "missing",
+        "evidence_status": "缺证据",
+        "required_evidence": "客户资源对应的客户记录、案例、流程、能力或成本证明",
+        "decision_effect": "missing 时不能声称我们有稳定进入优势"
+      },
+      {
+        "key": "acquisition_channel",
+        "label": "获客渠道",
+        "status": "candidate",
+        "evidence_status": "输入中有线索，需复核",
+        "required_evidence": "获客渠道对应的客户记录、案例、流程、能力或成本证明",
+        "decision_effect": "missing 时不能声称我们有稳定进入优势"
+      },
+      {
+        "key": "industry_knowledge",
+        "label": "行业认知",
+        "status": "candidate",
+        "evidence_status": "输入中有线索，需复核",
+        "required_evidence": "行业认知对应的客户记录、案例、流程、能力或成本证明",
+        "decision_effect": "missing 时不能声称我们有稳定进入优势"
+      },
+      {
+        "key": "technical_capability",
+        "label": "技术能力",
+        "status": "candidate",
+        "evidence_status": "输入中有线索，需复核",
+        "required_evidence": "技术能力对应的客户记录、案例、流程、能力或成本证明",
+        "decision_effect": "missing 时不能声称我们有稳定进入优势"
+      },
+      {
+        "key": "delivery_capability",
+        "label": "交付能力",
+        "status": "candidate",
+        "evidence_status": "输入中有线索，需复核",
+        "required_evidence": "交付能力对应的客户记录、案例、流程、能力或成本证明",
+        "decision_effect": "missing 时不能声称我们有稳定进入优势"
+      },
+      {
+        "key": "case_proof",
+        "label": "案例背书",
+        "status": "candidate",
+        "evidence_status": "输入中有线索，需复核",
+        "required_evidence": "案例背书对应的客户记录、案例、流程、能力或成本证明",
+        "decision_effect": "missing 时不能声称我们有稳定进入优势"
+      },
+      {
+        "key": "cost_advantage",
+        "label": "成本优势",
+        "status": "candidate",
+        "evidence_status": "输入中有线索，需复核",
+        "required_evidence": "成本优势对应的客户记录、案例、流程、能力或成本证明",
+        "decision_effect": "missing 时不能声称我们有稳定进入优势"
+      },
+      {
+        "key": "compliance_capability",
+        "label": "合规能力",
+        "status": "candidate",
+        "evidence_status": "输入中有线索，需复核",
+        "required_evidence": "合规能力对应的客户记录、案例、流程、能力或成本证明",
+        "decision_effect": "missing 时不能声称我们有稳定进入优势"
+      },
+      {
+        "key": "team_resource",
+        "label": "团队资源",
+        "status": "candidate",
+        "evidence_status": "输入中有线索，需复核",
+        "required_evidence": "团队资源对应的客户记录、案例、流程、能力或成本证明",
+        "decision_effect": "missing 时不能声称我们有稳定进入优势"
+      }
+    ],
+    "missing_assets": [
+      "客户资源"
+    ],
+    "decision_rule": "市场有机会不等于我们能拿到价值；资源优势未被证据支持时，只能验证，不能放大投入。"
+  },
+  "acquisition_decision_table": {
+    "overall_status": "needs_validation",
+    "rows": [
+      {
+        "key": "first_users",
+        "label": "第一批用户在哪里",
+        "current_judgment": "SEO、内容营销、AI 转型、私域、转介绍",
+        "evidence_required": "首批客户名单、行业、来源或线索记录",
+        "status": "candidate"
+      },
+      {
+        "key": "reach_method",
+        "label": "如何触达",
+        "current_judgment": "从已有客户、服务商和内容营销需求切入。",
+        "evidence_required": "渠道、转介绍、私域、内容、销售或服务商触达记录",
+        "status": "candidate"
+      },
+      {
+        "key": "trust_basis",
+        "label": "为什么信任我们",
+        "current_judgment": "MVP、买单、服务商",
+        "evidence_required": "案例、MVP 记录、成交记录、服务商背书或客户反馈",
+        "status": "candidate"
+      },
+      {
+        "key": "cac",
+        "label": "获客成本是否可控",
+        "current_judgment": "待确认",
+        "evidence_required": "渠道投放、转介绍、销售工时或线索转化记录",
+        "status": "missing"
+      },
+      {
+        "key": "repurchase_or_ltv",
+        "label": "是否有复购 / LTV 信号",
+        "current_judgment": "持续监测、复测和服务商工具授权可能带来复购。",
+        "evidence_required": "复购、续费、复测、转介绍或代运营意向记录",
+        "status": "missing"
+      }
+    ],
+    "blocking_items_for_full_prd": [
+      "获客成本是否可控",
+      "是否有复购 / LTV 信号"
+    ],
+    "cac_ltv_risk": "需要验证客单价能否覆盖获客、诊断、交付和持续监测成本。",
+    "decision_rule": "获客路径、信任来源、CAC 和复购信号未被证据支持时，不允许进入完整 PRD 或规模化增长结论。"
+  },
+  "lightweight_profit_model": {
+    "model_type": "lightweight_profit_boundary",
+    "formula": "真实利润 = 收入 - 获客成本 - 交付成本 - 人工成本 - 维护成本 - 沟通成本 - 售后成本 - 合规成本 - 风险成本",
+    "payment_evidence_level": 5,
+    "known_inputs": [
+      "获客成本",
+      "交付成本",
+      "人工成本",
+      "维护成本",
+      "沟通成本",
+      "售后成本",
+      "合规成本",
+      "风险成本"
+    ],
+    "unknown_inputs": [
+      "客单价",
+      "获客成本",
+      "单客户交付工时",
+      "人工复核成本",
+      "维护 / 售后成本"
+    ],
+    "cycle_dimensions": [
+      "首单利润",
+      "单次利润",
+      "月度利润",
+      "客户生命周期利润",
+      "复购利润",
+      "维护期利润",
+      "边际交付利润"
+    ],
+    "minimum_profit_condition": "客单价必须覆盖获客、交付、人工复核、维护、售后、合规和风险成本，并保留可接受毛利。",
+    "current_status": "初步成立，仍需核算",
+    "blocks_scaling_if_missing": [
+      "客单价",
+      "获客成本",
+      "单客户交付工时",
+      "复购周期"
+    ],
+    "calculation_rule": "没有证据的数值只能标记为待确认，不能编造金额、工时或毛利。"
+  },
+  "roi_input_table": {
+    "status": "missing_critical_roi_inputs",
+    "can_calculate_roi": false,
+    "can_claim_high_roi": false,
+    "formula": "ROI = (收入 - 获客成本 - 交付成本 - 人工复核成本 - 工具成本 - 维护 / 售后成本 - 风险成本) / 总投入",
+    "input_rows": [
+      {
+        "key": "price_floor",
+        "label": "首期服务价格 / 最低客单价",
+        "current_value": "待确认",
+        "evidence_required": "报价单、合同、付款记录或客户接受价格记录",
+        "decision_rule": "低于获客、交付、工具、维护和风险成本总和时，不允许声称 ROI 成立。",
+        "blocks_high_roi": true,
+        "source_status": "missing"
+      },
+      {
+        "key": "acquisition_cost",
+        "label": "单个有效客户获客成本",
+        "current_value": "待确认",
+        "evidence_required": "渠道投放、转介绍、销售工时或线索转化记录",
+        "decision_rule": "获客成本高于客单价或无法回收时，停止产品化或降级服务项目。",
+        "blocks_high_roi": true,
+        "source_status": "missing"
+      },
+      {
+        "key": "delivery_hours_per_customer",
+        "label": "单客户交付工时",
+        "current_value": "待确认",
+        "evidence_required": "服务记录、报告制作记录、人工复核和返工记录",
+        "decision_rule": "交付工时持续过高时，服务化可继续验证，但不能升级 SaaS 或重研发。",
+        "blocks_high_roi": true,
+        "source_status": "missing"
+      },
+      {
+        "key": "human_review_cost",
+        "label": "人工复核成本",
+        "current_value": "待确认",
+        "evidence_required": "审核轮次、审核人力、报告修改记录",
+        "decision_rule": "人工复核不可控时，说明边际交付成本难以下降。",
+        "blocks_high_roi": true,
+        "source_status": "missing"
+      },
+      {
+        "key": "tool_cost",
+        "label": "工具 / 模型 / 监测成本",
+        "current_value": "待确认",
+        "evidence_required": "API、工具订阅、监测工具、人工采样脚本成本记录",
+        "decision_rule": "工具成本必须纳入真实利润，不得只看收入。",
+        "blocks_high_roi": true,
+        "source_status": "missing"
+      },
+      {
+        "key": "maintenance_cost",
+        "label": "维护 / 售后成本",
+        "current_value": "待确认",
+        "evidence_required": "复测、客户答疑、报告解释、后续优化记录",
+        "decision_rule": "维护成本不可控时，不允许把一次成交写成长期利润成立。",
+        "blocks_high_roi": true,
+        "source_status": "missing"
+      },
+      {
+        "key": "repurchase_signal",
+        "label": "复购 / 续费 / 复测信号",
+        "current_value": "待确认",
+        "evidence_required": "复购记录、续费意向、复测预约、代运营合同或转介绍",
+        "decision_rule": "没有复购或复测信号时，只能证明首单价值，不能证明 LTV 或产品化价值。",
+        "blocks_high_roi": true,
+        "source_status": "missing"
+      }
+    ],
+    "missing_critical_inputs": [
+      "首期服务价格 / 最低客单价",
+      "单个有效客户获客成本",
+      "单客户交付工时",
+      "人工复核成本",
+      "工具 / 模型 / 监测成本",
+      "维护 / 售后成本",
+      "复购 / 续费 / 复测信号"
+    ],
+    "minimum_viable_roi_rule": "只有首期价格、获客成本、交付工时、工具成本、维护成本和复购 / 复测信号可被证据支持后，才允许讨论高 ROI 或产品化放大。",
+    "decision_effect": "ROI 输入缺失时，价值门禁只能支持服务化 MVP 收集数据，不能支持完整 SaaS、重研发或高 ROI 结论。"
+  },
+  "roi_decision_model": {
+    "status": "roi_not_proven",
+    "can_claim_high_roi": false,
+    "formula": "ROI = (收入 - 获客成本 - 交付成本 - 人工成本 - 工具成本 - 维护 / 售后成本 - 风险成本) / 总投入",
+    "roi_input_table_status": "missing_critical_roi_inputs",
+    "scenario_table": [
+      {
+        "scenario": "保守",
+        "calculation_rule": "按最低可接受客单价、最高获客成本和最高交付工时计算。",
+        "revenue": "待确认",
+        "acquisition_cost": "待确认",
+        "delivery_cost": "待确认",
+        "tool_cost": "待确认",
+        "maintenance_cost": "待确认",
+        "estimated_profit": "不可计算，缺少真实数值",
+        "roi_status": "not_proven",
+        "required_evidence": [
+          "客单价",
+          "获客成本",
+          "单客户交付工时",
+          "工具成本",
+          "维护 / 售后成本"
+        ]
+      },
+      {
+        "scenario": "中性",
+        "calculation_rule": "按目标客单价、可控获客成本和可复用交付流程计算。",
+        "revenue": "待确认",
+        "acquisition_cost": "待确认",
+        "delivery_cost": "待确认",
+        "tool_cost": "待确认",
+        "maintenance_cost": "待确认",
+        "estimated_profit": "不可计算，缺少真实数值",
+        "roi_status": "not_proven",
+        "required_evidence": [
+          "客单价",
+          "获客成本",
+          "单客户交付工时",
+          "工具成本",
+          "维护 / 售后成本"
+        ]
+      },
+      {
+        "scenario": "乐观",
+        "calculation_rule": "按复购 / 转介绍成立、边际交付成本下降后计算。",
+        "revenue": "待确认",
+        "acquisition_cost": "待确认",
+        "delivery_cost": "待确认",
+        "tool_cost": "待确认",
+        "maintenance_cost": "待确认",
+        "estimated_profit": "不可计算，缺少真实数值",
+        "roi_status": "not_proven",
+        "required_evidence": [
+          "客单价",
+          "获客成本",
+          "单客户交付工时",
+          "工具成本",
+          "维护 / 售后成本"
+        ]
+      }
+    ],
+    "minimum_data_needed": [
+      "首期服务价格或报告价格",
+      "单个有效线索获客成本",
+      "单客户交付工时",
+      "人工复核和报告修订成本",
+      "工具 / 模型 / 看板成本",
+      "复购、复测或代运营续费证据"
+    ],
+    "decision_effect": "当前不能声称高 ROI，只能用服务化 MVP 收集 ROI 所需数据。",
+    "upgrade_condition": "三档 ROI 中至少中性场景可盈利，且复购或第二客户信号出现后，才允许讨论产品化放大。",
+    "stop_condition": "保守和中性场景都无法覆盖获客、交付、工具和维护成本时，停止产品化或降级为服务项目。",
+    "evidence_grade_dependency": "passes_current_gate_but_not_full_prd"
+  },
+  "output_boundary_gate": {
+    "status": "within_boundary",
+    "allowed_outputs": [
+      "值不值得做的商业判断",
+      "证据表和证据充分性结论",
+      "经营边界和验证周期",
+      "A/B/C/D/E/F/G 路径输入包",
+      "给 PRD 模块的事实 / 假设 / 禁止声称边界",
+      "单个想法的后续承接路径建议"
+    ],
+    "forbidden_outputs": [
+      "完整 PRD 正文",
+      "完整功能清单",
+      "完整页面结构和交互流",
+      "技术架构和开发排期",
+      "自动化运营方案",
+      "未经验证的 ROI 承诺",
+      "跨项目优先级排序",
+      "资源分配排名",
+      "所有机会里的投资优先级判断"
+    ],
+    "does_not_rank_against_other_projects": true,
+    "priority_boundary_rule": "前置模块只判断单个想法有没有价值、证据是否达标、应进入哪条验证路径；不判断它在所有机会中的优先级、资源排名或公司级投资顺序。",
+    "detected_boundary_risks": [],
+    "route_package": "mvp_input_package",
+    "current_decision_gate": "B_LOW_COST_MVP",
+    "rule": "价值门禁只决定是否值得做、走哪条验证路径、给下一模块哪些输入；不能替代 PRD、原型、开发文档、商业执行方案或跨项目优先级决策。"
+  },
+  "route_package_completeness_gate": {
+    "route_package": "mvp_input_package",
+    "status": "complete",
+    "required_fields": [
+      "core_user",
+      "core_scenario",
+      "core_task",
+      "core_features",
+      "core_delivery",
+      "core_feedback",
+      "minimum_data_loop",
+      "success_criteria",
+      "failure_criteria"
+    ],
+    "missing_fields": [],
+    "over_generic_fields": [],
+    "specificity_checks": [
+      {
+        "field": "success_criteria",
+        "required_terms": [
+          "免费检测提交数",
+          "有效线索率",
+          "加顾问率",
+          "体检报告成交率",
+          "单客户交付工时",
+          "复盘预约率",
+          "后续优化",
+          "代运营"
+        ],
+        "matched_terms": [
+          "免费检测提交数",
+          "有效线索率",
+          "加顾问率",
+          "体检报告成交率",
+          "单客户交付工时",
+          "复盘预约率",
+          "后续优化",
+          "代运营"
+        ],
+        "missing_terms": [],
+        "status": "specific"
+      },
+      {
+        "field": "failure_criteria",
+        "required_terms": [
+          "只愿免费",
+          "报告",
+          "交付工时",
+          "无法归因",
+          "复测",
+          "复购"
+        ],
+        "matched_terms": [
+          "只愿免费",
+          "报告",
+          "交付工时",
+          "无法归因",
+          "复测",
+          "复购"
+        ],
+        "missing_terms": [],
+        "status": "specific"
+      },
+      {
+        "field": "minimum_data_loop",
+        "required_terms": [
+          "品牌提及",
+          "竞品提及",
+          "引用来源",
+          "诊断报告",
+          "优化动作",
+          "复测结果",
+          "成交"
+        ],
+        "matched_terms": [
+          "品牌提及",
+          "竞品提及",
+          "引用来源",
+          "诊断报告",
+          "优化动作",
+          "复测结果",
+          "成交"
+        ],
+        "missing_terms": [],
+        "status": "specific"
+      }
+    ],
+    "can_route_to_next_module": true,
+    "fallback": "缺字段时退回前置模块补齐；字段过泛时允许进入验证路径，但不得进入完整 PRD。"
+  },
+  "rejudgment_package": {
+    "current_status": "mvp_testing",
+    "current_decision_gate": "B_LOW_COST_MVP",
+    "current_route_package": "mvp_input_package",
+    "next_review_trigger": "完成低成本 MVP 核心价值闭环验证后复判。",
+    "next_path_execution_record_required": true,
+    "required_validation_records": [
+      "免费检测提交数",
+      "有效线索率",
+      "加顾问率",
+      "体检报告成交率",
+      "报告交付周期",
+      "单客户交付工时",
+      "看板查看率",
+      "复盘预约率",
+      "后续优化 / 代运营意向",
+      "客户对报告和看板的认可度"
+    ],
+    "rejudgment_trigger": "完成低成本 MVP 核心价值闭环验证后复判。",
+    "rejudgment_input_required": [
+      "免费检测提交数",
+      "有效线索率",
+      "加顾问率",
+      "体检报告成交率",
+      "报告交付周期",
+      "单客户交付工时",
+      "看板查看率",
+      "复盘预约率",
+      "后续优化 / 代运营意向",
+      "客户对报告和看板的认可度",
+      "真实付款 / 合同 / 明确预算附件或记录",
+      "首期服务价格区间",
+      "外部价格锚点与国内目标行业可接受价格对比",
+      "单客户 ROI 计算：收入 - 获客成本 - 交付成本 - 工具成本 - 维护成本"
+    ],
+    "minimum_materials_before_rejudgment": [
+      "客户证据",
+      "指标基线和结果",
+      "成本核算",
+      "交付复盘",
+      "风险记录",
+      "真实付款 / 合同 / 明确预算附件或记录",
+      "首期服务价格区间",
+      "外部价格锚点与国内目标行业可接受价格对比",
+      "单客户交付工时",
+      "单客户 ROI 计算：收入 - 获客成本 - 交付成本 - 工具成本 - 维护成本"
+    ],
+    "success_criteria": [
+      "真实买单或预算确认",
+      "核心价值指标改善",
+      "交付成本可控",
+      "风险边界可控"
+    ],
+    "failure_criteria": [
+      "如果用户只愿意试用但不愿意付费，商业价值不成立。",
+      "如果获客成本高于客单价，利润价值不成立。",
+      "如果交付严重依赖人工专家，产品化价值不足。",
+      "如果节省的人力成本小于系统建设成本，内部价值不成立。",
+      "如果 AI 平台回答波动过大且无法归因，GEO 效果难以证明。"
+    ],
+    "upgrade_conditions": [
+      "连续出现相似客户需求",
+      "单客户交付工时下降到可控范围",
+      "客户愿意复测 / 续费 / 转介绍",
+      "GEO 指标有可解释变化",
+      "核心流程可标准化为工具或看板"
+    ],
+    "stop_or_downgrade_conditions": [
+      "2-4 周内拿不到第二个付费信号",
+      "客户只愿免费试用不愿付费",
+      "获客成本高于客单价",
+      "单客户交付工时持续过高",
+      "GEO 效果无法归因",
+      "客户不愿复测 / 续费 / 推荐"
+    ],
+    "rejudgment_rule": "B/C/D/E 路径不是终点，完成验证材料后必须回流产品价值门禁复判。"
+  },
+  "rejudgment_execution_plan": {
+    "current_route_package": "mvp_input_package",
+    "current_recommendation": "2-4 周服务化 MVP，不做完整 SaaS。",
+    "review_window": "2-4 周",
+    "records_to_collect": [
+      "客户行业",
+      "线索来源",
+      "免费检测提交时间",
+      "是否有效线索",
+      "是否加顾问",
+      "是否购买体检报告",
+      "首期服务价格",
+      "报告交付周期",
+      "单客户交付工时",
+      "是否复测",
+      "是否转后续优化 / 代运营",
+      "客户认可度",
+      "免费检测提交数",
+      "有效线索率",
+      "加顾问率",
+      "体检报告成交率",
+      "看板查看率",
+      "复盘预约率",
+      "后续优化 / 代运营意向",
+      "客户对报告和看板的认可度",
+      "真实付款 / 合同 / 明确预算附件或记录",
+      "首期服务价格区间",
+      "外部价格锚点与国内目标行业可接受价格对比",
+      "单客户 ROI 计算：收入 - 获客成本 - 交付成本 - 工具成本 - 维护成本",
+      "复购 / 复测 / 续费意愿"
+    ],
+    "owner_review_required": true,
+    "upgrade_check": {
+      "target": "是否允许从当前路径升级为完整 PRD / SaaS / 重研发。",
+      "conditions": [
+        "连续出现相似客户需求",
+        "单客户交付工时下降到可控范围",
+        "客户愿意复测 / 续费 / 转介绍",
+        "GEO 指标有可解释变化",
+        "核心流程可标准化为工具或看板"
+      ]
+    },
+    "stop_or_downgrade_check": {
+      "target": "是否停止产品化、降级为服务项目或继续调研。",
+      "conditions": [
+        "2-4 周内拿不到第二个付费信号",
+        "客户只愿免费试用不愿付费",
+        "获客成本高于客单价",
+        "单客户交付工时持续过高",
+        "GEO 效果无法归因",
+        "客户不愿复测 / 续费 / 推荐"
+      ]
+    },
+    "next_value_gate_inputs": [
+      "客户证据",
+      "指标基线和结果",
+      "成本核算",
+      "交付复盘",
+      "风险记录",
+      "真实付款 / 合同 / 明确预算附件或记录",
+      "首期服务价格区间",
+      "外部价格锚点与国内目标行业可接受价格对比",
+      "单客户交付工时",
+      "单客户 ROI 计算：收入 - 获客成本 - 交付成本 - 工具成本 - 维护成本"
+    ],
+    "cadence": "服务化 MVP 完成 2-4 周验证或触发停止 / 升级条件时复判；不得自动升级。",
+    "result_rule": "复判只更新 value gate 结论和候选路径；是否进入 stable、完整 PRD 或长期规则仍需用户批准。"
+  },
+  "evidence_decision_basis": [
+    {
+      "evidence": "用户声明已经完成过 MVP 实验。",
+      "source_type": "user_provided_fact",
+      "source_title": "项目原始输入",
+      "source_url": "projects/geo-service-prd/00_raw_input.md",
+      "captured_at": "2026-05-10",
+      "fetch_status": "not_applicable",
+      "checked_at": "",
+      "http_status": null,
+      "retrieved_title": "",
+      "evidence_excerpt": "",
+      "strength": "A：强业务事实（用户提供，仍需附件 / 记录复核）",
+      "proves": "证明不是纯想法，已经有初步实验或试跑基础。",
+      "does_not_prove": "不能证明可规模化、可复购、真实利润成立或 SaaS 产品化成立。",
+      "decision_impact": "支持“值得测试 / 服务化 MVP”，但不足以支持直接完整 SaaS。"
+    },
+    {
+      "evidence": "用户声明已有同行或客户为相关服务买单。",
+      "source_type": "user_provided_fact",
+      "source_title": "项目原始输入",
+      "source_url": "projects/geo-service-prd/00_raw_input.md",
+      "captured_at": "2026-05-10",
+      "fetch_status": "not_applicable",
+      "checked_at": "",
+      "http_status": null,
+      "retrieved_title": "",
+      "evidence_excerpt": "",
+      "strength": "A：强业务事实（用户提供，仍需附件 / 记录复核）",
+      "proves": "证明存在真实付费信号或预算意愿，商业价值不是零。",
+      "does_not_prove": "不能证明客单价、复购、获客成本、交付工时、毛利或 SaaS 产品化已经成立。",
+      "decision_impact": "支持“值得测试 / 服务化 MVP”，但不足以支持直接完整 SaaS。"
+    },
+    {
+      "evidence": "Gartner 预测到 2026 年传统搜索量将下降 25%，搜索营销会被 AI chatbots 和虚拟代理分流。",
+      "source_type": "external_public_source",
+      "source_title": "Gartner search volume forecast",
+      "source_url": "https://www.gartner.com/en/newsroom/press-releases/2024-02-19-gartner-predicts-search-engine-volume-will-drop-25-percent-by-2026-due-to-ai-chatbots-and-other-virtual-agents",
+      "captured_at": "2026-05-10",
+      "fetch_status": "non_success_status",
+      "checked_at": "2026-05-10",
+      "http_status": 403,
+      "retrieved_title": "Just a moment... | Gartner",
+      "evidence_excerpt": "Just a moment... | Gartner Gartner.com To ensure a secure connection and verify you're human, please complete the validation process, if prompted. Enable JavaScript and cookies to continue Ray ID: 9f96a4380fa0dff1",
+      "strength": "B：行业趋势证据",
+      "proves": "证明传统搜索流量可能被 AI 助手分流，企业搜索营销预算存在被重新配置的外部压力。",
+      "does_not_prove": "不能证明你的 GEO 服务一定能获客、成交、盈利或取得高 ROI。",
+      "decision_impact": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。"
+    },
+    {
+      "evidence": "Bain 引用 Sensor Tower 数据显示 2025 年上半年 ChatGPT prompt 量增长近 70%，购物相关 prompts 在占比和绝对量上明显增长。",
+      "source_type": "external_public_source",
+      "source_title": "Bain AI Search Research",
+      "source_url": "https://www.bain.com/insights/how-customers-are-using-ai-search/",
+      "captured_at": "2026-05-10",
+      "fetch_status": "reachable",
+      "checked_at": "2026-05-10",
+      "http_status": 200,
+      "retrieved_title": "How Customers Are Using AI Search [2025 Research] | Bain &amp; Company",
+      "evidence_excerpt": "How Customers Are Using AI Search [2025 Research] | Bain &amp; Company Skip to Content Offices Close Offices North &amp; Latin America Atlanta Austin Bogota Boston Buenos Aires Chicago Dallas Denver Houston Los Angeles Mexico City Minneapolis Monterrey Montrea",
+      "strength": "B：用户行为趋势证据",
+      "proves": "证明用户正在把 AI 用于搜索、购物和链接点击，品牌需要关注 AI 搜索可见度。",
+      "does_not_prove": "不能证明国内目标客户愿意持续付费，也不能证明单个 GEO 项目的投产比。",
+      "decision_impact": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。"
+    },
+    {
+      "evidence": "公开 GEO agency pricing 资料显示，GEO 服务常见月费区间约为 3,000-25,000 美元。",
+      "source_type": "external_public_source",
+      "source_title": "RevvGrowth GEO pricing guide",
+      "source_url": "https://www.revvgrowth.com/geo/geo-agency-pricing",
+      "captured_at": "2026-05-10",
+      "fetch_status": "reachable",
+      "checked_at": "2026-05-10",
+      "http_status": 200,
+      "retrieved_title": "GEO Pricing 2026: What AI Visibility Costs",
+      "evidence_excerpt": "GEO Pricing 2026: What AI Visibility Costs Revv up your B2B growth with AI. See our results. Learn more B2B growth meets AI innovation. Get cutting-edge insights from RevvGrowth Learn more Services Demand generation Qualified pipeline, every week Content Marke",
+      "strength": "B：价格锚点证据",
+      "proves": "证明海外 GEO 服务存在公开价格锚点，可用于设计本项目价格验证区间。",
+      "does_not_prove": "不能证明国内客户接受同等价格，也不能证明在本团队交付成本下 ROI 高。",
+      "decision_impact": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。"
+    },
+    {
+      "evidence": "Goodie 将 AI search visibility 定义为品牌被 ChatGPT、Perplexity、Gemini 等 AI 搜索引用的频率，并跟踪引用频率、排名位置、情绪和 share of voice。",
+      "source_type": "external_public_source",
+      "source_title": "Goodie pricing and FAQ",
+      "source_url": "https://higoodie.com/pricing/",
+      "captured_at": "2026-05-10",
+      "fetch_status": "reachable",
+      "checked_at": "2026-05-10",
+      "http_status": 200,
+      "retrieved_title": "Pricing Plans | Power Your AI Search Visibility | Goodie",
+      "evidence_excerpt": "--> Pricing Plans | Power Your AI Search Visibility | Goodie Skip to main content Product Use Case resources Pricing About Log In Log In GET A DEMO GET A DEMO Open main navigation Product Prompt Research Agentic Commerce Suite Visibility Monitoring Crawlers &a",
+      "strength": "B：竞品产品化证据",
+      "proves": "证明 AI search visibility 已被竞品拆成引用频率、排名位置、情绪、share of voice 等可产品化指标。",
+      "does_not_prove": "不能证明本项目已具备同等产品能力，也不能证明客户会为本项目复购。",
+      "decision_impact": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。"
+    },
+    {
+      "evidence": "SEORCE 定义 prompt tracking 为监测 ChatGPT、Gemini、Perplexity、Google AI 中品牌或 URL 是否出现在回答里，并提供面向个人站点的低价 Lite 计划。",
+      "source_type": "external_public_source",
+      "source_title": "SEORCE pricing",
+      "source_url": "https://seorce.com/pricing",
+      "captured_at": "2026-05-10",
+      "fetch_status": "reachable",
+      "checked_at": "2026-05-10",
+      "http_status": 200,
+      "retrieved_title": "SEORCE - AI-Powered SEO Platform",
+      "evidence_excerpt": "SEORCE - AI-Powered SEO Platform Product Solutions Pricing About Us Blog Feed Log in Contact Us Get started What&#x27;s new Rank in AI search, not just Google. SEORCE is the first platform built for the AI search era — tracking your brand across ChatGPT, Gemin",
+      "strength": "B：竞品产品化证据",
+      "proves": "证明 AI tracking 已出现 SaaS 化低价入口，说明该方向有工具化竞争形态。",
+      "does_not_prove": "不能证明服务化交付利润更高，也不能证明应立即重研发完整平台。",
+      "decision_impact": "支持“值得服务化 MVP 验证”，但 ROI 仍必须用价格、成本、复购和获客数据证明。"
+    },
+    {
+      "evidence": "DeepSeek 有公开官方服务和 API 文档，是 GEO 监测可覆盖的 AI 平台之一。",
+      "source_type": "external_public_source",
+      "source_title": "DeepSeek API Docs",
+      "source_url": "https://api-docs.deepseek.com/api/deepseek-api/",
+      "captured_at": "2026-05-10",
+      "fetch_status": "reachable",
+      "checked_at": "2026-05-10",
+      "http_status": 200,
+      "retrieved_title": "DeepSeek API | DeepSeek API Docs",
+      "evidence_excerpt": "DeepSeek API | DeepSeek API Docs Skip to main content DeepSeek API Docs English English 中文（中国） DeepSeek Platform Quick Start Your First API Call Models &amp; Pricing Token &amp; Token Usage Rate Limit Error Codes Agent Integrations API Guides Thinking Mode Mul",
+      "strength": "C：外部官方事实",
+      "proves": "证明 GEO 监测对象真实存在，PRD 可以把这些平台作为检测范围候选。",
+      "does_not_prove": "不能证明客户一定愿意持续付费，也不能证明 GEO 服务商业化成立。",
+      "decision_impact": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。"
+    },
+    {
+      "evidence": "豆包有公开 AI 助手入口，是 GEO 监测可覆盖的 AI 平台之一。",
+      "source_type": "external_public_source",
+      "source_title": "豆包官网",
+      "source_url": "https://www.doubao.com/chat/",
+      "captured_at": "2026-05-10",
+      "fetch_status": "reachable",
+      "checked_at": "2026-05-10",
+      "http_status": 200,
+      "retrieved_title": "",
+      "evidence_excerpt": "",
+      "strength": "C：外部官方事实",
+      "proves": "证明 GEO 监测对象真实存在，PRD 可以把这些平台作为检测范围候选。",
+      "does_not_prove": "不能证明客户一定愿意持续付费，也不能证明 GEO 服务商业化成立。",
+      "decision_impact": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。"
+    },
+    {
+      "evidence": "Qwen 官方页面将 Qwen Studio 定位为面向用户的 AI assistant。",
+      "source_type": "external_public_source",
+      "source_title": "Qwen Chat",
+      "source_url": "https://qwen.ai/qwenchat",
+      "captured_at": "2026-05-10",
+      "fetch_status": "reachable",
+      "checked_at": "2026-05-10",
+      "http_status": 200,
+      "retrieved_title": "Qwen",
+      "evidence_excerpt": "Qwen",
+      "strength": "C：外部官方事实",
+      "proves": "证明 GEO 监测对象真实存在，PRD 可以把这些平台作为检测范围候选。",
+      "does_not_prove": "不能证明客户一定愿意持续付费，也不能证明 GEO 服务商业化成立。",
+      "decision_impact": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。"
+    },
+    {
+      "evidence": "腾讯元宝官网将元宝描述为可问答和创作的智能助手。",
+      "source_type": "external_public_source",
+      "source_title": "腾讯元宝官网",
+      "source_url": "https://yuanbao.tencent.com/",
+      "captured_at": "2026-05-10",
+      "fetch_status": "reachable",
+      "checked_at": "2026-05-10",
+      "http_status": 200,
+      "retrieved_title": "",
+      "evidence_excerpt": "搜索 前往下载中心 Hi~ 我是元宝 Hi~ 我是元宝 你身边的智能助手，可以为你答疑解惑、尽情创作，快来点击以下任一功能体验吧～ 内容由AI生成，仅供参考",
+      "strength": "C：外部官方事实",
+      "proves": "证明 GEO 监测对象真实存在，PRD 可以把这些平台作为检测范围候选。",
+      "does_not_prove": "不能证明客户一定愿意持续付费，也不能证明 GEO 服务商业化成立。",
+      "decision_impact": "支持“场景对象真实存在”，不直接支持“商业价值已成立”。"
+    },
+    {
+      "evidence": "可以先用人工 + 半自动方式交付，降低首期研发成本。",
+      "source_type": "inference",
+      "source_title": "价值门禁规则推断",
+      "source_url": "",
+      "captured_at": "2026-05-10",
+      "fetch_status": "not_applicable",
+      "checked_at": "",
+      "http_status": null,
+      "retrieved_title": "",
+      "evidence_excerpt": "",
+      "strength": "D：推理判断",
+      "proves": "提供判断线索。",
+      "does_not_prove": "只能作为推论，不能写成已验证事实。",
+      "decision_impact": "只支持待验证判断，不作为拍板事实。"
+    },
+    {
+      "evidence": "同行买单可以证明服务价值和项目价值有初步信号，但不能直接证明完整 SaaS 产品化成立",
+      "source_type": "inference",
+      "source_title": "价值门禁规则推断",
+      "source_url": "",
+      "captured_at": "2026-05-10",
+      "fetch_status": "not_applicable",
+      "checked_at": "",
+      "http_status": null,
+      "retrieved_title": "",
+      "evidence_excerpt": "",
+      "strength": "D：推理判断",
+      "proves": "证明存在真实付费信号或预算意愿，商业价值不是零。",
+      "does_not_prove": "不能证明客单价、复购、获客成本、交付工时、毛利或 SaaS 产品化已经成立。",
+      "decision_impact": "支持“值得测试 / 服务化 MVP”，但不足以支持直接完整 SaaS。"
+    }
+  ],
+  "evidence_to_verdict_reasoning": {
+    "verdict": "worth_testing",
+    "plain_conclusion": "值得继续做，但只值得先做服务化 MVP；不值得现在直接做完整 SaaS 或重研发自动化平台。",
+    "why_this_verdict_is_allowed": [
+      "用户声明已经完成过 MVP 实验。",
+      "用户声明已有同行或客户为相关服务买单。",
+      "Gartner 预测到 2026 年传统搜索量将下降 25%，搜索营销会被 AI chatbots 和虚拟代理分流。",
+      "Bain 引用 Sensor Tower 数据显示 2025 年上半年 ChatGPT prompt 量增长近 70%，购物相关 prompts 在占比和绝对量上明显增长。",
+      "公开 GEO agency pricing 资料显示，GEO 服务常见月费区间约为 3,000-25,000 美元。",
+      "Goodie 将 AI search visibility 定义为品牌被 ChatGPT、Perplexity、Gemini 等 AI 搜索引用的频率，并跟踪引用频率、排名位置、情绪和 share of voice。"
+    ],
+    "why_bigger_scope_is_not_allowed": [
+      "真实利润未核算完成",
+      "获客成本未验证",
+      "交付工时未记录",
+      "复购周期未确认",
+      "完整 SaaS 产品化证据不足",
+      "不能证明可规模化、可复购、真实利润成立或 SaaS 产品化成立。",
+      "不能证明客单价、复购、获客成本、交付工时、毛利或 SaaS 产品化已经成立。",
+      "不能证明你的 GEO 服务一定能获客、成交、盈利或取得高 ROI。"
+    ],
+    "evidence_rule": "没有来源的数据不能进入结论；用户提供事实必须标注来源；外部公开事实可以证明趋势、价格锚点、竞品形态或监测对象存在，但不能单独证明本项目利润和高 ROI 已成立。"
+  },
+  "operating_decision_model": {
+    "recommended_play": "2-4 周服务化 MVP，不做完整 SaaS。",
+    "investment_ceiling": {
+      "people_days": "待确认",
+      "cash_cost": "待确认",
+      "tool_cost": "待确认",
+      "management_attention": "低到中，聚焦 2-4 周验证",
+      "principle": "低成本验证，优先人工 + 半自动，不投入重研发。"
+    },
+    "validation_window": "2-4 周",
+    "minimum_revenue_signal": [
+      "真实付款 / 合同 / 明确预算",
+      "至少拿到第二个付费信号或明确复购 / 复测意愿"
+    ],
+    "minimum_profit_conditions": {
+      "price_floor": "待确认",
+      "acquisition_cost": "待确认",
+      "delivery_hours_per_customer": "待确认",
+      "human_review_cost": "待确认",
+      "after_sales_maintenance": "待确认",
+      "condition": "客单价必须覆盖获客、交付、人工复核、维护、售后、合规和风险成本，并保留可接受毛利。"
+    },
+    "delivery_cost_thresholds": {
+      "max_delivery_hours_per_customer": "待确认",
+      "max_manual_review_rounds": "待确认",
+      "max_report_revision_rounds": "待确认",
+      "warning": "如果交付严重依赖人工专家，产品化价值不足。"
+    },
+    "acquisition_thresholds": {
+      "first_customer_source": "待确认",
+      "acceptable_cac": "待确认",
+      "first_industries": "待确认",
+      "warning": "如果获客成本高于客单价，利润价值不成立。"
+    },
+    "upgrade_to_product_conditions": [
+      "连续出现相似客户需求",
+      "单客户交付工时下降到可控范围",
+      "客户愿意复测 / 续费 / 转介绍",
+      "GEO 指标有可解释变化",
+      "核心流程可标准化为工具或看板"
+    ],
+    "stop_or_downgrade_conditions": [
+      "2-4 周内拿不到第二个付费信号",
+      "客户只愿免费试用不愿付费",
+      "获客成本高于客单价",
+      "单客户交付工时持续过高",
+      "GEO 效果无法归因",
+      "客户不愿复测 / 续费 / 推荐"
+    ],
+    "unknowns_that_block_scaling": [
+      "最低客单价",
+      "获客成本",
+      "单客户交付工时",
+      "复购 / 复测意愿",
+      "第一批行业边界",
+      "平台规则风险"
+    ]
+  },
+  "decision_questions": [
+    {
+      "question": "是否确认本轮只做 2-4 周服务化 MVP？",
+      "option_a_result": "进入低成本验证，只做报告、复测、看板或半自动服务闭环。",
+      "option_b_result": "不进入 PRD，继续调研或等待更多证据。",
+      "recommendation": "建议确认，先验证商业闭环，不直接重研发。"
+    },
+    {
+      "question": "是否确认不投入完整 SaaS 研发？",
+      "option_a_result": "避免在真实利润、获客、交付工时未确认前扩大成本。",
+      "option_b_result": "如果现在投入完整 SaaS，研发和维护风险会明显升高。",
+      "recommendation": "建议确认，完整 SaaS 等升级条件满足后再做。"
+    },
+    {
+      "question": "是否确认最低客单价 / 价格区间？",
+      "option_a_result": "可以核算最低利润条件，判断是否值得继续交付。",
+      "option_b_result": "价格继续待确认，真实利润仍不能通过。",
+      "recommendation": "建议先给出最低可接受价格区间。"
+    },
+    {
+      "question": "是否确认单客户交付工时上限？",
+      "option_a_result": "可以判断服务化 MVP 是否有可接受毛利。",
+      "option_b_result": "无法判断交付是否过重，产品化仍需暂缓。",
+      "recommendation": "建议设定单客户交付工时上限。"
+    },
+    {
+      "question": "是否确认第一批行业和客户来源？",
+      "option_a_result": "PRD 可以聚焦行业词库、场景、指标和获客动作。",
+      "option_b_result": "范围会发散，获客和交付风险上升。",
+      "recommendation": "建议先限定 1-2 个行业和明确客户来源。"
+    },
+    {
+      "question": "是否确认达到什么结果才升级产品化？",
+      "option_a_result": "后续能根据复购、交付工时、指标变化和标准化程度决定是否升级。",
+      "option_b_result": "缺少升级标准时，容易把服务项目误放大成 SaaS。",
+      "recommendation": "建议明确升级条件后再进入服务化 MVP PRD。"
+    },
+    {
+      "question": "是否确认失败后停止或降级为服务项目？",
+      "option_a_result": "如果 2-4 周拿不到第二个付费信号、无法归因或交付过重，就停止产品化投入。",
+      "option_b_result": "没有止损条件会导致持续投入但无法判断价值。",
+      "recommendation": "建议确认停止 / 降级条件。"
+    }
+  ],
+  "known_facts": [
+    "低价 GEO 体检报告",
+    "可以先用人工 + 半自动方式交付，降低首期研发成本。",
+    "我们已经做过 GEO 服务 MVP 实验",
+    "同行已经为 GEO 服务买单，存在真实付费信号",
+    "已有 MVP 实验经验",
+    "已有同行买单信号",
+    "同行买单可以证明服务价值和项目价值有初步信号，但不能直接证明完整 SaaS 产品化成立",
+    "有真实买单或预算确认"
+  ],
+  "reasonable_assumptions": [
+    "AI 检索曝光可以通过问题样本、品牌提及、竞品提及和引用来源进行周期性监测",
+    "客户愿意为可解释的诊断报告、优化建议和复测结果持续付费"
+  ],
+  "unverified_assumptions": [
+    "AI 检索曝光可以通过问题样本、品牌提及、竞品提及和引用来源进行周期性监测",
+    "客户愿意为可解释的诊断报告、优化建议和复测结果持续付费",
+    "真实利润、获客路径、价值归因仍需验证"
+  ],
+  "open_questions": [
+    "首期覆盖哪些 AI 平台和行业？",
+    "品牌曝光、推荐和引用质量的基线如何定义？",
+    "客户买单的是 SaaS、诊断报告、持续监测还是服务交付？",
+    "复测周期和效果归因口径如何定义？",
+    "补齐客单价、获客成本、交付工时、复购周期、多客户复用和产品化边际成本证据。"
+  ],
+  "red_line_risks": [],
+  "counter_evidence": [
+    "如果用户只愿意试用但不愿意付费，商业价值不成立。",
+    "如果获客成本高于客单价，利润价值不成立。",
+    "如果交付严重依赖人工专家，产品化价值不足。",
+    "如果节省的人力成本小于系统建设成本，内部价值不成立。",
+    "如果 AI 平台回答波动过大且无法归因，GEO 效果难以证明。",
+    "如果客户只为一次性诊断报告付费，不愿持续订阅，SaaS 路径不成立。",
+    "如果优化建议高度依赖人工专家，规模化毛利会受限。",
+    "如果曝光提升无法带来线索、咨询或品牌指标变化，商业结果不成立。",
+    "如果平台规则变化导致方法失效，需要降级为监测和合规内容优化服务。"
+  ],
+  "review_loop": {
+    "current_status": "initial_judgment",
+    "previous_decision_gate": "",
+    "current_decision_gate": "B_LOW_COST_MVP",
+    "validation_round": 1,
+    "last_updated_reason": "证据支持服务化 MVP / 客户项目验证，但不足以支持完整 SaaS PRD。",
+    "next_review_trigger": "补齐证据、完成 MVP / 试点 / 客户项目验证后复判。",
+    "success_criteria": [
+      "真实买单或预算确认",
+      "核心价值指标改善",
+      "交付成本可控",
+      "风险边界可控"
+    ],
+    "failure_criteria": [
+      "如果用户只愿意试用但不愿意付费，商业价值不成立。",
+      "如果获客成本高于客单价，利润价值不成立。",
+      "如果交付严重依赖人工专家，产品化价值不足。",
+      "如果节省的人力成本小于系统建设成本，内部价值不成立。",
+      "如果 AI 平台回答波动过大且无法归因，GEO 效果难以证明。"
+    ],
+    "next_review_materials": [
+      "客户证据",
+      "指标基线和结果",
+      "成本核算",
+      "交付复盘",
+      "风险记录"
+    ]
+  },
+  "validation_state": {
+    "current_status": "mvp_testing",
+    "previous_decision_gate": "",
+    "current_decision_gate": "B_LOW_COST_MVP",
+    "execution_status": "routed_to_mvp",
+    "validation_round": 1,
+    "last_updated_reason": "证据支持服务化 MVP / 客户项目验证，但不足以支持完整 SaaS PRD。",
+    "next_review_trigger": "完成低成本 MVP 核心价值闭环验证后复判。",
+    "success_criteria": [
+      "真实买单或预算确认",
+      "核心价值指标改善",
+      "交付成本可控",
+      "风险边界可控"
+    ],
+    "failure_criteria": [
+      "如果用户只愿意试用但不愿意付费，商业价值不成立。",
+      "如果获客成本高于客单价，利润价值不成立。",
+      "如果交付严重依赖人工专家，产品化价值不足。",
+      "如果节省的人力成本小于系统建设成本，内部价值不成立。",
+      "如果 AI 平台回答波动过大且无法归因，GEO 效果难以证明。"
+    ],
+    "next_review_materials": [
+      "客户证据",
+      "指标基线和结果",
+      "成本核算",
+      "交付复盘",
+      "风险记录"
+    ]
+  },
+  "conflict_review": {
+    "status": "no_blocking_conflict",
+    "items": [
+      {
+        "function": "完整 18 步价值判断链路",
+        "classification": "direct_v0",
+        "governance_check": "V0 只做轻量规则判断，复杂证据和财务深算留到 V1/V2。",
+        "recommendation": "先纳入结构化输出和保守门禁，不扩大成重型自动化。"
+      },
+      {
+        "function": "行业红线规则包",
+        "classification": "v1_v2",
+        "governance_check": "全量行业规则包会变成重能力和持续维护面。",
+        "recommendation": "V0 只做红线关键词和人工确认提醒；V1 再沉淀行业规则包。"
+      },
+      {
+        "function": "后续模块必须读取 decision_gate",
+        "classification": "direct_v0",
+        "governance_check": "符合治理架构，能防止 PRD 绕过前置价值判断。",
+        "recommendation": "直接纳入 pipeline 和 PRD 二次门禁。"
+      },
+      {
+        "function": "自动联网抓取证据",
+        "classification": "needs_user_confirmation",
+        "governance_check": "会引入网络证据、成本、事实核验和来源治理。",
+        "recommendation": "V0 不做；后续如需要，单独走证据能力和来源审核。"
+      },
+      {
+        "function": "新增专门 skill / harness",
+        "classification": "needs_user_confirmation",
+        "governance_check": "违反本轮最小新增原则；真实使用证明必要前不新增。",
+        "recommendation": "V0 用 native script + existing pipeline contract 承接。"
+      },
+      {
+        "function": "复盘闭环和长期规则反哺",
+        "classification": "rewrite_before_include",
+        "governance_check": "不能自动写长期记忆或 stable 规则。",
+        "recommendation": "V0 只输出 closeout/复判候选，长期化必须用户批准。"
+      }
+    ]
+  },
+  "evidence_archive_policy": {
+    "snapshot_file": "00_value_gate_evidence_snapshot.json",
+    "snapshot_type": "metadata_excerpt_snapshot",
+    "raw_html_saved": false,
+    "what_is_saved": [
+      "证据声明",
+      "来源类型",
+      "来源标题",
+      "URL",
+      "抓取日期",
+      "HTTP 状态",
+      "页面标题",
+      "短摘录",
+      "能证明什么",
+      "不能证明什么"
+    ],
+    "what_is_not_saved": [
+      "完整网页 HTML",
+      "登录态内容",
+      "未授权数据",
+      "个人敏感信息"
+    ],
+    "retention_rule": "项目 closeout 前保留；归档时和用户对齐是否进入项目档案、删除候选或长期证据库。",
+    "prd_usage_rule": "PRD 只能引用 safe_facts_for_prd；外部公开来源只能证明对象存在或趋势，不能直接证明商业价值成立。",
+    "fetch_enabled": true
+  },
+  "previous_value_gate": {
+    "decision_gate": "B_LOW_COST_MVP",
+    "version": "2.5.0"
+  }
+}

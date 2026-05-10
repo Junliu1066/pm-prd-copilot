@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <linearGradient id="panelBg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a0f14"/>
+      <stop offset="100%" stop-color="#121922"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#263541"/>
+      <stop offset="45%" stop-color="#0c141b"/>
+      <stop offset="100%" stop-color="#3a4a55"/>
+    </linearGradient>
+    <linearGradient id="metalCard" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#18232d"/>
+      <stop offset="55%" stop-color="#0c131a"/>
+      <stop offset="100%" stop-color="#253441"/>
+    </linearGradient>
+    <pattern id="grid" width="34" height="34" patternUnits="userSpaceOnUse">
+      <path d="M 34 0 L 0 0 0 34" fill="none" stroke="#1d2a34" stroke-width="1" opacity="0.55"/>
+    </pattern>
+    <filter id="textShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.75"/>
+    </filter>
+    <style>
+      .bg { fill: url(#panelBg); }
+      .grid { fill: url(#grid); opacity: 0.7; }
+      .title { font: 800 40px Arial, sans-serif; fill: #e6f6ff; letter-spacing: 1px; filter: url(#textShadow); }
+      .subtitle { font: 800 23px Arial, sans-serif; fill: #e3f4ff; letter-spacing: 0.5px; filter: url(#textShadow); }
+      .label { font: 16px Arial, sans-serif; fill: #d7e8f0; filter: url(#textShadow); }
+      .small { font: 13px Arial, sans-serif; fill: #9fb2c0; filter: url(#textShadow); }
+      .phone { fill: url(#metal); stroke: #3b4b56; stroke-width: 12; }
+      .screen { fill: #0b1117; stroke: #34424c; stroke-width: 2; }
+      .bar { fill: #111923; stroke: #22313d; stroke-width: 1; }
+      .card { fill: url(#metalCard); stroke: #3c5361; stroke-width: 2; }
+      .primary { fill: #00d4a6; }
+      .primaryText { font: 800 17px Arial, sans-serif; fill: #04100d; }
+      .secondary { fill: #101821; stroke: #00d4a6; stroke-width: 2; }
+      .secondaryText { font: 800 15px Arial, sans-serif; fill: #7fffe3; filter: url(#textShadow); }
+      .mutedBox { fill: #0d141b; stroke: #344957; stroke-width: 2; }
+      .timer { font: 800 58px Arial, sans-serif; fill: #eafcff; letter-spacing: 2px; filter: url(#textShadow); }
+      .ringFill { fill: #0d1a20; stroke: #00d4a6; stroke-width: 8; }
+      .arrow { stroke: #00d4a6; stroke-width: 4; fill: none; marker-end: url(#arrowHead); }
+      .arrowText { font: 800 18px Arial, sans-serif; fill: #7fffe3; filter: url(#textShadow); }
+      .note { font: 15px Arial, sans-serif; fill: #9eb3c2; }
+      .scan { stroke: #00d4a6; stroke-width: 1; opacity: 0.12; }
+    </style>
+    <marker id="arrowHead" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2,2 L10,6 L2,10 Z" fill="#00d4a6"/>
+    </marker>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1600" height="900" rx="20"/>
+  <rect class="grid" x="0" y="0" width="1600" height="900"/>
+  <line class="scan" x1="70" y1="130" x2="1530" y2="130"/>
+  <line class="scan" x1="70" y1="820" x2="1530" y2="820"/>
+  <text class="title" x="70" y="72">训练计划执行原型预览</text>
+  <text class="note" x="70" y="112">第三版预览 · 计划优先路径 · 保留计划摘要 / 改计划 / 手动开始下一组，确认后再扩展完整全流程</text>
+
+  <!-- Screen 1 -->
+  <text class="subtitle" x="145" y="165">01 / 今日页</text>
+  <rect class="phone" x="100" y="190" width="330" height="610" rx="30"/>
+  <rect class="screen" x="122" y="222" width="286" height="546" rx="16"/>
+  <rect class="bar" x="122" y="222" width="286" height="52" rx="14"/>
+  <text class="small" x="148" y="253">9:41</text>
+  <text class="label" x="220" y="253">今日训练</text>
+
+  <rect class="card" x="146" y="300" width="238" height="82" rx="8"/>
+  <text class="label" x="166" y="330">今日计划</text>
+  <text class="subtitle" x="166" y="362">胸肩训练 A</text>
+
+  <rect class="card" x="146" y="404" width="238" height="106" rx="8"/>
+  <text class="label" x="166" y="434">计划摘要</text>
+  <text class="small" x="166" y="462">6 个动作 · 18 组 · 预计 48 分钟</text>
+  <text class="small" x="166" y="486">默认组间歇：90 秒</text>
+
+  <rect class="primary" x="146" y="535" width="238" height="58" rx="10"/>
+  <text class="primaryText" x="222" y="571">开始执行</text>
+
+  <rect class="mutedBox" x="146" y="626" width="238" height="54" rx="8"/>
+  <text class="small" x="166" y="658">无计划时：新建计划 / 临时组间歇</text>
+
+  <!-- Arrow 1 -->
+  <path class="arrow" d="M450 480 C515 480 530 480 595 480"/>
+  <text class="arrowText" x="466" y="455">点击开始执行</text>
+
+  <!-- Screen 2 -->
+  <text class="subtitle" x="670" y="165">02 / 动作执行</text>
+  <rect class="phone" x="625" y="190" width="330" height="610" rx="30"/>
+  <rect class="screen" x="647" y="222" width="286" height="546" rx="16"/>
+  <rect class="bar" x="647" y="222" width="286" height="52" rx="14"/>
+  <text class="small" x="673" y="253">9:47</text>
+  <text class="label" x="735" y="253">胸肩训练 A</text>
+
+  <rect class="card" x="674" y="304" width="232" height="96" rx="8"/>
+  <text class="small" x="694" y="332">动作 1 / 6</text>
+  <text class="subtitle" x="694" y="362">卧推 · 80kg</text>
+  <text class="small" x="694" y="386">第 3 / 4 组 · 目标 8-10 次</text>
+
+  <rect class="mutedBox" x="674" y="426" width="232" height="80" rx="8"/>
+  <text class="label" x="704" y="458">计划进度</text>
+  <text class="small" x="704" y="486">已完成 2 组 · 下一步组间歇 90s</text>
+
+  <rect class="primary" x="674" y="535" width="232" height="58" rx="10"/>
+  <text class="primaryText" x="742" y="571">完成本组</text>
+
+  <rect class="secondary" x="674" y="626" width="106" height="48" rx="8"/>
+  <text class="secondaryText" x="704" y="656">改计划</text>
+  <rect class="secondary" x="800" y="626" width="106" height="48" rx="8"/>
+  <text class="secondaryText" x="830" y="656">跳过</text>
+  <text class="small" x="674" y="714">改计划：次数 / 重量变更会保存到训练记录</text>
+
+  <!-- Arrow 2 -->
+  <path class="arrow" d="M980 480 C1045 480 1060 480 1125 480"/>
+  <text class="arrowText" x="1005" y="455">完成本组后休息</text>
+
+  <!-- Screen 3 -->
+  <text class="subtitle" x="1200" y="165">03 / 组间歇</text>
+  <rect class="phone" x="1155" y="190" width="330" height="610" rx="30"/>
+  <rect class="screen" x="1177" y="222" width="286" height="546" rx="16"/>
+  <rect class="bar" x="1177" y="222" width="286" height="52" rx="14"/>
+  <text class="small" x="1203" y="253">9:49</text>
+  <text class="label" x="1263" y="253">组间休息</text>
+
+  <text class="label" x="1320" y="312" text-anchor="middle">卧推 · 第 3 组完成</text>
+  <text class="small" x="1320" y="336" text-anchor="middle">下一组：卧推 · 80kg · 第 4 组</text>
+  <circle class="ringFill" cx="1320" cy="454" r="88"/>
+  <circle cx="1320" cy="454" r="72" fill="none" stroke="#20323d" stroke-width="1"/>
+  <text class="timer" x="1320" y="474" text-anchor="middle">01:24</text>
+  <text class="small" x="1320" y="508" text-anchor="middle">后台/锁屏继续提醒</text>
+
+  <rect class="primary" x="1202" y="585" width="236" height="58" rx="10"/>
+  <text class="primaryText" x="1270" y="621">开始下一组</text>
+  <text class="small" x="1320" y="660" text-anchor="middle">休息结束只提醒，等待用户手动开始</text>
+
+  <rect class="secondary" x="1202" y="670" width="108" height="48" rx="8"/>
+  <text class="secondaryText" x="1228" y="700">+30 秒</text>
+  <rect class="secondary" x="1330" y="670" width="108" height="48" rx="8"/>
+  <text class="secondaryText" x="1356" y="700">结束</text>
+</svg>

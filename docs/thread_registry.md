@@ -194,14 +194,14 @@ docs/proposals/architecture_self_management_system.md
 
 - 架构是核心资产，skill / harness / plugin / automation 只是工具。
 - 用户负责定大方向和高风险拍板，架构中枢负责拆解和调度。
-- 部门制执行：产品、开发、质量、治理、学习、归档、情报、瘦身。
-- 输入自我流转：demo / 项目 / 错误 / 反馈 -> 识别类型 -> 拆小任务 -> 分配部门 -> 检查 -> closeout -> architecture inbox -> promotion / pruning。
+- 部门制执行：开发、质量、治理、学习、归档、情报、瘦身；需求边界、允许范围、禁止范围和验收标准作为用户或上游项目输入，不设独立产品 / PRD 部门。
+- 输入自我流转：demo / 项目 / 错误 / 反馈 -> 识别类型 -> 拆小任务 -> 动态挂载必要 skill / harness -> 分配部门 -> 检查 -> closeout -> architecture inbox -> promotion / pruning。
 - 探索期可以重，稳定期必须最小可行。
-- 每个 token、文件、检查、skill、harness 都必须证明价值。
+- 每个 token、文件、检查、skill、harness 都必须证明价值；skill / harness 按项目类型、风险信号、已有产物和用户目标动态启用，不默认全开。
 - 低风险动作可执行，高风险动作必须上报用户。
 - 例外审批制：L1 自动处理，L2 汇总审批，L3 单独审批。
 - 禁止任务漂移：支线必须服务主线。
-- 不新增 skill / harness / workflow / automation。
+- 不新增 skill / harness / workflow / automation；优先用现有 candidate 能力按项目动态挂载。
 
 当前动作：
 
@@ -232,7 +232,7 @@ docs/proposals/architecture_self_management_system.md
 | `ai-intel/raw/2026-04-30/` | 已有生命周期处置材料，仍未提交 raw 本体 | raw 不提交；已补齐 2026-06-02 后删除候选精确清单，删除仍需二次批准。 |
 | `docs/archive/root-files/Remod开发.md` | 已复核历史开发治理笔记 | 经验已大部分被 agentic delivery、Codex 开发文档和 harness 瘦身材料吸收；不提交原文，列入 2026-06-03 后删除候选。 |
 | `docs/proposals/*` 临时材料 | 已分类为决策记录 / 临时 staging / 已覆盖 | 后续只提交有价值决策记录；临时材料进入 30 天后删除候选。 |
-| skill / harness / plugin candidate 瘦身 | 已完成最小收口 | 后续只观察真实输出，不继续新增工具。 |
+| skill / harness / plugin candidate 动态管理 | 已完成最小收口 | 后续观察真实项目触发情况，按项目动态挂载，不继续新增工具。 |
 | 线程 5 天停滞监督 | proposal 已有，台账试运行 | 观察 1-2 周后再决定是否创建自动化提醒。 |
 | 本轮治理总验收报告 | 未生成 | 等 C 批、archive、candidate 瘦身关键剩余项处理后输出。 |
 

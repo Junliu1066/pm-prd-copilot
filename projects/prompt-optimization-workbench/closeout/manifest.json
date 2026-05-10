@@ -1,0 +1,186 @@
+{
+  "schema_version": "closeout.v1",
+  "project_id": "prompt-optimization-workbench",
+  "generated_at": "2026-04-29T03:36:26+00:00",
+  "mode": "dry_run_report_only",
+  "destructive_actions_enabled": false,
+  "approval_required": true,
+  "archive_before_delete": true,
+  "hard_delete_eligible_after_days": 30,
+  "protected_roots": [
+    ".github/",
+    "ai-intel/",
+    "docs/",
+    "governance/",
+    "harness/",
+    "plugins/",
+    "pm-prd-copilot/",
+    "registry/",
+    "shared/",
+    "skills/",
+    "stewards/",
+    "teaching/",
+    "workflow/"
+  ],
+  "allowed_roots": [
+    "projects/prompt-optimization-workbench/",
+    "memory-cache/projects/prompt-optimization-workbench/"
+  ],
+  "summary": {
+    "file_count": 12,
+    "total_bytes": 243013,
+    "by_action": {
+      "archive_then_cleanup_after_distillation": 11,
+      "manual_review": 1
+    },
+    "by_root": {
+      "project": 12
+    }
+  },
+  "files": [
+    {
+      "path": "projects/prompt-optimization-workbench/.DS_Store",
+      "root": "project",
+      "kind": "file",
+      "bytes": 6148,
+      "modified_at": "2026-04-28T07:07:19+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "manual_review",
+      "rationale": "未注册文件，任何清理决定前都需要人工审核。",
+      "symlink": false,
+      "safe_to_delete_after_approval": false
+    },
+    {
+      "path": "projects/prompt-optimization-workbench/prototype/.DS_Store",
+      "root": "project",
+      "kind": "file",
+      "bytes": 6148,
+      "modified_at": "2026-04-27T09:23:13+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/prompt-optimization-workbench/prototype/evaluation-report-detail-html-prototype.zip",
+      "root": "project",
+      "kind": "zip",
+      "bytes": 46960,
+      "modified_at": "2026-04-27T10:04:12+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/prompt-optimization-workbench/prototype/html/README.md",
+      "root": "project",
+      "kind": "markdown",
+      "bytes": 905,
+      "modified_at": "2026-04-27T09:12:15+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/prompt-optimization-workbench/prototype/html/app.js",
+      "root": "project",
+      "kind": "js",
+      "bytes": 15562,
+      "modified_at": "2026-04-27T09:39:24+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/prompt-optimization-workbench/prototype/html/index.html",
+      "root": "project",
+      "kind": "html",
+      "bytes": 44762,
+      "modified_at": "2026-04-27T09:39:24+00:00",
+      "registered_artifact": "interactive_html_prototype",
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "已注册工作流产物，任何清理前都必须先归档。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/prompt-optimization-workbench/prototype/html/open-mac.command",
+      "root": "project",
+      "kind": "command",
+      "bytes": 70,
+      "modified_at": "2026-04-27T08:47:53+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/prompt-optimization-workbench/prototype/html/open-windows.bat",
+      "root": "project",
+      "kind": "bat",
+      "bytes": 37,
+      "modified_at": "2026-04-27T08:47:53+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/prompt-optimization-workbench/prototype/html/prototype_manifest.json",
+      "root": "project",
+      "kind": "json",
+      "bytes": 8931,
+      "modified_at": "2026-04-27T10:04:12+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/prompt-optimization-workbench/prototype/html/prototype_notes.md",
+      "root": "project",
+      "kind": "markdown",
+      "bytes": 3165,
+      "modified_at": "2026-04-27T09:39:24+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/prompt-optimization-workbench/prototype/html/standalone.html",
+      "root": "project",
+      "kind": "html",
+      "bytes": 85308,
+      "modified_at": "2026-04-27T10:04:12+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/prompt-optimization-workbench/prototype/html/styles.css",
+      "root": "project",
+      "kind": "css",
+      "bytes": 25017,
+      "modified_at": "2026-04-27T09:39:24+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    }
+  ]
+}

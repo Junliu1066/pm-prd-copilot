@@ -288,7 +288,16 @@ def build_tracking_schema() -> dict:
     }
 
 
-def build_stage_prompt_bundle(base_dir: Path, stage: str, *, project: str, raw_text: str = "", brief: dict | None = None, prd: dict | None = None) -> dict:
+def build_stage_prompt_bundle(
+    base_dir: Path,
+    stage: str,
+    *,
+    project: str,
+    raw_text: str = "",
+    brief: dict | None = None,
+    prd: dict | None = None,
+    prd_digest: dict | None = None,
+) -> dict:
     memory = _memory_block(base_dir)
     style = _style_block(base_dir)
     if stage == "brief":
@@ -345,6 +354,8 @@ def build_stage_prompt_bundle(base_dir: Path, stage: str, *, project: str, raw_t
             ),
         }
     if stage == "stories":
+        compact_context = prd_digest or {"requirement_brief": brief, "prd": prd}
+        context_title = "# PRD context digest JSON" if prd_digest else "# Requirement brief and PRD JSON"
         return {
             "schema_name": "user_stories",
             "schema": build_user_stories_response_schema(),
@@ -359,11 +370,8 @@ def build_stage_prompt_bundle(base_dir: Path, stage: str, *, project: str, raw_t
             ),
             "user_prompt": "\n\n".join(
                 [
-                    "# Requirement brief JSON",
-                    json.dumps(brief, ensure_ascii=False, indent=2),
-                    "",
-                    "# PRD JSON",
-                    json.dumps(prd, ensure_ascii=False, indent=2),
+                    context_title,
+                    json.dumps(compact_context, ensure_ascii=False, indent=2),
                     "",
                     style,
                     "",
@@ -372,6 +380,8 @@ def build_stage_prompt_bundle(base_dir: Path, stage: str, *, project: str, raw_t
             ),
         }
     if stage == "risk":
+        compact_context = prd_digest or {"requirement_brief": brief, "prd": prd}
+        context_title = "# PRD context digest JSON" if prd_digest else "# Requirement brief and PRD JSON"
         return {
             "schema_name": "risk_report",
             "schema": build_risk_schema(),
@@ -383,11 +393,8 @@ def build_stage_prompt_bundle(base_dir: Path, stage: str, *, project: str, raw_t
             ),
             "user_prompt": "\n\n".join(
                 [
-                    "# Requirement brief JSON",
-                    json.dumps(brief, ensure_ascii=False, indent=2),
-                    "",
-                    "# PRD JSON",
-                    json.dumps(prd, ensure_ascii=False, indent=2),
+                    context_title,
+                    json.dumps(compact_context, ensure_ascii=False, indent=2),
                     "",
                     style,
                     "",
@@ -396,6 +403,8 @@ def build_stage_prompt_bundle(base_dir: Path, stage: str, *, project: str, raw_t
             ),
         }
     if stage == "tracking":
+        compact_context = prd_digest or {"requirement_brief": brief, "prd": prd}
+        context_title = "# PRD context digest JSON" if prd_digest else "# Requirement brief and PRD JSON"
         return {
             "schema_name": "tracking_plan",
             "schema": build_tracking_schema(),
@@ -407,11 +416,8 @@ def build_stage_prompt_bundle(base_dir: Path, stage: str, *, project: str, raw_t
             ),
             "user_prompt": "\n\n".join(
                 [
-                    "# Requirement brief JSON",
-                    json.dumps(brief, ensure_ascii=False, indent=2),
-                    "",
-                    "# PRD JSON",
-                    json.dumps(prd, ensure_ascii=False, indent=2),
+                    context_title,
+                    json.dumps(compact_context, ensure_ascii=False, indent=2),
                     "",
                     style,
                     "",

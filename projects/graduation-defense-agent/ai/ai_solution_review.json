@@ -1,0 +1,40 @@
+{
+  "review_id": "ai-solution-review-20260425",
+  "review_status": "warn",
+  "readiness_score": 84,
+  "summary": "AI capability boundaries, prompt/RAG/memory/profile/coaching architecture, fallback, and observability are defined. Model selection now includes market candidate screening and shortlist recommendations, but real API benchmark has not been executed.",
+  "findings": [
+    {
+      "severity": "pass",
+      "area": "capability_boundary",
+      "issue": "AI and deterministic responsibilities are separated.",
+      "evidence": "ai_capability_map.md lists non_ai_boundaries and fallback.",
+      "required_fix": ""
+    },
+    {
+      "severity": "warn",
+      "area": "model_selection",
+      "issue": "No final model can be selected before running real API benchmark cases.",
+      "evidence": "model_selection_plan.md includes official_source_snapshot, candidate_model_pool, model_comparison_matrix, benchmark_status=not_run, and shortlist_recommendations.",
+      "required_fix": "Before development, verify candidate model docs, pricing, availability, and run BM-01 through BM-06."
+    },
+    {
+      "severity": "pass",
+      "area": "privacy",
+      "issue": "Sensitive learning data deletion and profile reset are included.",
+      "evidence": "conversation_memory_plan.md and ai_technical_architecture.md include clear_control and memory_profile_storage."
+    },
+    {
+      "severity": "pass",
+      "area": "academic_integrity",
+      "issue": "High-risk academic integrity requests have a dedicated guardrail path.",
+      "evidence": "prompt_architecture.md defines integrity_guardrail and ai_capability_map.md defines AI-06."
+    }
+  ],
+  "required_fixes": [
+    "Verify model docs and pricing before final selection.",
+    "Run BM-01 through BM-06 before enabling AI scoring in production."
+  ],
+  "human_verification_required": true,
+  "reminder": "AI information and benchmark outputs are decision signals only. The user must verify truth, availability, and actual output quality before committing to a model or technical route."
+}

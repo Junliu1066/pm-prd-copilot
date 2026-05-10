@@ -34,6 +34,7 @@
 | 探索期可重，稳定期必须轻 | 前期允许重产出暴露问题；进入 stable 后必须最小可行。 |
 | 每个 token 都要有价值 | 每个文件、检查、规则、skill、harness 都要证明能降低风险、提升稳定性或提高效率。 |
 | 非必要不新增工具 | 能用文档、模板、脚本参数、现有检查解决，就不新增 skill / harness。 |
+| 能力动态挂载 | skill / harness 按项目类型、风险信号、已有产物和用户目标启用；不默认全开，也不因为单次未触发就删除。 |
 | 经验先候选 | 单个项目经验不能直接长期化，必须先进入 architecture inbox。 |
 | 高风险必须审批 | stable 转正、长期记忆、删除、归档、push / PR、模型成本、外部发布必须用户批准。 |
 
@@ -52,7 +53,6 @@
 
 | 部门 | 职责 | 典型产物 |
 |---|---|---|
-| 产品部门 | PRD、范围、页面说明、页面跳转关系、原型图层。 | PRD、页面说明、原型说明、验收标准。 |
 | 开发部门 | Codex 开发文档、任务包、技术边界、验证命令。 | Codex 开发文档、任务包、技术拆解。 |
 | 质量部门 | regression、harness、real-output eval、两轮自检。 | 检查报告、回归结果、质量结论。 |
 | 治理部门 | workflow、action、artifact、steward、审批门禁。 | 合同检查、治理报告、审批清单。 |
@@ -61,18 +61,41 @@
 | 情报部门 | AI / 模型 / 外部变化收集和影响分析。 | AI 情报日报、影响建议、模型更新候选。 |
 | 瘦身部门 | 检查 skill、harness、plugin、文档是否还必要。 | pruning review、归档候选、删除候选。 |
 
+需求边界、允许范围、禁止范围和验收标准仍是项目输入或用户拍板内容，但不设独立产品 / PRD 部门承接。
+
 ## 5. 输入分流机制
 
 任何新输入先分类，再决定是否影响当前主线。
 
 | 输入 | 默认分流 |
 |---|---|
-| 新项目 / demo | 项目生命周期：可行性 -> PRD / prototype / dev doc -> closeout。 |
+| 新项目 / demo | 项目生命周期：可行性 -> 需求边界 / prototype / dev doc -> closeout。 |
 | 用户纠正 | 判断一次性修复、项目偏好、长期候选或 stable 变更。 |
 | 错误 / 漏洞 | error report -> 根因分析 -> 修复候选 -> 回归检查。 |
 | AI 情报 | ai-intel -> 影响分析 -> architecture inbox，不自动改决策文档。 |
 | 线程停滞 | 5 天停滞报告 -> 用户确认是否继续、归档或清理。 |
 | 新工具想法 | candidate sandbox -> 多项目验证 -> promotion gate。 |
+
+### 5.1 项目动态能力管理
+
+skill / harness 不按固定清单一次性全开，而是由架构中枢根据项目上下文动态挂载。
+
+动态挂载判断：
+
+- 项目目标：开发执行、AI-heavy、外部分发、偏好学习、原型 / UI、治理变更、归档清理。
+- 触发证据：用户明确要求、已有产物、run trace、风险信号、测试失败、review finding。
+- 风险等级：L1 可自动分类和 check-only；L2 生成启用 / 收口审批包；L3 涉及 stable、长期记忆、新增或稳定 skill / harness、删除、发布时单独审批。
+- 生命周期：项目开始时最小启用，执行中按风险补充，closeout 后做 pruning，未复用的能力保持 candidate 或进入 archive / delete-after-30-days 候选。
+
+| 项目情况 | 可动态启用 | 默认不启用 |
+|---|---|---|
+| 普通开发 / bugfix | `architecture-development-agent`、目标测试、regression、必要 harness check-only | 产品 / PRD 生成类、AI solution、外部分发 redaction |
+| Codex 开发文档 / 任务包 | `codex-task-package-writer`、`codex-development-plan-reviewer`、`agentic_delivery_checker` | 完整 agentic delivery phase plan，除非用户明确要求 |
+| AI-heavy 项目 | AI solution suite、`ai_solution_checker`、模型 / prompt / RAG 相关检查 | 非 AI 项目不挂载 AI solution |
+| 外部交付包 / B 包 | `external_redaction_checker` | 不改变发布或对外分发状态 |
+| 项目偏好 / 学习信号 | `preference_cache_checker`、`skill_generalization_checker`、学习 proposal | 不写长期记忆，不直接改 skill |
+| 原型 / UI 项目 | prototype gate、UI / prototype 候选能力 | 不默认生成 PNG / HTML / full prototype |
+| 治理或 registry 变更 | registry、workflow、plugin boundary、steward contract checks | 不把 candidate 转 stable |
 
 ## 6. 架构优化迭代流程
 
@@ -277,6 +300,7 @@ L3 包括：
 - 线程 5 天停滞。
 - 归档后 30 天。
 - 工作区变更堆积。
+- 项目动态能力启用后。
 
 瘦身判断：
 
@@ -286,6 +310,7 @@ L3 包括：
 - 是否维护成本过高。
 - 是否可由文档、模板或现有检查替代。
 - 是否应归档或列入 30 天后删除候选。
+- 是否只对当前项目有用，下一次应改为按需挂载而不是默认启用。
 
 ## 11. 自动化放权原则
 

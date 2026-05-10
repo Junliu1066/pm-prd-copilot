@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>A股 AI 量化策略研究平台 HTML 原型</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <aside class="web-sidebar" aria-label="Web 端导航">
+        <div class="brand">
+          <span class="brand-mark">AI</span>
+          <div>
+            <strong>A股策略研究</strong>
+            <small>Web / 小程序原型</small>
+          </div>
+        </div>
+        <nav class="side-nav" id="sideNav"></nav>
+        <section class="side-card">
+          <p class="eyebrow">P1 实验</p>
+          <h3>策略竞技场 S1</h3>
+          <p>匿名仿真对决、赛季榜单、积分观察，不展示持仓和买卖信号。</p>
+          <button class="button button-light" data-route="arena">进入竞技场</button>
+        </section>
+      </aside>
+
+      <section class="app-frame" aria-label="小程序端原型">
+        <section class="topbar">
+          <button class="icon-button" id="backButton" type="button" aria-label="返回">‹</button>
+          <div class="topbar-title">
+            <span id="pageTitle">首页</span>
+            <small id="pageSubtitle">A股 AI 量化策略研究平台</small>
+          </div>
+          <button class="icon-button" id="noticeButton" type="button" aria-label="通知">!</button>
+        </section>
+
+        <section class="searchbar" id="searchbar">
+          <span class="search-icon"></span>
+          <input type="search" placeholder="搜索策略 / 股票 / 指标 / 观点" />
+        </section>
+
+        <section class="content" id="app"></section>
+
+        <nav class="tabbar" id="tabbar" aria-label="小程序底部导航"></nav>
+      </section>
+    </main>
+
+    <div class="modal" id="modal" aria-hidden="true">
+      <div class="modal-panel">
+        <button class="modal-close" id="modalClose" type="button" aria-label="关闭">×</button>
+        <div id="modalContent"></div>
+      </div>
+    </div>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

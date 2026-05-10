@@ -779,6 +779,7 @@ skills:
     requires_sources: false
   prd-draft-writer:
     status: candidate
+    execution_mode: pipeline_internal
     steward: prd-writing-steward
     stage: prd_drafting
     description: Draft a PRD from confirmed upstream artifacts.
@@ -790,18 +791,19 @@ skills:
     writes:
       - prd_document
       - prd_markdown
+      - prd_context_digest
     forbidden_outputs:
       - memory_proposal
     requires_human_approval: false
     requires_sources: false
   user-story-ac-generator:
     status: candidate
+    execution_mode: pipeline_internal
     steward: prd-writing-steward
     stage: prd_drafting
     description: Generate user stories, acceptance criteria, dependencies, and edge cases.
     reads:
-      - source_brief
-      - prd_document
+      - prd_context_digest
     writes:
       - user_stories
     forbidden_outputs:
@@ -810,12 +812,12 @@ skills:
     requires_sources: false
   risk-edgecase-checker:
     status: candidate
+    execution_mode: pipeline_internal
     steward: review-steward
     stage: review
     description: Identify risks, edge cases, permissions, performance, rollout, and operational gaps.
     reads:
-      - source_brief
-      - prd_document
+      - prd_context_digest
     writes:
       - risk_report
     forbidden_outputs:
@@ -824,13 +826,14 @@ skills:
     requires_sources: false
   tracking-plan-designer:
     status: candidate
+    execution_mode: pipeline_internal
     steward: prd-writing-steward
     stage: prd_drafting
     description: Design metrics, events, properties, triggers, and QA checks.
     reads:
+      - prd_context_digest
       - source_brief
       - mvp_scope
-      - prd_document
     writes:
       - tracking_plan
       - success_metrics

@@ -1,0 +1,641 @@
+{
+  "project_id": "geo-service-prd",
+  "module": "value_gate_prd_input",
+  "version": "2.6.0",
+  "contract": {
+    "purpose": "给 PRD 模块的最小干净输入包；完整证据、竞品、ROI 明细只通过引用追溯。",
+    "read_first": "route_decision",
+    "must_not_use_as_full_evidence_report": true
+  },
+  "route_decision": {
+    "canonical_decision": "B_LOW_COST_MVP",
+    "recommended_path": "服务化 MVP PRD",
+    "allowed_prd_type": "服务化 MVP PRD",
+    "can_enter_full_prd": false,
+    "execution_status": "routed_to_mvp",
+    "downstream_input_package": "mvp_input_package",
+    "next_module": "low_cost_mvp_plan",
+    "business_worth": "worth_testing",
+    "evidence_sufficiency": "sufficient_for_mvp",
+    "material_status": "missing_critical_materials",
+    "roi_status": "roi_unavailable_missing_inputs",
+    "route_package_status": "complete",
+    "owner_decision_required": true,
+    "allowed_paths": [
+      "服务化 MVP",
+      "客户项目验证",
+      "PRD 小修订"
+    ],
+    "deferred_paths": [
+      "完整 SaaS PRD",
+      "自动化平台建设"
+    ],
+    "blocked_paths": [
+      "承诺 AI 推荐结果",
+      "黑灰产 GEO",
+      "无验证直接重研发"
+    ],
+    "rule": "下游模块以 route_decision 为唯一主路由结论；decision_gate、execution_status、allowed_prd_type 只作为兼容和审计字段。"
+  },
+  "entry_permission": {
+    "can_enter_full_prd": false,
+    "recommended_path": "服务化 MVP PRD",
+    "allowed_paths": [
+      "服务化 MVP",
+      "客户项目验证",
+      "PRD 小修订"
+    ],
+    "deferred_paths": [
+      "完整 SaaS PRD",
+      "自动化平台建设"
+    ],
+    "blocked_paths": [
+      "承诺 AI 推荐结果",
+      "黑灰产 GEO",
+      "无验证直接重研发"
+    ],
+    "decision_gate": "B_LOW_COST_MVP",
+    "execution_status": "routed_to_mvp",
+    "allowed_prd_type": "服务化 MVP PRD"
+  },
+  "business_worth_verdict": {
+    "verdict": "worth_testing",
+    "plain_conclusion": "值得继续做，但只值得先做服务化 MVP；不值得现在直接做完整 SaaS 或重研发自动化平台。",
+    "worth_doing_scope": [
+      "服务化 MVP PRD",
+      "客户项目验证",
+      "PRD 小修订"
+    ],
+    "not_worth_doing_scope": [
+      "完整 SaaS PRD",
+      "自动化平台建设",
+      "无验证重研发"
+    ],
+    "confidence": "medium_high",
+    "evidence_basis": [
+      "用户声明已经完成过 MVP 实验。",
+      "用户声明已有同行或客户为相关服务买单。",
+      "Gartner 预测到 2026 年传统搜索量将下降 25%，搜索营销会被 AI chatbots 和虚拟代理分流。",
+      "Bain 引用 Sensor Tower 数据显示 2025 年上半年 ChatGPT prompt 量增长近 70%，购物相关 prompts 在占比和绝对量上明显增长。",
+      "Goodie 将 AI search visibility 定义为品牌被 ChatGPT、Perplexity、Gemini 等 AI 搜索引用的频率，并跟踪引用频率、排名位置、情绪和 share of voice。",
+      "SEORCE 定义 prompt tracking 为监测 ChatGPT、Gemini、Perplexity、Google AI 中品牌或 URL 是否出现在回答里，并提供面向个人站点的低价 Lite 计划。",
+      "DeepSeek 有公开官方服务和 API 文档，是 GEO 监测可覆盖的 AI 平台之一。",
+      "豆包有公开 AI 助手入口，是 GEO 监测可覆盖的 AI 平台之一。",
+      "Qwen 官方页面将 Qwen Studio 定位为面向用户的 AI assistant。",
+      "腾讯元宝官网将元宝描述为可问答和创作的智能助手。"
+    ],
+    "critical_gaps": [
+      "真实利润未核算完成",
+      "获客成本未验证",
+      "交付工时未记录",
+      "复购周期未确认",
+      "完整 SaaS 产品化证据不足"
+    ],
+    "next_decision": "是否按服务化 MVP 路径推进，而不是直接做完整 SaaS。"
+  },
+  "facts_allowed_for_prd": [
+    "用户声明已经完成过 MVP 实验。",
+    "用户声明已有同行或客户为相关服务买单。",
+    "Gartner 预测到 2026 年传统搜索量将下降 25%，搜索营销会被 AI chatbots 和虚拟代理分流。",
+    "Bain 引用 Sensor Tower 数据显示 2025 年上半年 ChatGPT prompt 量增长近 70%，购物相关 prompts 在占比和绝对量上明显增长。",
+    "Goodie 将 AI search visibility 定义为品牌被 ChatGPT、Perplexity、Gemini 等 AI 搜索引用的频率，并跟踪引用频率、排名位置、情绪和 share of voice。",
+    "SEORCE 定义 prompt tracking 为监测 ChatGPT、Gemini、Perplexity、Google AI 中品牌或 URL 是否出现在回答里，并提供面向个人站点的低价 Lite 计划。",
+    "DeepSeek 有公开官方服务和 API 文档，是 GEO 监测可覆盖的 AI 平台之一。",
+    "豆包有公开 AI 助手入口，是 GEO 监测可覆盖的 AI 平台之一。",
+    "Qwen 官方页面将 Qwen Studio 定位为面向用户的 AI assistant。",
+    "腾讯元宝官网将元宝描述为可问答和创作的智能助手。"
+  ],
+  "assumptions_for_prd": [
+    "AI 检索曝光可以通过问题样本、品牌提及、竞品提及和引用来源进行周期性监测",
+    "客户愿意为可解释的诊断报告、优化建议和复测结果持续付费",
+    "真实利润、获客路径、价值归因仍需验证"
+  ],
+  "claims_must_not_be_written": [
+    "完整 SaaS 产品化已经成立",
+    "GEO 优化一定能提升 AI 推荐或排名",
+    "AI 平台一定会稳定采纳优化内容",
+    "同行买单可以直接证明规模化产品收入成立",
+    "获客成本、交付工时、复购周期已经验证完成",
+    "可以承诺确定性收益或确定性排名"
+  ],
+  "unsupported_claims": [
+    "完整 SaaS 产品化已经成立",
+    "GEO 优化一定能提升 AI 推荐或排名",
+    "AI 平台一定会稳定采纳优化内容",
+    "同行买单可以直接证明规模化产品收入成立",
+    "获客成本、交付工时、复购周期已经验证完成",
+    "可以承诺确定性收益或确定性排名"
+  ],
+  "prd_constraints": [
+    "必须区分事实、假设、推论和待验证问题。",
+    "不得把未溯源数据写成事实。",
+    "不得把用户提供的买单信号夸大为完整 SaaS 产品化成立。",
+    "不得承诺 AI 平台推荐、排名或确定性收益。"
+  ],
+  "required_sections": [
+    "前置价值门禁结论",
+    "真实利润与成本假设",
+    "项目转产品判断",
+    "反证与停止条件",
+    "人工确认项"
+  ],
+  "business_limits": {
+    "recommended_play": "2-4 周服务化 MVP，不做完整 SaaS。",
+    "investment_ceiling": {
+      "people_days": "待确认",
+      "cash_cost": "待确认",
+      "tool_cost": "待确认",
+      "management_attention": "低到中，聚焦 2-4 周验证",
+      "principle": "低成本验证，优先人工 + 半自动，不投入重研发。"
+    },
+    "validation_window": "2-4 周",
+    "minimum_revenue_signal": [
+      "真实付款 / 合同 / 明确预算",
+      "至少拿到第二个付费信号或明确复购 / 复测意愿"
+    ],
+    "minimum_profit_conditions": {
+      "price_floor": "待确认",
+      "acquisition_cost": "待确认",
+      "delivery_hours_per_customer": "待确认",
+      "human_review_cost": "待确认",
+      "after_sales_maintenance": "待确认",
+      "condition": "客单价必须覆盖获客、交付、人工复核、维护、售后、合规和风险成本，并保留可接受毛利。"
+    },
+    "upgrade_conditions": [
+      "连续出现相似客户需求",
+      "单客户交付工时下降到可控范围",
+      "客户愿意复测 / 续费 / 转介绍",
+      "GEO 指标有可解释变化",
+      "核心流程可标准化为工具或看板"
+    ],
+    "stop_conditions": [
+      "2-4 周内拿不到第二个付费信号",
+      "客户只愿免费试用不愿付费",
+      "获客成本高于客单价",
+      "单客户交付工时持续过高",
+      "GEO 效果无法归因",
+      "客户不愿复测 / 续费 / 推荐"
+    ],
+    "financial_unknowns": [
+      "最低客单价",
+      "获客成本",
+      "单客户交付工时",
+      "复购 / 复测意愿",
+      "第一批行业边界",
+      "平台规则风险"
+    ]
+  },
+  "current_route_package": {
+    "name": "mvp_input_package",
+    "completeness_gate": {
+      "route_package": "mvp_input_package",
+      "status": "complete",
+      "required_fields": [
+        "core_user",
+        "core_scenario",
+        "core_task",
+        "core_features",
+        "core_delivery",
+        "core_feedback",
+        "minimum_data_loop",
+        "success_criteria",
+        "failure_criteria"
+      ],
+      "missing_fields": [],
+      "over_generic_fields": [],
+      "specificity_checks": [
+        {
+          "field": "success_criteria",
+          "required_terms": [
+            "免费检测提交数",
+            "有效线索率",
+            "加顾问率",
+            "体检报告成交率",
+            "单客户交付工时",
+            "复盘预约率",
+            "后续优化",
+            "代运营"
+          ],
+          "matched_terms": [
+            "免费检测提交数",
+            "有效线索率",
+            "加顾问率",
+            "体检报告成交率",
+            "单客户交付工时",
+            "复盘预约率",
+            "后续优化",
+            "代运营"
+          ],
+          "missing_terms": [],
+          "status": "specific"
+        },
+        {
+          "field": "failure_criteria",
+          "required_terms": [
+            "只愿免费",
+            "报告",
+            "交付工时",
+            "无法归因",
+            "复测",
+            "复购"
+          ],
+          "matched_terms": [
+            "只愿免费",
+            "报告",
+            "交付工时",
+            "无法归因",
+            "复测",
+            "复购"
+          ],
+          "missing_terms": [],
+          "status": "specific"
+        },
+        {
+          "field": "minimum_data_loop",
+          "required_terms": [
+            "品牌提及",
+            "竞品提及",
+            "引用来源",
+            "诊断报告",
+            "优化动作",
+            "复测结果",
+            "成交"
+          ],
+          "matched_terms": [
+            "品牌提及",
+            "竞品提及",
+            "引用来源",
+            "诊断报告",
+            "优化动作",
+            "复测结果",
+            "成交"
+          ],
+          "missing_terms": [],
+          "status": "specific"
+        }
+      ],
+      "can_route_to_next_module": true,
+      "fallback": "缺字段时退回前置模块补齐；字段过泛时允许进入验证路径，但不得进入完整 PRD。"
+    },
+    "package": {
+      "product_summary": {
+        "product_name": "GEO 服务商业化产品价值门禁输入",
+        "one_sentence_positioning": "围绕“GEO 服务商业化产品价值门禁输入”验证是否具备可衡量、可归因、可兑现的价值。",
+        "product_type": "对外商业产品 / B2B SaaS",
+        "target_stage": "value_gate",
+        "business_context": "待验证"
+      },
+      "path_goal": "用 2-4 周服务化 MVP 验证 GEO 商业闭环：免费检测获客、体检报告成交、复测证明价值、后续优化 / 代运营转化。",
+      "core_user": [
+        "企业品牌方",
+        "品牌方",
+        "营销负责人",
+        "增长负责人",
+        "SEO/GEO 服务商",
+        "GEO 服务商",
+        "服务商",
+        "老板",
+        "决策者",
+        "运营"
+      ],
+      "core_scenario": [
+        "AI 检索品牌曝光监测",
+        "竞品曝光对比",
+        "内容资产优化复测"
+      ],
+      "core_task": "验证核心价值闭环",
+      "core_hypotheses": [
+        "目标用户存在明确高频或高价值场景",
+        "核心交付能让用户感知到结果",
+        "用户愿意为结果付费、复购、节省成本或继续投入"
+      ],
+      "core_features": [
+        "品牌 / 产品输入",
+        "关键词样本库",
+        "多模型查询",
+        "竞品曝光对比",
+        "GEO 诊断报告",
+        "优化建议",
+        "复测记录"
+      ],
+      "core_delivery": "免费检测结果 + 付费 GEO 体检报告 + 复测记录 + 后续优化建议，不是完整 SaaS。",
+      "core_feedback": "客户是否购买体检报告、认可报告、愿意复测、愿意进入后续优化 / 代运营。",
+      "minimum_data_loop": [
+        "品牌 / 产品输入",
+        "问题样本",
+        "AI 回答",
+        "品牌提及",
+        "竞品提及",
+        "引用来源",
+        "诊断报告",
+        "优化动作",
+        "复测结果",
+        "成交 / 复购记录"
+      ],
+      "validation_method_boundaries": {
+        "research": "验证有没有需求，不等于 MVP。",
+        "pre_sale": "验证有没有付费信号，不等于产品已经成立。",
+        "prototype": "验证用户是否理解，不等于交付成立。",
+        "pilot": "验证单次交付是否成立，不等于可规模化。",
+        "low_cost_mvp": "保留核心功能和核心价值闭环，用最低成本验证价值是否成立。"
+      },
+      "manual_or_tool_replacement": [
+        "人工处理",
+        "表格记录",
+        "脚本",
+        "第三方工具",
+        "人工审核",
+        "手动交付报告"
+      ],
+      "success_criteria": [
+        "免费检测提交数达到本轮验证目标",
+        "有效线索率可被记录并解释",
+        "加顾问率可被记录并解释",
+        "体检报告成交率可被记录并解释",
+        "复盘预约率可被记录并解释",
+        "至少出现第二个付费信号或明确复测 / 续费 / 后续优化 / 代运营意向",
+        "单客户交付工时进入可接受上限",
+        "客户认可报告和复测结果"
+      ],
+      "failure_criteria": [
+        "客户只愿免费检测但不愿付费体检报告",
+        "报告结论不被客户认可",
+        "单客户交付工时持续过高",
+        "GEO 指标变化无法归因",
+        "客户不愿复测 / 复购 / 续费 / 推荐",
+        "获客成本高于客单价且无法回收"
+      ],
+      "must_not_include": [
+        "完整后台",
+        "复杂权限",
+        "完整商业化系统",
+        "非核心异常流程"
+      ],
+      "free_diagnosis_entry": {
+        "purpose": "用低门槛免费检测获取目标客户线索。",
+        "required_inputs": [
+          "品牌 / 产品名称",
+          "官网或主要内容资产",
+          "3-10 个核心业务词",
+          "主要竞品",
+          "联系人或顾问承接方式"
+        ],
+        "output": "AI 检索曝光初筛结果和是否值得做完整体检报告的判断。",
+        "records_required": [
+          "免费检测提交数",
+          "有效线索数",
+          "加顾问数",
+          "无效线索原因"
+        ]
+      },
+      "diagnosis_report": {
+        "purpose": "把 GEO 价值转成客户能理解和愿意付费的服务结果。",
+        "must_include": [
+          "品牌 AI 提及率",
+          "品牌推荐率",
+          "竞品覆盖差距",
+          "关键词回答覆盖率",
+          "引用来源质量",
+          "多模型一致性",
+          "问题样本和复测建议"
+        ],
+        "acceptance_signal": [
+          "客户认可报告结论",
+          "客户愿意付费进入优化 / 复测",
+          "客户愿意提供更多词库或内容资产"
+        ]
+      },
+      "metric_dashboard": {
+        "purpose": "用轻量表格 / 看板记录验证数据，不做完整 SaaS。",
+        "minimum_metrics": [
+          "免费检测提交数",
+          "有效线索率",
+          "加顾问率",
+          "体检报告成交率",
+          "后续优化项目转化率",
+          "月度代运营复购 / 续费率",
+          "单客户交付工时",
+          "真实利润"
+        ],
+        "must_not_build_yet": [
+          "完整多租户后台",
+          "复杂权限系统",
+          "自动化投放系统",
+          "完整 SaaS 计费系统"
+        ]
+      },
+      "recheck_mechanism": {
+        "purpose": "通过复测证明服务动作是否带来可解释变化。",
+        "cadence": "首轮报告后 1-2 周复测一次，服务化 MVP 期至少保留前后对比。",
+        "records_required": [
+          "基线截图 / 表格",
+          "优化动作记录",
+          "复测结果",
+          "变化解释",
+          "外部干扰因素"
+        ]
+      },
+      "optimization_suggestions": {
+        "purpose": "把诊断报告转成可销售的后续服务。",
+        "examples": [
+          "内容资产补齐",
+          "FAQ / 问答页优化",
+          "行业词库扩展",
+          "品牌叙事统一",
+          "引用来源优化",
+          "竞品回答差距修复"
+        ],
+        "boundary": "只能输出建议和可验证动作，不承诺 AI 平台排名或推荐结果。"
+      },
+      "service_conversion_path": [
+        "免费检测提交",
+        "有效线索筛选",
+        "加顾问 / 沟通需求",
+        "付费体检报告",
+        "报告解释和优化建议",
+        "复测",
+        "后续优化项目 / 月度代运营"
+      ],
+      "execution_record_template": [
+        "客户行业",
+        "线索来源",
+        "免费检测提交时间",
+        "是否有效线索",
+        "是否加顾问",
+        "是否购买体检报告",
+        "首期服务价格",
+        "报告交付周期",
+        "单客户交付工时",
+        "是否复测",
+        "是否转后续优化 / 代运营",
+        "客户认可度"
+      ]
+    }
+  },
+  "evidence_summary": {
+    "sufficiency": {
+      "overall_status": "sufficient_for_mvp",
+      "supported_paths": [
+        "服务化 MVP",
+        "客户项目验证"
+      ],
+      "unsupported_paths": [
+        "完整 SaaS PRD",
+        "重研发自动化平台",
+        "规模化产品化判断"
+      ],
+      "missing_evidence_types": [
+        "经营证据",
+        "产品化证据"
+      ],
+      "downgrade_reason": "已有 MVP 和买单信号支持服务化 MVP / 客户项目验证，但客单价、获客成本、交付工时、复购周期、多客户复用和 SaaS 产品化证据不足。",
+      "must_not_claim": [
+        "不得把服务化 MVP 证据写成完整 SaaS 产品化已经成立。",
+        "不得把用户提供的买单事实伪装成外部验证。",
+        "不得把平台存在性证据写成客户愿意持续付费。",
+        "不得把未验证价格、成本、复购、获客写成事实。"
+      ],
+      "next_evidence_to_collect": [
+        "真实付款 / 合同 / 明确预算附件或记录",
+        "首期服务价格区间",
+        "外部价格锚点与国内目标行业可接受价格对比",
+        "单客户交付工时",
+        "单客户 ROI 计算：收入 - 获客成本 - 交付成本 - 工具成本 - 维护成本",
+        "复购 / 复测 / 续费意愿",
+        "获客成本和第一批行业来源",
+        "多客户相似需求",
+        "GEO 指标复测变化和归因材料"
+      ]
+    },
+    "source_quality_status": "usable_for_mvp_not_full_prd",
+    "source_counts": {
+      "user_provided_fact": 2,
+      "external_public_source": 9,
+      "internal_project_evidence": 0,
+      "inference": 2,
+      "unsupported_claim": 0,
+      "reachable_external": 8,
+      "non_success_external": 1,
+      "not_checked_external": 0,
+      "competitor_rows": 11
+    },
+    "material_status": "missing_critical_materials",
+    "material_requirements": [
+      {
+        "key": null,
+        "label": "付款 / 合同证据",
+        "status": "missing",
+        "decision_use": "真实买单 / 预算 / 采购流程 / S_claimed 复核",
+        "cannot_prove": "复购 / ROI / SaaS 产品化成立"
+      },
+      {
+        "key": null,
+        "label": "客户 / 行业记录",
+        "status": "missing",
+        "decision_use": "目标客户清晰 / 决策 / 付费对象清晰",
+        "cannot_prove": "客户复购 / 获客成本可控"
+      },
+      {
+        "key": null,
+        "label": "MVP 实验记录",
+        "status": "missing",
+        "decision_use": "服务闭环已试跑 / 核心价值链路可复判",
+        "cannot_prove": "真实利润 / 规模化产品化"
+      },
+      {
+        "key": null,
+        "label": "交付 / 验收记录",
+        "status": "missing",
+        "decision_use": "交付结果和验收状态 / 返工 / 维护成本复判",
+        "cannot_prove": "获客成本 / 复购意愿"
+      },
+      {
+        "key": null,
+        "label": "复购 / 续费 / 转介绍记录",
+        "status": "missing",
+        "decision_use": "持续价值 / LTV / 产品化升级候选",
+        "cannot_prove": "首单获客成本 / 交付边际成本下降"
+      },
+      {
+        "key": null,
+        "label": "报价 / 客单价证据",
+        "status": "missing",
+        "decision_use": "收入输入 / 最低利润条件",
+        "cannot_prove": "成交真实 / 交付成本可控"
+      },
+      {
+        "key": null,
+        "label": "交付工时证据",
+        "status": "missing",
+        "decision_use": "交付成本 / 边际成本判断",
+        "cannot_prove": "客户愿意付费 / 获客可控"
+      },
+      {
+        "key": null,
+        "label": "获客来源证据",
+        "status": "missing",
+        "decision_use": "冷启动来源 / CAC/LTV 复判输入",
+        "cannot_prove": "服务价值成立 / 复购成立"
+      }
+    ],
+    "verified_evidence_status": "S_claimed",
+    "s_verified_gate": {
+      "current_level": "S_claimed",
+      "can_upgrade_to_s_verified": false,
+      "upgrade_blockers": [
+        "付款 / 合同证据",
+        "客户 / 行业记录",
+        "MVP 实验记录",
+        "报价 / 客单价证据",
+        "交付工时证据",
+        "获客来源证据"
+      ],
+      "allowed_decision_use": "服务化 MVP / 客户项目验证",
+      "forbidden_use": [
+        "未复核材料不得进入完整 PRD 事实层",
+        "外部竞品不得升级自身商业价值证据",
+        "只有截图但缺客户 / 时间 / 场景不得直接 S_verified"
+      ]
+    }
+  },
+  "roi_summary": {
+    "input_table_status": "missing_critical_roi_inputs",
+    "missing_critical_inputs": [
+      "首期服务价格 / 最低客单价",
+      "单个有效客户获客成本",
+      "单客户交付工时",
+      "人工复核成本",
+      "工具 / 模型 / 监测成本",
+      "维护 / 售后成本",
+      "复购 / 续费 / 复测信号"
+    ],
+    "can_calculate_roi": false,
+    "can_claim_high_roi": false,
+    "roi_model_status": "roi_not_proven",
+    "investment_conclusion": "roi_unavailable_missing_inputs",
+    "investment_rule": "投资结论只作为 value gate 复判输入；升级完整 PRD、SaaS、stable 或重研发必须用户拍板。"
+  },
+  "human_confirmation_required": {
+    "required": true,
+    "confirmation_items": [
+      "客户付款意向是否真实",
+      "是否允许进入当前推荐路径",
+      "价格 / 行业 / 客户承诺边界是否确认",
+      "是否确认不得直接升级为完整 PRD"
+    ],
+    "confirmed": false,
+    "confirmed_by": "",
+    "confirmed_at": ""
+  },
+  "decision_dependent_inputs": {
+    "if_accept_recommended_path": "PRD 只能围绕推荐形态展开，不得扩大到暂缓或阻断路径。",
+    "if_reject_recommended_path": "保留证据并继续补充缺口，不生成正式 PRD。",
+    "next_decision": "是否按服务化 MVP 路径推进，而不是直接做完整 SaaS。"
+  },
+  "evidence_references": {
+    "full_value_gate": "00_value_gate.json",
+    "owner_decision_report": "00_value_gate_owner_decision.md",
+    "owner_summary_report": "00_value_gate_owner_summary.md",
+    "evidence_snapshot": "00_value_gate_evidence_snapshot.json"
+  }
+}

@@ -1,0 +1,695 @@
+{
+  "prototype_type": "interactive_html",
+  "input_mode": "image_to_html",
+  "fidelity": "mid",
+  "target_surface": "desktop_web",
+  "source_artifacts": [
+    {
+      "type": "reference_image",
+      "path_or_description": "Datasets 页面截图"
+    },
+    {
+      "type": "reference_image",
+      "path_or_description": "Settings 页面截图"
+    },
+    {
+      "type": "reference_image",
+      "path_or_description": "Knowledge 页面截图"
+    },
+    {
+      "type": "reference_image",
+      "path_or_description": "Compare 页面截图"
+    },
+    {
+      "type": "reference_image",
+      "path_or_description": "Optimize 页面截图"
+    },
+    {
+      "type": "reference_image",
+      "path_or_description": "Evaluations 页面截图"
+    },
+    {
+      "type": "reference_image",
+      "path_or_description": "Runs 页面截图"
+    },
+    {
+      "type": "reference_image",
+      "path_or_description": "Models 页面截图"
+    }
+  ],
+  "screen_inventory": [
+    {
+      "screen_id": "dashboard",
+      "screen_name": "Dashboard 页面",
+      "purpose": "工作台总览与快捷入口",
+      "entry_points": [
+        "左侧导航"
+      ],
+      "primary_actions": [
+        "进入评测",
+        "管理 Datasets",
+        "进入 Optimize",
+        "版本 Compare",
+        "模型设置"
+      ],
+      "states": [
+        "normal"
+      ]
+    },
+    {
+      "screen_id": "prompts",
+      "screen_name": "Prompts 页面",
+      "purpose": "Prompt 管理入口与创建入口",
+      "entry_points": [
+        "左侧导航"
+      ],
+      "primary_actions": [
+        "创建 Prompt",
+        "复制创建",
+        "查看 Prompt"
+      ],
+      "states": [
+        "normal"
+      ]
+    },
+    {
+      "screen_id": "prompt-create",
+      "screen_name": "创建 Prompt 页面",
+      "purpose": "从评测、Dataset 或失败 Case 上下文创建 Prompt 初稿",
+      "entry_points": [
+        "顶部创建 Prompt",
+        "Prompts 页面创建 Prompt"
+      ],
+      "primary_actions": [
+        "保存草稿",
+        "发布版本",
+        "发起测试",
+        "进入评测",
+        "进入优化"
+      ],
+      "states": [
+        "draft"
+      ]
+    },
+    {
+      "screen_id": "datasets",
+      "screen_name": "Datasets 页面",
+      "purpose": "管理测试集、Case、评分规则与导入导出",
+      "entry_points": [
+        "默认打开",
+        "左侧导航"
+      ],
+      "primary_actions": [
+        "查看测试集",
+        "新增 Case",
+        "批量导入",
+        "导出 Case"
+      ],
+      "states": [
+        "normal",
+        "selected_row"
+      ]
+    },
+    {
+      "screen_id": "dataset-detail",
+      "screen_name": "Dataset 详情",
+      "purpose": "承载测试集表格“查看”动作，展示测试集基础信息、Case 明细、评分规则、导入历史与快捷操作",
+      "entry_points": [
+        "Datasets 表格查看按钮",
+        "Datasets 表格更多按钮"
+      ],
+      "primary_actions": [
+        "编辑测试集",
+        "发起评测",
+        "导出测试集",
+        "进入 Optimize",
+        "进入 Compare"
+      ],
+      "states": [
+        "normal",
+        "context_from_selected_dataset"
+      ]
+    },
+    {
+      "screen_id": "dataset-edit",
+      "screen_name": "编辑 Dataset",
+      "purpose": "承载测试集表格“编辑”动作，展示可修改字段、评分权重与导入导出设置",
+      "entry_points": [
+        "Datasets 表格编辑按钮",
+        "Dataset 详情编辑按钮"
+      ],
+      "primary_actions": [
+        "保存变更",
+        "返回详情"
+      ],
+      "states": [
+        "form_editing"
+      ]
+    },
+    {
+      "screen_id": "models",
+      "screen_name": "Models 页面",
+      "purpose": "管理 Provider、凭证、连接日志与默认模型",
+      "entry_points": [
+        "左侧导航",
+        "Dashboard 模型设置"
+      ],
+      "primary_actions": [
+        "新增凭证",
+        "测试连接",
+        "保存设置"
+      ],
+      "states": [
+        "normal",
+        "online",
+        "offline"
+      ]
+    },
+    {
+      "screen_id": "runs",
+      "screen_name": "Runs 页面",
+      "purpose": "配置并查看 Run 执行队列与详情",
+      "entry_points": [
+        "左侧导航",
+        "顶部新建 Run"
+      ],
+      "primary_actions": [
+        "开始运行",
+        "失败重跑",
+        "查看详情"
+      ],
+      "states": [
+        "normal",
+        "running",
+        "completed"
+      ]
+    },
+    {
+      "screen_id": "review",
+      "screen_name": "Review 人工评审",
+      "purpose": "承载人工评审流程，展示版本指标、规则检查、Case 变更、评分、决策、评论和提交记录",
+      "entry_points": [
+        "左侧导航",
+        "Runs 页面提交人工评审"
+      ],
+      "primary_actions": [
+        "调整评分",
+        "选择评审决策",
+        "保存草稿",
+        "提交评审",
+        "返回 Optimize",
+        "查看 Evaluations"
+      ],
+      "states": [
+        "normal",
+        "draft_saved",
+        "submitted"
+      ]
+    },
+    {
+      "screen_id": "evaluations",
+      "screen_name": "Evaluations 页面",
+      "purpose": "查看评测指标、失败 Case 与风险分布",
+      "entry_points": [
+        "左侧导航",
+        "Dashboard 查看评测"
+      ],
+      "primary_actions": [
+        "查询",
+        "查看失败 Case",
+        "查看风险 Case"
+      ],
+      "states": [
+        "normal",
+        "risk_case"
+      ]
+    },
+    {
+      "screen_id": "optimize",
+      "screen_name": "Optimize 页面",
+      "purpose": "基于失败分析生成候选 Prompt 并查看回归结果",
+      "entry_points": [
+        "左侧导航",
+        "Dashboard 进入 Optimize"
+      ],
+      "primary_actions": [
+        "生成候选版本",
+        "设为最佳候选",
+        "保存优化方案"
+      ],
+      "states": [
+        "normal",
+        "candidate_selected"
+      ]
+    },
+    {
+      "screen_id": "compare",
+      "screen_name": "Compare 页面",
+      "purpose": "比较 Prompt 版本效果并形成发布建议",
+      "entry_points": [
+        "左侧导航",
+        "Dashboard 版本 Compare"
+      ],
+      "primary_actions": [
+        "查询对比",
+        "查看详情",
+        "一键发布新版"
+      ],
+      "states": [
+        "normal",
+        "release_recommended"
+      ]
+    },
+    {
+      "screen_id": "knowledge",
+      "screen_name": "Knowledge 页面",
+      "purpose": "沉淀规则、样例、失败模式和最佳实践",
+      "entry_points": [
+        "左侧导航"
+      ],
+      "primary_actions": [
+        "切换知识类型",
+        "导入",
+        "导出",
+        "收藏"
+      ],
+      "states": [
+        "normal"
+      ]
+    },
+    {
+      "screen_id": "knowledge-detail",
+      "screen_name": "知识条目详情",
+      "purpose": "承载 Knowledge 表格“查看”动作，展示规则说明、推荐写法、适用条件、收益和关联资源",
+      "entry_points": [
+        "Knowledge 规则库查看按钮"
+      ],
+      "primary_actions": [
+        "收藏",
+        "基于此创建 Prompt",
+        "查看关联 Dataset",
+        "进入 Optimize"
+      ],
+      "states": [
+        "normal",
+        "context_from_selected_knowledge"
+      ]
+    },
+    {
+      "screen_id": "settings",
+      "screen_name": "Settings 页面",
+      "purpose": "管理用户、默认参数、模型、评测、导出和日志配置",
+      "entry_points": [
+        "左侧导航"
+      ],
+      "primary_actions": [
+        "编辑资料",
+        "保存设置",
+        "备份配置"
+      ],
+      "states": [
+        "normal"
+      ]
+    }
+  ],
+  "multi_page_structure": {
+    "source_sequence_preserved": true,
+    "shared_shell": true,
+    "route_map": [
+      {
+        "nav_or_action": "Dashboard",
+        "target_screen": "dashboard"
+      },
+      {
+        "nav_or_action": "Prompts",
+        "target_screen": "prompts"
+      },
+      {
+        "nav_or_action": "创建 Prompt",
+        "target_screen": "prompt-create"
+      },
+      {
+        "nav_or_action": "Datasets",
+        "target_screen": "datasets"
+      },
+      {
+        "nav_or_action": "测试集查看",
+        "target_screen": "dataset-detail"
+      },
+      {
+        "nav_or_action": "测试集编辑",
+        "target_screen": "dataset-edit"
+      },
+      {
+        "nav_or_action": "Models",
+        "target_screen": "models"
+      },
+      {
+        "nav_or_action": "Runs",
+        "target_screen": "runs"
+      },
+      {
+        "nav_or_action": "Review",
+        "target_screen": "review"
+      },
+      {
+        "nav_or_action": "Evaluations",
+        "target_screen": "evaluations"
+      },
+      {
+        "nav_or_action": "Optimize",
+        "target_screen": "optimize"
+      },
+      {
+        "nav_or_action": "Compare",
+        "target_screen": "compare"
+      },
+      {
+        "nav_or_action": "Knowledge",
+        "target_screen": "knowledge"
+      },
+      {
+        "nav_or_action": "知识条目查看",
+        "target_screen": "knowledge-detail"
+      },
+      {
+        "nav_or_action": "Settings",
+        "target_screen": "settings"
+      }
+    ]
+  },
+  "interaction_inventory": [
+    {
+      "interaction_id": "sidebar_navigation",
+      "trigger": "点击左侧导航",
+      "from_screen": "any",
+      "result": "navigate",
+      "target": "对应 data-screen 页面"
+    },
+    {
+      "interaction_id": "top_new_run",
+      "trigger": "点击顶部新建 Run",
+      "from_screen": "any",
+      "result": "navigate",
+      "target": "runs"
+    },
+    {
+      "interaction_id": "run_to_review",
+      "trigger": "点击 Runs 页面提交人工评审",
+      "from_screen": "runs",
+      "result": "navigate",
+      "target": "review"
+    },
+    {
+      "interaction_id": "review_decision",
+      "trigger": "点击 Review 页面评审决策按钮",
+      "from_screen": "review",
+      "result": "state_change",
+      "target": "通过|有条件通过|不通过"
+    },
+    {
+      "interaction_id": "review_submit",
+      "trigger": "点击 Review 页面提交评审",
+      "from_screen": "review",
+      "result": "state_change",
+      "target": "评审状态已提交"
+    },
+    {
+      "interaction_id": "top_create_prompt",
+      "trigger": "点击顶部创建 Prompt",
+      "from_screen": "any",
+      "result": "navigate",
+      "target": "prompt-create"
+    },
+    {
+      "interaction_id": "dashboard_quick_route",
+      "trigger": "点击 Dashboard 快捷入口",
+      "from_screen": "dashboard",
+      "result": "navigate",
+      "target": "datasets|optimize|compare|models"
+    },
+    {
+      "interaction_id": "tab_switch",
+      "trigger": "点击页签",
+      "from_screen": "datasets|settings|knowledge",
+      "result": "tab",
+      "target": "当前页签高亮"
+    },
+    {
+      "interaction_id": "knowledge_module_jump",
+      "trigger": "点击 Knowledge 模块入口",
+      "from_screen": "knowledge",
+      "result": "state_change",
+      "target": "规则库|样例库|失败模式库|最佳实践|Skill 候选池"
+    },
+    {
+      "interaction_id": "table_row_select",
+      "trigger": "点击表格查看按钮",
+      "from_screen": "datasets",
+      "result": "state_change",
+      "target": "当前表格行选中"
+    },
+    {
+      "interaction_id": "dataset_table_view",
+      "trigger": "点击 Datasets 表格查看",
+      "from_screen": "datasets",
+      "result": "navigate",
+      "target": "dataset-detail"
+    },
+    {
+      "interaction_id": "dataset_table_edit",
+      "trigger": "点击 Datasets 表格编辑",
+      "from_screen": "datasets|dataset-detail",
+      "result": "navigate",
+      "target": "dataset-edit"
+    },
+    {
+      "interaction_id": "knowledge_table_view",
+      "trigger": "点击 Knowledge 规则库查看",
+      "from_screen": "knowledge",
+      "result": "navigate",
+      "target": "knowledge-detail"
+    },
+    {
+      "interaction_id": "generic_button_feedback",
+      "trigger": "点击普通按钮",
+      "from_screen": "any",
+      "result": "toast",
+      "target": "底部反馈提示"
+    },
+    {
+      "interaction_id": "inline_text_edit",
+      "trigger": "双击普通文本",
+      "from_screen": "any",
+      "result": "form_feedback",
+      "target": "原位编辑并本地保存"
+    }
+  ],
+  "route_context_transfer": [
+    {
+      "route_id": "datasets_to_evaluations",
+      "trigger": "查看评测",
+      "from_screen": "datasets",
+      "to_screen": "evaluations",
+      "transferred_context": [
+        "当前测试集",
+        "Case 数量",
+        "风险 Case 数量"
+      ],
+      "return_path": "左侧导航返回 Datasets"
+    },
+    {
+      "route_id": "any_to_prompt_create",
+      "trigger": "创建 Prompt",
+      "from_screen": "any",
+      "to_screen": "prompt-create",
+      "transferred_context": [
+        "当前评测上下文",
+        "当前 Dataset",
+        "选中失败 Case"
+      ],
+      "return_path": "创建页返回 Prompts"
+    },
+    {
+      "route_id": "runs_to_review",
+      "trigger": "提交人工评审",
+      "from_screen": "runs",
+      "to_screen": "review",
+      "transferred_context": [
+        "Run ID",
+        "候选 Prompt 版本",
+        "Dataset",
+        "评测指标",
+        "失败 Case"
+      ],
+      "return_path": "Review 页返回 Runs"
+    },
+    {
+      "route_id": "evaluations_to_optimize",
+      "trigger": "进入 Optimize",
+      "from_screen": "evaluations",
+      "to_screen": "optimize",
+      "transferred_context": [
+        "失败 Case",
+        "评分项",
+        "风险类型"
+      ],
+      "return_path": "左侧导航返回 Evaluations"
+    },
+    {
+      "route_id": "optimize_to_compare",
+      "trigger": "版本 Compare",
+      "from_screen": "optimize",
+      "to_screen": "compare",
+      "transferred_context": [
+        "候选版本",
+        "基线版本",
+        "回归测试结果"
+      ],
+      "return_path": "左侧导航返回 Optimize"
+    }
+  ],
+  "inline_editing": {
+    "enabled": true,
+    "trigger": "double_click_text",
+    "save_behavior": "enter_or_blur",
+    "cancel_behavior": "escape",
+    "persistence": "local_storage"
+  },
+  "editable_files": [
+    {
+      "path": "index.html",
+      "purpose": "structure"
+    },
+    {
+      "path": "styles.css",
+      "purpose": "styles"
+    },
+    {
+      "path": "app.js",
+      "purpose": "interactions"
+    },
+    {
+      "path": "prototype_manifest.json",
+      "purpose": "manifest"
+    },
+    {
+      "path": "prototype_notes.md",
+      "purpose": "notes"
+    },
+    {
+      "path": "README.md",
+      "purpose": "handoff"
+    },
+    {
+      "path": "standalone.html",
+      "purpose": "single_file_artifact"
+    }
+  ],
+  "platform_compatibility": {
+    "supported_platforms": [
+      "macOS",
+      "Windows"
+    ],
+    "path_strategy": "relative_paths_only",
+    "requires_server": false,
+    "requires_dependencies": false,
+    "open_entry": "index.html",
+    "single_file_entry": "standalone.html",
+    "zip_package": "../prompt-optimization-workbench-html-prototype.zip",
+    "helper_launchers": [
+      "open-mac.command",
+      "open-windows.bat"
+    ],
+    "handoff_rule": "Recommended handoff is the zip package; unzip it and open index.html. For one-file sharing use standalone.html."
+  },
+  "feedback_application_log": [
+    {
+      "feedback": "重新生成，不继续修旧版裁切问题",
+      "classification": "page_structure",
+      "files_updated": [
+        "index.html",
+        "styles.css",
+        "app.js",
+        "prototype_manifest.json",
+        "prototype_notes.md",
+        "README.md",
+        "standalone.html"
+      ],
+      "product_flow_updated": false
+    },
+    {
+      "feedback": "Windows 和 macOS 都要可用",
+      "classification": "state",
+      "files_updated": [
+        "README.md",
+        "prototype_manifest.json",
+        "standalone.html"
+      ],
+      "product_flow_updated": false
+    },
+    {
+      "feedback": "按钮不能点了没反应，文本要能双击修改",
+      "classification": "interaction",
+      "files_updated": [
+        "app.js",
+        "prototype_notes.md"
+      ],
+      "product_flow_updated": false
+    },
+    {
+      "feedback": "Settings 页顶部配置页签多余，需要移除",
+      "classification": "page_structure",
+      "files_updated": [
+        "index.html",
+        "prototype_manifest.json",
+        "prototype_notes.md",
+        "standalone.html"
+      ],
+      "product_flow_updated": false
+    },
+    {
+      "feedback": "Knowledge 页顶部模块入口需要跳转到对应模块",
+      "classification": "interaction",
+      "files_updated": [
+        "index.html",
+        "app.js",
+        "styles.css",
+        "prototype_manifest.json",
+        "prototype_notes.md",
+        "standalone.html"
+      ],
+      "product_flow_updated": false
+    },
+    {
+      "feedback": "补回人工评审 Review 模块",
+      "classification": "page_structure",
+      "files_updated": [
+        "index.html",
+        "app.js",
+        "styles.css",
+        "prototype_manifest.json",
+        "prototype_notes.md",
+        "standalone.html"
+      ],
+      "product_flow_updated": false
+    }
+  ],
+  "validation_checklist": {
+    "local_files_exist": true,
+    "navigation_targets_checked": true,
+    "dead_clicks_checked": true,
+    "overlay_close_checked": true,
+    "viewport_fit_checked": true,
+    "text_clipping_checked": true,
+    "portable_paths_checked": true
+  },
+  "open_review_questions": [
+    {
+      "question": "Prompts 详情页本次没有新截图，当前先补了列表入口与创建 Prompt 页面骨架，后续可按新图补齐详情编辑页。"
+    },
+    {
+      "question": "当前图表为 HTML/CSS 近似表达，后续如需更贴近截图可继续细化。"
+    }
+  ]
+}

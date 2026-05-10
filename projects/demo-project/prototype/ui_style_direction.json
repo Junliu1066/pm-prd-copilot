@@ -1,0 +1,121 @@
+{
+  "schema_version": "ui_style_direction.v1",
+  "project_id": "demo-project",
+  "generated_at": "2026-04-27T13:50:22+00:00",
+  "selected_style": {
+    "id": "swiss_utility",
+    "name": "Swiss Utility",
+    "aliases": [
+      "swiss",
+      "utility",
+      "enterprise clean",
+      "grid system",
+      "tooling"
+    ],
+    "category": "professional",
+    "description": "Restrained grid-first interface style for products that must be scanned, compared, and used repeatedly.",
+    "best_for": [
+      "SaaS operations",
+      "CRM",
+      "approval workflow",
+      "finance dashboard",
+      "B2B admin",
+      "internal tools"
+    ],
+    "avoid_for": [
+      "brand landing pages needing strong emotional recall",
+      "consumer entertainment",
+      "art/editorial showcases"
+    ],
+    "tokens": {
+      "palette": [
+        "#F7F8FA",
+        "#FFFFFF",
+        "#111827",
+        "#4B5563",
+        "#2563EB",
+        "#16A34A",
+        "#E5E7EB"
+      ],
+      "typography": "Inter or system sans; tabular numbers for metrics",
+      "radius": "6px",
+      "density": "compact but breathable",
+      "texture": "none",
+      "layout": "12-column grid, tight section hierarchy, strong table and form rhythm",
+      "motion": "subtle state transitions only"
+    },
+    "component_bias": [
+      "tables",
+      "filters",
+      "segmented controls",
+      "forms",
+      "side navigation",
+      "status chips",
+      "charts"
+    ],
+    "quality_gates": [
+      "Can a repeated user complete the top task without reading decorative copy?",
+      "Do tables, filters, and actions stay aligned at desktop and laptop widths?",
+      "Are accent colors reserved for state and action instead of decoration?"
+    ]
+  },
+  "backup_styles": [
+    {
+      "id": "refined_saas",
+      "name": "Refined SaaS",
+      "description": "Quiet, polished SaaS style with stronger brand signal than pure utility while keeping work surfaces usable.",
+      "best_for": [
+        "AI workbench",
+        "analytics product",
+        "PM tool",
+        "developer platform",
+        "collaboration SaaS"
+      ],
+      "avoid_for": [
+        "high-risk financial operations where decorative visuals reduce trust",
+        "mobile-first consumer apps needing playful identity"
+      ]
+    },
+    {
+      "id": "ai_lab_dark",
+      "name": "AI Lab Dark",
+      "description": "Technical dark interface for model routing, evaluation, observability, and AI operations.",
+      "best_for": [
+        "AI platform",
+        "evaluation workbench",
+        "developer console",
+        "model selection",
+        "prompt ops"
+      ],
+      "avoid_for": [
+        "general consumer apps",
+        "public-sector accessibility-heavy tools",
+        "bright retail experiences"
+      ]
+    },
+    {
+      "id": "data_newsroom",
+      "name": "Data Newsroom",
+      "description": "Analytical editorial style for explaining metrics, market movement, and research findings.",
+      "best_for": [
+        "research dashboards",
+        "investment analysis",
+        "AI intel",
+        "market reports",
+        "strategy briefs"
+      ],
+      "avoid_for": [
+        "transactional CRUD",
+        "playful consumer apps",
+        "workflow-heavy mobile tools"
+      ]
+    }
+  ],
+  "warnings": [],
+  "human_approval_required": true,
+  "next_steps": [
+    "Review whether the selected style matches the product task and target users.",
+    "Approve or override the style before generating high-fidelity UI.",
+    "Use the selected tokens and quality gates during screenshot review."
+  ]
+}

@@ -97,13 +97,13 @@ actions:
     outputs:
     - prd_document
     - prd_markdown
+    - prd_context_digest
   write_user_stories:
     steward: prd-writing-steward
     skill: user-story-ac-generator
     stage: prd_drafting
     inputs:
-    - source_brief
-    - prd_document
+    - prd_context_digest
     outputs:
     - user_stories
   design_tracking_plan:
@@ -111,8 +111,7 @@ actions:
     skill: tracking-plan-designer
     stage: prd_drafting
     inputs:
-    - source_brief
-    - prd_document
+    - prd_context_digest
     outputs:
     - tracking_plan
   check_risks_edgecases:
@@ -120,8 +119,7 @@ actions:
     skill: risk-edgecase-checker
     stage: review
     inputs:
-    - source_brief
-    - prd_document
+    - prd_context_digest
     outputs:
     - risk_report
   review_prd_quality:

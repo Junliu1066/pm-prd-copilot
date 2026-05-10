@@ -1,0 +1,94 @@
+{
+  "project_id": "fitness-app-mvp",
+  "cache_id": "cache-20260424T000000+0800",
+  "traces": [
+    {
+      "source_trace_id": "TRACE-FITNESS-20260424-001",
+      "source_type": "user_feedback",
+      "source_ref": "conversation://default-china-market-feedback",
+      "captured_at": "2026-04-24T00:00:00+08:00",
+      "summary": "User said competitor analysis should default to China market unless otherwise specified.",
+      "human_verification_required": true
+    },
+    {
+      "source_trace_id": "TRACE-FITNESS-20260424-002",
+      "source_type": "user_feedback",
+      "source_ref": "conversation://prototype-preview-before-full-flow",
+      "captured_at": "2026-04-24T00:00:00+08:00",
+      "summary": "User requested prototype preview first, then iterate under supervision before full-flow prototypes.",
+      "human_verification_required": true
+    },
+    {
+      "source_trace_id": "TRACE-FITNESS-20260424-003",
+      "source_type": "user_feedback",
+      "source_ref": "conversation://dark-mechanical-minimal-style",
+      "captured_at": "2026-04-24T00:00:00+08:00",
+      "summary": "User requested dark mechanical, minimal prototype style with richer color and readable typography.",
+      "human_verification_required": true
+    },
+    {
+      "source_trace_id": "TRACE-FITNESS-20260424-004",
+      "source_type": "user_feedback",
+      "source_ref": "conversation://page-problem-modification-feedback-format",
+      "captured_at": "2026-04-24T00:00:00+08:00",
+      "summary": "User provided structured feedback by page, problem, and modification.",
+      "human_verification_required": true
+    },
+    {
+      "source_trace_id": "TRACE-FITNESS-20260424-005",
+      "source_type": "user_feedback",
+      "source_ref": "conversation://start-executing-training-plan-module",
+      "captured_at": "2026-04-24T00:00:00+08:00",
+      "summary": "User requested replacing food card with a start execution plan module for predefined training plans.",
+      "human_verification_required": true
+    },
+    {
+      "source_trace_id": "TRACE-FITNESS-20260425-001",
+      "source_type": "user_feedback",
+      "source_ref": "conversation://prototype-image-not-visible",
+      "captured_at": "2026-04-25T00:00:00+08:00",
+      "summary": "User reported that the generated prototype image was not visible in their review surface.",
+      "human_verification_required": true
+    },
+    {
+      "source_trace_id": "TRACE-FITNESS-20260425-002",
+      "source_type": "user_feedback",
+      "source_ref": "conversation://prototype-visual-qa-overlap-centering",
+      "captured_at": "2026-04-25T00:00:00+08:00",
+      "summary": "User found visual QA issues in the prototype preview, including text overlap and non-centered text.",
+      "human_verification_required": true
+    },
+    {
+      "source_trace_id": "TRACE-FITNESS-20260425-003",
+      "source_type": "user_feedback",
+      "source_ref": "conversation://approve-plan-first-training-execution",
+      "captured_at": "2026-04-25T00:00:00+08:00",
+      "summary": "User approved making plan-first training execution the core path for the group rest timer.",
+      "human_verification_required": true
+    },
+    {
+      "source_trace_id": "TRACE-FITNESS-20260425-004",
+      "source_type": "user_feedback",
+      "source_ref": "conversation://keep-plan-summary-for-time-estimation",
+      "captured_at": "2026-04-25T00:00:00+08:00",
+      "summary": "User confirmed plan summary should remain because it helps users estimate training time and improves experience.",
+      "human_verification_required": true
+    },
+    {
+      "source_trace_id": "TRACE-FITNESS-20260425-005",
+      "source_type": "user_feedback",
+      "source_ref": "conversation://change-edit-weight-to-edit-plan",
+      "captured_at": "2026-04-25T00:00:00+08:00",
+      "summary": "User requested replacing '改重量' with '改计划', allowing modification and recording of counts/reps and weight.",
+      "human_verification_required": true
+    },
+    {
+      "source_trace_id": "TRACE-FITNESS-20260425-006",
+      "source_type": "user_feedback",
+      "source_ref": "conversation://manual-start-next-set",
+      "captured_at": "2026-04-25T00:00:00+08:00",
+      "summary": "User confirmed users should manually click '开始下一组' instead of auto-advance because users may have their own pacing.",
+      "human_verification_required": true
+    }
+  ]
+}

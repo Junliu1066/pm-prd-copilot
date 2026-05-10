@@ -53,6 +53,16 @@ Use `docs/contract_responsibility_layer.md` whenever a change touches interfaces
 
 The full protocol is `docs/version_model_update_review.md`.
 
+## Governance anti-corruption rhythm
+
+Regularly review whether governance itself is becoming too heavy:
+
+1. Check whether rules, gates, reports, approvals, or default Skill pools have grown beyond the current project need.
+2. Check whether generated artifact chains are too long, repetitive, or detached from user value.
+3. Check whether candidate Skills, harness checks, plugins, workflow stages, or automation rules have stayed unresolved for too long.
+4. Classify each issue as keep, watch, simplify, silent, archive candidate, or optimize required.
+5. Produce recommendations only; do not delete Skills, change long-term rules, or lower quality gates from this review alone.
+
 ## Weekly rhythm
 
 1. Review accumulated memory proposals.

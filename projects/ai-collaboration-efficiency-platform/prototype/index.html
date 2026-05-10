@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 协作效率平台 - 页面级原型</title>
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --surface: #ffffff;
+      --surface-2: #f9fafb;
+      --text: #172033;
+      --muted: #667085;
+      --line: #d8dee8;
+      --blue: #1769e0;
+      --blue-soft: #e8f1ff;
+      --green: #16794c;
+      --green-soft: #e7f6ee;
+      --orange: #b65c12;
+      --orange-soft: #fff0df;
+      --red: #b42318;
+      --red-soft: #fee9e7;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 232px minmax(0, 1fr) 304px;
+      grid-template-rows: 64px 1fr;
+    }
+
+    header {
+      grid-column: 1 / -1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 0 22px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1, h2, h3, p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      font-size: 14px;
+      letter-spacing: 0;
+    }
+
+    .top-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 3px 9px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .badge.blue { border-color: #b7d2ff; background: var(--blue-soft); color: var(--blue); }
+    .badge.green { border-color: #a9dec3; background: var(--green-soft); color: var(--green); }
+    .badge.orange { border-color: #f2c291; background: var(--orange-soft); color: var(--orange); }
+    .badge.red { border-color: #f5b7b0; background: var(--red-soft); color: var(--red); }
+
+    nav {
+      padding: 16px;
+      background: var(--surface);
+      border-right: 1px solid var(--line);
+    }
+
+    .nav-title {
+      margin: 8px 8px 12px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 38px;
+      margin-bottom: 6px;
+      padding: 8px 10px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--text);
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .nav-btn.active {
+      border-color: #b7d2ff;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-weight: 600;
+    }
+
+    main {
+      min-width: 0;
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    aside {
+      padding: 18px;
+      background: var(--surface);
+      border-left: 1px solid var(--line);
+      display: grid;
+      gap: 14px;
+      align-content: start;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .summary {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    button {
+      min-height: 34px;
+      padding: 7px 12px;
+      border: 1px solid var(--blue);
+      border-radius: 6px;
+      background: var(--blue);
+      color: #fff;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: #fff;
+      color: var(--blue);
+    }
+
+    button.danger {
+      border-color: var(--red);
+      background: #fff;
+      color: var(--red);
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 14px;
+      min-width: 0;
+    }
+
+    .metric {
+      display: grid;
+      gap: 6px;
+    }
+
+    .metric strong {
+      font-size: 24px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .table th,
+    .table td {
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table th {
+      color: var(--muted);
+      font-weight: 600;
+      background: var(--surface-2);
+    }
+
+    .row-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface-2);
+    }
+
+    .form {
+      display: grid;
+      gap: 12px;
+    }
+
+    label {
+      display: grid;
+      gap: 5px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      min-height: 36px;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--text);
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 94px;
+      resize: vertical;
+    }
+
+    .side-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: var(--surface-2);
+    }
+
+    .side-card ul {
+      margin: 8px 0 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 1040px) {
+      .app {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto;
+      }
+
+      header, nav, main, aside {
+        grid-column: 1;
+      }
+
+      nav {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px;
+      }
+
+      aside {
+        border-left: 0;
+        border-top: 1px solid var(--line);
+      }
+    }
+
+    @media (max-width: 760px) {
+      header,
+      .section-head {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .actions {
+        justify-content: flex-start;
+      }
+
+      .grid-4,
+      .grid-2,
+      .nav-list {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div>
+        <h1>AI 协作效率平台</h1>
+        <p class="summary">页面级原型：任务、Skill、Review、贡献、知识和治理分开呈现。</p>
+      </div>
+      <div class="top-meta">
+        <span class="badge blue">修正版原型</span>
+        <span class="badge green">不直接替代绩效</span>
+        <span class="badge orange">P1 强制 Review</span>
+      </div>
+    </header>
+
+    <nav>
+      <p class="nav-title">页面</p>
+      <div class="nav-list">
+        <button class="nav-btn active" data-page="dashboard">工作台总览</button>
+        <button class="nav-btn" data-page="task">任务 / Skill 调用</button>
+        <button class="nav-btn" data-page="review">Review 评审</button>
+        <button class="nav-btn" data-page="score">员工效率看板</button>
+        <button class="nav-btn" data-page="skill">Skill 管理</button>
+        <button class="nav-btn" data-page="knowledge">知识与报表</button>
+        <button class="nav-btn" data-page="admin">管理后台</button>
+      </div>
+    </nav>
+
+    <main>
+      <section class="page" id="page-dashboard">
+        <div class="section-head">
+          <div>
+            <h2>工作台总览</h2>
+            <p class="summary">员工处理任务，评审人处理 Review，主管查看团队趋势。</p>
+          </div>
+          <div class="actions">
+            <button>新建任务</button>
+            <button class="secondary">进入 Review</button>
+          </div>
+        </div>
+
+        <div class="grid-4">
+          <div class="panel metric"><span class="muted">我的任务</span><strong>12</strong><span class="badge blue">3 个待处理</span></div>
+          <div class="panel metric"><span class="muted">待 Review</span><strong>3</strong><span class="badge orange">1 个 P1</span></div>
+          <div class="panel metric"><span class="muted">节省工时</span><strong>4.5h</strong><span class="badge green">本周 +18%</span></div>
+          <div class="panel metric"><span class="muted">风险提醒</span><strong>1</strong><span class="badge red">需处理</span></div>
+        </div>
+
+        <div class="grid-2">
+          <div class="panel">
+            <h3>待办任务</h3>
+            <table class="table">
+              <thead><tr><th>任务</th><th>状态</th><th>动作</th></tr></thead>
+              <tbody>
+                <tr><td>客户会议纪要总结</td><td><span class="badge orange">待 Review</span></td><td>查看</td></tr>
+                <tr><td>竞品资料提炼</td><td><span class="badge blue">进行中</span></td><td>继续</td></tr>
+                <tr><td>SOP 优化建议</td><td><span class="badge green">已通过</span></td><td>沉淀</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="panel">
+            <h3>常用 Skill</h3>
+            <div class="row-list">
+              <div class="row"><span>周报生成</span><span class="badge green">成功率 96%</span></div>
+              <div class="row"><span>客户画像分析</span><span class="badge blue">通过率 88%</span></div>
+              <div class="row"><span>合同风险初筛</span><span class="badge orange">P1 强审</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page hidden" id="page-task">
+        <div class="section-head">
+          <div>
+            <h2>任务 / Skill 调用</h2>
+            <p class="summary">执行前完成 Skill 选择、权限校验和敏感检查。</p>
+          </div>
+          <div class="actions">
+            <button class="secondary">保存草稿</button>
+            <button>开始处理</button>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="panel form">
+            <h3>任务信息</h3>
+            <label>任务类型<select><option>数据分析报告</option><option>会议纪要总结</option><option>合同风险初筛</option></select></label>
+            <label>业务目标<input value="生成月度经营分析报告"></label>
+            <label>输入材料<textarea>上传经营数据、预算文档和补充说明。</textarea></label>
+            <label>输出格式<select><option>结构化摘要 + 风险提示 + 行动项</option></select></label>
+          </div>
+          <div class="panel">
+            <h3>Skill 推荐</h3>
+            <div class="row-list">
+              <div class="row"><span>智能分析报告生成 v2.3<br><span class="muted">预计节省 7.1h，成功率 92%</span></span><span class="badge green">推荐</span></div>
+              <div class="row"><span>经营指标异常识别 v1.5<br><span class="muted">适合财务和经营数据</span></span><span class="badge blue">可选</span></div>
+              <div class="row"><span>通用助手<br><span class="muted">无专用 Skill 时使用</span></span><span class="badge">兜底</span></div>
+            </div>
+            <p class="summary" style="margin-top:12px;">输入检查：权限通过，未发现 P0 敏感数据，结果将进入 P1 Review。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page hidden" id="page-review">
+        <div class="section-head">
+          <div>
+            <h2>Review 评审中心</h2>
+            <p class="summary">高风险、高价值或低置信结果必须经过人工评审。</p>
+          </div>
+          <div class="actions">
+            <button>通过</button>
+            <button class="secondary">退回</button>
+            <button class="danger">拦截</button>
+          </div>
+        </div>
+        <div class="panel">
+          <table class="table">
+            <thead><tr><th>任务</th><th>提交人</th><th>风险</th><th>SLA</th><th>状态</th></tr></thead>
+            <tbody>
+              <tr><td>经营分析报告</td><td>张三</td><td><span class="badge orange">P1</span></td><td>18h</td><td>待审</td></tr>
+              <tr><td>合同风险初筛</td><td>李四</td><td><span class="badge red">P0</span></td><td>已拦截</td><td>审计中</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="grid-2">
+          <div class="panel">
+            <h3>任务与证据链</h3>
+            <p class="summary">Skill: 智能分析报告生成 v2.3</p>
+            <p class="summary">模型 / Prompt: report-agent / p-v12</p>
+            <p class="summary">节省工时: 7.13h，初始贡献分: 86.4</p>
+          </div>
+          <div class="panel">
+            <h3>评分表</h3>
+            <table class="table">
+              <tbody>
+                <tr><td>完整性</td><td>40%</td><td>34 / 40</td></tr>
+                <tr><td>准确性</td><td>25%</td><td>21 / 25</td></tr>
+                <tr><td>效率提升</td><td>20%</td><td>18 / 20</td></tr>
+                <tr><td>合规安全</td><td>5%</td><td>5 / 5</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="page hidden" id="page-score">
+        <div class="section-head">
+          <div>
+            <h2>员工效率看板</h2>
+            <p class="summary">分数必须能解释和下钻，不直接作为绩效结论。</p>
+          </div>
+          <div class="actions"><button class="secondary">查看证据链</button><button>发起申诉</button></div>
+        </div>
+        <div class="grid-4">
+          <div class="panel metric"><span class="muted">节省工时</span><strong>62.8h</strong><span class="badge green">+18.6%</span></div>
+          <div class="panel metric"><span class="muted">贡献分</span><strong>782.6</strong><span class="badge green">+22.3%</span></div>
+          <div class="panel metric"><span class="muted">任务数</span><strong>28</strong><span class="badge green">+12.5%</span></div>
+          <div class="panel metric"><span class="muted">通过率</span><strong>96.3%</strong><span class="badge green">+3.8%</span></div>
+        </div>
+        <div class="grid-2">
+          <div class="panel"><h3>能力雷达</h3><p class="summary">任务完成、Skill 使用、产出质量、业务价值、协作响应、经验沉淀。</p></div>
+          <div class="panel"><h3>贡献趋势</h3><p class="summary">按周展示节省工时、贡献分、Review 通过率和知识复用。</p></div>
+        </div>
+      </section>
+
+      <section class="page hidden" id="page-skill">
+        <div class="section-head">
+          <div>
+            <h2>Skill 管理</h2>
+            <p class="summary">管理 Skill 生命周期、版本、风险等级和权重。</p>
+          </div>
+          <div class="actions"><button>新建 Skill</button><button class="secondary">测试</button></div>
+        </div>
+        <div class="panel">
+          <table class="table">
+            <thead><tr><th>Skill</th><th>风险</th><th>通过率</th><th>复用率</th><th>状态</th></tr></thead>
+            <tbody>
+              <tr><td>分析报告生成</td><td><span class="badge orange">P1</span></td><td>86%</td><td>28%</td><td>已上架</td></tr>
+              <tr><td>合同风险初筛</td><td><span class="badge red">P0</span></td><td>强审</td><td>12%</td><td>测试中</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="grid-2">
+          <div class="panel"><h3>输入 / 输出规则</h3><p class="summary">输入字段、必填材料、输出格式、示例和失败兜底。</p></div>
+          <div class="panel"><h3>权重与 Review 规则</h3><p class="summary">Skill 权重 1.15，P1 强制 Review，低价值任务计分上限。</p></div>
+        </div>
+      </section>
+
+      <section class="page hidden" id="page-knowledge">
+        <div class="section-head">
+          <div>
+            <h2>知识沉淀与报表</h2>
+            <p class="summary">把通过评审的结果转成组织资产，并输出可解释报表。</p>
+          </div>
+          <div class="actions"><button>发布知识</button><button class="secondary">导出报表</button></div>
+        </div>
+        <div class="grid-2">
+          <div class="panel">
+            <h3>知识资产</h3>
+            <div class="row-list">
+              <div class="row"><span>经营分析报告 SOP</span><span class="badge green">复用 18</span></div>
+              <div class="row"><span>客户会议纪要 Prompt</span><span class="badge blue">复用 32</span></div>
+              <div class="row"><span>失败模式：数据口径不一致</span><span class="badge orange">待学习</span></div>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>报表</h3>
+            <div class="row-list">
+              <div class="row"><span>员工月报</span><span>Excel / PDF</span></div>
+              <div class="row"><span>团队报表</span><span>主管可见</span></div>
+              <div class="row"><span>Skill ROI 报表</span><span>平台负责人</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page hidden" id="page-admin">
+        <div class="section-head">
+          <div>
+            <h2>管理后台</h2>
+            <p class="summary">配置组织、权限、风控规则和审计日志。</p>
+          </div>
+          <div class="actions"><button>保存配置</button><button class="secondary">导出审计</button></div>
+        </div>
+        <div class="grid-2">
+          <div class="panel form">
+            <h3>风控规则</h3>
+            <label>P0 规则<textarea>敏感数据泄露、违法违规、越权访问、绕过审核对外发布。</textarea></label>
+            <label>P1 规则<textarea>客户材料、合同财务、低置信高影响结论、对外发布内容。</textarea></label>
+          </div>
+          <div class="panel">
+            <h3>审计日志</h3>
+            <table class="table">
+              <thead><tr><th>动作</th><th>对象</th><th>结果</th></tr></thead>
+              <tbody>
+                <tr><td>权限修改</td><td>Review 角色</td><td>已记录</td></tr>
+                <tr><td>报表导出</td><td>团队月报</td><td>已记录</td></tr>
+                <tr><td>Skill 下线</td><td>合同风险初筛</td><td>已记录</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <aside>
+      <div class="side-card">
+        <h3>页面原则</h3>
+        <ul>
+          <li>流程图和原型图分离。</li>
+          <li>每页只保留一个核心任务。</li>
+          <li>复杂规则放到详情区。</li>
+        </ul>
+      </div>
+      <div class="side-card">
+        <h3>证据链</h3>
+        <ul>
+          <li>任务 ID、Skill 版本、模型和 Prompt 版本。</li>
+          <li>输入输出摘要、实际耗时、Review 记录。</li>
+          <li>公式快照和评分解释。</li>
+        </ul>
+      </div>
+      <div class="side-card">
+        <h3>风险边界</h3>
+        <ul>
+          <li>P0 直接拦截。</li>
+          <li>P1 强制 Review。</li>
+          <li>HR 默认看汇总，不看敏感输入。</li>
+          <li>分数不直接替代绩效结论。</li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    const buttons = Array.from(document.querySelectorAll(".nav-btn"));
+    const pages = Array.from(document.querySelectorAll(".page"));
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const id = button.dataset.page;
+        buttons.forEach((item) => item.classList.toggle("active", item === button));
+        pages.forEach((page) => page.classList.toggle("hidden", page.id !== `page-${id}`));
+      });
+    });
+  </script>
+</body>
+</html>

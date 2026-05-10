@@ -1,0 +1,160 @@
+{
+  "project_id": "geo-service-prd",
+  "version": "2.5.0",
+  "materials": [
+    {
+      "material_id": "mat-001",
+      "slot_key": "payment_proof",
+      "material_type": "待填写",
+      "title": "付款 / 合同证据",
+      "occurred_at": "待填写",
+      "source_path_or_url": "待填写",
+      "redaction_status": "redacted",
+      "summary": "待填写",
+      "proves": [
+        "真实买单",
+        "预算 / 采购流程",
+        "S_claimed 复核"
+      ],
+      "does_not_prove": [
+        "复购",
+        "ROI",
+        "SaaS 产品化成立"
+      ],
+      "review_status": "missing"
+    },
+    {
+      "material_id": "mat-002",
+      "slot_key": "customer_record",
+      "material_type": "待填写",
+      "title": "客户 / 行业记录",
+      "occurred_at": "待填写",
+      "source_path_or_url": "待填写",
+      "redaction_status": "redacted",
+      "summary": "待填写",
+      "proves": [
+        "目标客户清晰",
+        "决策 / 付费对象清晰"
+      ],
+      "does_not_prove": [
+        "客户复购",
+        "获客成本可控"
+      ],
+      "review_status": "missing"
+    },
+    {
+      "material_id": "mat-003",
+      "slot_key": "mvp_experiment_record",
+      "material_type": "待填写",
+      "title": "MVP 实验记录",
+      "occurred_at": "待填写",
+      "source_path_or_url": "待填写",
+      "redaction_status": "redacted",
+      "summary": "待填写",
+      "proves": [
+        "服务闭环已试跑",
+        "核心价值链路可复判"
+      ],
+      "does_not_prove": [
+        "真实利润",
+        "规模化产品化"
+      ],
+      "review_status": "missing"
+    },
+    {
+      "material_id": "mat-004",
+      "slot_key": "delivery_acceptance_record",
+      "material_type": "待填写",
+      "title": "交付 / 验收记录",
+      "occurred_at": "待填写",
+      "source_path_or_url": "待填写",
+      "redaction_status": "redacted",
+      "summary": "待填写",
+      "proves": [
+        "交付结果和验收状态",
+        "返工 / 维护成本复判"
+      ],
+      "does_not_prove": [
+        "获客成本",
+        "复购意愿"
+      ],
+      "review_status": "missing"
+    },
+    {
+      "material_id": "mat-005",
+      "slot_key": "repurchase_or_referral_record",
+      "material_type": "待填写",
+      "title": "复购 / 续费 / 转介绍记录",
+      "occurred_at": "待填写",
+      "source_path_or_url": "待填写",
+      "redaction_status": "redacted",
+      "summary": "待填写",
+      "proves": [
+        "持续价值",
+        "LTV / 产品化升级候选"
+      ],
+      "does_not_prove": [
+        "首单获客成本",
+        "交付边际成本下降"
+      ],
+      "review_status": "missing"
+    },
+    {
+      "material_id": "mat-006",
+      "slot_key": "price_or_quote_record",
+      "material_type": "待填写",
+      "title": "报价 / 客单价证据",
+      "occurred_at": "待填写",
+      "source_path_or_url": "待填写",
+      "redaction_status": "redacted",
+      "summary": "待填写",
+      "proves": [
+        "收入输入",
+        "最低利润条件"
+      ],
+      "does_not_prove": [
+        "成交真实",
+        "交付成本可控"
+      ],
+      "review_status": "missing"
+    },
+    {
+      "material_id": "mat-007",
+      "slot_key": "delivery_time_record",
+      "material_type": "待填写",
+      "title": "交付工时证据",
+      "occurred_at": "待填写",
+      "source_path_or_url": "待填写",
+      "redaction_status": "redacted",
+      "summary": "待填写",
+      "proves": [
+        "交付成本",
+        "边际成本判断"
+      ],
+      "does_not_prove": [
+        "客户愿意付费",
+        "获客可控"
+      ],
+      "review_status": "missing"
+    },
+    {
+      "material_id": "mat-008",
+      "slot_key": "acquisition_source_record",
+      "material_type": "待填写",
+      "title": "获客来源证据",
+      "occurred_at": "待填写",
+      "source_path_or_url": "待填写",
+      "redaction_status": "redacted",
+      "summary": "待填写",
+      "proves": [
+        "冷启动来源",
+        "CAC/LTV 复判输入"
+      ],
+      "does_not_prove": [
+        "服务价值成立",
+        "复购成立"
+      ],
+      "review_status": "missing"
+    }
+  ]
+}

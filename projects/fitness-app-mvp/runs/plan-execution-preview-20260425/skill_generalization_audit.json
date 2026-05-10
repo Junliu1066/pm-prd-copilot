@@ -1,0 +1,12 @@
+{
+  "run_id": "plan-execution-preview-20260425",
+  "project_id": "fitness-app-mvp",
+  "status": "pass",
+  "findings": [],
+  "required_routing": {
+    "project_specific_items": "project_preference_cache",
+    "durable_user_defaults": "approved_user_preference",
+    "generic_methods": "reusable_skill_rule",
+    "unclear_items": "open_lesson"
+  }
+}

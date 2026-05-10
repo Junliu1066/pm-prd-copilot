@@ -1,0 +1,32 @@
+{
+  "project_id": "temp-generated-project",
+  "project_name": "临时需求交付包生成器",
+  "status": "draft",
+  "temporary": true,
+  "created_at": "2026-04-30",
+  "timezone": "Asia/Shanghai",
+  "write_root": "projects/temp-generated-project",
+  "stable_architecture_changed": false,
+  "artifacts": [
+    "00_raw_input.md",
+    "01_requirement_brief.md",
+    "02_prd.md",
+    "03_prototype_spec.md",
+    "04_development_doc.md",
+    "05_delivery_check.md",
+    "prototype/index.html",
+    "runs/temporary-preview/manifest.json",
+    "closeout/architecture-feedback.md"
+  ],
+  "blocked_questions": [
+    "真实业务主题未指定",
+    "是否产品化未确认",
+    "是否接入 AI 自动生成未确认"
+  ],
+  "notes": [
+    "本项目仅用于临时生成。",
+    "所有产物限定在项目目录内。",
+    "治理架构优化建议仅记录在 closeout。"
+  ]
+}
+

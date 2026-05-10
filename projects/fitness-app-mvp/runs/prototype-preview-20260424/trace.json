@@ -1,0 +1,41 @@
+{
+  "run_id": "prototype-preview-20260424",
+  "project_id": "fitness-app-mvp",
+  "skill_calls": [
+    {
+      "skill": "prototype-reference-analyzer",
+      "steward": "prd-writing-steward",
+      "stage": "prototype_design",
+      "outputs": [
+        "prototype_reference_analysis"
+      ]
+    },
+    {
+      "skill": "product-flow-mapper",
+      "steward": "prd-writing-steward",
+      "stage": "prototype_design",
+      "outputs": [
+        "product_flow_map"
+      ]
+    },
+    {
+      "skill": "low-fi-prototype-designer",
+      "steward": "prd-writing-steward",
+      "stage": "prototype_design",
+      "outputs": [
+        "prototype_preview"
+      ]
+    }
+  ],
+  "mcp_calls": [],
+  "source_traces": [
+    {
+      "source_url": "conversation://user-provided-prd-prototype-example-20260424",
+      "source_type": "user_provided_reference",
+      "collected_at": "2026-04-24",
+      "extracted_by": "prototype-reference-analyzer",
+      "confidence": "high",
+      "human_verification_required": true
+    }
+  ]
+}

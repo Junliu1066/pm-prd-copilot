@@ -165,9 +165,11 @@ def validate_value_gate_rules(base_dir: Path) -> list[str]:
                     "- 风险边界：不承诺排名、不承诺收益、不刷量、不绕过平台规则，不做虚假内容和黑灰产优化",
                     "- 获客路径：已有企业客户、SEO/内容营销客户、AI 转型需求公司和同行服务商",
                     "- 成本结构：多平台测试、提示词样本库、行业词库、内容分析、人工审核和持续监测成本",
+                    "- 反证：如果客户只愿意免费试用但不愿意为报告付费，则商业价值不成立",
+                    "- 停止条件：如果获客成本长期高于客单价，利润不成立",
                 ]
             ),
-            "A_ENTER_PRD",
+            "B_LOW_COST_MVP",
         ),
         (
             "client_project",
@@ -257,18 +259,91 @@ def validate_value_gate_rules(base_dir: Path) -> list[str]:
             errors.append(f"Value gate case {label} expected {expected}, got {gate.get('decision_gate')}.")
         if expected != "A_ENTER_PRD" and gate.get("can_enter_full_prd") is not False:
             errors.append(f"Value gate case {label} must not allow full PRD.")
-        if expected == "A_ENTER_PRD" and gate.get("can_enter_full_prd") is not True:
+        if expected == "A_ENTER_PRD" and label != "geo_paid_service" and gate.get("can_enter_full_prd") is not True:
             errors.append("Strong value gate case must allow full PRD.")
+        if expected == "A_ENTER_PRD" and gate.get("value_judgment_passed") is not True:
+            errors.append(f"Value gate case {label} must mark value_judgment_passed=true.")
+        if not gate.get("execution_status"):
+            errors.append(f"Value gate case {label} must include execution_status.")
+        if not gate.get("input_package_quality_gate"):
+            errors.append(f"Value gate case {label} must include input_package_quality_gate.")
         if not gate.get("prd_input_package"):
             errors.append(f"Value gate case {label} must include prd_input_package for downstream handoff.")
+        if not gate.get("agent") or gate.get("agent", {}).get("name") != "Product Value Gate Agent":
+            errors.append(f"Value gate case {label} must identify the product value gate agent.")
+        if not gate.get("evidence_fetcher"):
+            errors.append(f"Value gate case {label} must include evidence fetcher configuration.")
+        if not gate.get("evidence_ledger"):
+            errors.append(f"Value gate case {label} must include an evidence ledger.")
+        if "safe_facts_for_prd" not in gate or "assumptions_for_prd" not in gate:
+            errors.append(f"Value gate case {label} must split PRD-safe facts from assumptions.")
+        if not gate.get("blocked_claims"):
+            errors.append(f"Value gate case {label} must include blocked claims.")
+        if not gate.get("hard_gate_scorecard"):
+            errors.append(f"Value gate case {label} must include hard gate scorecard.")
+        if not gate.get("path_recommendation"):
+            errors.append(f"Value gate case {label} must include path recommendation.")
+        if not gate.get("business_worth_verdict"):
+            errors.append(f"Value gate case {label} must include business worth verdict.")
+        if not gate.get("evidence_sufficiency_gate"):
+            errors.append(f"Value gate case {label} must include evidence sufficiency gate.")
+        if not gate.get("evidence_grade_gate"):
+            errors.append(f"Value gate case {label} must include evidence grade gate.")
+        if not gate.get("verified_evidence_gate"):
+            errors.append(f"Value gate case {label} must include verified evidence gate.")
+        if not gate.get("payment_evidence_verification"):
+            errors.append(f"Value gate case {label} must include payment evidence verification.")
+        if not gate.get("evidence_verification_intake"):
+            errors.append(f"Value gate case {label} must include evidence verification intake.")
+        if not gate.get("competitor_benchmark_table"):
+            errors.append(f"Value gate case {label} must include competitor benchmark table.")
+        if not gate.get("allowed_prd_type"):
+            errors.append(f"Value gate case {label} must include allowed PRD type.")
+        if not gate.get("industry_redline_rule_pack"):
+            errors.append(f"Value gate case {label} must include industry redline rule pack.")
+        if not gate.get("contextual_redline_filter"):
+            errors.append(f"Value gate case {label} must include contextual redline filter.")
+        if not gate.get("value_realization_timeline"):
+            errors.append(f"Value gate case {label} must include value realization timeline.")
+        if not gate.get("value_quality_scorecard"):
+            errors.append(f"Value gate case {label} must include value quality scorecard.")
+        if not gate.get("resource_advantage_matrix"):
+            errors.append(f"Value gate case {label} must include resource advantage matrix.")
+        if not gate.get("acquisition_decision_table"):
+            errors.append(f"Value gate case {label} must include acquisition decision table.")
+        if not gate.get("lightweight_profit_model"):
+            errors.append(f"Value gate case {label} must include lightweight profit model.")
+        if not gate.get("roi_input_table"):
+            errors.append(f"Value gate case {label} must include ROI input table.")
+        if not gate.get("roi_decision_model"):
+            errors.append(f"Value gate case {label} must include ROI decision model.")
+        if not gate.get("output_boundary_gate"):
+            errors.append(f"Value gate case {label} must include output boundary gate.")
+        if not gate.get("route_package_completeness_gate"):
+            errors.append(f"Value gate case {label} must include route package completeness gate.")
+        if not gate.get("rejudgment_package"):
+            errors.append(f"Value gate case {label} must include rejudgment package.")
+        if not gate.get("evidence_archive_policy"):
+            errors.append(f"Value gate case {label} must include evidence archive policy.")
+        if not gate.get("evidence_decision_basis"):
+            errors.append(f"Value gate case {label} must include evidence decision basis.")
+        if not gate.get("evidence_to_verdict_reasoning"):
+            errors.append(f"Value gate case {label} must include evidence-to-verdict reasoning.")
+        if not gate.get("operating_decision_model"):
+            errors.append(f"Value gate case {label} must include operating decision model.")
+        if not gate.get("decision_questions"):
+            errors.append(f"Value gate case {label} must include decision questions.")
         if "missing_count" not in gate.get("input_completeness", {}):
             errors.append(f"Value gate case {label} must report input completeness.")
         if expected == "B_LOW_COST_MVP" and gate.get("downstream_input_package") != "mvp_input_package":
             errors.append("Low-cost MVP case must route to mvp_input_package.")
+        route_package_name = gate.get("downstream_input_package")
+        if route_package_name and not gate.get(route_package_name):
+            errors.append(f"Value gate case {label} must include concrete route package: {route_package_name}.")
         if expected == "F_NOT_RECOMMENDED" and not gate.get("blocked_reasons"):
             errors.append("Not-recommended case must explain blocked reasons.")
         package = gate.get("prd_input_package", {})
-        required_v02_sections = [
+        required_v03_sections = [
             "value_object_detail",
             "measurability_judgment",
             "attribution_judgment",
@@ -280,18 +355,366 @@ def validate_value_gate_rules(base_dir: Path) -> list[str]:
             "low_cost_mvp_judgment",
             "counter_evidence",
         ]
-        for section in required_v02_sections:
+        for section in required_v03_sections:
             if not package.get(section):
-                errors.append(f"Value gate case {label} must include V0.2 section: {section}.")
+                errors.append(f"Value gate case {label} must include V0.3 section: {section}.")
         if not gate.get("known_facts"):
             errors.append(f"Value gate case {label} must separate known facts from assumptions.")
         if label == "geo_paid_service":
+            value_judgment = package.get("value_judgment", {})
             metrics = package.get("measurability_judgment", {}).get("metrics", [])
             primary_intent = gate.get("intent_result", {}).get("primary_intent", "")
+            value_object = package.get("value_object_detail", {})
+            path = gate.get("path_recommendation", {})
+            route_decision = gate.get("route_decision", {})
+            worth = gate.get("business_worth_verdict", {})
+            operating = gate.get("operating_decision_model", {})
+            profit_conditions = operating.get("minimum_profit_conditions", {})
+            delivery_thresholds = operating.get("delivery_cost_thresholds", {})
+            sufficiency = gate.get("evidence_sufficiency_gate", {})
+            redline_pack = gate.get("industry_redline_rule_pack", {})
+            contextual_redline = gate.get("contextual_redline_filter", {})
+            profit_model = gate.get("lightweight_profit_model", {})
+            evidence_grade_gate = gate.get("evidence_grade_gate", {})
+            verified_gate = gate.get("verified_evidence_gate", {})
+            payment_verification = gate.get("payment_evidence_verification", {})
+            verification_intake = gate.get("evidence_verification_intake", {})
+            competitor_table = gate.get("competitor_benchmark_table", {})
+            roi_model = gate.get("roi_decision_model", {})
+            roi_input_table = gate.get("roi_input_table", {})
+            value_quality_scorecard = gate.get("value_quality_scorecard", {})
+            resource_matrix = gate.get("resource_advantage_matrix", {})
+            acquisition_table = gate.get("acquisition_decision_table", {})
+            realization_timeline = gate.get("value_realization_timeline", {})
+            output_boundary = gate.get("output_boundary_gate", {})
+            route_gate = gate.get("route_package_completeness_gate", {})
+            rejudgment = gate.get("rejudgment_package", {})
+            source_quality = gate.get("source_quality_gate", {})
+            research_agent = gate.get("evidence_research_agent", {})
+            research_queue = gate.get("research_execution_queue", {})
+            material_summary = gate.get("material_intake_summary", {})
+            material_mapping = gate.get("material_to_evidence_mapping", [])
+            rejudgment_readiness = gate.get("rejudgment_readiness_gate", {})
+            external_research = gate.get("external_research_results", {})
+            source_quality_scorecard = gate.get("source_quality_scorecard", {})
+            pricing_evidence = gate.get("competitor_pricing_evidence", {})
+            platform_rules = gate.get("platform_rule_evidence", {})
+            verified_assessment = gate.get("verified_evidence_assessment", {})
+            s_verified_gate = gate.get("s_claimed_to_s_verified_gate", {})
+            real_profit = gate.get("real_profit_calculation", {})
+            roi_scenario = gate.get("roi_scenario_analysis", {})
+            investment_gate = gate.get("investment_decision_gate", {})
+            attachment_plan = gate.get("attachment_verification_plan", {})
+            rejudgment_execution = gate.get("rejudgment_execution_plan", {})
+            client_package = gate.get("client_project_input_package", {})
+            internal_package = gate.get("internal_efficiency_input_package", {})
+            research_package = gate.get("research_input_package", {})
+            evidence_basis = gate.get("evidence_decision_basis", [])
+            evidence_reasoning = gate.get("evidence_to_verdict_reasoning", {})
+            source_types = {entry.get("source_type") for entry in gate.get("evidence_ledger", [])}
             if "AI 提及率" not in metrics or "多模型一致性" not in metrics:
                 errors.append("GEO paid service case must include GEO-specific metrics.")
+            if value_judgment.get("primary_value_type") != "对外商业价值":
+                errors.append("GEO paid service must keep external commercial value as the primary value type.")
+            if any("内部" in item for item in [value_judgment.get("primary_value_type", "")]):
+                errors.append("GEO paid service must not treat internal efficiency as the primary value type.")
+            if "服务收入" not in value_judgment.get("primary_business_result", ""):
+                errors.append("GEO paid service must define service/project revenue as the primary business result.")
+            if not value_judgment.get("result_not_proven_yet"):
+                errors.append("GEO paid service must list commercial results that are not proven yet.")
             if "对外商业产品" not in primary_intent:
                 errors.append("GEO paid service case must be classified as an external commercial product.")
+            if path.get("recommended_path") != "服务化 MVP PRD":
+                errors.append("GEO paid service case must recommend service MVP PRD before full SaaS PRD.")
+            if route_decision.get("recommended_path") != path.get("recommended_path"):
+                errors.append("GEO paid service route_decision must be the canonical route summary.")
+            if route_decision.get("canonical_decision") != gate.get("decision_gate"):
+                errors.append("GEO paid service route_decision must mirror decision_gate for compatibility.")
+            if route_decision.get("downstream_input_package") != "mvp_input_package":
+                errors.append("GEO paid service route_decision must point to the MVP package.")
+            if route_decision.get("rule", "").find("唯一主路由结论") == -1:
+                errors.append("GEO paid service route_decision must define itself as the single routing source.")
+            if "完整 SaaS PRD" not in path.get("deferred_paths", []):
+                errors.append("GEO paid service case must defer full SaaS PRD.")
+            if worth.get("verdict") != "worth_testing":
+                errors.append("GEO paid service case must be worth testing rather than direct full SaaS.")
+            if "服务化 MVP" not in worth.get("plain_conclusion", ""):
+                errors.append("GEO paid service worth verdict must say service MVP is the current worthy scope.")
+            if "完整 SaaS PRD" not in worth.get("not_worth_doing_scope", []):
+                errors.append("GEO paid service worth verdict must mark full SaaS PRD as not worth doing now.")
+            if not {"user_provided_fact", "external_public_source"}.issubset(source_types):
+                errors.append("GEO paid service case must include user-provided and external public source evidence.")
+            if not any("Gartner" in item.get("evidence", "") for item in evidence_basis):
+                errors.append("GEO paid service case must include external AI search market-shift evidence.")
+            if not any("月费区间" in item.get("evidence", "") for item in evidence_basis):
+                errors.append("GEO paid service case must include external GEO pricing anchor evidence.")
+            if not any(
+                "Goodie" in item.get("evidence", "") or "SEORCE" in item.get("evidence", "")
+                for item in evidence_basis
+            ):
+                errors.append("GEO paid service case must include competitor productization evidence.")
+            if not any("不能证明" in item.get("does_not_prove", "") for item in evidence_basis):
+                errors.append("GEO paid service evidence basis must state what each evidence item cannot prove.")
+            if not all("fetch_status" in item for item in evidence_basis):
+                errors.append("GEO paid service evidence basis must include fetch status for traceability.")
+            if not evidence_reasoning.get("why_this_verdict_is_allowed"):
+                errors.append("GEO paid service must explain how evidence supports the verdict.")
+            if not evidence_reasoning.get("why_bigger_scope_is_not_allowed"):
+                errors.append("GEO paid service must explain why bigger scope is not allowed.")
+            if not gate.get("safe_facts_for_prd"):
+                errors.append("GEO paid service case must expose source-backed PRD facts.")
+            if "完整 SaaS 产品化已经成立" not in gate.get("blocked_claims", []):
+                errors.append("GEO paid service case must block unsupported SaaS productization claims.")
+            if "平台规则" not in redline_pack.get("triggered_domains", []):
+                errors.append("GEO paid service must include platform-rule redline review.")
+            if not profit_model.get("unknown_inputs"):
+                errors.append("GEO paid service must expose profit model unknown inputs.")
+            if rejudgment.get("current_route_package") != "mvp_input_package":
+                errors.append("GEO paid service rejudgment package must point to MVP route package.")
+            if gate.get("execution_status") != "routed_to_mvp":
+                errors.append("GEO paid service case must route to MVP instead of full PRD execution.")
+            if gate.get("can_enter_full_prd") is not False:
+                errors.append("GEO paid service case must not set can_enter_full_prd=true before human confirmation.")
+            if gate.get("allowed_prd_type") != "服务化 MVP PRD":
+                errors.append("GEO paid service case must only allow service MVP PRD.")
+            if sufficiency.get("overall_status") != "sufficient_for_mvp":
+                errors.append("GEO paid service evidence sufficiency must be sufficient_for_mvp.")
+            if "服务化 MVP" not in sufficiency.get("supported_paths", []):
+                errors.append("GEO paid service evidence sufficiency must support service MVP.")
+            if "完整 SaaS PRD" not in sufficiency.get("unsupported_paths", []):
+                errors.append("GEO paid service evidence sufficiency must reject full SaaS PRD.")
+            if "经营证据" not in sufficiency.get("missing_evidence_types", []) or "产品化证据" not in sufficiency.get("missing_evidence_types", []):
+                errors.append("GEO paid service evidence sufficiency must identify operating and productization evidence gaps.")
+            if source_quality.get("overall_status") != "usable_for_mvp_not_full_prd":
+                errors.append("GEO paid service source quality gate must allow MVP but block full PRD.")
+            if not source_quality.get("rows") or not source_quality.get("blocking_gaps_for_full_prd"):
+                errors.append("GEO paid service source quality gate must list source rows and full PRD gaps.")
+            source_counts = source_quality.get("source_counts", {})
+            if source_counts.get("external_public_source", 0) < 5 or source_counts.get("competitor_rows", 0) < 8:
+                errors.append("GEO paid service source quality gate must count external and competitor sources.")
+            if research_agent.get("mode") != "v2_research_plan":
+                errors.append("GEO paid service must include V2 evidence research agent plan.")
+            research_track_keys = {item.get("key") for item in research_agent.get("research_tracks", [])}
+            required_tracks = {
+                "customer_payment_verification",
+                "roi_operating_inputs",
+                "competitor_productization",
+                "platform_rule_risk",
+                "acquisition_channel_validation",
+                "market_shift_monitoring",
+            }
+            if not required_tracks.issubset(research_track_keys):
+                errors.append("GEO paid service evidence research agent must cover payment, ROI, competitor, platform, acquisition, and market tracks.")
+            if research_queue.get("mode") != "v2_1_executable_research_queue":
+                errors.append("GEO paid service must include V2.1 executable research queue.")
+            if research_queue.get("current_route_package") != "mvp_input_package":
+                errors.append("GEO paid service research queue must stay on MVP route.")
+            if research_queue.get("p0_task_count", 0) < 2:
+                errors.append("GEO paid service research queue must mark payment and ROI tasks as P0.")
+            queue_task_keys = {item.get("track_key") for item in research_queue.get("tasks", [])}
+            if not required_tracks.issubset(queue_task_keys):
+                errors.append("GEO paid service research queue must convert every research track into a task.")
+            if not all(item.get("done_definition") and item.get("fail_or_downgrade_rule") for item in research_queue.get("tasks", [])):
+                errors.append("GEO paid service research tasks must include done and downgrade rules.")
+            if not all(item.get("writes_repo_files") is False for item in research_queue.get("tasks", [])):
+                errors.append("GEO paid service research tasks must not write repo files by default.")
+            if not any(item.get("owner_material_required") for item in research_queue.get("tasks", [])):
+                errors.append("GEO paid service research queue must identify tasks that need owner materials.")
+            output_contract = research_queue.get("task_output_contract", {})
+            if "source_url_or_material_path" not in output_contract.get("required_fields", []):
+                errors.append("GEO paid service research task output contract must require source URL or material path.")
+            if "把用户声明伪装成外部验证" not in output_contract.get("invalid_outputs", []):
+                errors.append("GEO paid service research output contract must reject fake external verification.")
+            if material_summary.get("status") != "missing_critical_materials":
+                errors.append("GEO paid service must keep material intake incomplete when no reviewed materials are attached.")
+            if len(material_mapping) < 8:
+                errors.append("GEO paid service material mapping must cover all required material slots.")
+            if rejudgment_readiness.get("status") != "not_ready_missing_materials":
+                errors.append("GEO paid service rejudgment readiness must block evidence upgrade without materials.")
+            if verified_assessment.get("status") != "S_claimed":
+                errors.append("GEO paid service must stay S_claimed before reviewed materials exist.")
+            if s_verified_gate.get("can_upgrade_to_s_verified") is not False:
+                errors.append("GEO paid service must not upgrade S_claimed to S_verified without reviewed materials.")
+            if external_research.get("status") != "available" or external_research.get("row_count", 0) < 10:
+                errors.append("GEO paid service external research results must include source-backed market and competitor rows.")
+            if source_quality_scorecard.get("overall_status") not in {"usable_for_market_context", "has_source_risk"}:
+                errors.append("GEO paid service source quality scorecard must classify external source usability.")
+            if pricing_evidence.get("status") != "available":
+                errors.append("GEO paid service must expose competitor pricing evidence.")
+            if platform_rules.get("status") != "needs_platform_boundary_review":
+                errors.append("GEO paid service must expose platform rule evidence and boundary review.")
+            if real_profit.get("can_calculate") is not False:
+                errors.append("GEO paid service real profit calculation must be blocked without ROI inputs.")
+            if roi_scenario.get("status") != "roi_unavailable_missing_inputs":
+                errors.append("GEO paid service ROI scenario analysis must stay unavailable without ROI inputs.")
+            if investment_gate.get("conclusion") != "roi_unavailable_missing_inputs":
+                errors.append("GEO paid service investment gate must block ROI conclusion without materials.")
+            if investment_gate.get("requires_owner_approval") is not True:
+                errors.append("GEO paid service investment gate must require owner approval.")
+            if evidence_grade_gate.get("status") != "passes_current_gate_but_not_full_prd":
+                errors.append("GEO paid service evidence grade gate must pass current MVP path but reject full PRD.")
+            if "当前 decision_gate 不是 A_ENTER_PRD" not in evidence_grade_gate.get("full_prd_gap", []):
+                errors.append("GEO paid service evidence grade gate must explain full PRD gap.")
+            if verified_gate.get("status") != "claimed_strong_evidence_pending_verification":
+                errors.append("GEO paid service must mark user-provided strong evidence as pending verification.")
+            if verified_gate.get("can_treat_as_s_level") is not False:
+                errors.append("GEO paid service must not treat unverified user claims as S-level verified evidence.")
+            if not verified_gate.get("verification_required"):
+                errors.append("GEO paid service verified evidence gate must list verification materials.")
+            if payment_verification.get("claimed_payment_layer") != gate.get("payment_evidence_level"):
+                errors.append("GEO paid service payment verification must preserve detected claimed payment layer.")
+            if payment_verification.get("verified_payment_layer") != 0:
+                errors.append("GEO paid service payment verification must keep verified layer at 0 before materials are checked.")
+            if "完整 SaaS PRD" not in payment_verification.get("cannot_support", []):
+                errors.append("GEO paid service unverified payment evidence must not support full SaaS PRD.")
+            if verification_intake.get("status") != "verification_required":
+                errors.append("GEO paid service evidence verification intake must require verification.")
+            if not verification_intake.get("verification_slots") or len(verification_intake.get("verification_slots", [])) < 5:
+                errors.append("GEO paid service evidence verification intake must include core verification slots.")
+            verification_slot_keys = {item.get("key") for item in verification_intake.get("verification_slots", [])}
+            required_verification_slots = {
+                "payment_proof",
+                "customer_record",
+                "mvp_experiment_record",
+                "delivery_acceptance_record",
+                "repurchase_or_referral_record",
+                "price_or_quote_record",
+                "delivery_time_record",
+                "acquisition_source_record",
+            }
+            if not required_verification_slots.issubset(verification_slot_keys):
+                errors.append("GEO paid service evidence verification intake must include payment, customer, MVP, delivery, repurchase, price, time, and acquisition slots.")
+            if not all(item.get("cannot_prove") for item in verification_intake.get("verification_slots", [])):
+                errors.append("GEO paid service verification slots must state what each material cannot prove.")
+            if "报价 / 客单价" not in verification_intake.get("accepted_evidence_types", []) or "交付工时" not in verification_intake.get("accepted_evidence_types", []):
+                errors.append("GEO paid service evidence verification intake must accept quote/price and delivery-time evidence.")
+            if attachment_plan.get("current_status") != "waiting_for_user_materials":
+                errors.append("GEO paid service attachment verification plan must wait for user materials.")
+            if attachment_plan.get("no_auto_verification") is not True:
+                errors.append("GEO paid service attachment verification must not be automatic.")
+            attachment_keys = {item.get("key") for item in attachment_plan.get("slots", [])}
+            if not required_verification_slots.issubset(attachment_keys):
+                errors.append("GEO paid service attachment verification plan must mirror evidence verification slots.")
+            if competitor_table.get("status") != "available":
+                errors.append("GEO paid service competitor benchmark table must be available.")
+            competitor_rows = competitor_table.get("rows", [])
+            markets = {row.get("market") for row in competitor_rows}
+            if not {"中国", "海外"}.issubset(markets):
+                errors.append("GEO paid service competitor benchmark table must include China and international competitors.")
+            if len(competitor_rows) < 8:
+                errors.append("GEO paid service competitor benchmark table must include enough market references.")
+            if not all(row.get("source_url", "").startswith("http") for row in competitor_rows):
+                errors.append("GEO paid service competitor benchmark rows must include source links.")
+            if not any(row.get("name") == "KAWO GEO域见" for row in competitor_rows):
+                errors.append("GEO paid service competitor benchmark must include a strong China reference.")
+            if not any(row.get("name") == "Peec AI" for row in competitor_rows):
+                errors.append("GEO paid service competitor benchmark must include a strong international reference.")
+            if "不能单独证明" not in competitor_table.get("decision_rule", ""):
+                errors.append("GEO paid service competitor benchmark must keep evidence boundaries clear.")
+            if roi_model.get("status") != "roi_not_proven" or roi_model.get("can_claim_high_roi") is not False:
+                errors.append("GEO paid service ROI model must not claim high ROI before cost data.")
+            if roi_input_table.get("status") != "missing_critical_roi_inputs":
+                errors.append("GEO paid service ROI input table must mark critical ROI inputs as missing.")
+            if roi_input_table.get("can_claim_high_roi") is not False:
+                errors.append("GEO paid service ROI input table must not allow high ROI claims.")
+            if not roi_input_table.get("input_rows") or len(roi_input_table.get("input_rows", [])) < 6:
+                errors.append("GEO paid service ROI input table must include concrete ROI input rows.")
+            if "首期服务价格 / 最低客单价" not in roi_input_table.get("missing_critical_inputs", []):
+                errors.append("GEO paid service ROI input table must require price evidence.")
+            if roi_model.get("roi_input_table_status") != roi_input_table.get("status"):
+                errors.append("GEO paid service ROI model must reference ROI input table status.")
+            if not roi_model.get("scenario_table") or len(roi_model.get("scenario_table", [])) < 3:
+                errors.append("GEO paid service ROI model must include conservative/base/optimistic scenarios.")
+            if value_quality_scorecard.get("overall_status") != "needs_validation":
+                errors.append("GEO paid service value quality scorecard must require validation before full PRD.")
+            if not value_quality_scorecard.get("blocking_items_for_full_prd"):
+                errors.append("GEO paid service value quality scorecard must expose full PRD blockers.")
+            if resource_matrix.get("overall_status") != "needs_evidence":
+                errors.append("GEO paid service resource advantage matrix must require evidence.")
+            if not resource_matrix.get("rows") or len(resource_matrix.get("rows", [])) < 8:
+                errors.append("GEO paid service resource advantage matrix must cover core resource dimensions.")
+            if not resource_matrix.get("claimed_resource_advantages"):
+                errors.append("GEO paid service must separate claimed resource advantages.")
+            if resource_matrix.get("verified_resource_advantages"):
+                errors.append("GEO paid service must not mark resource advantages as verified without records.")
+            if not resource_matrix.get("why_us_not_proven"):
+                errors.append("GEO paid service must explain why resource advantage is not proven yet.")
+            if acquisition_table.get("overall_status") != "needs_validation":
+                errors.append("GEO paid service acquisition table must require validation.")
+            if "获客成本是否可控" not in acquisition_table.get("blocking_items_for_full_prd", []):
+                errors.append("GEO paid service acquisition table must block full PRD without CAC evidence.")
+            if "平台规则" not in contextual_redline.get("active_domains", []):
+                errors.append("GEO paid service contextual redline filter must keep platform rules active.")
+            if "支付资金" not in contextual_redline.get("excluded_domains", []):
+                errors.append("GEO paid service contextual redline filter must exclude irrelevant payment-fund checks.")
+            if route_gate.get("route_package") != "mvp_input_package" or route_gate.get("can_route_to_next_module") is not True:
+                errors.append("GEO paid service route package completeness gate must allow MVP handoff.")
+            if route_gate.get("status") != "complete":
+                errors.append("GEO paid service route package completeness gate must be complete after V1.5 specificity hardening.")
+            mvp_package = gate.get("mvp_input_package", {})
+            for key in ["free_diagnosis_entry", "diagnosis_report", "metric_dashboard", "recheck_mechanism", "optimization_suggestions", "service_conversion_path", "execution_record_template"]:
+                if not mvp_package.get(key):
+                    errors.append(f"GEO paid service MVP package must include {key}.")
+            mvp_success_text = " ".join(mvp_package.get("success_criteria", []))
+            for term in ["免费检测提交数", "有效线索率", "加顾问率", "体检报告成交率", "单客户交付工时", "复盘预约率", "后续优化", "代运营"]:
+                if term not in mvp_success_text:
+                    errors.append(f"GEO paid service MVP success criteria must include {term}.")
+            mvp_failure_text = " ".join(mvp_package.get("failure_criteria", []))
+            for term in ["只愿免费", "报告", "交付工时", "无法归因", "复测", "复购"]:
+                if term not in mvp_failure_text:
+                    errors.append(f"GEO paid service MVP failure criteria must include {term}.")
+            mvp_loop_text = " ".join(mvp_package.get("minimum_data_loop", []))
+            for term in ["品牌提及", "竞品提及", "引用来源", "诊断报告", "优化动作", "复测结果", "成交"]:
+                if term not in mvp_loop_text:
+                    errors.append(f"GEO paid service MVP data loop must include {term}.")
+            if realization_timeline.get("status") != "timeline_unverified_blocks_scaling":
+                errors.append("GEO paid service value realization timeline must block scaling until timeline is verified.")
+            if not any(item.get("stage") == "产品化复判" for item in realization_timeline.get("milestones", [])):
+                errors.append("GEO paid service value realization timeline must include productization rejudgment.")
+            if output_boundary.get("status") != "within_boundary":
+                errors.append("GEO paid service output boundary gate must stay within value-gate scope.")
+            if "完整 PRD 正文" not in output_boundary.get("forbidden_outputs", []):
+                errors.append("GEO paid service output boundary gate must forbid full PRD generation.")
+            if output_boundary.get("does_not_rank_against_other_projects") is not True:
+                errors.append("Value gate must explicitly avoid cross-project priority ranking.")
+            if "优先级" not in output_boundary.get("priority_boundary_rule", ""):
+                errors.append("Value gate priority boundary must be explicit.")
+            if not client_package.get("acceptance_criteria") or not client_package.get("reuse_observation_table"):
+                errors.append("Client project route package must include acceptance criteria and reuse observation table.")
+            if not internal_package.get("roi_inputs_required") or not internal_package.get("payback_period"):
+                errors.append("Internal efficiency route package must include ROI inputs and payback period.")
+            if not research_package.get("interview_questions") or not research_package.get("payment_test_method"):
+                errors.append("Research route package must include interview questions and payment test method.")
+            if "2-4 周" not in operating.get("validation_window", ""):
+                errors.append("GEO paid service operating model must recommend a 2-4 week validation window.")
+            if "完整 SaaS PRD" not in worth.get("not_worth_doing_scope", []):
+                errors.append("GEO paid service operating model must keep full SaaS outside current worthy scope.")
+            if profit_conditions.get("price_floor") != "待确认":
+                errors.append("GEO paid service must not invent price floor evidence.")
+            if delivery_thresholds.get("max_delivery_hours_per_customer") != "待确认":
+                errors.append("GEO paid service must not invent delivery hour thresholds.")
+            if not operating.get("upgrade_to_product_conditions"):
+                errors.append("GEO paid service must include upgrade-to-product conditions.")
+            if not operating.get("stop_or_downgrade_conditions"):
+                errors.append("GEO paid service must include stop or downgrade conditions.")
+            if rejudgment.get("next_path_execution_record_required") is not True:
+                errors.append("GEO paid service must require execution records before rejudgment.")
+            if "体检报告成交率" not in rejudgment.get("required_validation_records", []):
+                errors.append("GEO paid service MVP route must require concrete conversion records.")
+            if not rejudgment.get("rejudgment_input_required"):
+                errors.append("GEO paid service must list rejudgment input requirements.")
+            if rejudgment_execution.get("current_route_package") != "mvp_input_package":
+                errors.append("GEO paid service rejudgment execution plan must target MVP route.")
+            if rejudgment_execution.get("owner_review_required") is not True:
+                errors.append("GEO paid service rejudgment execution must require owner review.")
+            if "体检报告成交率" not in rejudgment_execution.get("records_to_collect", []):
+                errors.append("GEO paid service rejudgment execution must collect concrete MVP conversion records.")
+            if not rejudgment_execution.get("upgrade_check", {}).get("conditions") or not rejudgment_execution.get("stop_or_downgrade_check", {}).get("conditions"):
+                errors.append("GEO paid service rejudgment execution must include upgrade and stop conditions.")
+            if "法务" in value_object.get("core_user", []):
+                errors.append("GEO paid service core_user must not include legal/compliance reviewer roles.")
+            if not set(value_object.get("possible_opponents", [])) & {"法务", "合规", "平台规则"}:
+                errors.append("GEO paid service must classify legal/compliance as possible opponents or reviewers.")
     return errors
 
 

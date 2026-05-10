@@ -1,0 +1,19 @@
+{
+  "run_id": "prototype-preview-20260424",
+  "project_id": "fitness-app-mvp",
+  "goal": "Create preview-first PRD prototype artifacts for the group rest timer core business path.",
+  "enabled_skills": [
+    "prototype-reference-analyzer",
+    "product-flow-mapper",
+    "low-fi-prototype-designer"
+  ],
+  "enabled_mcps": [],
+  "required_outputs": [
+    "prototype_reference_analysis",
+    "product_flow_map",
+    "prototype_preview"
+  ],
+  "approval_required_before_full_prototype": [
+    "prototype_preview"
+  ]
+}

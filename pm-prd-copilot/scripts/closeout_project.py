@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import difflib
+import hashlib
 import json
 from dataclasses import asdict, dataclass
 from datetime import datetime, timezone
@@ -79,6 +80,24 @@ RUN_EVIDENCE_FILES = {
     "skill_generalization_audit.json",
 }
 
+EFFICIENCY_REPORT_VERSION = "efficiency.v2"
+EFFICIENCY_FINGERPRINT_FIELDS = [
+    "source_manifest_hash",
+    "source_trace_hash",
+    "artifact_hashes",
+    "meta_hashes",
+    "policy_hash",
+    "skills_registry_hash",
+]
+EFFICIENCY_ARTIFACT_FILES = {
+    "requirement_brief": "01_requirement_brief.md",
+    "prd_markdown": "02_prd.generated.md",
+    "user_stories": "03_user_stories.generated.md",
+    "risk_report": "04_risk_check.generated.md",
+    "tracking_plan": "05_tracking_plan.generated.md",
+    "prd_context_digest": "analysis/prd_context_digest.json",
+}
+
 
 @dataclass
 class FileRecord:
@@ -117,6 +136,73 @@ def read_json(path: Path) -> Any:
 def write_json(path: Path, payload: object) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def hash_file(path: Path) -> str:
+    if not path.exists():
+        return "missing"
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def efficiency_fingerprints(base_dir: Path, project_dir: Path, run_dir: Path) -> dict[str, Any]:
+    return {
+        "source_manifest_hash": hash_file(run_dir / "manifest.json"),
+        "source_trace_hash": hash_file(run_dir / "trace.json"),
+        "artifact_hashes": {
+            artifact: hash_file(project_dir / relative)
+            for artifact, relative in sorted(EFFICIENCY_ARTIFACT_FILES.items())
+        },
+        "meta_hashes": {
+            path.name: hash_file(path)
+            for path in sorted(project_dir.glob("*.meta.json"))
+        },
+        "policy_hash": hash_file(base_dir / "governance" / "efficiency_policy.yaml"),
+        "skills_registry_hash": hash_file(base_dir / "registry" / "skills.yaml"),
+    }
+
+
+def efficiency_report_trust_status(
+    base_dir: Path,
+    project_dir: Path,
+    run_dir: Path,
+    efficiency: dict[str, Any],
+) -> dict[str, Any]:
+    if not efficiency:
+        return {
+            "status": "missing",
+            "trusted": False,
+            "reasons": ["efficiency_report_missing"],
+        }
+    fingerprints = efficiency_fingerprints(base_dir, project_dir, run_dir)
+    missing_fields = [
+        field
+        for field in ["report_version", *EFFICIENCY_FINGERPRINT_FIELDS]
+        if field not in efficiency
+    ]
+    if missing_fields:
+        return {
+            "status": "legacy_stale",
+            "trusted": False,
+            "reasons": [f"missing_field:{field}" for field in missing_fields],
+        }
+    if efficiency.get("report_version") != EFFICIENCY_REPORT_VERSION:
+        return {
+            "status": "legacy_stale",
+            "trusted": False,
+            "reasons": [f"report_version:{efficiency.get('report_version')}"],
+        }
+    changed_fields = [
+        field
+        for field in EFFICIENCY_FINGERPRINT_FIELDS
+        if efficiency.get(field) != fingerprints.get(field)
+    ]
+    if changed_fields:
+        return {
+            "status": "stale",
+            "trusted": False,
+            "reasons": [f"changed:{field}" for field in changed_fields],
+        }
+    return {"status": "fresh", "trusted": True, "reasons": []}
 
 
 def write_text(path: Path, content: str) -> None:
@@ -205,6 +291,15 @@ def parse_registered_artifacts(raw_text: str, project: str) -> dict[str, dict[st
         current_spec[key] = value.strip().strip('"').strip("'")
     flush()
     return registered
+
+
+def load_registered_skills(base_dir: Path) -> dict[str, dict[str, Any]]:
+    registry_path = base_dir / "registry" / "skills.yaml"
+    if yaml is None or not registry_path.exists():
+        return {}
+    data = yaml.safe_load(registry_path.read_text(encoding="utf-8")) or {}
+    skills = data.get("skills", {})
+    return skills if isinstance(skills, dict) else {}
 
 
 def classify_file(rel_path: str, root_label: str, symlink: bool, registered_artifact: str | None) -> tuple[str, str, bool]:
@@ -474,6 +569,13 @@ def collect_project_context(base_dir: Path, project: str, run_id: str = "") -> d
     harness = read_json(run_dir / "harness_report.json")
     efficiency = read_json(run_dir / "efficiency_report.json")
     manifest = read_json(run_dir / "manifest.json")
+    trace = read_json(run_dir / "trace.json")
+    efficiency_trust = efficiency_report_trust_status(
+        base_dir,
+        project_dir,
+        run_dir,
+        efficiency if isinstance(efficiency, dict) else {},
+    )
 
     review_lines, review_files = collect_review_notes(project_dir)
     raw_input_text = (project_dir / "00_raw_input.md").read_text(encoding="utf-8") if (project_dir / "00_raw_input.md").exists() else ""
@@ -488,7 +590,10 @@ def collect_project_context(base_dir: Path, project: str, run_id: str = "") -> d
         "story_count": len(stories) if isinstance(stories, list) else 0,
         "harness": harness if isinstance(harness, dict) else {},
         "efficiency": efficiency if isinstance(efficiency, dict) else {},
+        "efficiency_trust": efficiency_trust,
         "manifest": manifest if isinstance(manifest, dict) else {},
+        "trace": trace if isinstance(trace, dict) else {},
+        "skills_registry": load_registered_skills(base_dir),
         "review_lines": review_lines,
         "review_files": review_files,
         "is_test_project": is_test_project,
@@ -552,10 +657,14 @@ def build_closeout_report(context: dict[str, Any], records: list[FileRecord], ge
     manifest = context["manifest"]
     harness = context["harness"]
     efficiency = context["efficiency"]
+    efficiency_trust = context.get("efficiency_trust", {})
 
     run_status = manifest.get("status", "unknown") if isinstance(manifest, dict) else "unknown"
     harness_status = harness.get("status", "not_run") if isinstance(harness, dict) else "not_run"
     efficiency_status = efficiency.get("status", "not_run") if isinstance(efficiency, dict) else "not_run"
+    efficiency_trust_status = efficiency_trust.get("status", "unknown") if isinstance(efficiency_trust, dict) else "unknown"
+    efficiency_trusted = efficiency_trust.get("trusted") is True if isinstance(efficiency_trust, dict) else False
+    efficiency_trust_reasons = efficiency_trust.get("reasons", []) if isinstance(efficiency_trust, dict) else []
     required_outputs = manifest.get("required_outputs", []) if isinstance(manifest, dict) else []
     prd_signals = context.get("prd_quality_signals", {})
     generated_legacy = [
@@ -599,6 +708,9 @@ def build_closeout_report(context: dict[str, Any], records: list[FileRecord], ge
             f"- Pipeline 状态：`{run_status}`",
             f"- Harness 状态：`{harness_status}`",
             f"- 效率检查状态：`{efficiency_status}`",
+            f"- 效率报告可信状态：`{efficiency_trust_status}`",
+            f"- 效率报告是否可用于治理判断：`{yes_no(efficiency_trusted)}`",
+            f"- 效率报告不可信原因：{', '.join(f'`{reason}`' for reason in efficiency_trust_reasons) if efficiency_trust_reasons else '_无_'}",
             f"- 用户故事数量：`{context['story_count']}`",
             "",
             "## 运行要求产物",
@@ -630,6 +742,7 @@ def build_closeout_report(context: dict[str, Any], records: list[FileRecord], ge
             "- [ ] 决定哪些信号可以进入 GitHub 知识库或优化 backlog。",
             "- [ ] 确认原始输入如何归档、隐藏敏感信息或保留。",
             "- [ ] 审核 `cleanup-plan.md` 后再做任何归档或删除。",
+            "- [ ] 审核 `skill-disposition.md` 后再决定任何 Skill 静默、归档候选、优化或长期规则变更。",
             "- [ ] 对认可的架构反馈，后续再走受监督分支或 PR。",
             "",
             "## 需要人工审核的文件",
@@ -862,6 +975,7 @@ def build_cleanup_plan(context: dict[str, Any], records: list[FileRecord], gener
             "- [ ] `architecture-feedback.md` 里的建议已被接受、拒绝或转成受监督 GitHub 变更。",
             "- [ ] 原始输入的归档 / 隐藏敏感信息 / 保留策略已确认。",
             "- [ ] 项目偏好缓存处理方式已确认。",
+            "- [ ] `skill-disposition.md` 里的 Skill 处置建议已被接受、拒绝或转成受监督治理任务。",
             "- [ ] 归档目标已确认。",
             "- [ ] 所有硬删除候选已经满足归档后 30 天。",
             "- [ ] 硬删除前已完成第二次精确清单审批。",
@@ -922,6 +1036,179 @@ def build_preference_memory_disposition(context: dict[str, Any], records: list[F
     return "\n".join(lines)
 
 
+def trace_skill_names(trace: dict[str, Any]) -> list[str]:
+    names: list[str] = []
+    for call in trace.get("skill_calls", []) if isinstance(trace, dict) else []:
+        if not isinstance(call, dict):
+            continue
+        skill = call.get("skill")
+        if isinstance(skill, str) and skill not in names:
+            names.append(skill)
+    return names
+
+
+def relevant_efficiency_findings(efficiency: dict[str, Any], skill: str) -> list[dict[str, Any]]:
+    findings = efficiency.get("findings", []) if isinstance(efficiency, dict) else []
+    relevant: list[dict[str, Any]] = []
+    for finding in findings:
+        if not isinstance(finding, dict):
+            continue
+        target = " ".join(
+            str(value)
+            for value in [
+                finding.get("action_target", ""),
+                finding.get("artifact", ""),
+                finding.get("evidence", ""),
+                finding.get("evidence_path", ""),
+                finding.get("recommendation", ""),
+            ]
+        )
+        listed_skills = finding.get("skills", [])
+        if skill in target or (isinstance(listed_skills, list) and skill in listed_skills):
+            relevant.append(finding)
+    return relevant
+
+
+def disposition_for_skill(
+    skill: str,
+    skill_spec: dict[str, Any],
+    *,
+    enabled: bool,
+    called: bool,
+    findings: list[dict[str, Any]],
+) -> tuple[str, str, str, str]:
+    if findings and any(finding.get("severity") in {"warn", "optimize", "escalate"} for finding in findings):
+        return (
+            "optimize_required",
+            "medium",
+            "发现效率问题，继续默认路由前需要责任 steward 给出优化和复测结果。",
+            "相关效率 finding",
+        )
+    if skill_spec and not skill_spec.get("path") and skill_spec.get("execution_mode") == "pipeline_internal":
+        return (
+            "pipeline_internal",
+            "unknown",
+            "registry 中无 `path`，应作为 pipeline internal / concept skill 处理，不作为可加载 Skill 默认路由。",
+            "无 path concept skill",
+        )
+    if skill_spec and not skill_spec.get("path"):
+        return (
+            "optimize_required",
+            "medium",
+            "registry 中无 `path` 且未声明 `execution_mode: pipeline_internal`，需要责任 steward 补齐执行口径或退出默认路由。",
+            "未分类 no path concept skill",
+        )
+    if enabled and not called:
+        return (
+            "silent",
+            "unknown",
+            "manifest 启用但 trace 没有调用证据；项目收口后默认不继续唤醒，等待人工确认价值。",
+            "启用但无调用证据",
+        )
+    if called:
+        return (
+            "watch",
+            "medium",
+            "已有调用证据但尚未证明跨项目稳定价值，保留按需观察，不直接转 active。",
+            "有调用证据",
+        )
+    return (
+        "archive_candidate",
+        "unknown",
+        "未找到本项目使用证据；只保留历史审计候选，不进入后续默认路由。",
+        "未观测使用",
+    )
+
+
+def build_skill_disposition(context: dict[str, Any], generated_at: str) -> str:
+    manifest = context.get("manifest", {})
+    trace = context.get("trace", {})
+    efficiency = context.get("efficiency", {})
+    efficiency_trust = context.get("efficiency_trust", {})
+    skills_registry = context.get("skills_registry", {})
+    efficiency_trusted = efficiency_trust.get("trusted") is True if isinstance(efficiency_trust, dict) else False
+    efficiency_trust_status = efficiency_trust.get("status", "unknown") if isinstance(efficiency_trust, dict) else "unknown"
+    efficiency_for_findings = efficiency if efficiency_trusted and isinstance(efficiency, dict) else {}
+    enabled_skills = manifest.get("enabled_skills", []) if isinstance(manifest, dict) else []
+    if not isinstance(enabled_skills, list):
+        enabled_skills = []
+    called_skills = trace_skill_names(trace if isinstance(trace, dict) else {})
+    ordered_skills: list[str] = []
+    for skill in [*enabled_skills, *called_skills]:
+        if isinstance(skill, str) and skill not in ordered_skills:
+            ordered_skills.append(skill)
+
+    rows: list[list[object]] = []
+    for skill in ordered_skills:
+        skill_spec = skills_registry.get(skill, {}) if isinstance(skills_registry, dict) else {}
+        findings = relevant_efficiency_findings(efficiency_for_findings, skill)
+        enabled = skill in enabled_skills
+        called = skill in called_skills
+        decision, value_level, reason, waste_signal = disposition_for_skill(
+            skill,
+            skill_spec if isinstance(skill_spec, dict) else {},
+            enabled=enabled,
+            called=called,
+            findings=findings,
+        )
+        if findings:
+            waste_signal = ", ".join(str(finding.get("type", finding.get("waste_type", "unknown"))) for finding in findings)
+        elif not efficiency_trusted:
+            waste_signal = f"efficiency_report_{efficiency_trust_status}"
+        rows.append(
+            [
+                f"`{skill}`",
+                skill_spec.get("steward", "unknown") if isinstance(skill_spec, dict) else "unknown",
+                "enabled+called" if enabled and called else "enabled" if enabled else "called",
+                value_level,
+                waste_signal,
+                decision,
+                reason,
+            ]
+        )
+
+    lines = [
+        f"# Skill 处置建议 - {context['project_id']}",
+        "",
+        f"- 生成时间：`{generated_at}`",
+        "- 状态：待你审核的 closeout 草案",
+        "- 规则：本文件只提出建议，不自动修改 registry、Skill、workflow、routing 或长期规则。",
+        f"- 效率报告可信状态：`{efficiency_trust_status}`；不可信时不使用旧 `pass` 作为免治理证据。",
+        "- 效率部职责：发现、归因、建议、复测和台账沉淀；不批准自己的整改建议。",
+        "",
+        "## 处置状态口径",
+        "- `keep_active`：可继续默认复用，但本报告不会自动给出该结论。",
+        "- `watch`：有价值迹象，但只按需观察，不默认扩大使用。",
+        "- `silent`：项目收口后默认静默，用户点名或治理任务才可唤醒。",
+        "- `archive_candidate`：只保留历史审计候选，不参与普通任务路由。",
+        "- `deprecated`：准备废弃，需要单独二次确认。",
+        "- `pipeline_internal`：概念 / pipeline 内部能力，不作为可加载 `SKILL.md` 路由。",
+        "- `optimize_required`：发现浪费或合同问题，优化和复测前不应默认路由。",
+        "",
+        "## 本项目 Skill 处置建议",
+        markdown_table(
+            ["Skill", "Owner", "使用证据", "价值等级", "浪费信号", "建议处置", "原因"],
+            rows,
+        ),
+        "",
+        "## 收口审批项",
+        "- [ ] 确认哪些 Skill 仍有跨项目复用价值。",
+        "- [ ] 确认哪些 Skill 在项目结束后应静默。",
+        "- [ ] 将 `optimize_required` 项转成受监督治理任务，并指定责任 steward。",
+        "- [ ] 不把本文件建议直接写入长期规则；registry 或 routing 变更必须单独批准。",
+        "",
+    ]
+    if not rows:
+        lines.extend(
+            [
+                "## 备注",
+                "_没有在 manifest 或 trace 中找到本项目启用 / 调用过的 Skill。_",
+                "",
+            ]
+        )
+    return "\n".join(lines)
+
+
 def build_manifest(project: str, generated_at: str, records: list[FileRecord]) -> dict[str, Any]:
     return {
         "schema_version": "closeout.v1",
@@ -960,6 +1247,7 @@ def generate_closeout_package(base_dir: Path, project: str, run_id: str = "", ou
         "architecture_feedback": closeout_dir / "architecture-feedback.md",
         "cleanup_plan": closeout_dir / "cleanup-plan.md",
         "preference_memory_disposition": closeout_dir / "preference-memory-disposition.md",
+        "skill_disposition": closeout_dir / "skill-disposition.md",
     }
 
     write_json(outputs["manifest"], build_manifest(project, generated_at, records))
@@ -970,6 +1258,7 @@ def generate_closeout_package(base_dir: Path, project: str, run_id: str = "", ou
         outputs["preference_memory_disposition"],
         build_preference_memory_disposition(context, records, generated_at),
     )
+    write_text(outputs["skill_disposition"], build_skill_disposition(context, generated_at))
     return outputs
 
 

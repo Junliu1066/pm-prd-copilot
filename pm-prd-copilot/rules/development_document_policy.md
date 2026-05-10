@@ -39,6 +39,43 @@ PRD 不写内部开发治理、内部工具、内部任务包和内部审计。
 - 人工确认点。
 - 打包与分发规则。
 
+开发文档状态必须明确区分：
+
+- `Draft / 方向对齐版`：用于方向、范围、模块和关键问题对齐，可以保留 P0/P1/P2 待确认项，不能作为开发执行依据。
+- `Ready / 开发执行版`：用于工程实现，P0/P1 决策已确认，工程契约已足够支持开发、联调、验收和回滚。
+- `Execution Plan / 执行拆解版`：基于 Ready 文档拆出的 T0-Tn 任务包，每个任务必须能独立开发、验证和回滚。
+
+开发文档只有通过适用的四个工程门禁，才允许标记为 `Ready / 开发执行版`：
+
+1. Development Ready Gate：什么时候可以开发。
+   - P0/P1 决策已从“假设 / 待确认”迁移到“已确认决策”。
+   - 数据模型、API、前端状态、Worker、测试、部署、回滚都明确。
+   - 每个 T0-Tn 任务能独立开发、验证、回滚。
+   - 仍有关键不确定项时，只能标记为 `Draft / 方向对齐版`。
+
+2. AI Evaluation Gate：AI 怎么可评估。仅项目涉及 AI 能力时适用。
+   - 明确模型角色，例如 answer / teacher / optimizer / embedding，不能混用。
+   - 明确模型输入输出 schema、结构化输出和解析失败处理。
+   - 明确评分口径，例如 rubric、pass 阈值、confidence 阈值、failure_type。
+   - 明确追溯字段，例如 model profile、prompt/template version、scoring_config、metadata。
+   - 明确低置信度、高风险、格式错误、模型超时、模型不可用等异常处理。
+
+3. Async Reliability Gate：异步任务怎么可靠。仅项目涉及 Run / Evaluation / Optimization / Export 等异步任务时适用。
+   - 明确状态机，例如 queued / running / succeeded / failed / canceled / needs_review。
+   - 明确幂等规则，例如 Idempotency-Key 或业务唯一键。
+   - 明确最大重试次数、可重试错误和不可重试错误。
+   - 明确哪些状态可取消、哪些不可取消。
+   - 明确任务创建时需要固化的输入、配置、模型和版本快照。
+   - 明确历史任务、评分、日志不能覆盖，只能新增或状态变更。
+
+4. Candidate Publish Gate：候选结果怎么安全发布。仅项目涉及 AI/自动化候选结果转正式结果时适用。
+   - 候选结果必须有回归或验证结果。
+   - 候选结果必须有人工决策记录，且意见必填。
+   - 发布记录必须包含来源候选、对比结果、评审意见、发布人和发布时间。
+   - key case 或 high risk case 退化时默认不建议发布。
+   - 评分配置、Dataset、teacher model 等关键评测配置不一致时不能给发布建议。
+   - 候选结果不能自动发布，必须走发布门禁。
+
 开发文档不默认重复 PRD 原型图层；需要引用 PRD 页面说明、页面跳转关系、已确认原型或已确认线框材料。
 
 多模块开发、半自动开发、agentic delivery，或用户明确要求分支并行时，Codex 开发文档必须输出“多分支工程执行计划”。普通小任务可以降级为单分支或不拆分，但必须说明原因。

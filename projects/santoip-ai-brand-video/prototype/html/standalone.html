@@ -1,0 +1,2408 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Santoip AI 品牌视频生成器原型</title>
+    <style>
+:root {
+  --bg: #030914;
+  --panel: rgba(17, 29, 51, 0.76);
+  --panel-soft: rgba(20, 34, 58, 0.62);
+  --line: rgba(143, 168, 214, 0.24);
+  --line-strong: rgba(154, 179, 232, 0.38);
+  --text: #eef4ff;
+  --muted: #98a8c2;
+  --faint: #65738d;
+  --blue: #2f7bff;
+  --blue-2: #22c7ff;
+  --violet: #7c3dff;
+  --green: #56d36b;
+  --amber: #ffad32;
+  --red: #ff5b5b;
+  --shadow: 0 20px 80px rgba(0, 0, 0, 0.42);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  font-family: Inter, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+  background:
+    radial-gradient(circle at 78% 8%, rgba(39, 117, 255, 0.28), transparent 26%),
+    radial-gradient(circle at 92% 18%, rgba(28, 221, 255, 0.12), transparent 22%),
+    linear-gradient(135deg, #040913 0%, #071225 48%, #020711 100%);
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(110deg, transparent 60%, rgba(49, 103, 255, 0.22) 68%, rgba(111, 61, 255, 0.26) 73%, transparent 83%),
+    radial-gradient(circle at 72% 3%, rgba(255, 255, 255, 0.68) 0 1px, transparent 2px),
+    radial-gradient(circle at 26% 18%, rgba(255, 255, 255, 0.56) 0 1px, transparent 2px),
+    radial-gradient(circle at 85% 36%, rgba(255, 255, 255, 0.38) 0 1px, transparent 2px);
+  opacity: 0.72;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+.app-shell {
+  position: relative;
+  display: grid;
+  grid-template-columns: 262px minmax(0, 1fr);
+  min-height: 100vh;
+  z-index: 1;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  padding: 28px 22px 18px;
+  border-right: 1px solid var(--line-strong);
+  background: linear-gradient(180deg, rgba(8, 16, 31, 0.94), rgba(7, 15, 29, 0.88));
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.brand {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.brand-mark {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  font-weight: 900;
+  background: conic-gradient(from 210deg, #34d6ff, #295cff, #7e47ff, #34d6ff);
+  color: white;
+  box-shadow: 0 10px 28px rgba(55, 105, 255, 0.36);
+}
+
+.brand-name {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.brand-sub {
+  margin-top: 8px;
+  color: #b7c1d7;
+  font-size: 13px;
+}
+
+.primary-create,
+.primary-action,
+.mini-primary {
+  color: white;
+  background: linear-gradient(135deg, #2478ff, #7d38ff);
+  border-radius: 8px;
+  box-shadow: 0 12px 28px rgba(57, 95, 255, 0.28);
+}
+
+.primary-create {
+  height: 52px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.plus {
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  line-height: 1;
+}
+
+.nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.nav-title {
+  margin: 4px 0 14px;
+  color: #d4deef;
+  font-weight: 700;
+}
+
+.nav-item {
+  height: 42px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: 8px;
+  color: #d7e2f4;
+  background: transparent;
+  text-align: left;
+}
+
+.nav-item:hover,
+.nav-item.active {
+  background: linear-gradient(135deg, rgba(44, 118, 255, 0.28), rgba(122, 60, 255, 0.32));
+  color: white;
+  box-shadow: inset 0 0 0 1px rgba(91, 131, 255, 0.32);
+}
+
+.nav-icon {
+  width: 24px;
+  color: #a9bad7;
+  font-weight: 800;
+}
+
+.lower {
+  margin-top: 76px;
+}
+
+.admin-nav {
+  display: none;
+}
+
+body[data-mode="admin"] .customer-nav,
+body[data-mode="admin"] .primary-create {
+  display: none;
+}
+
+body[data-mode="admin"] .admin-nav {
+  display: flex;
+}
+
+body[data-mode="admin"] .role-copy::before {
+  content: "超级管理员";
+  font-size: 0;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.quota-card,
+.advisor-card,
+.user-card {
+  border: 1px solid var(--line-strong);
+  background: var(--panel-soft);
+  border-radius: 8px;
+}
+
+.quota-card {
+  padding: 16px 18px;
+}
+
+.quota-number {
+  margin: 8px 0 6px;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.quota-number small {
+  font-size: 17px;
+  color: #d6deec;
+}
+
+.meter {
+  height: 6px;
+  margin-top: 12px;
+  background: rgba(112, 132, 171, 0.26);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.meter span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #2e7fff, #8d3dff);
+}
+
+.advisor-card {
+  min-height: 136px;
+  padding: 18px 18px;
+  position: relative;
+  overflow: hidden;
+}
+
+.advisor-card::after {
+  content: "";
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #7ed4ff, #3c5bff 48%, rgba(111, 55, 255, 0.36) 70%);
+}
+
+.advisor-card small {
+  display: block;
+  margin: 10px 0 18px;
+  color: var(--muted);
+}
+
+.mini-primary {
+  padding: 10px 22px;
+  font-weight: 700;
+}
+
+.user-card {
+  height: 62px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-color: transparent;
+  background: transparent;
+}
+
+.avatar,
+.avatar-button {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #61d1ff, #7044ff);
+  color: white;
+  font-weight: 800;
+}
+
+.user-card small {
+  color: var(--muted);
+}
+
+.ghost-icon {
+  margin-left: auto;
+  color: var(--muted);
+  background: transparent;
+}
+
+.workspace {
+  min-width: 0;
+  padding: 24px 32px 28px;
+}
+
+.topbar {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.top-spacer {
+  flex: 1;
+}
+
+.screen {
+  display: none;
+  animation: fadeIn 0.18s ease-out;
+}
+
+.screen.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.page-heading {
+  margin: 2px 0 22px;
+}
+
+.page-heading.compact {
+  margin-bottom: 18px;
+}
+
+.page-heading h1,
+.generation-hero h1,
+.gallery-hero h1 {
+  margin: 18px 0 8px;
+  font-size: 38px;
+  line-height: 1.12;
+  letter-spacing: 0;
+}
+
+.page-heading p,
+.generation-hero p,
+.gallery-hero p {
+  color: #b6c1d2;
+  font-size: 17px;
+  margin: 0;
+}
+
+.title-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.centered {
+  text-align: center;
+  position: relative;
+}
+
+.float-left {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.hero-heading {
+  min-height: 112px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.panel {
+  border: 1px solid var(--line-strong);
+  background: linear-gradient(180deg, rgba(17, 29, 51, 0.82), rgba(11, 22, 42, 0.78));
+  box-shadow: var(--shadow);
+  border-radius: 8px;
+  padding: 22px 24px;
+}
+
+.panel h2 {
+  margin: 0 0 18px;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-icon {
+  color: #4e87ff;
+}
+
+.detail-grid.top {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1.1fr;
+  gap: 18px;
+}
+
+.detail-grid.middle {
+  display: grid;
+  grid-template-columns: 0.48fr 1fr;
+  gap: 18px;
+  margin-top: 16px;
+}
+
+.kv-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 40px;
+}
+
+label,
+.stack-list b,
+.kv-grid label {
+  display: block;
+  color: #dce7fb;
+  font-weight: 700;
+}
+
+.kv-grid strong,
+.kv-grid span {
+  display: block;
+  margin-top: 10px;
+  color: #f3f7ff;
+}
+
+.stack-list {
+  display: grid;
+  gap: 18px;
+}
+
+.stack-list p,
+.summary-list p {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 100px minmax(0, 1fr);
+  gap: 18px;
+  color: #b7c3d8;
+  line-height: 1.7;
+}
+
+.summary-list {
+  display: grid;
+  gap: 12px;
+}
+
+.summary-list p {
+  min-height: 54px;
+  padding: 14px 16px;
+  border: 1px solid rgba(143, 168, 214, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.risk.mid,
+.risk-pill.mid,
+.risk-text {
+  color: var(--amber);
+}
+
+.risk-pill {
+  display: inline-flex;
+  justify-content: center;
+  min-width: 44px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 173, 50, 0.5);
+  background: rgba(255, 173, 50, 0.1);
+  font-weight: 800;
+}
+
+.risk-pill.low,
+.risk-text.low {
+  color: #84e654;
+  border-color: rgba(132, 230, 84, 0.4);
+  background: rgba(132, 230, 84, 0.08);
+}
+
+.risk-pill.high {
+  color: #ff5b5b;
+  border-color: rgba(255, 91, 91, 0.42);
+  background: rgba(255, 91, 91, 0.1);
+}
+
+.video-result-layout {
+  display: grid;
+  grid-template-columns: minmax(340px, 0.9fr) 1fr;
+  gap: 26px;
+}
+
+.video-thumb,
+.brand-preview-card,
+.video-player,
+.case-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(174, 193, 224, 0.25);
+  border-radius: 8px;
+  background: #111d2e;
+}
+
+.tea-thumb {
+  background:
+    radial-gradient(circle at 28% 70%, rgba(188, 148, 79, 0.42), transparent 18%),
+    radial-gradient(circle at 65% 38%, rgba(231, 237, 219, 0.34), transparent 10%),
+    radial-gradient(circle at 78% 20%, rgba(38, 114, 63, 0.42), transparent 26%),
+    linear-gradient(135deg, #11191c, #25351f 52%, #071112);
+}
+
+.beauty-thumb {
+  background:
+    radial-gradient(circle at 70% 30%, rgba(205, 142, 255, 0.42), transparent 24%),
+    linear-gradient(135deg, #141226, #2d1e3c 52%, #0a0d18);
+}
+
+.life-thumb {
+  background:
+    radial-gradient(circle at 56% 44%, rgba(255, 255, 255, 0.22), transparent 22%),
+    linear-gradient(135deg, #1d2028, #3c3540 48%, #11141b);
+}
+
+.tech-thumb {
+  background:
+    radial-gradient(circle at 70% 30%, rgba(37, 209, 255, 0.35), transparent 28%),
+    linear-gradient(135deg, #08121e, #082249 50%, #050a16);
+}
+
+.tea-video {
+  height: 452px;
+  background:
+    radial-gradient(circle at 50% 58%, rgba(238, 240, 219, 0.24), transparent 12%),
+    radial-gradient(circle at 64% 36%, rgba(97, 132, 62, 0.34), transparent 22%),
+    radial-gradient(circle at 20% 72%, rgba(33, 85, 46, 0.44), transparent 30%),
+    linear-gradient(135deg, #0d1112, #25301e 58%, #07090b);
+}
+
+.video-thumb.small {
+  min-height: 184px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.poster-title,
+.video-logo {
+  position: absolute;
+  left: 38px;
+  top: 52px;
+  font-size: 28px;
+  font-weight: 700;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.55);
+}
+
+.video-logo {
+  top: 102px;
+  left: 195px;
+  font-size: 34px;
+  letter-spacing: 8px;
+}
+
+.play-button {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: white;
+  background: rgba(0, 0, 0, 0.56);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.36);
+}
+
+.play-button.large {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  transform: translate(-50%, -50%);
+  width: 88px;
+  height: 88px;
+  font-size: 30px;
+}
+
+.duration {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.video-meta p {
+  margin: 0 0 16px;
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 14px;
+  color: var(--muted);
+}
+
+.button-row,
+.result-actions,
+.modal-actions,
+.form-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.button-row {
+  flex-wrap: wrap;
+}
+
+.follow-panel {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 420px minmax(0, 1fr);
+  gap: 28px;
+}
+
+.follow-panel h2 {
+  grid-column: 1 / -1;
+  margin-bottom: 0;
+}
+
+.timeline {
+  position: relative;
+  padding-left: 32px;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 6px;
+  bottom: 0;
+  width: 1px;
+  background: var(--line-strong);
+}
+
+.timeline-dot {
+  position: absolute;
+  left: 3px;
+  top: 10px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--blue);
+}
+
+.timeline-card {
+  padding: 18px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  display: grid;
+  gap: 10px;
+  color: var(--muted);
+}
+
+.timeline-card strong {
+  color: var(--text);
+}
+
+.follow-form {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr) 184px;
+  gap: 16px;
+  align-items: end;
+}
+
+.wide {
+  min-width: 0;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  margin-top: 10px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(143, 168, 214, 0.26);
+  border-radius: 8px;
+  outline: 0;
+}
+
+input,
+select {
+  height: 46px;
+  padding: 0 16px;
+}
+
+textarea {
+  min-height: 80px;
+  padding: 16px;
+  resize: vertical;
+}
+
+.counter {
+  float: right;
+  margin-top: -28px;
+  margin-right: 16px;
+  color: var(--muted);
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.outline-button,
+.ghost-button,
+.outline-accent,
+.icon-button,
+.avatar-button,
+.text-link {
+  border-radius: 8px;
+  color: #dfe8fa;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(143, 168, 214, 0.26);
+}
+
+.outline-button,
+.ghost-button,
+.outline-accent {
+  min-height: 42px;
+  padding: 0 18px;
+}
+
+.outline-accent {
+  border-color: rgba(96, 129, 255, 0.72);
+  color: #bcd0ff;
+}
+
+.text-link {
+  min-height: 32px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  color: #86acff;
+}
+
+.icon-button {
+  width: 42px;
+  height: 42px;
+  position: relative;
+}
+
+.has-dot::after {
+  content: "";
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ff4c5e;
+}
+
+.primary-action {
+  min-height: 48px;
+  padding: 0 28px;
+  font-weight: 800;
+}
+
+.primary-action.big {
+  min-width: 250px;
+  height: 54px;
+}
+
+.wide-button {
+  flex: 1;
+  height: 72px;
+  justify-content: center;
+  font-size: 19px;
+}
+
+.form-panel {
+  max-width: 1296px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 28px;
+}
+
+.form-grid .full,
+.target-field {
+  grid-column: 1 / -1;
+}
+
+.required {
+  color: #ff6670;
+}
+
+.field-block {
+  margin-top: 18px;
+}
+
+.field-title {
+  margin-bottom: 12px;
+  font-weight: 800;
+}
+
+.chip-row,
+.tag-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.chip,
+.tag-row span {
+  min-width: 112px;
+  height: 38px;
+  padding: 0 16px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 8px;
+  border: 1px solid rgba(143, 168, 214, 0.28);
+  color: #d7e3f6;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.chip.selected,
+.segmented .selected,
+.tag-row span {
+  color: #cbbaff;
+  border-color: rgba(124, 61, 255, 0.92);
+  background: rgba(124, 61, 255, 0.12);
+}
+
+.bottom-form-grid {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 260px 320px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.radio-line {
+  margin: 10px 0;
+  color: #cfd9ea;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.radio-line input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.segmented {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.segmented button {
+  height: 46px;
+  border-radius: 8px;
+  color: #eaf1ff;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(143, 168, 214, 0.26);
+}
+
+.upload-box {
+  min-height: 104px;
+  border: 1px dashed rgba(143, 168, 214, 0.42);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 18px;
+  color: #d5dfef;
+}
+
+.upload-box.compact {
+  min-height: 190px;
+}
+
+.upload-icon {
+  color: var(--muted);
+  font-size: 28px;
+}
+
+.upload-box small {
+  color: var(--muted);
+}
+
+.form-actions {
+  justify-content: flex-end;
+  margin-top: 22px;
+}
+
+.generation-hero,
+.gallery-hero {
+  text-align: center;
+  padding: 30px 0 40px;
+}
+
+.generation-hero h1,
+.gallery-hero h1 {
+  font-size: 44px;
+}
+
+.generation-hero span,
+.gallery-hero span {
+  color: #5c7cff;
+}
+
+.progress-panel,
+.preview-panel {
+  max-width: 1168px;
+  margin: 0 auto 28px;
+}
+
+.phase-row {
+  display: grid;
+  grid-template-columns: 1fr 120px 1fr 120px 1fr;
+  align-items: center;
+  gap: 20px;
+}
+
+.phase {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.phase-mark {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #2d7aff, #7e40ff);
+  box-shadow: 0 0 0 10px rgba(61, 93, 255, 0.12);
+  font-size: 36px;
+}
+
+.spinner {
+  border: 5px solid rgba(92, 117, 255, 0.32);
+  border-top-color: #69a8ff;
+  background: transparent;
+  animation: spin 1.1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.phase h3 {
+  margin: 0 0 8px;
+  font-size: 22px;
+}
+
+.phase strong {
+  color: #4c8dff;
+}
+
+.phase p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.line {
+  height: 2px;
+  background: linear-gradient(90deg, #2e7aff, #7d44ff);
+}
+
+.preview-content {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  gap: 32px;
+  align-items: center;
+}
+
+.brand-preview-card {
+  height: 188px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 36px;
+}
+
+.brand-preview-card div {
+  font-size: 28px;
+}
+
+.brand-preview-card strong {
+  margin-top: 10px;
+  font-size: 19px;
+  font-weight: 500;
+}
+
+.notice-line {
+  height: 56px;
+  margin-top: 26px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  border: 1px solid rgba(143, 168, 214, 0.24);
+  border-radius: 8px;
+  color: #b7c5dc;
+}
+
+.progressbar {
+  margin: 28px 0 14px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 52px;
+  align-items: center;
+  gap: 14px;
+}
+
+.progressbar::before {
+  content: "";
+  grid-column: 1;
+  grid-row: 1;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(112, 132, 171, 0.26);
+}
+
+.progressbar span {
+  grid-column: 1;
+  grid-row: 1;
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #2f7bff, #8345ff);
+}
+
+.progressbar b {
+  font-size: 20px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: minmax(420px, 0.92fr) minmax(420px, 0.88fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.player-bar {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 52px;
+  display: grid;
+  grid-template-columns: 34px 54px 1fr 58px 36px;
+  align-items: center;
+  gap: 12px;
+  padding: 0 26px;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.seek {
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.seek i {
+  display: block;
+  width: 28%;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2f7bff, #7e40ff);
+}
+
+.result-actions {
+  margin-top: 18px;
+}
+
+.result-side {
+  display: grid;
+  gap: 12px;
+}
+
+.more-actions {
+  margin-top: 22px;
+}
+
+.action-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.action-cards button {
+  min-height: 96px;
+  border: 1px solid rgba(143, 168, 214, 0.22);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  text-align: left;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 8px 14px;
+}
+
+.action-cards small {
+  grid-column: 2;
+  color: var(--muted);
+}
+
+.card-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  background: rgba(47, 123, 255, 0.16);
+  color: #6ea1ff;
+}
+
+.card-icon.gray {
+  background: rgba(143, 168, 214, 0.13);
+  color: #b7c5df;
+}
+
+.card-icon.cyan {
+  background: rgba(34, 199, 255, 0.12);
+  color: #6fdcff;
+}
+
+.quick-generate {
+  max-width: 1180px;
+  margin: 0 auto 28px;
+}
+
+.tab-row {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid rgba(143, 168, 214, 0.2);
+}
+
+.tab-row button {
+  height: 46px;
+  padding: 0 18px;
+  color: var(--muted);
+  background: transparent;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-row .selected {
+  color: var(--blue);
+  border-color: var(--blue);
+}
+
+.quick-form {
+  display: grid;
+  grid-template-columns: 260px 1fr 220px;
+  gap: 20px;
+  align-items: end;
+}
+
+.quick-fields {
+  display: grid;
+  gap: 16px;
+}
+
+.quick-fields textarea {
+  min-height: 96px;
+}
+
+.gallery-title {
+  max-width: 1330px;
+  margin: 0 auto 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.case-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.case-card {
+  min-height: 206px;
+  padding: 96px 16px 16px;
+  display: grid;
+  gap: 8px;
+}
+
+.case-card .play-button {
+  position: absolute;
+  top: 34px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 54px;
+  height: 54px;
+}
+
+.case-card .ghost-button {
+  margin-top: 8px;
+  min-height: 36px;
+  padding: 0 12px;
+}
+
+.admin-heading h1 {
+  margin: 22px 0 32px;
+  font-size: 32px;
+}
+
+.filter-panel,
+.table-panel {
+  max-width: 1332px;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px 32px;
+}
+
+.filter-actions {
+  grid-column: 4;
+  display: flex;
+  gap: 18px;
+  align-items: end;
+  justify-content: flex-end;
+}
+
+.table-panel {
+  margin-top: 20px;
+}
+
+.table-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.table-head div {
+  display: flex;
+  gap: 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border: 1px solid rgba(143, 168, 214, 0.22);
+  border-radius: 8px;
+}
+
+th,
+td {
+  height: 72px;
+  padding: 0 36px;
+  border-bottom: 1px solid rgba(143, 168, 214, 0.2);
+  color: #dbe5f6;
+  text-align: left;
+}
+
+th {
+  color: #edf4ff;
+  font-size: 18px;
+}
+
+.status-pill {
+  display: inline-flex;
+  min-width: 70px;
+  justify-content: center;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: #5b91ff;
+  background: rgba(47, 123, 255, 0.12);
+  border: 1px solid rgba(47, 123, 255, 0.32);
+}
+
+.status-pill.purple {
+  color: #8d72ff;
+  background: rgba(124, 61, 255, 0.12);
+  border-color: rgba(124, 61, 255, 0.32);
+}
+
+.status-pill.amber {
+  color: var(--amber);
+  background: rgba(255, 173, 50, 0.1);
+  border-color: rgba(255, 173, 50, 0.32);
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 28px;
+}
+
+.pagination label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pagination select {
+  width: 110px;
+}
+
+.pages {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.pages button {
+  width: 46px;
+  height: 46px;
+  border-radius: 8px;
+  color: #dfe8fa;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(143, 168, 214, 0.22);
+}
+
+.pages .selected {
+  color: white;
+  background: linear-gradient(135deg, #2f7bff, #6240ff);
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  display: none;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.64);
+  backdrop-filter: blur(7px);
+}
+
+.modal-backdrop.open {
+  display: grid;
+}
+
+.claim-modal {
+  width: min(690px, 94vw);
+  position: relative;
+  padding: 44px 38px 28px;
+  border-radius: 8px;
+  border: 1px solid rgba(143, 168, 214, 0.36);
+  background: linear-gradient(180deg, rgba(18, 31, 56, 0.98), rgba(9, 17, 32, 0.98));
+  box-shadow: 0 30px 110px rgba(0, 0, 0, 0.72);
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 22px 30px;
+}
+
+.close-modal {
+  position: absolute;
+  right: 22px;
+  top: 18px;
+  width: 34px;
+  height: 34px;
+  color: white;
+  background: transparent;
+  font-size: 30px;
+}
+
+.gift-art {
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 52px;
+  background: radial-gradient(circle, #5ed5ff, #315bff 55%, rgba(124, 61, 255, 0.22) 70%);
+  margin: 4px auto 10px;
+  grid-column: 1;
+}
+
+.claim-copy {
+  grid-column: 1;
+  grid-row: 2 / span 2;
+}
+
+.claim-copy h2 {
+  margin: 0 0 12px;
+  font-size: 22px;
+}
+
+.claim-copy p,
+.claim-copy li,
+.privacy {
+  color: #b8c5dc;
+}
+
+.claim-copy ul {
+  list-style: none;
+  padding: 0;
+  margin: 22px 0 0;
+  display: grid;
+  gap: 14px;
+}
+
+.claim-copy li::before {
+  content: "✓";
+  margin-right: 10px;
+  color: #7aa5ff;
+}
+
+.claim-form {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  display: grid;
+  gap: 16px;
+}
+
+.verify-row {
+  display: grid;
+  grid-template-columns: 1fr 120px;
+  gap: 12px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #a9b7ce;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgba(143, 168, 214, 0.22);
+}
+
+.wechat-box {
+  min-height: 116px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 16px;
+  border: 1px dashed rgba(143, 168, 214, 0.32);
+  border-radius: 8px;
+}
+
+.qr {
+  width: 96px;
+  height: 96px;
+  display: grid;
+  place-items: center;
+  color: #111;
+  font-weight: 900;
+  background:
+    linear-gradient(90deg, #111 10px, transparent 10px) 0 0 / 20px 20px,
+    linear-gradient(#111 10px, transparent 10px) 0 0 / 20px 20px,
+    white;
+}
+
+.wechat-box small {
+  display: block;
+  margin-top: 10px;
+  color: var(--muted);
+}
+
+.modal-actions {
+  grid-column: 1 / -1;
+  justify-content: center;
+}
+
+.modal-actions button {
+  min-width: 220px;
+}
+
+.privacy {
+  grid-column: 1 / -1;
+  text-align: center;
+}
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 26px;
+  z-index: 50;
+  transform: translate(-50%, 18px);
+  opacity: 0;
+  pointer-events: none;
+  padding: 12px 18px;
+  border: 1px solid rgba(143, 168, 214, 0.32);
+  border-radius: 8px;
+  color: #edf5ff;
+  background: rgba(15, 26, 46, 0.96);
+  box-shadow: var(--shadow);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.editable.editing {
+  outline: 1px solid rgba(47, 123, 255, 0.72);
+  border-radius: 4px;
+  background: rgba(47, 123, 255, 0.12);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+@media (max-width: 1180px) {
+  .app-shell {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+
+  .detail-grid.top,
+  .detail-grid.middle,
+  .result-grid,
+  .preview-content,
+  .follow-panel,
+  .quick-form,
+  .bottom-form-grid,
+  .filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .follow-form,
+  .phase-row,
+  .action-cards,
+  .case-row {
+    grid-template-columns: 1fr;
+  }
+
+  .line {
+    display: none;
+  }
+
+  .filter-actions {
+    grid-column: auto;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    display: block;
+  }
+
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .workspace {
+    padding: 18px;
+  }
+
+  .form-grid,
+  .kv-grid,
+  .video-result-layout,
+  .claim-modal {
+    grid-template-columns: 1fr;
+  }
+
+  .claim-form,
+  .claim-copy,
+  .gift-art {
+    grid-column: auto;
+    grid-row: auto;
+  }
+}
+
+    </style>
+  </head>
+  <body data-mode="customer">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand" data-nav-target="brand-create">
+          <div class="brand-mark">S</div>
+          <div>
+            <div class="brand-name editable">Santoip AI</div>
+            <div class="brand-sub editable">AI 商标品牌视频生成器</div>
+          </div>
+        </div>
+
+        <button class="primary-create" data-nav-target="brand-create">
+          <span class="plus">+</span>
+          <span>创建品牌视频</span>
+        </button>
+
+        <div class="nav-group customer-nav">
+          <div class="nav-title editable">项目</div>
+          <button class="nav-item" data-nav-target="lead-detail">
+            <span class="nav-icon">□</span><span class="nav-label">我的项目</span>
+          </button>
+          <button class="nav-item" data-nav-target="lead-detail">
+            <span class="nav-icon">◇</span><span class="nav-label">商标初筛</span>
+          </button>
+          <button class="nav-item" data-nav-target="case-gallery">
+            <span class="nav-icon">▦</span><span class="nav-label">案例灵感</span>
+          </button>
+          <button class="nav-item lower" data-action="toast" data-message="帮助中心已打开">
+            <span class="nav-icon">?</span><span class="nav-label">帮助中心</span>
+          </button>
+        </div>
+
+        <div class="nav-group admin-nav">
+          <button class="nav-item" data-nav-target="admin-leads">
+            <span class="nav-icon">◇</span><span class="nav-label">管理员后台</span>
+          </button>
+          <button class="nav-item" data-action="toast" data-message="数据看板为后续扩展页面">
+            <span class="nav-icon">▥</span><span class="nav-label">数据看板</span>
+          </button>
+          <button class="nav-item" data-nav-target="admin-leads">
+            <span class="nav-icon">▣</span><span class="nav-label">线索管理</span>
+          </button>
+          <button class="nav-item" data-nav-target="lead-detail">
+            <span class="nav-icon">▤</span><span class="nav-label">项目管理</span>
+          </button>
+          <button class="nav-item" data-nav-target="result">
+            <span class="nav-icon">▻</span><span class="nav-label">视频任务</span>
+          </button>
+          <button class="nav-item" data-action="toast" data-message="模型日志为后续扩展页面">
+            <span class="nav-icon">▥</span><span class="nav-label">模型日志</span>
+          </button>
+          <button class="nav-item" data-action="toast" data-message="配置中心为后续扩展页面">
+            <span class="nav-icon">⚙</span><span class="nav-label">配置中心</span>
+          </button>
+        </div>
+
+        <div class="sidebar-bottom">
+          <div class="quota-card">
+            <div class="muted editable">剩余额度</div>
+            <div class="quota-number"><span class="editable">3</span><small>/ 10 次</small></div>
+            <div class="muted editable">每日刷新 10 次</div>
+            <div class="meter"><span style="width:42%"></span></div>
+          </div>
+
+          <div class="advisor-card">
+            <div class="editable">添加知识产权顾问</div>
+            <small class="editable">一对一专业服务</small>
+            <button class="mini-primary" data-action="open-modal">立即添加</button>
+          </div>
+
+          <div class="user-card">
+            <div class="avatar">张</div>
+            <div>
+              <div class="editable">张先生</div>
+              <small class="editable role-copy">创业者</small>
+            </div>
+            <button class="ghost-icon" data-action="toggle-admin">⌄</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <button class="ghost-button back-control" data-action="back">← 返回</button>
+          <div class="top-spacer"></div>
+          <button class="outline-button">企业服务</button>
+          <button class="icon-button has-dot" data-action="toast" data-message="暂无新通知">⌁</button>
+          <button class="avatar-button" data-action="toggle-admin">张</button>
+        </header>
+
+        <section class="screen active" data-screen="lead-detail">
+          <div class="page-heading compact">
+            <button class="text-link" data-nav-target="admin-leads">← 返回线索列表</button>
+            <div class="title-row">
+              <h1 class="editable">线索详情：星屿茶研</h1>
+              <button class="outline-accent" data-action="assign-advisor">分配顾问</button>
+            </div>
+          </div>
+
+          <div class="detail-grid top">
+            <article class="panel">
+              <h2><span class="section-icon">▧</span><span class="editable">基础信息</span></h2>
+              <div class="kv-grid">
+                <div><label>品牌名</label><strong class="editable">星屿茶研</strong></div>
+                <div><label>来源</label><span class="editable">广告投放 / 春季活动</span></div>
+                <div><label>行业</label><strong class="editable">新中式茶饮</strong></div>
+                <div><label>创建时间</label><span class="editable">2024-05-16 14:32:21</span></div>
+                <div><label>联系方式</label><strong class="editable">138****1234</strong></div>
+              </div>
+            </article>
+
+            <article class="panel">
+              <h2><span class="section-icon">◌</span><span class="editable">用户输入</span></h2>
+              <div class="stack-list">
+                <p><b>产品 / 服务</b><span class="editable">以原叶鲜奶茶为主，搭配新中式茶点，注重健康与东方美学体验。</span></p>
+                <p><b>风格偏好</b><span class="editable">新中式、东方美学、自然、禅意、年轻化</span></p>
+                <p><b>视频比例</b><span class="editable">16:9（横版）</span></p>
+              </div>
+            </article>
+
+            <article class="panel">
+              <h2><span class="section-icon">✦</span><span class="editable">AI 品牌分析</span></h2>
+              <div class="stack-list">
+                <p><b>定位</b><span class="editable">新中式茶饮品牌，融合东方美学与现代生活方式，主打高品质原叶茶与健康轻盈体验。</span></p>
+                <p><b>Slogan</b><span class="editable">一叶东方意，茶香照星屿。</span></p>
+                <p><b>视觉</b><span class="editable">建议使用山水意境、茶叶元素、留白构图，配色以墨绿、浅木色、米白为主。</span></p>
+              </div>
+            </article>
+          </div>
+
+          <div class="detail-grid middle">
+            <article class="panel">
+              <h2><span class="section-icon">◇</span><span class="editable">商标初筛</span></h2>
+              <div class="stack-list">
+                <p><b>推荐类别</b><span class="editable">30 类（方便食品）、43 类（餐饮住宿）</span></p>
+                <p><b>风险等级</b><span class="risk mid editable">中</span></p>
+                <p><b>风险摘要</b><span class="editable">“星屿茶研”在第30类存在近似在先商标，建议调整“研”字或增加显著性元素以降低风险。</span></p>
+              </div>
+              <button class="outline-button" data-action="open-modal">查看初筛报告</button>
+            </article>
+
+            <article class="panel video-result-card">
+              <h2><span class="section-icon">▻</span><span class="editable">视频结果</span></h2>
+              <div class="video-result-layout">
+                <div class="video-thumb tea-thumb small" data-nav-target="result">
+                  <div class="poster-title editable">星屿茶研</div>
+                  <button class="play-button">▶</button>
+                  <span class="duration">00:15</span>
+                </div>
+                <div class="video-meta">
+                  <p><b>视频名称</b><span class="editable">星屿茶研 - 品牌宣传视频</span></p>
+                  <p><b>生成时间</b><span class="editable">2024-05-16 14:36:48</span></p>
+                  <p><b>时长</b><span class="editable">00:15</span></p>
+                  <div class="button-row">
+                    <button class="outline-button" data-nav-target="result">预览视频</button>
+                    <button class="outline-button" data-action="toast" data-message="播放链接已复制">播放链接</button>
+                    <button class="outline-button" data-action="toast" data-message="视频下载任务已创建">下载视频</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <article class="panel follow-panel">
+            <h2 class="editable">跟进记录</h2>
+            <div class="timeline">
+              <div class="timeline-dot"></div>
+              <div class="timeline-card">
+                <strong class="editable">系统创建线索</strong>
+                <span class="editable">2024-05-16 14:32</span>
+                <small class="editable">来源：广告投放 / 春季活动</small>
+              </div>
+            </div>
+            <div class="follow-form">
+              <label>当前状态
+                <select id="followStatus">
+                  <option>待跟进</option>
+                  <option>跟进中</option>
+                  <option>待复访</option>
+                  <option>已成交</option>
+                </select>
+              </label>
+              <label class="wide">备注
+                <textarea id="followNote" placeholder="请输入跟进内容..." maxlength="500"></textarea>
+                <span class="counter">0 / 500</span>
+              </label>
+              <button class="primary-action" data-action="save-follow">保存跟进记录</button>
+            </div>
+          </article>
+        </section>
+
+        <section class="screen" data-screen="brand-create">
+          <div class="page-heading hero-heading">
+            <div>
+              <button class="text-link" data-nav-target="case-gallery">← AI 品牌生成</button>
+              <h1 class="editable">填写品牌信息</h1>
+              <p class="editable">生成品牌分析、宣传视频和商标初筛</p>
+            </div>
+          </div>
+
+          <article class="panel form-panel">
+            <div class="form-grid">
+              <label>品牌名称 <span class="required">*</span>
+                <input id="brandName" value="" placeholder="请输入品牌名，例如：星屿茶研">
+              </label>
+              <label>英文名（选填）
+                <input id="englishName" placeholder="请输入英文名（选填）">
+              </label>
+              <label>行业 <span class="required">*</span>
+                <select id="industry">
+                  <option>请选择行业</option>
+                  <option>新中式茶饮</option>
+                  <option>科技服务</option>
+                  <option>美妆护肤</option>
+                  <option>零售生活</option>
+                </select>
+              </label>
+              <label class="full">产品 / 服务描述 <span class="required">*</span>
+                <textarea id="brandDesc" placeholder="请简要描述您的产品 / 服务、品牌定位、核心优势、目标人群等，AI 将据此生成宣传视频"></textarea>
+                <span class="counter">0 / 300</span>
+              </label>
+            </div>
+
+            <div class="field-block">
+              <div class="field-title editable">品牌风格</div>
+              <div class="chip-row" data-chip-group>
+                <button class="chip selected">年轻化</button>
+                <button class="chip">东方美学</button>
+                <button class="chip">科技感</button>
+                <button class="chip">轻奢</button>
+                <button class="chip">自然</button>
+              </div>
+            </div>
+
+            <label class="full target-field">目标客户
+              <input id="targetCustomer" placeholder="请输入您的目标客户群体，例如：18-35 岁的都市白领、注重健康的年轻人等">
+            </label>
+
+            <div class="bottom-form-grid">
+              <div class="field-block">
+                <div class="field-title editable">视频用途</div>
+                <label class="radio-line"><input type="radio" name="usage" checked> 开业宣传</label>
+                <label class="radio-line"><input type="radio" name="usage"> 电商展示</label>
+                <label class="radio-line"><input type="radio" name="usage"> 品牌介绍</label>
+              </div>
+              <div class="field-block">
+                <div class="field-title editable">视频比例</div>
+                <div class="segmented">
+                  <button class="selected">9:16</button>
+                  <button>16:9</button>
+                </div>
+              </div>
+              <div class="upload-box">
+                <div class="upload-icon">⇧</div>
+                <strong class="editable">点击上传或拖拽文件到此处</strong>
+                <small class="editable">支持 PNG、JPG 格式，文件大小不超过 5MB</small>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="primary-action big" data-action="start-generate">生成品牌视频</button>
+            </div>
+          </article>
+        </section>
+
+        <section class="screen" data-screen="generating">
+          <div class="generation-hero">
+            <h1 class="editable">正在生成你的<span>品牌方案</span></h1>
+            <p class="editable">AI 正在为你生成专属品牌宣传视频方案，请稍候...</p>
+          </div>
+
+          <article class="panel progress-panel" data-nav-target="result">
+            <div class="phase-row">
+              <div class="phase done">
+                <div class="phase-mark">✓</div>
+                <div>
+                  <h3 class="editable">品牌分析</h3>
+                  <strong class="editable">已完成</strong>
+                  <p class="editable">分析行业趋势与竞品<br>提炼品牌核心定位</p>
+                </div>
+              </div>
+              <div class="line"></div>
+              <div class="phase done">
+                <div class="phase-mark">✓</div>
+                <div>
+                  <h3 class="editable">商标初筛</h3>
+                  <strong class="editable">已完成</strong>
+                  <p class="editable">筛选近似商标<br>降低注册风险</p>
+                </div>
+              </div>
+              <div class="line"></div>
+              <div class="phase active">
+                <div class="phase-mark spinner"></div>
+                <div>
+                  <h3 class="editable">品牌视频</h3>
+                  <strong class="editable">生成中</strong>
+                  <p class="editable">生成品牌宣传视频<br>与视觉方案</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel preview-panel">
+            <h2><span class="section-icon">✦</span><span class="editable">品牌定位预览</span></h2>
+            <div class="preview-content">
+              <div class="brand-preview-card tea-thumb">
+                <div class="editable">新中式茶饮</div>
+                <strong class="editable">东方美学·现代表达</strong>
+              </div>
+              <div>
+                <h3 class="editable">面向年轻都市女性的新中式茶饮品牌...</h3>
+                <p class="editable">融合东方茶文化与现代生活美学，打造高颜值、低负担、有态度的新中式茶饮体验。</p>
+                <div class="tag-row">
+                  <span>新中式茶饮</span><span>年轻女性</span><span>东方美学</span><span>轻盈治愈</span><span>高颜值</span>
+                </div>
+              </div>
+            </div>
+            <div class="notice-line">视频生成可能需要几十秒，请稍候</div>
+            <div class="progressbar"><span id="generateProgress" style="width:65%"></span><b id="generatePercent">65%</b></div>
+            <small class="editable">预计剩余时间：20 - 30 秒</small>
+          </article>
+        </section>
+
+        <section class="screen" data-screen="result">
+          <div class="page-heading centered">
+            <button class="ghost-button float-left" data-nav-target="brand-create">← 返回首页</button>
+            <h1 class="editable">AI 品牌生成结果</h1>
+            <p class="editable">以下是为您生成的品牌宣传视频及相关分析结果</p>
+          </div>
+
+          <div class="result-grid">
+            <div>
+              <div class="video-player tea-video">
+                <div class="video-logo">星屿茶研</div>
+                <button class="play-button large">▶</button>
+                <div class="player-bar">
+                  <span>▶</span><span>00:00</span><div class="seek"><i></i></div><span>00:15</span><span>⛶</span>
+                </div>
+              </div>
+              <div class="result-actions">
+                <button class="primary-action wide-button" data-action="toast" data-message="高清视频下载已开始">下载高清视频</button>
+                <button class="outline-accent wide-button" data-action="open-modal">领取完整报告</button>
+              </div>
+            </div>
+
+            <div class="result-side">
+              <article class="panel">
+                <h2><span class="section-icon">✦</span><span class="editable">品牌分析摘要</span></h2>
+                <div class="summary-list">
+                  <p><b>一句话定位</b><span class="editable">东方茶饮美学倡导者，专注高品质茶叶与茶文化体验。</span></p>
+                  <p><b>Slogan</b><span class="editable">一茶一世界，一味一人生</span></p>
+                  <p><b>视觉风格</b><span class="editable">东方自然美学，融合茶山、云雾、光影与极简设计，传递宁静、高端、文化感。</span></p>
+                </div>
+              </article>
+              <article class="panel">
+                <h2><span class="section-icon">◇</span><span class="editable">商标风险初筛</span></h2>
+                <div class="summary-list">
+                  <p><b>推荐类别</b><span class="editable">第30类、第35类、第43类</span></p>
+                  <p><b>初步风险</b><span class="risk mid editable">中</span></p>
+                  <p><b>原因</b><span class="editable">品牌名存在一定描述性倾向...</span></p>
+                </div>
+                <small class="muted editable">本结果由 AI 生成，仅供创意和初步分析参考，不构成正式法律意见。</small>
+              </article>
+            </div>
+          </div>
+
+          <article class="panel more-actions">
+            <h2 class="editable">更多行动</h2>
+            <div class="action-cards">
+              <button data-action="open-modal">
+                <span class="card-icon blue">↗</span>
+                <b>查看完整品牌分析</b>
+                <small>获取详细品牌定位、市场分析和视觉建议</small>
+              </button>
+              <button data-action="open-modal">
+                <span class="card-icon gray">◇</span>
+                <b>查看完整风险报告</b>
+                <small>查看商标查询结果、风险分析和注册建议</small>
+              </button>
+              <button data-action="open-modal">
+                <span class="card-icon cyan">☏</span>
+                <b>咨询知识产权顾问</b>
+                <small>一对一专家咨询，获取专业建议</small>
+              </button>
+            </div>
+          </article>
+        </section>
+
+        <section class="screen" data-screen="case-gallery">
+          <div class="gallery-hero">
+            <h1 class="editable">一句品牌名，生成<span>品牌宣传视频</span></h1>
+            <p class="editable">输入品牌信息，AI 自动完成品牌分析、商标初筛与视频方案。</p>
+          </div>
+
+          <article class="panel quick-generate">
+            <div class="tab-row">
+              <button class="selected">AI 品牌生成</button>
+              <button>商标风险初筛</button>
+              <button>顾问通知书解读</button>
+              <button>即将上线</button>
+            </div>
+            <div class="quick-form">
+              <div class="upload-box compact">
+                <div class="upload-icon">⇧</div>
+                <strong class="editable">上传 Logo</strong>
+                <small class="editable">可选，支持 PNG / JPG，≤ 5MB</small>
+              </div>
+              <div class="quick-fields">
+                <input placeholder="请输入品牌名称，例如：星屿茶研">
+                <select><option>请选择行业</option><option>新中式茶饮</option></select>
+                <textarea placeholder="描述产品服务、品牌定位和想要的视频"></textarea>
+              </div>
+              <button class="primary-action" data-nav-target="generating">AI 自动完善并生成</button>
+            </div>
+          </article>
+
+          <div class="gallery-title">
+            <h2 class="editable">品牌视频案例</h2>
+            <button class="outline-button">查看更多案例</button>
+          </div>
+          <div class="case-row">
+            <article class="case-card tea-thumb" data-action="open-modal">
+              <button class="play-button">▶</button>
+              <b class="editable">星屿茶研</b>
+              <small class="editable">东方美学 · 高端 · 温润</small>
+              <span class="risk-text editable">商标风险：中</span>
+              <button class="ghost-button">使用同款生成</button>
+            </article>
+            <article class="case-card beauty-thumb" data-action="open-modal">
+              <button class="play-button">▶</button>
+              <b class="editable">雾光肌研</b>
+              <small class="editable">科技感 · 高级感 · 现代</small>
+              <span class="risk-text low editable">商标风险：低</span>
+              <button class="ghost-button">使用同款生成</button>
+            </article>
+            <article class="case-card life-thumb" data-action="open-modal">
+              <b class="editable">LIORA</b>
+              <small class="editable">轻奢 · 简约 · 时尚</small>
+              <span class="risk-text editable">商标风险：中</span>
+              <button class="ghost-button">使用同款生成</button>
+            </article>
+            <article class="case-card tech-thumb" data-action="open-modal">
+              <b class="editable">云启智造</b>
+              <small class="editable">科技感 · 未来 · 专业</small>
+              <span class="risk-text low editable">商标风险：低</span>
+              <button class="ghost-button">使用同款生成</button>
+            </article>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="admin-leads">
+          <div class="admin-heading">
+            <h1 class="editable">后台管理 / 线索管理</h1>
+          </div>
+
+          <article class="panel filter-panel">
+            <div class="filter-grid">
+              <label>日期
+                <input value="2024-05-20  ~  2024-06-20">
+              </label>
+              <label>行业
+                <select><option>请选择行业</option><option>茶饮</option><option>科技</option></select>
+              </label>
+              <label>风险等级
+                <select><option>请选择风险等级</option><option>高</option><option>中</option><option>低</option></select>
+              </label>
+              <label>跟进状态
+                <select><option>请选择跟进状态</option><option>待跟进</option><option>跟进中</option></select>
+              </label>
+              <label>来源渠道
+                <select><option>请选择来源渠道</option><option>投放</option><option>私域</option></select>
+              </label>
+              <label>关键词 / 品牌名 / 手机号
+                <input placeholder="请输入关键词 / 品牌名 / 手机号">
+              </label>
+              <div class="filter-actions">
+                <button class="outline-button" data-action="toast" data-message="筛选条件已重置">重置</button>
+                <button class="primary-action" data-action="toast" data-message="已按条件查询线索">查询</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel table-panel">
+            <div class="table-head">
+              <span class="editable">共 1,256 条线索</span>
+              <div>
+                <button class="outline-button" data-action="toast" data-message="导出任务已创建">导出数据</button>
+                <button class="primary-action" data-nav-target="brand-create">新增线索</button>
+              </div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>品牌名</th><th>行业</th><th>联系方式</th><th>风险</th><th>来源</th><th>状态</th><th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="editable">星屿茶研</td><td>茶饮</td><td>138****1234</td><td><span class="risk-pill mid">中</span></td><td>投放</td><td><span class="status-pill">待跟进</span></td><td><button class="text-link" data-nav-target="lead-detail">查看</button></td>
+                </tr>
+                <tr>
+                  <td class="editable">云启智能</td><td>科技</td><td>wx_user_xxx</td><td><span class="risk-pill low">低</span></td><td>私域</td><td><span class="status-pill purple">跟进中</span></td><td><button class="text-link" data-nav-target="lead-detail">查看</button></td>
+                </tr>
+                <tr>
+                  <td class="editable">花屿生活</td><td>零售</td><td>139****5678</td><td><span class="risk-pill high">高</span></td><td>投放</td><td><span class="status-pill amber">待复访</span></td><td><button class="text-link" data-nav-target="lead-detail">查看</button></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="pagination">
+              <label>每页显示 <select><option>20</option><option>50</option></select></label>
+              <div class="pages"><button>‹</button><button class="selected">1</button><button>2</button><button>3</button><button>4</button><button>5</button><span>...</span><button>63</button><button>›</button></div>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <div class="modal-backdrop" id="claimModal" aria-hidden="true">
+      <div class="claim-modal">
+        <button class="close-modal" data-action="close-modal">×</button>
+        <div class="gift-art">▣</div>
+        <div class="claim-copy">
+          <h2 class="editable">领取完整品牌与商标报告</h2>
+          <p class="editable">提交信息后即可解锁完整报告内容</p>
+          <ul>
+            <li>完整品牌分析报告</li>
+            <li>商标类别建议详情</li>
+            <li>高清视频下载</li>
+            <li>知识产权顾问人工检索建议</li>
+          </ul>
+        </div>
+        <div class="claim-form">
+          <label>手机号<input placeholder="请输入手机号"></label>
+          <label>验证码
+            <div class="verify-row">
+              <input placeholder="请输入验证码">
+              <button class="outline-accent" data-action="toast" data-message="验证码已发送">发送验证码</button>
+            </div>
+          </label>
+          <div class="divider">或添加企业微信</div>
+          <div class="wechat-box">
+            <div class="qr">QR</div>
+            <div>
+              <strong class="editable">扫码添加企业微信</strong>
+              <small class="editable">专属顾问 1 对 1 服务</small>
+            </div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="primary-action" data-action="claim-submit">提交并领取</button>
+          <button class="outline-button" data-action="close-modal">暂不领取</button>
+        </div>
+        <small class="privacy editable">我们将严格保护您的隐私信息</small>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <script>
+(function () {
+  const storagePrefix = "santoip-prototype-edit:";
+  const screens = Array.from(document.querySelectorAll(".screen[data-screen]"));
+  const modal = document.getElementById("claimModal");
+  const toast = document.getElementById("toast");
+  const progress = document.getElementById("generateProgress");
+  const percent = document.getElementById("generatePercent");
+  const historyStack = [];
+
+  const screenMeta = {
+    "lead-detail": { mode: "customer", back: "返回线索列表", backTarget: "admin-leads" },
+    "brand-create": { mode: "customer", back: "返回", backTarget: "case-gallery" },
+    generating: { mode: "customer", back: "返回填写", backTarget: "brand-create" },
+    result: { mode: "customer", back: "返回填写", backTarget: "brand-create" },
+    "case-gallery": { mode: "customer", back: "返回", backTarget: "brand-create" },
+    "admin-leads": { mode: "admin", back: "返回前台", backTarget: "lead-detail" }
+  };
+
+  function currentScreenId() {
+    const active = document.querySelector(".screen.active");
+    return active ? active.dataset.screen : "lead-detail";
+  }
+
+  function showToast(message) {
+    toast.textContent = message || "操作已完成";
+    toast.classList.add("show");
+    clearTimeout(showToast.timer);
+    showToast.timer = setTimeout(() => toast.classList.remove("show"), 1800);
+  }
+
+  function updateNav(target) {
+    document.querySelectorAll(".nav-item").forEach((item) => {
+      item.classList.toggle("active", item.dataset.navTarget === target);
+    });
+  }
+
+  function updateTopbar(target) {
+    const meta = screenMeta[target] || screenMeta["lead-detail"];
+    document.body.dataset.mode = meta.mode;
+    const back = document.querySelector(".back-control");
+    if (back) {
+      back.textContent = "← " + meta.back;
+      back.dataset.backTarget = meta.backTarget;
+    }
+    const role = document.querySelector(".role-copy");
+    if (role) role.textContent = meta.mode === "admin" ? "超级管理员" : "创业者";
+  }
+
+  function navigate(target, options = {}) {
+    const next = document.querySelector(`.screen[data-screen="${target}"]`);
+    if (!next) {
+      showToast("目标页面尚未纳入原型");
+      return;
+    }
+    const current = currentScreenId();
+    if (!options.replace && current !== target) historyStack.push(current);
+    screens.forEach((screen) => screen.classList.toggle("active", screen === next));
+    updateTopbar(target);
+    updateNav(target);
+    document.querySelector(".workspace").scrollTo({ top: 0, behavior: "smooth" });
+    if (target === "generating") startProgress();
+  }
+
+  function goBack() {
+    const active = currentScreenId();
+    const meta = screenMeta[active];
+    const target = historyStack.pop() || (meta && meta.backTarget) || "lead-detail";
+    navigate(target, { replace: true });
+  }
+
+  function startProgress() {
+    let value = 38;
+    progress.style.width = value + "%";
+    percent.textContent = value + "%";
+    clearInterval(startProgress.timer);
+    startProgress.timer = setInterval(() => {
+      value = Math.min(65, value + 3);
+      progress.style.width = value + "%";
+      percent.textContent = value + "%";
+      if (value >= 65) clearInterval(startProgress.timer);
+    }, 180);
+  }
+
+  function openModal() {
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+  }
+
+  function closeModal() {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+  }
+
+  function startGenerate() {
+    const brandName = document.getElementById("brandName");
+    const industry = document.getElementById("industry");
+    const desc = document.getElementById("brandDesc");
+    if (brandName && !brandName.value.trim()) brandName.value = "星屿茶研";
+    if (industry && industry.selectedIndex === 0) industry.selectedIndex = 1;
+    if (desc && !desc.value.trim()) {
+      desc.value = "以原叶鲜奶茶为主，搭配新中式茶点，注重健康与东方美学体验。";
+    }
+    showToast("品牌信息已进入生成流程");
+    navigate("generating");
+  }
+
+  function saveFollow() {
+    const note = document.getElementById("followNote");
+    const status = document.getElementById("followStatus");
+    const timeline = document.querySelector(".timeline");
+    const text = note && note.value.trim() ? note.value.trim() : "已电话沟通，客户希望先查看完整风险报告后再决定。";
+    const item = document.createElement("div");
+    item.className = "timeline-card";
+    item.innerHTML = `<strong class="editable">人工跟进记录</strong><span class="editable">${new Date().toLocaleString("zh-CN")}</span><small class="editable">${status.value}：${text}</small>`;
+    timeline.appendChild(item);
+    note.value = "";
+    makeEditable(item.querySelectorAll(".editable"));
+    showToast("跟进记录已保存");
+  }
+
+  function assignAdvisor() {
+    const status = document.getElementById("followStatus");
+    if (status) status.value = "跟进中";
+    showToast("已分配知识产权顾问，线索状态更新为跟进中");
+  }
+
+  function makeEditable(nodes) {
+    Array.from(nodes).forEach((node, index) => {
+      if (!node.dataset.editId) {
+        const base = node.textContent.trim().slice(0, 16).replace(/\s+/g, "-") || "copy";
+        node.dataset.editId = base + "-" + index + "-" + Array.from(document.querySelectorAll(".editable")).indexOf(node);
+      }
+      const key = storagePrefix + node.dataset.editId;
+      const saved = localStorage.getItem(key);
+      if (saved !== null) node.textContent = saved;
+
+      node.addEventListener("dblclick", (event) => {
+        event.stopPropagation();
+        if (node.closest("button") || node.closest("input") || node.closest("textarea") || node.closest("select")) return;
+        const original = node.textContent;
+        node.contentEditable = "true";
+        node.classList.add("editing");
+        node.focus();
+        document.execCommand("selectAll", false, null);
+
+        function save() {
+          node.contentEditable = "false";
+          node.classList.remove("editing");
+          localStorage.setItem(key, node.textContent.trim());
+          cleanup();
+        }
+
+        function cancel() {
+          node.textContent = original;
+          node.contentEditable = "false";
+          node.classList.remove("editing");
+          cleanup();
+        }
+
+        function onKeydown(keyEvent) {
+          if (keyEvent.key === "Enter") {
+            keyEvent.preventDefault();
+            save();
+          }
+          if (keyEvent.key === "Escape") {
+            keyEvent.preventDefault();
+            cancel();
+          }
+        }
+
+        function cleanup() {
+          node.removeEventListener("blur", save);
+          node.removeEventListener("keydown", onKeydown);
+        }
+
+        node.addEventListener("blur", save);
+        node.addEventListener("keydown", onKeydown);
+      });
+    });
+  }
+
+  document.addEventListener("click", (event) => {
+    const nav = event.target.closest("[data-nav-target]");
+    if (nav) {
+      navigate(nav.dataset.navTarget);
+      return;
+    }
+
+    const actionNode = event.target.closest("[data-action]");
+    if (!actionNode) return;
+    const action = actionNode.dataset.action;
+
+    if (action === "back") goBack();
+    if (action === "toast") showToast(actionNode.dataset.message);
+    if (action === "open-modal") openModal();
+    if (action === "close-modal") closeModal();
+    if (action === "claim-submit") {
+      closeModal();
+      showToast("已提交，完整报告与顾问服务已解锁");
+    }
+    if (action === "start-generate") startGenerate();
+    if (action === "save-follow") saveFollow();
+    if (action === "assign-advisor") assignAdvisor();
+    if (action === "toggle-admin") {
+      navigate(document.body.dataset.mode === "admin" ? "lead-detail" : "admin-leads");
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    const chip = event.target.closest("[data-chip-group] .chip");
+    if (!chip) return;
+    chip.classList.toggle("selected");
+  });
+
+  document.addEventListener("click", (event) => {
+    const segment = event.target.closest(".segmented button");
+    if (!segment) return;
+    segment.parentElement.querySelectorAll("button").forEach((button) => button.classList.remove("selected"));
+    segment.classList.add("selected");
+  });
+
+  document.addEventListener("click", (event) => {
+    const tab = event.target.closest(".tab-row button");
+    if (!tab) return;
+    tab.parentElement.querySelectorAll("button").forEach((button) => button.classList.remove("selected"));
+    tab.classList.add("selected");
+    showToast("已切换模块视图");
+  });
+
+  document.addEventListener("input", (event) => {
+    const field = event.target;
+    if (!(field instanceof HTMLTextAreaElement)) return;
+    const counter = field.parentElement && field.parentElement.querySelector(".counter");
+    if (counter) counter.textContent = `${field.value.length} / ${field.maxLength || 300}`;
+  });
+
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) closeModal();
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && modal.classList.contains("open")) closeModal();
+  });
+
+  makeEditable(document.querySelectorAll(".editable"));
+  updateTopbar("lead-detail");
+  updateNav("lead-detail");
+})();
+
+    </script>
+  </body>
+</html>

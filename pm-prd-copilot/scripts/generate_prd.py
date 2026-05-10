@@ -8,6 +8,7 @@ from pathlib import Path
 from llm_stage_runner import run_stage_with_optional_llm
 from prompt_builders import build_prd_schema, build_stage_prompt_bundle
 from pipeline_common import (
+    build_prd_context_digest,
     brief_to_prd,
     prd_markdown,
     project_paths,
@@ -55,10 +56,12 @@ def main() -> None:
         raise SystemExit(f"PRD validation failed: {errors}")
 
     write_json(paths["prd_json"], prd)
+    write_json(paths["prd_context_digest_json"], build_prd_context_digest(prd, brief))
     write_text(paths["prd_md"], prd_markdown(prd, brief))
     write_text(paths["prd_meta"], json.dumps(meta, ensure_ascii=False, indent=2))
     print(paths["prd_json"])
     print(paths["prd_md"])
+    print(paths["prd_context_digest_json"])
 
 
 if __name__ == "__main__":

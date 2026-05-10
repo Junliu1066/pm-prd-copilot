@@ -31,9 +31,11 @@ Active 项目不能硬删除，只能整理、归档副本或生成 closeout 预
 - `architecture-feedback.md`
 - `cleanup-plan.md`
 - `preference-memory-disposition.md`
+- `skill-disposition.md`
 - 可反哺架构的信息
 - 可归档清单
 - 项目偏好缓存的处理决定：清除、仅保留为项目档案、或经用户批准提炼到长期记忆
+- 项目使用过的 Skill 处置决定：`keep_active`、`watch`、`silent`、`archive_candidate`、`deprecated`、`pipeline_internal` 或 `optimize_required`
 
 这一步之后，可以执行用户批准的 archive 操作。
 
@@ -44,6 +46,7 @@ Active 项目不能硬删除，只能整理、归档副本或生成 closeout 预
 - 保留 closeout 记录。
 - 保留已沉淀到 `docs/`、`teaching/` 或 proposal 的架构反馈。
 - 不再把项目缓存当作 active 工作上下文读取。
+- 不再让仅服务该项目的 Skill 默认参与后续路由；除非用户批准继续复用，否则应按 closeout 处置进入 `silent`、`archive_candidate` 或 `pipeline_internal`。
 - 项目偏好缓存默认不跨项目复用；归档对齐后应清除 active 指针。长期记忆必须经用户明确批准。
 - 记录归档日期。
 

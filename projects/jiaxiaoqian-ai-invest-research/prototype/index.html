@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>价小前投研低保真原型</title>
+  <style>
+    :root {
+      --bg: #111722;
+      --panel: #182231;
+      --panel-2: #202c3d;
+      --line: #314054;
+      --text: #edf2f8;
+      --muted: #96a3b5;
+      --gold: #d8ad32;
+      --green: #19c37d;
+      --red: #ef5350;
+      --blue: #4f8cff;
+      --purple: #8b5cf6;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 0 24px;
+      background: #f7f9fc;
+      color: #182231;
+      border-bottom: 1px solid #d9e0e8;
+    }
+
+    .brand {
+      font-weight: 800;
+      font-size: 18px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .nav a,
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      padding: 0 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid transparent;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .nav a.active {
+      background: #2f80d8;
+      color: #fff;
+    }
+
+    .search {
+      margin-left: auto;
+      width: min(280px, 22vw);
+      height: 36px;
+      border-radius: 18px;
+      border: 1px solid #d6dde6;
+      background: #fff;
+      color: #8b95a1;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      font-size: 13px;
+    }
+
+    .page {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 80px;
+      min-height: calc(100vh - 64px);
+    }
+
+    main {
+      max-width: 1240px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    aside {
+      border-left: 1px solid var(--line);
+      background: #161f2c;
+      padding-top: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    aside div {
+      writing-mode: vertical-rl;
+      letter-spacing: 2px;
+    }
+
+    section {
+      margin-bottom: 42px;
+      scroll-margin-top: 84px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      font-size: 22px;
+      margin-bottom: 16px;
+      color: var(--gold);
+    }
+
+    h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .metric {
+      background: linear-gradient(180deg, #202b3a, #17202d);
+      border: 1px solid #36465d;
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 96px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 24px;
+      margin-top: 8px;
+      color: var(--text);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      height: 30px;
+      padding: 0 12px;
+      border-radius: 15px;
+      border: 1px solid #40536e;
+      color: var(--muted);
+      background: #151e2a;
+      font-size: 13px;
+    }
+
+    .pill.active {
+      color: #111722;
+      background: var(--gold);
+      border-color: var(--gold);
+      font-weight: 700;
+    }
+
+    .event-row {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 1fr);
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .card {
+      background: var(--panel-2);
+      border: 1px solid #3a4c63;
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .badge {
+      display: inline-block;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 12px;
+      background: #2b3a4e;
+      color: var(--muted);
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+
+    .badge.red {
+      background: rgba(239, 83, 80, 0.16);
+      color: #ff8f8f;
+    }
+
+    .badge.green {
+      background: rgba(25, 195, 125, 0.16);
+      color: #6ee7aa;
+    }
+
+    .badge.gold {
+      background: rgba(216, 173, 50, 0.16);
+      color: #f1cf6f;
+    }
+
+    .placeholder {
+      min-height: 220px;
+      border: 1px dashed #53657b;
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(79, 140, 255, .14), transparent 35%),
+        linear-gradient(45deg, rgba(216, 173, 50, .12), transparent 55%),
+        #17202d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      text-align: center;
+      padding: 18px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .tab {
+      border-radius: 6px;
+      padding: 10px 14px;
+      background: #141c27;
+      border: 1px solid #2e3d51;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .tab.active {
+      background: var(--gold);
+      color: #111722;
+      border-color: var(--gold);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid #304158;
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: #f0ce68;
+      font-weight: 700;
+    }
+
+    .wire-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .notice {
+      border: 1px solid rgba(216, 173, 50, .45);
+      background: rgba(216, 173, 50, .08);
+      color: #f7d77f;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      header {
+        height: auto;
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 14px;
+      }
+
+      .search {
+        margin-left: 0;
+        width: 100%;
+      }
+
+      .page {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        display: none;
+      }
+
+      main {
+        padding: 16px;
+      }
+
+      .grid-2,
+      .grid-3,
+      .grid-4,
+      .event-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">价小前投研</div>
+    <nav class="nav">
+      <a class="active" href="#tracking">高频跟踪</a>
+      <a href="#event-detail">事件详情</a>
+      <a href="#concept">概念中心</a>
+      <a href="#review">行情复盘</a>
+      <a href="#stock">个股详情</a>
+      <a href="#ai-assistant">AI 助手</a>
+      <a href="#admin">Admin</a>
+    </nav>
+    <div class="search">搜索股票、概念、事件...</div>
+  </header>
+
+  <div class="page">
+    <main>
+      <section>
+        <h1>价小前投研低保真原型</h1>
+        <p class="muted">用于研发和设计对齐信息架构，不代表最终视觉稿。所有 AI 输出默认仅供研究参考，不构成投资建议。</p>
+        <div class="notice">关键原则：事件、概念、个股、AI 分析都必须有来源、更新时间、置信度和风险提示。</div>
+      </section>
+
+      <section id="tracking">
+        <div class="wire-title">
+          <h2>高频跟踪 / 事件中心</h2>
+          <span class="pill active">当前交易日</span>
+        </div>
+        <div class="grid grid-4">
+          <div class="metric">事件胜率<strong>65.4%</strong><span class="muted">样例</span></div>
+          <div class="metric">大盘上涨率<strong>60.6%</strong><span class="muted">样例</span></div>
+          <div class="metric">平均振幅<strong>+0.40%</strong><span class="muted">样例</span></div>
+          <div class="metric">事件数<strong>156</strong><span class="muted">样例</span></div>
+        </div>
+
+        <div class="grid grid-2" style="margin-top:14px;">
+          <div class="panel">
+            <h3>财经日历</h3>
+            <div class="placeholder">月历区<br />显示每日事件数、涨停数、未来事件</div>
+          </div>
+          <div class="panel">
+            <h3>事件 TOP 排行</h3>
+            <table>
+              <tr><th>#</th><th>事件</th><th>涨幅</th></tr>
+              <tr><td>1</td><td>新能源产业链招标审查</td><td class="badge red">+4.24%</td></tr>
+              <tr><td>2</td><td>AI 芯片出口限制更新</td><td class="badge red">+4.11%</td></tr>
+              <tr><td>3</td><td>煤炭期货与板块共振</td><td class="badge red">+3.21%</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:14px;">
+          <div class="toolbar">
+            <span class="pill active">列表</span>
+            <span class="pill">题材</span>
+            <span class="pill">S级</span>
+            <span class="pill">行业筛选</span>
+            <span class="pill">最新排序</span>
+          </div>
+          <div class="event-row">
+            <div class="card">
+              <h3>嘉能可与固态电池企业达成合作</h3>
+              <span class="badge red">看涨 4</span>
+              <span class="badge green">看跌 1</span>
+              <p class="muted">平均振幅 -0.47%，最大振幅 +0.94%</p>
+            </div>
+            <div class="card">
+              <h3>事件描述</h3>
+              <p>市场监管总局已无条件批准相关经营者新设合营企业案。该案例用于展示事件详情布局。</p>
+              <span class="badge gold">相关股票</span>
+              <span class="badge gold">相关概念</span>
+              <span class="badge">历史事件对比</span>
+              <span class="badge">传播链分析</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="event-detail">
+        <div class="wire-title">
+          <h2>事件详情</h2>
+          <span class="pill active">S 级事件</span>
+        </div>
+        <div class="panel">
+          <h3>新能源产业链招标审查更新</h3>
+          <p class="muted">更新时间：2026-04-26 14:32 · 来源：公告 / 新闻 / 行情数据 · AI 生成仅供研究参考</p>
+          <div class="grid grid-4">
+            <div class="metric">事件重要度<strong>S</strong><span class="muted">来源权重 + 市场反应</span></div>
+            <div class="metric">相关股票<strong>11</strong><span class="muted">按关联原因排序</span></div>
+            <div class="metric">相关概念<strong>4</strong><span class="muted">新能源 / 电池 / 储能</span></div>
+            <div class="metric">置信度<strong>86%</strong><span class="muted">仍需人工复核高风险表达</span></div>
+          </div>
+          <div class="grid grid-2" style="margin-top:14px;">
+            <div class="card">
+              <h3>事件背景与影响链路</h3>
+              <p>系统把原始资讯、公告和行情异动合并成事件，并展示影响方向、相关产业链节点、历史相似事件和待观察变量。</p>
+              <span class="badge gold">来源引用</span>
+              <span class="badge">历史对比</span>
+              <span class="badge">传播链</span>
+            </div>
+            <div class="card">
+              <h3>AI 摘要与风险提示</h3>
+              <p>当前信息支持“相关板块关注度提升”的研究结论，但不足以支持确定性投资判断。</p>
+              <span class="badge red">不构成投资建议</span>
+              <span class="badge">待观察：订单落地</span>
+              <span class="badge">待观察：政策口径</span>
+            </div>
+          </div>
+          <div class="grid grid-2" style="margin-top:14px;">
+            <div class="panel">
+              <h3>相关股票</h3>
+              <table>
+                <tr><th>股票</th><th>关联原因</th><th>动作</th></tr>
+                <tr><td>寒武纪</td><td>AI 芯片产业链关联</td><td>进入个股详情</td></tr>
+                <tr><td>宁德时代</td><td>电池产业链关联</td><td>加入关注</td></tr>
+              </table>
+            </div>
+            <div class="panel">
+              <h3>相关概念</h3>
+              <table>
+                <tr><th>概念</th><th>热度</th><th>动作</th></tr>
+                <tr><td>储能</td><td class="badge red">升温</td><td>查看概念</td></tr>
+                <tr><td>AI 芯片</td><td class="badge gold">高关注</td><td>查看概念</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="concept">
+        <div class="wire-title">
+          <h2>概念中心</h2>
+          <span class="pill">概念统计中心</span>
+        </div>
+        <div class="panel">
+          <div class="placeholder" style="min-height:120px;">搜索区：搜索概念板块、个股、关键词</div>
+          <div class="toolbar" style="margin-top:14px;">
+            <span class="pill active">今天</span>
+            <span class="pill">昨天</span>
+            <span class="pill">一周前</span>
+            <span class="pill">涨跌幅排序</span>
+          </div>
+          <div class="grid grid-2">
+            <div class="card">
+              <h3>煤炭 <span class="badge red">+7.74%</span></h3>
+              <p class="muted">煤炭板块受政策、供需和期货价格影响，展示概念定义和核心事件。</p>
+              <span class="badge gold">查看个股</span>
+              <span class="badge">历史时间轴</span>
+            </div>
+            <div class="card">
+              <h3>民爆 <span class="badge red">+6.29%</span></h3>
+              <p class="muted">展示概念卡片布局、热度、相关股票数量和更新时间。</p>
+              <span class="badge gold">查看个股</span>
+              <span class="badge">历史时间轴</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="review">
+        <div class="wire-title">
+          <h2>行情复盘</h2>
+          <span class="pill active">市场全景</span>
+        </div>
+        <div class="grid grid-3">
+          <div class="panel"><h3>板块热力图</h3><div class="placeholder">红/黄/绿矩形块</div></div>
+          <div class="panel"><h3>板块关系图</h3><div class="placeholder">节点关系图</div></div>
+          <div class="panel"><h3>热门概念词云</h3><div class="placeholder">煤炭 / 大豆 / 储能 / 芯片</div></div>
+        </div>
+        <div class="panel" style="margin-top:14px;">
+          <h3>概念异动监控</h3>
+          <div class="placeholder">分时曲线 + 气泡事件点 + 板块异动明细</div>
+        </div>
+      </section>
+
+      <section id="stock">
+        <div class="wire-title">
+          <h2>个股详情</h2>
+          <span class="pill">688256</span>
+        </div>
+        <div class="panel">
+          <h3>寒武纪 <span class="badge">半导体</span> <span class="badge">AI芯片</span></h3>
+          <div class="grid grid-3">
+            <div class="metric">最新价<strong style="color:var(--green);">1,068.00</strong><span class="muted">-5.32%</span></div>
+            <div class="metric">市值股本<strong>4718.99亿</strong><span class="muted">样例</span></div>
+            <div class="metric">主力动态<strong style="color:var(--red);">+106.93万股</strong><span class="muted">样例</span></div>
+          </div>
+          <div class="tabs" style="margin-top:16px;">
+            <div class="tab active">深度分析</div>
+            <div class="tab">股票行情</div>
+            <div class="tab">概念板块</div>
+            <div class="tab">动态跟踪</div>
+            <div class="tab">财务全景</div>
+            <div class="tab">公司档案</div>
+          </div>
+          <div class="grid grid-2">
+            <div class="card">
+              <h3>核心定位</h3>
+              <p>国产 AI 算力芯片全栈龙头，大模型时代核心替代者。此处为结构示例。</p>
+            </div>
+            <div class="card">
+              <h3>竞争地位评分</h3>
+              <div class="placeholder" style="min-height:150px;">雷达图 / 横向评分条</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="ai-assistant">
+        <div class="wire-title">
+          <h2>AI 投研助手</h2>
+          <span class="pill active">RAG + 审核</span>
+        </div>
+        <div class="panel">
+          <div class="grid grid-2">
+            <div class="card">
+              <h3>输入对象</h3>
+              <p class="muted">支持从事件、概念、个股或市场复盘进入，也支持手动搜索对象。</p>
+              <div class="toolbar">
+                <span class="pill active">事件</span>
+                <span class="pill">概念</span>
+                <span class="pill">股票</span>
+                <span class="pill">市场</span>
+              </div>
+              <div class="placeholder" style="min-height:120px;">对象上下文：事件标题、相关股票、相关概念、来源列表</div>
+            </div>
+            <div class="card">
+              <h3>模型路由与审核状态</h3>
+              <table>
+                <tr><th>判断项</th><th>结果</th></tr>
+                <tr><td>任务类型</td><td>事件摘要 + 风险识别</td></tr>
+                <tr><td>上下文</td><td>中等长度，使用 RAG</td></tr>
+                <tr><td>风险等级</td><td class="badge gold">P1 待审</td></tr>
+                <tr><td>处理方式</td><td>生成后进入人工复核</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="grid grid-2" style="margin-top:14px;">
+            <div class="panel">
+              <h3>AI 生成结果</h3>
+              <p>摘要、影响链路、相关股票、相关概念、待观察变量和风险点按结构化卡片输出。</p>
+              <span class="badge gold">来源 5 条</span>
+              <span class="badge">置信度 82%</span>
+              <span class="badge red">仅供研究参考</span>
+            </div>
+            <div class="panel">
+              <h3>用户反馈</h3>
+              <div class="toolbar">
+                <span class="pill">有用</span>
+                <span class="pill">无用</span>
+                <span class="pill">事实错误</span>
+                <span class="pill">缺少来源</span>
+                <span class="pill">内容违规</span>
+              </div>
+              <p class="muted">反馈进入质量优化和合规复核队列，不能直接修改正式结论。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="admin">
+        <div class="wire-title">
+          <h2>Admin 审核后台</h2>
+          <span class="pill active">待审核</span>
+        </div>
+        <div class="panel">
+          <table>
+            <tr><th>对象</th><th>命中规则</th><th>来源数</th><th>状态</th><th>操作</th></tr>
+            <tr><td>AI Insight</td><td>疑似买卖建议</td><td>3</td><td>待审</td><td>通过 / 拦截 / 退回</td></tr>
+            <tr><td>事件</td><td>传闻低可信</td><td>1</td><td>待审</td><td>通过 / 拦截 / 升级</td></tr>
+            <tr><td>用户举报</td><td>事实错误</td><td>2</td><td>待处理</td><td>修正 / 隐藏</td></tr>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <aside>
+      <div>关注股票</div>
+      <div>关注事件</div>
+      <div>热门概念</div>
+      <div>反馈</div>
+    </aside>
+  </div>
+</body>
+</html>

@@ -10,6 +10,15 @@
 | BUG-2026-04-30-003 | 2026-04-30 | P2 | internal delivery packaging | fixed | Commit `22ad7ff` generalized `package_internal_delivery.py`, adds `MANIFEST.json`, excludes runs/cache/zip by default, and validates demo / fitness / jiaxiaoqian packages in `/private/tmp`. Regression now checks internal package output. | The script was tied to an older project layout and required `交付包目录说明.md`, so generic projects such as demo and fitness failed. | Keep internal package as trusted-team tooling, separate from external B packages and redaction workflow. | Run real-output checks before using it for a new project delivery. | Yes before sharing any generated package externally; no for trusted internal package generation after project approval. |
 | WATCH-2026-05-04-001 | 2026-05-04 | P3 | workspace review clarity | watch | 2026-05-04 overnight check found 48 dirty files before report writes. `git diff --check`, strict regression, advisory check-only harness, automation health, and Finding 3 checks passed despite the dirty workspace. | Accumulated unrelated proposal, archive, AI-intel, memory-cache, prototype, project-analysis, and generated project artifacts from prior work can make release or commit review harder. | Keep the workspace untouched in this automation. Use a separate review-only staging/cleanup partition before release or commit. Do not archive, delete, commit, push, or move files without explicit approval. | Continue watching in scheduled checks and ask for a separate cleanup/staging decision when preparing any release, commit, or public review. | No for watch logging; yes before cleanup, archive, delete, commit, push, or release packaging. |
 
+## Development Thread Audit - 2026-05-10
+
+- Result: no confirmed bugs in active development threads.
+- Active 判定依据: `docs/thread_registry.md`、`projects/**/development-test-agent-package/**`、当前 git 状态和开发包文档均已核对；没有项目同时满足 active-like 状态、开发/测试/修复类型、当前开发输入/contract/validation plan、下一步开发动作四项条件。
+- Confirmed excluded scope: governance/proposal/archive/raw/zip lifecycle items, parked project inventory, candidate `architecture-capable-development-agent` package, and all untracked project evidence stayed report-only.
+- Validation evidence: `git diff --check` passed; `python3 pm-prd-copilot/scripts/run_regression.py --base-dir . --strict` passed; `python3 harness/run_harness.py --base-dir . --project architecture-capable-development-agent --mode advisory --check-only` passed.
+- Watch update: dirty workspace before this report write was 364 paths: 29 tracked modified and 335 untracked. This is a release/commit review risk, not an active development bug. Continue report-only monitoring unless the user approves staging, cleanup, archive, delete, commit, push, or PR work.
+- Rollback: remove this section and `docs/error_reports/development_threads/2026-05-10.md` if this audit record needs to be reverted.
+
 ## Status Rules
 
 - `open`: 已确认存在，尚未修复。

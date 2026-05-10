@@ -7,7 +7,7 @@
 
 ## 1. 总体结论
 
-当前主功能可用，candidate plugin、skill 和 harness 没有发现紧急缺文件问题。真正的剩余风险不是“缺能力”，而是“候选能力过多、层级过厚、部分边界还需要继续瘦身”。
+当前主功能可用，candidate plugin、skill 和 harness 没有发现紧急缺文件问题。真正的剩余风险不是“缺能力”，而是“候选能力过多、层级过厚、部分边界还需要继续瘦身和按项目动态管理”。
 
 本轮建议：
 
@@ -15,7 +15,7 @@
 2. 4 个按需 harness checker 继续保持按需触发，不进入所有项目默认必过。
 3. 暂不新增 skill、harness、workflow stage 或 plugin。
 4. 已按用户批准完成两项最小收口：`memory-learning-extractor` 从 draft 改为 candidate；delivery suite 高风险 skill wording 改为轻量 / 完整模式分层。
-5. 下一步不要继续加工具，先观察真实输出是否仍过重。
+5. 下一步不要继续加工具，先观察真实项目中哪些能力被触发、哪些未触发，再决定动态挂载、收口或瘦身。
 
 ## 2. 当前候选能力总表
 
@@ -26,6 +26,16 @@
 | 无 plugin 路径的核心概念 skill | 8 | workflow 有引用，registry 中无代码路径 | 需要单独收口，不建议马上补插件。 |
 | Harness checker | 16 个 `*_checker.py` | run_harness 可运行，check-only 通过 | stable 与 candidate 混在同一 runner 中，但按需 checker 未请求时 pass。 |
 | Router 后期能力入口 | 2 个主要后期入口：`closeout`、`ui-style` | 已显式命令触发 | 不影响 PRD 主链路。 |
+
+### 2.1 动态管理口径
+
+candidate 能力不再只按“保留 / 剔除”判断。后续按项目动态管理：
+
+- 默认只启用稳定底线和当前项目必要能力。
+- 项目出现 AI、外部分发、Codex 开发任务包、偏好学习、原型 / UI、治理变更时，才挂载对应 skill / harness。
+- 动态启用优先使用 `check-only` 和 proposal，不刷新报告、不写 registry、不转 stable。
+- closeout 时记录本项目实际触发的 skill / harness、收益、噪音和下次默认策略。
+- 多项目反复触发且能稳定降低风险时，才进入 promotion gate；长期未触发或只对单项目有用的能力进入 pruning gate。
 
 ## 3. Plugin 复核
 
@@ -88,12 +98,14 @@
 
 ### Harness 结论
 
-当前不建议继续改 harness。原因：
+当前不建议继续改 harness 代码。原因：
 
 - `run_harness.py --check-only` 已通过。
 - 按需 checker 未请求时不会污染普通项目。
 - 再加检查会增加维护成本。
 - 真正更需要处理的是 skill / workflow / registry 的候选状态边界。
+
+但 harness 应继续支持项目动态管理：按项目触发条件挂载 `delivery_plan`、`ai_solution`、`agentic_delivery`、`preference_cache`、`external_redaction`、`audit` 和 `efficiency`，未触发时保持 pass / skipped，不把普通项目变重。
 
 ## 6. 输出过重风险
 
@@ -145,7 +157,7 @@ PRD prototype suite 和 UI style selector 属于后期原型 / UI / UX 链路。
 | 继续跑 regression / harness | 可以 | 验证主链路不受影响。 | 做。 |
 | 生成 `memory-learning-extractor` 处置方案 | 已完成最小收口 | draft 被 workflow 引用的问题已消除。 | 后续只观察。 |
 | 抽查 delivery suite wording | 已完成小范围 wording 收敛 | 防“默认全量治理”。 | 后续只观察真实输出。 |
-| 修改 skill / harness / registry | 不建议今晚做 | 会改变长期能力边界，需你早上拍板。 | 不做。 |
+| 修改 skill / harness / registry | 不建议直接改稳定层 | 会改变长期能力边界，需用户拍板。 | 先记录动态挂载策略，不改代码。 |
 | 删除 raw / proposal / archive notes | 不允许 | 需要到期后二次批准。 | 不做。 |
 | 提交项目产物 | 不允许 | 会污染稳定核心。 | 不做。 |
 
@@ -158,6 +170,7 @@ PRD prototype suite 和 UI style selector 属于后期原型 / UI / UX 链路。
 | delivery suite 是否继续瘦身 wording | 暂停继续改，先看真实输出 | 当前已做轻量 / 完整模式分层；继续改可能过早优化。 |
 | 4 个按需 checker 是否 stable | 不 stable，继续 candidate / conditional | 保留保护能力，同时控制维护成本。 |
 | 是否新增 pruning harness | 不新增 | 当前报告 + 现有 regression 足够；新增 harness 会违背最小化原则。 |
+| 是否按项目动态管理 skill / harness | 是 | 保留候选能力价值，同时避免默认全开污染普通项目。 |
 | 是否提交本报告 | 早上你验收后再决定 | 现在不 staging、不 commit，避免提前固化分类。 |
 
 ## 9. 建议执行顺序

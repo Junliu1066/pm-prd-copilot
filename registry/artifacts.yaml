@@ -115,6 +115,21 @@ artifacts:
     path_pattern: projects/{project}/02_prd.generated.md
     type: markdown
     owner_stage: prd_drafting
+  prd_context_digest:
+    path_pattern: projects/{project}/analysis/prd_context_digest.json
+    type: json
+    owner_stage: prd_drafting
+    retention: supervised_project_context
+    required_fields:
+      - target_users
+      - core_scenarios
+      - mvp_scope
+      - key_flows
+      - constraints
+      - risk_seeds
+      - acceptance_focus
+      - metric_seeds
+    purpose: Shared compact PRD context for downstream user stories, risk, and tracking stages to avoid repeated full-PRD input.
   final_prd_markdown:
     path_pattern: projects/{project}/02_prd.final.md
     type: markdown

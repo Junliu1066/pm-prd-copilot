@@ -19,6 +19,40 @@ efficiency_steward:
     - update_memory
     - lower_quality_thresholds
     - approve_own_proposals
+    - decide_skill_removal
+    - change_long_term_rules
+    - bypass_risk_review
+    - bypass_acceptance_standards
+  must_preserve:
+    - prd_quality
+    - risk_review
+    - acceptance_standards
+    - required_evidence_chain
+    - downstream_module_inputs
+    - supervised_long_term_rule_changes
+
+finding_contract:
+  required_fields:
+    - waste_type
+    - severity
+    - evidence
+    - value_level
+    - disposition
+    - action_target
+    - owner
+    - retest_required
+    - rollback_condition
+  disposition_values:
+    - record
+    - watch
+    - optimize
+    - gate
+    - escalate
+  value_levels:
+    - high
+    - medium
+    - low
+    - unknown
 
 run_limits:
   max_skill_calls: 8

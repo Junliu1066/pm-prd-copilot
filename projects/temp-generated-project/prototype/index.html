@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>临时需求交付包生成器</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --ink: #1f2933;
+      --muted: #667085;
+      --line: #d9dee7;
+      --accent: #167c80;
+      --accent-soft: #e4f4f3;
+      --warn: #9a5b13;
+      --warn-soft: #fff4df;
+      --danger: #a33a31;
+      --danger-soft: #ffe9e6;
+      --ok: #286b3d;
+      --ok-soft: #e8f5ec;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: center;
+      padding: 16px 28px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h1, h2, h3, p {
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      font-size: 16px;
+      margin-bottom: 12px;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      font-size: 14px;
+      margin-bottom: 8px;
+      letter-spacing: 0;
+    }
+
+    .header-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .chip.ok {
+      border-color: #b8dec6;
+      background: var(--ok-soft);
+      color: var(--ok);
+    }
+
+    .chip.warn {
+      border-color: #f2c983;
+      background: var(--warn-soft);
+      color: var(--warn);
+    }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 24px auto 40px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: minmax(300px, 0.9fr) minmax(360px, 1.1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 10px 12px;
+      color: var(--ink);
+      background: #fff;
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 126px;
+      resize: vertical;
+    }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    button {
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #fff;
+      border-radius: 6px;
+      padding: 10px 14px;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      background: #fff;
+      color: var(--accent);
+    }
+
+    .artifact-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .artifact {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfe;
+    }
+
+    .artifact p,
+    .note,
+    .small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .clarify {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .bucket {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 12px;
+      min-height: 164px;
+    }
+
+    .bucket ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .bucket.danger {
+      border-color: #f0b5ae;
+      background: var(--danger-soft);
+    }
+
+    .bucket.warn {
+      border-color: #f2c983;
+      background: var(--warn-soft);
+    }
+
+    .checks {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .check {
+      min-height: 112px;
+      padding: 14px;
+      border-radius: 8px;
+      border: 1px solid #b8dec6;
+      background: var(--ok-soft);
+    }
+
+    .check.pending {
+      border-color: #f2c983;
+      background: var(--warn-soft);
+    }
+
+    footer {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      padding: 8px 0 26px;
+    }
+
+    @media (max-width: 900px) {
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .header-meta {
+        justify-content: flex-start;
+      }
+
+      .grid,
+      .clarify,
+      .checks {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>临时需求交付包生成器</h1>
+      <p class="small">把临时输入整理为需求简报、PRD、原型说明、开发文档和交付检查。</p>
+    </div>
+    <div class="header-meta">
+      <span class="chip">projects/temp-generated-project/</span>
+      <span class="chip warn">临时生成</span>
+      <span class="chip ok">不改稳定架构</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="grid">
+      <div class="panel">
+        <h2>项目输入</h2>
+        <div class="field">
+          <label for="project-id">项目英文名</label>
+          <input id="project-id" value="temp-generated-project">
+        </div>
+        <div class="field">
+          <label for="project-name">项目中文名</label>
+          <input id="project-name" value="临时需求交付包生成器">
+        </div>
+        <div class="field">
+          <label for="need">一句话需求</label>
+          <textarea id="need">把一段临时业务输入整理成需求简报、PRD、原型说明、开发文档和检查报告，所有文件只写入独立项目目录。</textarea>
+        </div>
+        <div class="field">
+          <label for="audience">目标读者</label>
+          <select id="audience">
+            <option>核心团队 / 后续开发执行者</option>
+            <option>外部开发团队</option>
+            <option>投资人或业务评审</option>
+          </select>
+        </div>
+        <div class="actions">
+          <button type="button" id="simulate">生成预览</button>
+          <button type="button" class="secondary" id="check">查看检查</button>
+        </div>
+        <p class="note" id="input-note">写入边界: 仅允许 projects/temp-generated-project/。</p>
+      </div>
+
+      <div class="panel">
+        <h2>产物概览</h2>
+        <div class="artifact-list">
+          <div class="artifact">
+            <div>
+              <h3>需求简报</h3>
+              <p>事实、假设、P0/P1/P2 问题、建议范围。</p>
+            </div>
+            <span class="chip ok">已生成</span>
+          </div>
+          <div class="artifact">
+            <div>
+              <h3>PRD</h3>
+              <p>目标、非目标、MVP 范围、指标、风险和验收。</p>
+            </div>
+            <span class="chip ok">已生成</span>
+          </div>
+          <div class="artifact">
+            <div>
+              <h3>原型说明</h3>
+              <p>页面结构、关键区块、状态和原型验收。</p>
+            </div>
+            <span class="chip ok">已生成</span>
+          </div>
+          <div class="artifact">
+            <div>
+              <h3>开发文档</h3>
+              <p>技术栈、模块边界、数据结构、任务拆分和测试策略。</p>
+            </div>
+            <span class="chip warn">需评审</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>澄清与范围</h2>
+      <div class="clarify">
+        <div class="bucket">
+          <h3>Facts</h3>
+          <ul>
+            <li>项目是临时生成。</li>
+            <li>必须独立目录写入。</li>
+            <li>不改治理架构。</li>
+          </ul>
+        </div>
+        <div class="bucket">
+          <h3>Assumptions</h3>
+          <ul>
+            <li>主题采用临时交付包生成器。</li>
+            <li>静态原型足够评审。</li>
+            <li>MVP 不接外部服务。</li>
+          </ul>
+        </div>
+        <div class="bucket danger">
+          <h3>P0</h3>
+          <ul>
+            <li>真实业务主题未指定。</li>
+            <li>是否产品化未确认。</li>
+          </ul>
+        </div>
+        <div class="bucket warn">
+          <h3>P1</h3>
+          <ul>
+            <li>是否导出 zip。</li>
+            <li>是否接入 AI 生成。</li>
+          </ul>
+        </div>
+        <div class="bucket">
+          <h3>P2</h3>
+          <ul>
+            <li>是否需要评论。</li>
+            <li>是否需要任务看板。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="checks">
+      <h2>交付检查</h2>
+      <div class="checks">
+        <div class="check">
+          <h3>写入边界</h3>
+          <p class="small">新增产物限定在项目目录内。</p>
+        </div>
+        <div class="check">
+          <h3>产物完整性</h3>
+          <p class="small">PRD、原型说明、开发文档和 closeout 齐全。</p>
+        </div>
+        <div class="check pending">
+          <h3>人工评审</h3>
+          <p class="small">真实业务主题和是否产品化仍待确认。</p>
+        </div>
+        <div class="check">
+          <h3>架构反馈</h3>
+          <p class="small">稳定改进建议仅写入 closeout。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    静态低保真原型，仅用于临时项目结构评审。
+  </footer>
+
+  <script>
+    const simulateButton = document.getElementById("simulate");
+    const checkButton = document.getElementById("check");
+    const inputNote = document.getElementById("input-note");
+    const checks = document.getElementById("checks");
+
+    simulateButton.addEventListener("click", () => {
+      inputNote.textContent = "预览已生成: 需求简报、PRD、原型说明、开发文档、交付检查。";
+    });
+
+    checkButton.addEventListener("click", () => {
+      checks.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  </script>
+</body>
+</html>

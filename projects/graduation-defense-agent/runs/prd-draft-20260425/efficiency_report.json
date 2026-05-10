@@ -1,0 +1,77 @@
+{
+  "run_id": "prd-draft-20260425",
+  "project_id": "graduation-defense-agent",
+  "status": "pass",
+  "skill_call_count": 0,
+  "mcp_call_count": 0,
+  "manifest_enabled_skills": [
+    "technical-scope-planner",
+    "release-roadmap-planner",
+    "effort-estimator",
+    "delivery-effect-definer",
+    "delivery-quality-reviewer",
+    "capability-enablement-planner",
+    "skill-mcp-routing-planner",
+    "development-governance-orchestrator",
+    "codex-task-package-writer",
+    "ai-capability-mapper",
+    "model-selection-planner",
+    "prompt-architecture-designer",
+    "rag-architecture-planner",
+    "conversation-memory-planner",
+    "learner-profile-modeler",
+    "adaptive-coaching-planner",
+    "ai-technical-architecture-planner",
+    "ai-solution-reviewer",
+    "agentic-delivery-orchestrator"
+  ],
+  "total_artifact_chars": 14539,
+  "artifact_metrics": [
+    {
+      "artifact": "requirement_brief",
+      "path": "/Users/liujun/Desktop/产品经理skill/projects/graduation-defense-agent/01_requirement_brief.md",
+      "chars": 698,
+      "line_count": 21,
+      "limit": 12000,
+      "repeated_line_count": 0,
+      "long_line_count": 0
+    },
+    {
+      "artifact": "prd_markdown",
+      "path": "/Users/liujun/Desktop/产品经理skill/projects/graduation-defense-agent/02_prd.generated.md",
+      "chars": 13841,
+      "line_count": 484,
+      "limit": 30000,
+      "repeated_line_count": 0,
+      "long_line_count": 0
+    },
+    {
+      "artifact": "user_stories",
+      "path": "/Users/liujun/Desktop/产品经理skill/projects/graduation-defense-agent/03_user_stories.generated.md",
+      "chars": 0,
+      "line_count": 0,
+      "limit": 18000,
+      "repeated_line_count": 0,
+      "long_line_count": 0
+    },
+    {
+      "artifact": "risk_report",
+      "path": "/Users/liujun/Desktop/产品经理skill/projects/graduation-defense-agent/04_risk_check.generated.md",
+      "chars": 0,
+      "line_count": 0,
+      "limit": 18000,
+      "repeated_line_count": 0,
+      "long_line_count": 0
+    },
+    {
+      "artifact": "tracking_plan",
+      "path": "/Users/liujun/Desktop/产品经理skill/projects/graduation-defense-agent/05_tracking_plan.generated.md",
+      "chars": 0,
+      "line_count": 0,
+      "limit": 20000,
+      "repeated_line_count": 0,
+      "long_line_count": 0
+    }
+  ],
+  "findings": []
+}

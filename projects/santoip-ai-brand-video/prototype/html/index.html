@@ -1,0 +1,567 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Santoip AI 品牌视频生成器原型</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body data-mode="customer">
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand" data-nav-target="brand-create">
+          <div class="brand-mark">S</div>
+          <div>
+            <div class="brand-name editable">Santoip AI</div>
+            <div class="brand-sub editable">AI 商标品牌视频生成器</div>
+          </div>
+        </div>
+
+        <button class="primary-create" data-nav-target="brand-create">
+          <span class="plus">+</span>
+          <span>创建品牌视频</span>
+        </button>
+
+        <div class="nav-group customer-nav">
+          <div class="nav-title editable">项目</div>
+          <button class="nav-item" data-nav-target="lead-detail">
+            <span class="nav-icon">□</span><span class="nav-label">我的项目</span>
+          </button>
+          <button class="nav-item" data-nav-target="lead-detail">
+            <span class="nav-icon">◇</span><span class="nav-label">商标初筛</span>
+          </button>
+          <button class="nav-item" data-nav-target="case-gallery">
+            <span class="nav-icon">▦</span><span class="nav-label">案例灵感</span>
+          </button>
+          <button class="nav-item lower" data-action="toast" data-message="帮助中心已打开">
+            <span class="nav-icon">?</span><span class="nav-label">帮助中心</span>
+          </button>
+        </div>
+
+        <div class="nav-group admin-nav">
+          <button class="nav-item" data-nav-target="admin-leads">
+            <span class="nav-icon">◇</span><span class="nav-label">管理员后台</span>
+          </button>
+          <button class="nav-item" data-action="toast" data-message="数据看板为后续扩展页面">
+            <span class="nav-icon">▥</span><span class="nav-label">数据看板</span>
+          </button>
+          <button class="nav-item" data-nav-target="admin-leads">
+            <span class="nav-icon">▣</span><span class="nav-label">线索管理</span>
+          </button>
+          <button class="nav-item" data-nav-target="lead-detail">
+            <span class="nav-icon">▤</span><span class="nav-label">项目管理</span>
+          </button>
+          <button class="nav-item" data-nav-target="result">
+            <span class="nav-icon">▻</span><span class="nav-label">视频任务</span>
+          </button>
+          <button class="nav-item" data-action="toast" data-message="模型日志为后续扩展页面">
+            <span class="nav-icon">▥</span><span class="nav-label">模型日志</span>
+          </button>
+          <button class="nav-item" data-action="toast" data-message="配置中心为后续扩展页面">
+            <span class="nav-icon">⚙</span><span class="nav-label">配置中心</span>
+          </button>
+        </div>
+
+        <div class="sidebar-bottom">
+          <div class="quota-card">
+            <div class="muted editable">剩余额度</div>
+            <div class="quota-number"><span class="editable">3</span><small>/ 10 次</small></div>
+            <div class="muted editable">每日刷新 10 次</div>
+            <div class="meter"><span style="width:42%"></span></div>
+          </div>
+
+          <div class="advisor-card">
+            <div class="editable">添加知识产权顾问</div>
+            <small class="editable">一对一专业服务</small>
+            <button class="mini-primary" data-action="open-modal">立即添加</button>
+          </div>
+
+          <div class="user-card">
+            <div class="avatar">张</div>
+            <div>
+              <div class="editable">张先生</div>
+              <small class="editable role-copy">创业者</small>
+            </div>
+            <button class="ghost-icon" data-action="toggle-admin">⌄</button>
+          </div>
+        </div>
+      </aside>
+
+      <main class="workspace">
+        <header class="topbar">
+          <button class="ghost-button back-control" data-action="back">← 返回</button>
+          <div class="top-spacer"></div>
+          <button class="outline-button">企业服务</button>
+          <button class="icon-button has-dot" data-action="toast" data-message="暂无新通知">⌁</button>
+          <button class="avatar-button" data-action="toggle-admin">张</button>
+        </header>
+
+        <section class="screen active" data-screen="lead-detail">
+          <div class="page-heading compact">
+            <button class="text-link" data-nav-target="admin-leads">← 返回线索列表</button>
+            <div class="title-row">
+              <h1 class="editable">线索详情：星屿茶研</h1>
+              <button class="outline-accent" data-action="assign-advisor">分配顾问</button>
+            </div>
+          </div>
+
+          <div class="detail-grid top">
+            <article class="panel">
+              <h2><span class="section-icon">▧</span><span class="editable">基础信息</span></h2>
+              <div class="kv-grid">
+                <div><label>品牌名</label><strong class="editable">星屿茶研</strong></div>
+                <div><label>来源</label><span class="editable">广告投放 / 春季活动</span></div>
+                <div><label>行业</label><strong class="editable">新中式茶饮</strong></div>
+                <div><label>创建时间</label><span class="editable">2024-05-16 14:32:21</span></div>
+                <div><label>联系方式</label><strong class="editable">138****1234</strong></div>
+              </div>
+            </article>
+
+            <article class="panel">
+              <h2><span class="section-icon">◌</span><span class="editable">用户输入</span></h2>
+              <div class="stack-list">
+                <p><b>产品 / 服务</b><span class="editable">以原叶鲜奶茶为主，搭配新中式茶点，注重健康与东方美学体验。</span></p>
+                <p><b>风格偏好</b><span class="editable">新中式、东方美学、自然、禅意、年轻化</span></p>
+                <p><b>视频比例</b><span class="editable">16:9（横版）</span></p>
+              </div>
+            </article>
+
+            <article class="panel">
+              <h2><span class="section-icon">✦</span><span class="editable">AI 品牌分析</span></h2>
+              <div class="stack-list">
+                <p><b>定位</b><span class="editable">新中式茶饮品牌，融合东方美学与现代生活方式，主打高品质原叶茶与健康轻盈体验。</span></p>
+                <p><b>Slogan</b><span class="editable">一叶东方意，茶香照星屿。</span></p>
+                <p><b>视觉</b><span class="editable">建议使用山水意境、茶叶元素、留白构图，配色以墨绿、浅木色、米白为主。</span></p>
+              </div>
+            </article>
+          </div>
+
+          <div class="detail-grid middle">
+            <article class="panel">
+              <h2><span class="section-icon">◇</span><span class="editable">商标初筛</span></h2>
+              <div class="stack-list">
+                <p><b>推荐类别</b><span class="editable">30 类（方便食品）、43 类（餐饮住宿）</span></p>
+                <p><b>风险等级</b><span class="risk mid editable">中</span></p>
+                <p><b>风险摘要</b><span class="editable">“星屿茶研”在第30类存在近似在先商标，建议调整“研”字或增加显著性元素以降低风险。</span></p>
+              </div>
+              <button class="outline-button" data-action="open-modal">查看初筛报告</button>
+            </article>
+
+            <article class="panel video-result-card">
+              <h2><span class="section-icon">▻</span><span class="editable">视频结果</span></h2>
+              <div class="video-result-layout">
+                <div class="video-thumb tea-thumb small" data-nav-target="result">
+                  <div class="poster-title editable">星屿茶研</div>
+                  <button class="play-button">▶</button>
+                  <span class="duration">00:15</span>
+                </div>
+                <div class="video-meta">
+                  <p><b>视频名称</b><span class="editable">星屿茶研 - 品牌宣传视频</span></p>
+                  <p><b>生成时间</b><span class="editable">2024-05-16 14:36:48</span></p>
+                  <p><b>时长</b><span class="editable">00:15</span></p>
+                  <div class="button-row">
+                    <button class="outline-button" data-nav-target="result">预览视频</button>
+                    <button class="outline-button" data-action="toast" data-message="播放链接已复制">播放链接</button>
+                    <button class="outline-button" data-action="toast" data-message="视频下载任务已创建">下载视频</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <article class="panel follow-panel">
+            <h2 class="editable">跟进记录</h2>
+            <div class="timeline">
+              <div class="timeline-dot"></div>
+              <div class="timeline-card">
+                <strong class="editable">系统创建线索</strong>
+                <span class="editable">2024-05-16 14:32</span>
+                <small class="editable">来源：广告投放 / 春季活动</small>
+              </div>
+            </div>
+            <div class="follow-form">
+              <label>当前状态
+                <select id="followStatus">
+                  <option>待跟进</option>
+                  <option>跟进中</option>
+                  <option>待复访</option>
+                  <option>已成交</option>
+                </select>
+              </label>
+              <label class="wide">备注
+                <textarea id="followNote" placeholder="请输入跟进内容..." maxlength="500"></textarea>
+                <span class="counter">0 / 500</span>
+              </label>
+              <button class="primary-action" data-action="save-follow">保存跟进记录</button>
+            </div>
+          </article>
+        </section>
+
+        <section class="screen" data-screen="brand-create">
+          <div class="page-heading hero-heading">
+            <div>
+              <button class="text-link" data-nav-target="case-gallery">← AI 品牌生成</button>
+              <h1 class="editable">填写品牌信息</h1>
+              <p class="editable">生成品牌分析、宣传视频和商标初筛</p>
+            </div>
+          </div>
+
+          <article class="panel form-panel">
+            <div class="form-grid">
+              <label>品牌名称 <span class="required">*</span>
+                <input id="brandName" value="" placeholder="请输入品牌名，例如：星屿茶研">
+              </label>
+              <label>英文名（选填）
+                <input id="englishName" placeholder="请输入英文名（选填）">
+              </label>
+              <label>行业 <span class="required">*</span>
+                <select id="industry">
+                  <option>请选择行业</option>
+                  <option>新中式茶饮</option>
+                  <option>科技服务</option>
+                  <option>美妆护肤</option>
+                  <option>零售生活</option>
+                </select>
+              </label>
+              <label class="full">产品 / 服务描述 <span class="required">*</span>
+                <textarea id="brandDesc" placeholder="请简要描述您的产品 / 服务、品牌定位、核心优势、目标人群等，AI 将据此生成宣传视频"></textarea>
+                <span class="counter">0 / 300</span>
+              </label>
+            </div>
+
+            <div class="field-block">
+              <div class="field-title editable">品牌风格</div>
+              <div class="chip-row" data-chip-group>
+                <button class="chip selected">年轻化</button>
+                <button class="chip">东方美学</button>
+                <button class="chip">科技感</button>
+                <button class="chip">轻奢</button>
+                <button class="chip">自然</button>
+              </div>
+            </div>
+
+            <label class="full target-field">目标客户
+              <input id="targetCustomer" placeholder="请输入您的目标客户群体，例如：18-35 岁的都市白领、注重健康的年轻人等">
+            </label>
+
+            <div class="bottom-form-grid">
+              <div class="field-block">
+                <div class="field-title editable">视频用途</div>
+                <label class="radio-line"><input type="radio" name="usage" checked> 开业宣传</label>
+                <label class="radio-line"><input type="radio" name="usage"> 电商展示</label>
+                <label class="radio-line"><input type="radio" name="usage"> 品牌介绍</label>
+              </div>
+              <div class="field-block">
+                <div class="field-title editable">视频比例</div>
+                <div class="segmented">
+                  <button class="selected">9:16</button>
+                  <button>16:9</button>
+                </div>
+              </div>
+              <div class="upload-box">
+                <div class="upload-icon">⇧</div>
+                <strong class="editable">点击上传或拖拽文件到此处</strong>
+                <small class="editable">支持 PNG、JPG 格式，文件大小不超过 5MB</small>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button class="primary-action big" data-action="start-generate">生成品牌视频</button>
+            </div>
+          </article>
+        </section>
+
+        <section class="screen" data-screen="generating">
+          <div class="generation-hero">
+            <h1 class="editable">正在生成你的<span>品牌方案</span></h1>
+            <p class="editable">AI 正在为你生成专属品牌宣传视频方案，请稍候...</p>
+          </div>
+
+          <article class="panel progress-panel" data-nav-target="result">
+            <div class="phase-row">
+              <div class="phase done">
+                <div class="phase-mark">✓</div>
+                <div>
+                  <h3 class="editable">品牌分析</h3>
+                  <strong class="editable">已完成</strong>
+                  <p class="editable">分析行业趋势与竞品<br>提炼品牌核心定位</p>
+                </div>
+              </div>
+              <div class="line"></div>
+              <div class="phase done">
+                <div class="phase-mark">✓</div>
+                <div>
+                  <h3 class="editable">商标初筛</h3>
+                  <strong class="editable">已完成</strong>
+                  <p class="editable">筛选近似商标<br>降低注册风险</p>
+                </div>
+              </div>
+              <div class="line"></div>
+              <div class="phase active">
+                <div class="phase-mark spinner"></div>
+                <div>
+                  <h3 class="editable">品牌视频</h3>
+                  <strong class="editable">生成中</strong>
+                  <p class="editable">生成品牌宣传视频<br>与视觉方案</p>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel preview-panel">
+            <h2><span class="section-icon">✦</span><span class="editable">品牌定位预览</span></h2>
+            <div class="preview-content">
+              <div class="brand-preview-card tea-thumb">
+                <div class="editable">新中式茶饮</div>
+                <strong class="editable">东方美学·现代表达</strong>
+              </div>
+              <div>
+                <h3 class="editable">面向年轻都市女性的新中式茶饮品牌...</h3>
+                <p class="editable">融合东方茶文化与现代生活美学，打造高颜值、低负担、有态度的新中式茶饮体验。</p>
+                <div class="tag-row">
+                  <span>新中式茶饮</span><span>年轻女性</span><span>东方美学</span><span>轻盈治愈</span><span>高颜值</span>
+                </div>
+              </div>
+            </div>
+            <div class="notice-line">视频生成可能需要几十秒，请稍候</div>
+            <div class="progressbar"><span id="generateProgress" style="width:65%"></span><b id="generatePercent">65%</b></div>
+            <small class="editable">预计剩余时间：20 - 30 秒</small>
+          </article>
+        </section>
+
+        <section class="screen" data-screen="result">
+          <div class="page-heading centered">
+            <button class="ghost-button float-left" data-nav-target="brand-create">← 返回首页</button>
+            <h1 class="editable">AI 品牌生成结果</h1>
+            <p class="editable">以下是为您生成的品牌宣传视频及相关分析结果</p>
+          </div>
+
+          <div class="result-grid">
+            <div>
+              <div class="video-player tea-video">
+                <div class="video-logo">星屿茶研</div>
+                <button class="play-button large">▶</button>
+                <div class="player-bar">
+                  <span>▶</span><span>00:00</span><div class="seek"><i></i></div><span>00:15</span><span>⛶</span>
+                </div>
+              </div>
+              <div class="result-actions">
+                <button class="primary-action wide-button" data-action="toast" data-message="高清视频下载已开始">下载高清视频</button>
+                <button class="outline-accent wide-button" data-action="open-modal">领取完整报告</button>
+              </div>
+            </div>
+
+            <div class="result-side">
+              <article class="panel">
+                <h2><span class="section-icon">✦</span><span class="editable">品牌分析摘要</span></h2>
+                <div class="summary-list">
+                  <p><b>一句话定位</b><span class="editable">东方茶饮美学倡导者，专注高品质茶叶与茶文化体验。</span></p>
+                  <p><b>Slogan</b><span class="editable">一茶一世界，一味一人生</span></p>
+                  <p><b>视觉风格</b><span class="editable">东方自然美学，融合茶山、云雾、光影与极简设计，传递宁静、高端、文化感。</span></p>
+                </div>
+              </article>
+              <article class="panel">
+                <h2><span class="section-icon">◇</span><span class="editable">商标风险初筛</span></h2>
+                <div class="summary-list">
+                  <p><b>推荐类别</b><span class="editable">第30类、第35类、第43类</span></p>
+                  <p><b>初步风险</b><span class="risk mid editable">中</span></p>
+                  <p><b>原因</b><span class="editable">品牌名存在一定描述性倾向...</span></p>
+                </div>
+                <small class="muted editable">本结果由 AI 生成，仅供创意和初步分析参考，不构成正式法律意见。</small>
+              </article>
+            </div>
+          </div>
+
+          <article class="panel more-actions">
+            <h2 class="editable">更多行动</h2>
+            <div class="action-cards">
+              <button data-action="open-modal">
+                <span class="card-icon blue">↗</span>
+                <b>查看完整品牌分析</b>
+                <small>获取详细品牌定位、市场分析和视觉建议</small>
+              </button>
+              <button data-action="open-modal">
+                <span class="card-icon gray">◇</span>
+                <b>查看完整风险报告</b>
+                <small>查看商标查询结果、风险分析和注册建议</small>
+              </button>
+              <button data-action="open-modal">
+                <span class="card-icon cyan">☏</span>
+                <b>咨询知识产权顾问</b>
+                <small>一对一专家咨询，获取专业建议</small>
+              </button>
+            </div>
+          </article>
+        </section>
+
+        <section class="screen" data-screen="case-gallery">
+          <div class="gallery-hero">
+            <h1 class="editable">一句品牌名，生成<span>品牌宣传视频</span></h1>
+            <p class="editable">输入品牌信息，AI 自动完成品牌分析、商标初筛与视频方案。</p>
+          </div>
+
+          <article class="panel quick-generate">
+            <div class="tab-row">
+              <button class="selected">AI 品牌生成</button>
+              <button>商标风险初筛</button>
+              <button>顾问通知书解读</button>
+              <button>即将上线</button>
+            </div>
+            <div class="quick-form">
+              <div class="upload-box compact">
+                <div class="upload-icon">⇧</div>
+                <strong class="editable">上传 Logo</strong>
+                <small class="editable">可选，支持 PNG / JPG，≤ 5MB</small>
+              </div>
+              <div class="quick-fields">
+                <input placeholder="请输入品牌名称，例如：星屿茶研">
+                <select><option>请选择行业</option><option>新中式茶饮</option></select>
+                <textarea placeholder="描述产品服务、品牌定位和想要的视频"></textarea>
+              </div>
+              <button class="primary-action" data-nav-target="generating">AI 自动完善并生成</button>
+            </div>
+          </article>
+
+          <div class="gallery-title">
+            <h2 class="editable">品牌视频案例</h2>
+            <button class="outline-button">查看更多案例</button>
+          </div>
+          <div class="case-row">
+            <article class="case-card tea-thumb" data-action="open-modal">
+              <button class="play-button">▶</button>
+              <b class="editable">星屿茶研</b>
+              <small class="editable">东方美学 · 高端 · 温润</small>
+              <span class="risk-text editable">商标风险：中</span>
+              <button class="ghost-button">使用同款生成</button>
+            </article>
+            <article class="case-card beauty-thumb" data-action="open-modal">
+              <button class="play-button">▶</button>
+              <b class="editable">雾光肌研</b>
+              <small class="editable">科技感 · 高级感 · 现代</small>
+              <span class="risk-text low editable">商标风险：低</span>
+              <button class="ghost-button">使用同款生成</button>
+            </article>
+            <article class="case-card life-thumb" data-action="open-modal">
+              <b class="editable">LIORA</b>
+              <small class="editable">轻奢 · 简约 · 时尚</small>
+              <span class="risk-text editable">商标风险：中</span>
+              <button class="ghost-button">使用同款生成</button>
+            </article>
+            <article class="case-card tech-thumb" data-action="open-modal">
+              <b class="editable">云启智造</b>
+              <small class="editable">科技感 · 未来 · 专业</small>
+              <span class="risk-text low editable">商标风险：低</span>
+              <button class="ghost-button">使用同款生成</button>
+            </article>
+          </div>
+        </section>
+
+        <section class="screen" data-screen="admin-leads">
+          <div class="admin-heading">
+            <h1 class="editable">后台管理 / 线索管理</h1>
+          </div>
+
+          <article class="panel filter-panel">
+            <div class="filter-grid">
+              <label>日期
+                <input value="2024-05-20  ~  2024-06-20">
+              </label>
+              <label>行业
+                <select><option>请选择行业</option><option>茶饮</option><option>科技</option></select>
+              </label>
+              <label>风险等级
+                <select><option>请选择风险等级</option><option>高</option><option>中</option><option>低</option></select>
+              </label>
+              <label>跟进状态
+                <select><option>请选择跟进状态</option><option>待跟进</option><option>跟进中</option></select>
+              </label>
+              <label>来源渠道
+                <select><option>请选择来源渠道</option><option>投放</option><option>私域</option></select>
+              </label>
+              <label>关键词 / 品牌名 / 手机号
+                <input placeholder="请输入关键词 / 品牌名 / 手机号">
+              </label>
+              <div class="filter-actions">
+                <button class="outline-button" data-action="toast" data-message="筛选条件已重置">重置</button>
+                <button class="primary-action" data-action="toast" data-message="已按条件查询线索">查询</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel table-panel">
+            <div class="table-head">
+              <span class="editable">共 1,256 条线索</span>
+              <div>
+                <button class="outline-button" data-action="toast" data-message="导出任务已创建">导出数据</button>
+                <button class="primary-action" data-nav-target="brand-create">新增线索</button>
+              </div>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>品牌名</th><th>行业</th><th>联系方式</th><th>风险</th><th>来源</th><th>状态</th><th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="editable">星屿茶研</td><td>茶饮</td><td>138****1234</td><td><span class="risk-pill mid">中</span></td><td>投放</td><td><span class="status-pill">待跟进</span></td><td><button class="text-link" data-nav-target="lead-detail">查看</button></td>
+                </tr>
+                <tr>
+                  <td class="editable">云启智能</td><td>科技</td><td>wx_user_xxx</td><td><span class="risk-pill low">低</span></td><td>私域</td><td><span class="status-pill purple">跟进中</span></td><td><button class="text-link" data-nav-target="lead-detail">查看</button></td>
+                </tr>
+                <tr>
+                  <td class="editable">花屿生活</td><td>零售</td><td>139****5678</td><td><span class="risk-pill high">高</span></td><td>投放</td><td><span class="status-pill amber">待复访</span></td><td><button class="text-link" data-nav-target="lead-detail">查看</button></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="pagination">
+              <label>每页显示 <select><option>20</option><option>50</option></select></label>
+              <div class="pages"><button>‹</button><button class="selected">1</button><button>2</button><button>3</button><button>4</button><button>5</button><span>...</span><button>63</button><button>›</button></div>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <div class="modal-backdrop" id="claimModal" aria-hidden="true">
+      <div class="claim-modal">
+        <button class="close-modal" data-action="close-modal">×</button>
+        <div class="gift-art">▣</div>
+        <div class="claim-copy">
+          <h2 class="editable">领取完整品牌与商标报告</h2>
+          <p class="editable">提交信息后即可解锁完整报告内容</p>
+          <ul>
+            <li>完整品牌分析报告</li>
+            <li>商标类别建议详情</li>
+            <li>高清视频下载</li>
+            <li>知识产权顾问人工检索建议</li>
+          </ul>
+        </div>
+        <div class="claim-form">
+          <label>手机号<input placeholder="请输入手机号"></label>
+          <label>验证码
+            <div class="verify-row">
+              <input placeholder="请输入验证码">
+              <button class="outline-accent" data-action="toast" data-message="验证码已发送">发送验证码</button>
+            </div>
+          </label>
+          <div class="divider">或添加企业微信</div>
+          <div class="wechat-box">
+            <div class="qr">QR</div>
+            <div>
+              <strong class="editable">扫码添加企业微信</strong>
+              <small class="editable">专属顾问 1 对 1 服务</small>
+            </div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="primary-action" data-action="claim-submit">提交并领取</button>
+          <button class="outline-button" data-action="close-modal">暂不领取</button>
+        </div>
+        <small class="privacy editable">我们将严格保护您的隐私信息</small>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <script src="./app.js"></script>
+  </body>
+</html>

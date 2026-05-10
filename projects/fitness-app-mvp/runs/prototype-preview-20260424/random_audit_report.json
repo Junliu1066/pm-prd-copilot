@@ -1,0 +1,14 @@
+{
+  "audit_id": "fitness-app-mvp-prototype-preview-20260424-random-audit",
+  "run_id": "prototype-preview-20260424",
+  "project_id": "fitness-app-mvp",
+  "status": "pass",
+  "sampled_items": [
+    {
+      "type": "skill_call",
+      "id": "skill:1:prototype-reference-analyzer",
+      "risk_score": 3
+    }
+  ],
+  "findings": []
+}

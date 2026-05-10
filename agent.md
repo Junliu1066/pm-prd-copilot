@@ -50,6 +50,35 @@ Negative example:
 - Allowed: inspect only file types, ownership, closeout status, retention risk, and cleanup boundaries.
 - Forbidden: analyze product feature priority, rewrite the project PRD, evaluate UI style, ask for product business decisions, design project roadmap, or promote project-specific preferences into long-term rules.
 
+### 3.1 Product Agent Entry Gate
+
+For product-agent work, do not treat PRD writing as the default first step.
+
+The correct sequence is:
+
+```text
+idea / project input
+-> product value pre-analysis
+-> route decision
+-> downstream module
+```
+
+The product value pre-analysis is the entry gate for the whole product agent, not only a PRD preface. It decides whether the work should continue, which path it should take, and how much investment is justified.
+
+Route decisions must be respected:
+
+- `A_ENTER_PRD`: write a full PRD.
+- `B_LOW_COST_MVP`: write a service MVP / low-cost MVP PRD.
+- `C_CLIENT_PROJECT_VALIDATION`: write a client project validation plan.
+- `D_INTERNAL_EFFICIENCY`: write an internal efficiency plan.
+- `E_RESEARCH_REQUIRED`: complete research first; do not write a formal PRD.
+- `F_NOT_RECOMMENDED`: stop or keep only a rejudgment note.
+- `G_BLOCKED_BY_REDLINE`: block the path; do not write a PRD.
+
+Downstream product modules must read the value gate output and must not override it silently. PRD writing, prototype planning, UI design, Codex development documents, delivery planning, and project closeout must preserve the value gate's facts, assumptions, forbidden claims, route decision, operating boundaries, and stop / upgrade conditions.
+
+If the user explicitly asks to skip the value gate, treat it as a fast draft or exception path and record that the value gate was bypassed. Do not present bypassed output as formally validated product work.
+
 ## Layer 2: Work Rules
 
 ### 4. Prepare Before Editing
@@ -86,10 +115,13 @@ Use this sequence for substantial work:
 review inputs
 -> check blockers
 -> prepare task brief
+-> define red/green tests and closure criteria
 -> implement
+-> run red/green tests
 -> round 1: check changed work
 -> fix found issues
 -> round 2: check omissions and consistency
+-> confirm the output loop is closed
 -> simplify where possible
 -> record useful follow-up
 -> summarize delivery
@@ -121,11 +153,36 @@ Before choosing a solution, ask:
 - Does it keep user-facing behavior separate from working notes?
 - Does it leave a clear path for review and rollback?
 
+### 8.5 Architecture Knowledge Map Check
+
+Before changing stable rules, long-term memory, project memory, workflow, harness checks, skills, steward rules, automation rules, templates, or other long-lived system behavior, check `docs/architecture_knowledge_map.md` for related nodes and downstream impact.
+
+For architecture-level changes, check `docs/architecture_driver_kernel.md` first. Use its light / standard / full governance modes, and put new capabilities through architecture distillation / 架构蒸馏机制 instead of promoting them directly to stable behavior.
+
+The architecture knowledge map is an index, not the source of truth. If it conflicts with source files, source files win and the map should be updated.
+
+Knowledge map changes are managed by the architecture knowledge map governance module. If a map entry is stale or conflicts with source files, treat the affected node as `partial_loop` until it is reconciled from the source file.
+
+For any affected node, identify:
+
+- source file
+- upstream inputs
+- downstream consumers
+- validation or red/green test
+- feedback or closeout path
+- approval boundary
+
+Do not treat a stable change as landed until its affected knowledge-map nodes still have a closed loop.
+
 ### 9. Quality Check
 
 Before delivery, check:
 
 - the changed files are within the allowed range
+- every output has a red/green test or an explicit substitute check
+- red tests cover the failure, boundary, missing-input, or regression case the output must prevent
+- green tests prove the intended path works after the change
+- the output loop is closed before landing: input, action, artifact, owner, validation, feedback, and approval boundary are clear
 - the main user path still works
 - empty, loading, error, and permission states are handled where relevant
 - data has source, time, and status where relevant
@@ -133,6 +190,8 @@ Before delivery, check:
 - risk-sensitive wording has been reviewed
 - tests or substitute checks are recorded
 - round 1 and round 2 self-check results are recorded
+
+For documents, templates, reports, plans, and governance changes, red/green tests may be acceptance checks instead of executable tests. They still must state what would fail, what proves the output passes, and what closes the loop.
 
 ### 10. Efficiency Check
 
@@ -243,6 +302,7 @@ Before delivery, verify the files just changed:
 
 - syntax, formatting, or schema checks
 - targeted scripts or tests
+- red/green tests for the changed output, or a documented substitute check when executable tests do not apply
 - relevant project checks
 - no new unexplained warnings or failures
 
@@ -252,6 +312,7 @@ After round 1 passes, check for missing follow-through:
 
 - re-read the latest user request
 - inspect the diff and changed-file scope
+- confirm the output has a closed loop before it is treated as landed
 - check whether related docs, templates, reports, generated files, or configuration need updates
 - check whether any new skill, harness checker, steward, plugin, workflow stage, registry category, long-lived rule, or automation was truly necessary
 - after version or model updates, check whether any existing stable component should become a deprecate, archive, or delete candidate

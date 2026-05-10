@@ -1,0 +1,186 @@
+{
+  "schema_version": "closeout.v1",
+  "project_id": "santoip-ai-brand-video",
+  "generated_at": "2026-04-29T03:36:26+00:00",
+  "mode": "dry_run_report_only",
+  "destructive_actions_enabled": false,
+  "approval_required": true,
+  "archive_before_delete": true,
+  "hard_delete_eligible_after_days": 30,
+  "protected_roots": [
+    ".github/",
+    "ai-intel/",
+    "docs/",
+    "governance/",
+    "harness/",
+    "plugins/",
+    "pm-prd-copilot/",
+    "registry/",
+    "shared/",
+    "skills/",
+    "stewards/",
+    "teaching/",
+    "workflow/"
+  ],
+  "allowed_roots": [
+    "projects/santoip-ai-brand-video/",
+    "memory-cache/projects/santoip-ai-brand-video/"
+  ],
+  "summary": {
+    "file_count": 12,
+    "total_bytes": 187058,
+    "by_action": {
+      "archive_then_cleanup_after_distillation": 11,
+      "manual_review": 1
+    },
+    "by_root": {
+      "project": 12
+    }
+  },
+  "files": [
+    {
+      "path": "projects/santoip-ai-brand-video/.DS_Store",
+      "root": "project",
+      "kind": "file",
+      "bytes": 6148,
+      "modified_at": "2026-04-29T01:57:17+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "manual_review",
+      "rationale": "未注册文件，任何清理决定前都需要人工审核。",
+      "symlink": false,
+      "safe_to_delete_after_approval": false
+    },
+    {
+      "path": "projects/santoip-ai-brand-video/prototype/.DS_Store",
+      "root": "project",
+      "kind": "file",
+      "bytes": 6148,
+      "modified_at": "2026-04-29T01:57:17+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/santoip-ai-brand-video/prototype/html/README.md",
+      "root": "project",
+      "kind": "markdown",
+      "bytes": 774,
+      "modified_at": "2026-04-27T11:55:11+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/santoip-ai-brand-video/prototype/html/app.js",
+      "root": "project",
+      "kind": "js",
+      "bytes": 9336,
+      "modified_at": "2026-04-27T10:15:14+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/santoip-ai-brand-video/prototype/html/index.html",
+      "root": "project",
+      "kind": "html",
+      "bytes": 29283,
+      "modified_at": "2026-04-27T10:11:34+00:00",
+      "registered_artifact": "interactive_html_prototype",
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "已注册工作流产物，任何清理前都必须先归档。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/santoip-ai-brand-video/prototype/html/open-mac.command",
+      "root": "project",
+      "kind": "command",
+      "bytes": 70,
+      "modified_at": "2026-04-27T11:56:47+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/santoip-ai-brand-video/prototype/html/open-windows.bat",
+      "root": "project",
+      "kind": "bat",
+      "bytes": 37,
+      "modified_at": "2026-04-27T11:57:52+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/santoip-ai-brand-video/prototype/html/prototype_manifest.json",
+      "root": "project",
+      "kind": "json",
+      "bytes": 7660,
+      "modified_at": "2026-04-27T12:05:36+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/santoip-ai-brand-video/prototype/html/prototype_notes.md",
+      "root": "project",
+      "kind": "markdown",
+      "bytes": 1475,
+      "modified_at": "2026-04-27T11:54:10+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/santoip-ai-brand-video/prototype/html/standalone.html",
+      "root": "project",
+      "kind": "html",
+      "bytes": 64622,
+      "modified_at": "2026-04-27T12:05:36+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/santoip-ai-brand-video/prototype/html/styles.css",
+      "root": "project",
+      "kind": "css",
+      "bytes": 26034,
+      "modified_at": "2026-04-27T10:14:10+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    },
+    {
+      "path": "projects/santoip-ai-brand-video/prototype/santoip-ai-brand-video-html-prototype.zip",
+      "root": "project",
+      "kind": "zip",
+      "bytes": 35471,
+      "modified_at": "2026-04-27T12:05:36+00:00",
+      "registered_artifact": null,
+      "cleanup_action": "archive_then_cleanup_after_distillation",
+      "rationale": "项目过程产物应先审核归档，再考虑清理。",
+      "symlink": false,
+      "safe_to_delete_after_approval": true
+    }
+  ]
+}

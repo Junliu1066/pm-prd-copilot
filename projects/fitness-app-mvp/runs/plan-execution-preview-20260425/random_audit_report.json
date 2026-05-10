@@ -1,0 +1,14 @@
+{
+  "audit_id": "fitness-app-mvp-plan-execution-preview-20260425-random-audit",
+  "run_id": "plan-execution-preview-20260425",
+  "project_id": "fitness-app-mvp",
+  "status": "pass",
+  "sampled_items": [
+    {
+      "type": "skill_call",
+      "id": "skill:3:low-fi-prototype-designer",
+      "risk_score": 3
+    }
+  ],
+  "findings": []
+}

@@ -1,0 +1,255 @@
+{
+  "prototype_type": "interactive_html",
+  "input_mode": "image_to_html",
+  "fidelity": "mid",
+  "target_surface": "desktop_web_saas",
+  "project_name": "Santoip AI 商标品牌视频生成器",
+  "source_artifacts": [
+    {
+      "type": "reference_image",
+      "path_or_description": "c8cf364d219fdbe2285dd2420913de64.png：线索详情页"
+    },
+    {
+      "type": "reference_image",
+      "path_or_description": "e1f3602ae3906bd2b2bd816451e2cff6.png：填写品牌信息页"
+    },
+    {
+      "type": "reference_image",
+      "path_or_description": "a29e6904e783554747f5180715f0e352.png：品牌方案生成中页"
+    },
+    {
+      "type": "reference_image",
+      "path_or_description": "fba885a729998dd5d31c8069221483d2.png：AI 品牌生成结果页"
+    },
+    {
+      "type": "reference_image",
+      "path_or_description": "1e899742e35e8f019a0d76c10e202c9e.png：领取完整报告弹窗"
+    },
+    {
+      "type": "reference_image",
+      "path_or_description": "2ca1729a4a854fb417d210c51ec2817c.png：后台线索管理页"
+    }
+  ],
+  "screen_inventory": [
+    {
+      "screen_id": "lead-detail",
+      "screen_name": "线索详情页",
+      "purpose": "查看品牌线索、AI 分析、商标初筛、视频结果和跟进记录。",
+      "primary_actions": [
+        "返回线索列表",
+        "分配顾问",
+        "查看初筛报告",
+        "预览视频",
+        "保存跟进记录"
+      ],
+      "states": [
+        "normal",
+        "advisor_assigned",
+        "follow_record_saved",
+        "report_claim_modal_open"
+      ]
+    },
+    {
+      "screen_id": "brand-create",
+      "screen_name": "填写品牌信息页",
+      "purpose": "录入品牌名称、行业、产品描述、风格、用途、比例和 Logo，发起 AI 品牌视频生成。",
+      "primary_actions": [
+        "选择品牌风格",
+        "选择视频比例",
+        "上传 Logo",
+        "生成品牌视频"
+      ],
+      "states": [
+        "empty_form",
+        "prefilled",
+        "chip_selected",
+        "validation_hint"
+      ]
+    },
+    {
+      "screen_id": "generating",
+      "screen_name": "品牌方案生成中页",
+      "purpose": "展示品牌分析、商标初筛和品牌视频生成进度。",
+      "primary_actions": [
+        "查看生成结果"
+      ],
+      "states": [
+        "analysis_done",
+        "screening_done",
+        "video_generating",
+        "progress_animated"
+      ]
+    },
+    {
+      "screen_id": "result",
+      "screen_name": "AI 品牌生成结果页",
+      "purpose": "展示生成视频、品牌分析摘要、商标风险初筛和后续转化动作。",
+      "primary_actions": [
+        "下载高清视频",
+        "领取完整报告",
+        "查看完整品牌分析",
+        "查看完整风险报告",
+        "咨询知识产权顾问"
+      ],
+      "states": [
+        "normal",
+        "report_claim_modal_open",
+        "download_started"
+      ]
+    },
+    {
+      "screen_id": "case-gallery",
+      "screen_name": "品牌视频案例与领取报告弹窗背景页",
+      "purpose": "展示案例灵感、快速生成入口和领取完整报告弹窗场景。",
+      "primary_actions": [
+        "AI 自动完善并生成",
+        "使用同款生成",
+        "领取完整报告"
+      ],
+      "states": [
+        "normal",
+        "tab_switched",
+        "report_claim_modal_open"
+      ]
+    },
+    {
+      "screen_id": "admin-leads",
+      "screen_name": "后台线索管理页",
+      "purpose": "供管理员筛选、查询、导出、新增和查看线索。",
+      "primary_actions": [
+        "筛选线索",
+        "查询",
+        "重置",
+        "导出数据",
+        "新增线索",
+        "查看线索详情"
+      ],
+      "states": [
+        "normal",
+        "filtered",
+        "export_started"
+      ]
+    }
+  ],
+  "interaction_inventory": [
+    {
+      "interaction_id": "create_brand_video",
+      "trigger": "点击左侧 创建品牌视频 或后台 新增线索",
+      "behavior": "进入填写品牌信息页"
+    },
+    {
+      "interaction_id": "start_generation",
+      "trigger": "点击 生成品牌视频",
+      "behavior": "补齐示例输入并进入生成中页面，进度条动画到 65%"
+    },
+    {
+      "interaction_id": "view_result",
+      "trigger": "点击生成中进度卡片",
+      "behavior": "进入 AI 品牌生成结果页"
+    },
+    {
+      "interaction_id": "claim_report",
+      "trigger": "点击领取报告、完整分析、风险报告、咨询顾问、初筛报告",
+      "behavior": "打开领取完整品牌与商标报告弹窗"
+    },
+    {
+      "interaction_id": "admin_to_detail",
+      "trigger": "后台线索列表点击 查看",
+      "behavior": "进入线索详情页"
+    },
+    {
+      "interaction_id": "save_follow",
+      "trigger": "线索详情页点击 保存跟进记录",
+      "behavior": "把备注写入跟进记录区域并清空输入框"
+    },
+    {
+      "interaction_id": "inline_edit",
+      "trigger": "双击普通文本",
+      "behavior": "进入原位编辑，Enter 或失焦保存，Esc 取消，localStorage 本地保存"
+    }
+  ],
+  "route_context_transfer": [
+    {
+      "source": "brand-create",
+      "target": "generating",
+      "trigger": "生成品牌视频",
+      "transferred_context": [
+        "品牌名",
+        "行业",
+        "产品服务描述",
+        "品牌风格",
+        "视频用途",
+        "视频比例"
+      ]
+    },
+    {
+      "source": "generating",
+      "target": "result",
+      "trigger": "点击进度卡片",
+      "transferred_context": [
+        "品牌定位",
+        "商标初筛状态",
+        "视频生成进度"
+      ]
+    },
+    {
+      "source": "admin-leads",
+      "target": "lead-detail",
+      "trigger": "查看线索",
+      "transferred_context": [
+        "品牌名",
+        "联系方式",
+        "风险等级",
+        "来源",
+        "跟进状态"
+      ]
+    },
+    {
+      "source": "result",
+      "target": "report_claim_modal",
+      "trigger": "领取完整报告",
+      "transferred_context": [
+        "品牌分析摘要",
+        "商标风险初筛",
+        "视频下载权益",
+        "顾问服务权益"
+      ]
+    }
+  ],
+  "editable_files": [
+    "index.html",
+    "styles.css",
+    "app.js",
+    "prototype_manifest.json",
+    "prototype_notes.md",
+    "README.md"
+  ],
+  "platform_compatibility": {
+    "macos": true,
+    "windows": true,
+    "requires_dev_server": false,
+    "entry_file": "index.html",
+    "single_file_entry": "standalone.html",
+    "path_policy": "All runtime asset references are relative.",
+    "handoff_rule": "Recommended handoff is the zip package; unzip it and open index.html. For one-file sharing use standalone.html.",
+    "zip_package": "../santoip-ai-brand-video-html-prototype.zip"
+  },
+  "feedback_application_log": [
+    {
+      "date": "2026-04-27",
+      "change": "根据 6 张参考图制作 Santoip AI 多页面可点击 HTML 原型。"
+    }
+  ],
+  "validation_checklist": [
+    "index.html references local relative CSS and JS",
+    "core screens are represented as HTML components",
+    "major workflow actions navigate to real screens or modal states",
+    "ordinary text supports double-click editing",
+    "zip and standalone.html are generated before delivery"
+  ],
+  "open_review_questions": [
+    "管理员后台是否需要拆成单独入口，还是与前台共用一个原型壳即可？",
+    "品牌视频生成中页面是否需要真实倒计时完成后自动跳转？",
+    "领取完整报告弹窗是否需要区分手机号领取和企业微信领取后的不同状态？"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "project_id": "graduation-defense-agent",
+  "current_stage": "intake",
+  "completed_stages": [
+    "delivery_planning",
+    "ai_solution_planning",
+    "agentic_delivery_planning",
+    "capability_enablement_planning",
+    "skill_mcp_routing_planning",
+    "development_governance_planning",
+    "codex_blueprint_planning"
+  ],
+  "approvals": [
+    "prototype_preview",
+    "full_prototype"
+  ],
+  "assumption_overrides": {
+    "full_prototype_requested": true
+  },
+  "last_run_id": "prd-draft-20260425",
+  "requires_delivery_plan": true,
+  "requires_ai_solution_plan": true,
+  "requires_agentic_delivery": true,
+  "requires_codex_development_document": true
+}

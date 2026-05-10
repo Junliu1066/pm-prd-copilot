@@ -20,7 +20,9 @@
 
 - 文档目标。
 - 输入材料。
+- 文档状态：`Draft / 方向对齐版`、`Ready / 开发执行版` 或 `Execution Plan / 执行拆解版`。
 - 开发范围。
+- Ready Gate Checklist。
 - 任务包。
 - 允许修改范围。
 - 禁止修改范围。
@@ -62,6 +64,86 @@
 ### 0.3 外部分发边界
 
 如果本文档要发给外部开发者、外包团队、合作方或投资人，必须改用 `external_protected_development_document_template.md`，不得直接分发内部执行版。
+
+---
+
+## 0.4 文档状态与 Ready Gate
+
+### 0.4.1 文档状态
+
+| 状态 | 用途 | 是否可进入开发 |
+|---|---|---|
+| `Draft / 方向对齐版` | 对齐方向、范围、模块和关键问题 | 否 |
+| `Ready / 开发执行版` | 工程契约已完整，可进入实现 | 是 |
+| `Execution Plan / 执行拆解版` | T0-Tn 任务包，可交给实现方执行 | 是 |
+
+状态判断：
+
+- 没有工程契约 = 不能开发。
+- 只有方向和模块 = 对齐文档。
+- 有 DB/API/状态/测试/回滚/任务包 = 开发执行文档。
+
+### 0.4.2 Ready Gate Checklist
+
+| Gate | 是否适用 | 通过标准 | 当前结论 |
+|---|---|---|---|
+| Development Ready Gate | 是 | P0/P1 决策已确认；DB、API、前端状态、Worker、测试、部署、回滚明确；T0-Tn 可独立开发、验证、回滚 |  |
+| AI Evaluation Gate | 项目涉及 AI 时适用 | 模型角色、输入输出 schema、rubric、阈值、failure_type、追溯字段和异常处理明确 |  |
+| Async Reliability Gate | 项目涉及异步任务时适用 | 状态机、幂等、重试、取消、snapshot、历史不可覆盖规则明确 |  |
+| Candidate Publish Gate | 项目涉及候选转正式时适用 | 回归/验证结果、人工决策、发布记录、退化保护、配置一致性、禁止自动发布明确 |  |
+
+未通过处理：
+
+- Development Ready Gate 未通过：文档只能标记为 `Draft / 方向对齐版`。
+- AI Evaluation Gate 未通过：AI 功能不能标记可验收。
+- Async Reliability Gate 未通过：异步任务不能进入开发。
+- Candidate Publish Gate 未通过：候选结果不能发布为正式结果。
+
+### 0.4.3 AI Evaluation Gate 模板
+
+仅项目涉及 AI 能力时填写。
+
+| 项 | 内容 |
+|---|---|
+| 模型角色 | answer / teacher / optimizer / embedding 等 |
+| 输入 schema |  |
+| 输出 schema |  |
+| 结构化输出失败处理 |  |
+| rubric / 评分口径 |  |
+| pass 阈值 |  |
+| confidence 阈值 |  |
+| failure_type |  |
+| 追溯字段 | model profile、prompt/template version、scoring_config、metadata |
+| 异常处理 | 低置信度、高风险、格式错误、模型超时、模型不可用 |
+
+### 0.4.4 Async Task Contract 模板
+
+仅项目涉及异步任务时填写。
+
+| 项 | 内容 |
+|---|---|
+| 任务类型 | Run / Evaluation / Optimization / Export / other |
+| 状态机 | queued / running / succeeded / failed / canceled / needs_review |
+| 幂等规则 | Idempotency-Key 或业务唯一键 |
+| 重试规则 | 最大次数、可重试错误、不可重试错误 |
+| 取消规则 | 可取消状态、不可取消状态 |
+| snapshot 固化 | 输入、配置、模型、版本 |
+| 历史保留 | 历史任务、评分、日志不能覆盖，只能新增或状态变更 |
+
+### 0.4.5 Candidate Publish Gate 模板
+
+仅项目涉及候选结果转正式结果时填写。
+
+| 项 | 内容 |
+|---|---|
+| 候选来源 |  |
+| 回归 / 验证结果 |  |
+| 人工决策记录 | 意见必填 |
+| 发布记录 | 来源候选、对比结果、评审意见、发布人、发布时间 |
+| key case 退化处理 | 默认不建议发布 |
+| high risk case 退化处理 | 默认不建议发布 |
+| 评测配置一致性 | 评分配置、Dataset、teacher model 等不一致时不能给发布建议 |
+| 自动发布限制 | 候选结果不能自动发布，必须走门禁 |
 
 ---
 

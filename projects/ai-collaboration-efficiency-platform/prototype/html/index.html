@@ -1,0 +1,738 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI 协作效率平台 HTML 原型</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark">AI</span>
+        <div>
+          <strong data-inline-editable>AI 协作效率平台</strong>
+          <small>Efficiency Ops</small>
+        </div>
+      </div>
+
+      <nav class="side-nav" aria-label="主导航">
+        <button class="nav-item active" data-nav-target="dashboard">Dashboard</button>
+        <button class="nav-item" data-nav-target="task-center">任务中心</button>
+        <button class="nav-item" data-nav-target="skill-run">Skill 调用</button>
+        <button class="nav-item" data-nav-target="review-center">Review 评审</button>
+        <button class="nav-item" data-nav-target="efficiency">效率看板</button>
+        <button class="nav-item" data-nav-target="skill-admin">Skill 管理</button>
+        <button class="nav-item" data-nav-target="calculation">权重计算</button>
+        <button class="nav-item" data-nav-target="knowledge">知识库</button>
+        <button class="nav-item" data-nav-target="reports">报表导出</button>
+        <button class="nav-item" data-nav-target="risk-admin">权限与风控</button>
+      </nav>
+
+      <div class="sidebar-note">
+        <span>试点环境</span>
+        <strong>数据分析部 / 销售运营部</strong>
+        <small>P0 必须拦截，P1 强制 Review</small>
+      </div>
+    </aside>
+
+    <header class="topbar">
+      <div>
+        <p class="breadcrumb" id="breadcrumb">首页 / Dashboard 工作台</p>
+        <h1 id="pageTitle" data-inline-editable>Dashboard 工作台</h1>
+      </div>
+      <div class="top-actions">
+        <label class="search">
+          <span>搜索</span>
+          <input id="globalSearch" type="search" placeholder="任务、Skill、员工、报表">
+        </label>
+        <button class="ghost-btn" data-action="toast" data-message="已切换到演示账号：李敏">李敏</button>
+        <button class="primary-btn" data-nav-target="task-center" data-context="from-top-create">新建任务</button>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="screen active" data-screen="dashboard">
+        <div class="screen-head">
+          <div>
+            <p class="eyebrow">01_dashboard.png rebuilt as HTML</p>
+            <h2 data-inline-editable>Dashboard 工作台</h2>
+            <p>用于快速进入任务、Review、效率看板和风险待办，不在首页暴露敏感输入全文。</p>
+          </div>
+          <div class="button-row">
+            <button class="secondary-btn" data-nav-target="review-center" data-context="pending-review">查看 Review</button>
+            <button class="primary-btn" data-nav-target="task-center" data-context="dashboard-create">发起任务</button>
+          </div>
+        </div>
+
+        <div class="metric-grid four">
+          <article class="metric-card">
+            <span>待办任务</span>
+            <strong>24</strong>
+            <em class="up">+4 今日新增</em>
+          </article>
+          <article class="metric-card">
+            <span>Review 通过率</span>
+            <strong>82%</strong>
+            <em class="up">本周 +6%</em>
+          </article>
+          <article class="metric-card">
+            <span>节省工时</span>
+            <strong>38h</strong>
+            <em class="warn">等待复核 7.1h</em>
+          </article>
+          <article class="metric-card">
+            <span>风险提醒</span>
+            <strong>3</strong>
+            <em class="danger">1 条 P1 超时</em>
+          </article>
+        </div>
+
+        <div class="content-grid dashboard-grid">
+          <article class="panel wide">
+            <div class="panel-head">
+              <h3>我的任务池</h3>
+              <button class="text-btn" data-nav-target="task-center">查看全部</button>
+            </div>
+            <table class="data-table">
+              <thead>
+                <tr><th>任务</th><th>项目</th><th>优先级</th><th>状态</th><th>更新时间</th></tr>
+              </thead>
+              <tbody>
+                <tr data-row-target="task-center"><td>生成月度经营分析报告</td><td>财务分析</td><td><span class="tag red">高</span></td><td><span class="tag blue">待处理</span></td><td>10:21</td></tr>
+                <tr data-row-target="skill-run"><td>竞品资料拆解</td><td>市场研究</td><td><span class="tag orange">中</span></td><td><span class="tag green">运行中</span></td><td>09:48</td></tr>
+                <tr data-row-target="review-center"><td>客户关键摘要</td><td>客户成功</td><td><span class="tag orange">中</span></td><td><span class="tag orange">待评审</span></td><td>09:30</td></tr>
+                <tr data-row-target="knowledge"><td>活动复盘与洞察模板</td><td>运营活动</td><td><span class="tag gray">低</span></td><td><span class="tag green">已完成</span></td><td>昨日</td></tr>
+              </tbody>
+            </table>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <h3>常用 Skill</h3>
+              <button class="text-btn" data-nav-target="skill-admin">管理</button>
+            </div>
+            <div class="stack-list">
+              <button class="list-card" data-nav-target="skill-run" data-context="report-agent">
+                <span>智能分析报告生成</span>
+                <small>成功率 92% / 平均节省 1.6h</small>
+              </button>
+              <button class="list-card" data-nav-target="skill-run" data-context="meeting-agent">
+                <span>会议纪要结构化</span>
+                <small>通过率 96% / 复用率 28%</small>
+              </button>
+              <button class="list-card" data-nav-target="skill-run" data-context="contract-agent">
+                <span>合同风险初筛</span>
+                <small>P1 强制 Review</small>
+              </button>
+            </div>
+          </article>
+
+          <article class="panel">
+            <h3>风险提醒</h3>
+            <div class="alert-list">
+              <div class="alert danger">P1 客户材料摘要等待评审，剩余 6h。</div>
+              <div class="alert warn">合同风险初筛 Skill 最近失败率升高。</div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <h3>团队总览</h3>
+            <div class="mini-flow">
+              <span>创建</span><i></i><span>执行</span><i></i><span>Review</span><i></i><span>入账</span>
+            </div>
+            <p class="muted">今日 18 个任务进入 Review，12 个已通过，2 个退回修改。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="task-center">
+        <div class="screen-head">
+          <div>
+            <p class="eyebrow">02_task_center.png rebuilt as HTML</p>
+            <h2 data-inline-editable>任务中心 / 新建任务</h2>
+            <p>先定义任务和材料，再选择 Skill；不能跳过输入校验和权限检查。</p>
+          </div>
+          <div class="button-row">
+            <button class="secondary-btn" data-action="save-draft">保存草稿</button>
+            <button class="primary-btn" data-nav-target="skill-run" data-context="new-task">继续选择 Skill</button>
+          </div>
+        </div>
+
+        <div class="content-grid task-grid">
+          <article class="panel">
+            <h3>任务信息</h3>
+            <div class="form-grid">
+              <label>任务名称<input id="taskName" value="生成月度经营分析报告"></label>
+              <label>任务类型<select><option>数据分析报告</option><option>客户资料总结</option><option>合同风险初筛</option><option>运营复盘</option></select></label>
+              <label>所属项目<input value="财务分析"></label>
+              <label>预估基准工时<input value="8.0 h"></label>
+              <label class="span-2">任务目标<textarea>基于经营数据、预算文档和补充说明，输出结构化经营分析报告，包含关键异常、原因假设和后续行动项。</textarea></label>
+              <label class="span-2">输入材料<textarea>budget.pdf、经营明细.xlsx、会议讨论记录.md</textarea></label>
+            </div>
+          </article>
+
+          <article class="panel">
+            <h3>任务筛选 / 任务池</h3>
+            <div class="filter-row">
+              <select><option>全部项目</option></select>
+              <select><option>全部状态</option></select>
+              <input placeholder="搜索任务名称 / 编号">
+            </div>
+            <table class="data-table compact">
+              <thead><tr><th>任务</th><th>状态</th><th>动作</th></tr></thead>
+              <tbody>
+                <tr><td>生成月度经营分析报告</td><td><span class="tag blue">待处理</span></td><td><button class="text-btn" data-nav-target="skill-run">选择 Skill</button></td></tr>
+                <tr><td>产品竞品矩阵分析</td><td><span class="tag green">运行中</span></td><td><button class="text-btn" data-nav-target="skill-run">查看</button></td></tr>
+                <tr><td>客户关键摘要</td><td><span class="tag orange">待评审</span></td><td><button class="text-btn" data-nav-target="review-center">评审</button></td></tr>
+              </tbody>
+            </table>
+          </article>
+
+          <article class="panel wide">
+            <h3>执行前检查</h3>
+            <div class="check-grid">
+              <div class="check pass"><strong>权限</strong><span>已通过部门与数据范围校验</span></div>
+              <div class="check pass"><strong>材料</strong><span>3 个附件，均可读取</span></div>
+              <div class="check warn"><strong>风险</strong><span>含经营数据，结果将进入 P1 Review</span></div>
+              <div class="check pass"><strong>口径</strong><span>已绑定基准工时库 v0.9</span></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="skill-run">
+        <div class="screen-head">
+          <div>
+            <p class="eyebrow">03_skill_invocation.png rebuilt as HTML</p>
+            <h2 data-inline-editable>Skill 调用 / 结果预览</h2>
+            <p>保留 Skill 选择、参数配置、执行结果、风险判断和提交 Review 的完整上下文。</p>
+          </div>
+          <div class="button-row">
+            <button class="secondary-btn" data-action="run-skill">开始处理</button>
+            <button class="primary-btn" data-nav-target="review-center" data-context="submit-review">提交 Review</button>
+          </div>
+        </div>
+
+        <div class="content-grid run-grid">
+          <article class="panel">
+            <h3>任务上下文</h3>
+            <dl class="info-list">
+              <div><dt>任务</dt><dd id="runTaskTitle">生成月度经营分析报告</dd></div>
+              <div><dt>任务类型</dt><dd>文档生成 > 数据分析报告</dd></div>
+              <div><dt>预计基准工时</dt><dd>8.0h</dd></div>
+              <div><dt>风险初判</dt><dd><span class="tag orange">P1 强制 Review</span></dd></div>
+            </dl>
+            <label>输出要求<textarea>结构化摘要、关键异常、原因假设、风险提示、行动项。</textarea></label>
+          </article>
+
+          <article class="panel">
+            <h3>Skill 参数配置</h3>
+            <div class="skill-card selected">
+              <strong>智能分析报告生成 v2.3</strong>
+              <p>上报数据 / 文档，自动生成结构化分析报告并识别风险。</p>
+              <div><span class="tag green">推荐</span><span class="tag blue">成功率 92%</span><span class="tag gray">平均耗时 1.6h</span></div>
+            </div>
+            <div class="form-grid single">
+              <label>质量偏好<select><option>稳健，优先准确性</option><option>快速，优先速度</option></select></label>
+              <label>Review 规则<select><option>P1 强制多人评审</option></select></label>
+            </div>
+          </article>
+
+          <article class="panel">
+            <h3>执行结果预览</h3>
+            <div id="runState" class="result-box">
+              <strong>候选结果已生成</strong>
+              <p>系统识别 3 个经营异常、2 个预算偏差和 4 条后续行动项。输出结果尚未计分，需提交 Review。</p>
+            </div>
+            <div class="check-grid small">
+              <div class="check pass"><strong>完整性</strong><span>通过</span></div>
+              <div class="check pass"><strong>数据一致性</strong><span>通过</span></div>
+              <div class="check warn"><strong>合规安全</strong><span>P1 待审</span></div>
+            </div>
+          </article>
+
+          <article class="panel">
+            <h3>候选贡献</h3>
+            <div class="score-card">
+              <span>预计节省工时</span>
+              <strong>7.13 h</strong>
+            </div>
+            <div class="score-card">
+              <span>初始贡献分</span>
+              <strong>86.4</strong>
+            </div>
+            <p class="muted">候选贡献不会直接入账，必须通过 Review 或自动通过规则。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="review-center">
+        <div class="screen-head">
+          <div>
+            <p class="eyebrow">04_review_center.png rebuilt as HTML</p>
+            <h2 data-inline-editable>Review 多人评审中心</h2>
+            <p>只有通过评审的结果才能进入最终贡献分和知识库。</p>
+          </div>
+          <div class="button-row">
+            <button class="secondary-btn danger-text" data-action="review-return">退回</button>
+            <button class="secondary-btn" data-action="review-recheck">复审</button>
+            <button class="primary-btn" data-action="review-approve">通过</button>
+          </div>
+        </div>
+
+        <div class="content-grid review-grid">
+          <article class="panel">
+            <h3>待审队列</h3>
+            <div class="stack-list">
+              <button class="list-card selected" data-action="select-review" data-review="report">
+                <span>经营分析报告</span><small>P1 / 张三 / 剩余 18h</small>
+              </button>
+              <button class="list-card" data-action="select-review" data-review="contract">
+                <span>合同风险初筛</span><small>P0 已拦截 / 审计中</small>
+              </button>
+              <button class="list-card" data-action="select-review" data-review="summary">
+                <span>客户材料摘要</span><small>P1 / 李四 / 待评</small>
+              </button>
+            </div>
+          </article>
+
+          <article class="panel wide">
+            <h3>评审详情</h3>
+            <div class="review-layout">
+              <div>
+                <dl class="info-list">
+                  <div><dt>任务编号</dt><dd>TASK-20240520-001</dd></div>
+                  <div><dt>使用 Skill</dt><dd>智能分析报告生成 v2.3</dd></div>
+                  <div><dt>提交人</dt><dd>张三 / 数据分析师</dd></div>
+                  <div><dt>候选结果</dt><dd>节省工时 7.13h / 初始贡献分 86.4</dd></div>
+                </dl>
+                <div class="result-box subtle">
+                  <strong>输出摘要</strong>
+                  <p>结果覆盖经营指标、预算偏差、异常原因和行动项。当前未发现 P0 风险，但存在客户数据引用，需人工确认。</p>
+                </div>
+              </div>
+              <div>
+                <table class="data-table compact">
+                  <thead><tr><th>维度</th><th>权重</th><th>评分</th></tr></thead>
+                  <tbody>
+                    <tr><td>完整性</td><td>40%</td><td><input class="score-input" value="35"></td></tr>
+                    <tr><td>准确性</td><td>25%</td><td><input class="score-input" value="22"></td></tr>
+                    <tr><td>可用性</td><td>20%</td><td><input class="score-input" value="18"></td></tr>
+                    <tr><td>复用价值</td><td>10%</td><td><input class="score-input" value="8"></td></tr>
+                    <tr><td>合规安全</td><td>5%</td><td><input class="score-input" value="5"></td></tr>
+                  </tbody>
+                </table>
+                <label>评审意见<textarea id="reviewComment" placeholder="填写评审意见，退回或拦截时必填。">结论完整，建议沉淀为经营分析报告模板。</textarea></label>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel wide">
+            <h3>评审进度与历史</h3>
+            <div class="progress-line">
+              <span class="done">李四 已通过 86 分</span>
+              <span class="done">王五 已通过 88 分</span>
+              <span>赵六 待评</span>
+            </div>
+            <table class="data-table compact">
+              <thead><tr><th>评审人</th><th>状态</th><th>评分</th><th>时间</th><th>备注</th></tr></thead>
+              <tbody id="reviewHistory">
+                <tr><td>李四</td><td>已通过</td><td>86</td><td>10:35</td><td>数据口径清晰</td></tr>
+                <tr><td>王五</td><td>已通过</td><td>88</td><td>10:40</td><td>可复用</td></tr>
+              </tbody>
+            </table>
+          </article>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="efficiency">
+        <div class="screen-head">
+          <div>
+            <p class="eyebrow">05_efficiency_dashboard.png rebuilt as HTML</p>
+            <h2 data-inline-editable>员工效率看板</h2>
+            <p>分数用于效率分析和培训建议，不直接作为绩效结论。</p>
+          </div>
+          <div class="button-row">
+            <button class="secondary-btn" data-action="open-drawer" data-drawer="evidence">查看证据链</button>
+            <button class="secondary-btn" data-nav-target="calculation" data-context="weight-guide">查看计算口径</button>
+            <button class="primary-btn" data-action="toast" data-message="申诉草稿已创建">发起申诉</button>
+          </div>
+        </div>
+
+        <div class="metric-grid five">
+          <article class="metric-card"><span>AI 任务数</span><strong>39</strong><em class="up">+12%</em></article>
+          <article class="metric-card"><span>Review 通过率</span><strong>87%</strong><em class="up">+6%</em></article>
+          <article class="metric-card"><span>知识贡献</span><strong>76%</strong><em class="up">+8%</em></article>
+          <article class="metric-card"><span>节省工时</span><strong>38h</strong><em class="warn">待确认 7h</em></article>
+          <article class="metric-card"><span>风险命中</span><strong>3</strong><em class="danger">1 条待处理</em></article>
+        </div>
+
+        <div class="content-grid dashboard-grid">
+          <article class="panel">
+            <h3>能力雷达</h3>
+            <div class="radar-placeholder">
+              <span>任务完成 85</span>
+              <span>Skill 使用 88</span>
+              <span>产出质量 82</span>
+              <span>协作响应 90</span>
+            </div>
+          </article>
+          <article class="panel">
+            <h3>贡献趋势</h3>
+            <div class="bar-chart">
+              <i style="height:42%"></i><i style="height:54%"></i><i style="height:62%"></i><i style="height:78%"></i><i style="height:70%"></i>
+            </div>
+          </article>
+          <article class="panel">
+            <h3>Skill 使用分布</h3>
+            <div class="stack-list">
+              <div class="list-card"><span>分析报告生成</span><small>39%</small></div>
+              <div class="list-card"><span>会议纪要总结</span><small>24%</small></div>
+              <div class="list-card"><span>合同风险初筛</span><small>12%</small></div>
+            </div>
+          </article>
+          <article class="panel wide">
+            <h3>证据链明细</h3>
+            <table class="data-table compact">
+              <thead><tr><th>任务</th><th>Skill</th><th>Review</th><th>贡献分</th><th>状态</th></tr></thead>
+              <tbody>
+                <tr><td>经营分析报告</td><td>分析报告生成 v2.3</td><td>通过</td><td>86.4</td><td><span class="tag green">已入账</span></td></tr>
+                <tr><td>客户会议纪要</td><td>纪要结构化 v1.8</td><td>自动通过</td><td>42.1</td><td><span class="tag green">已入账</span></td></tr>
+                <tr><td>合同风险初筛</td><td>合同风险 v0.9</td><td>拦截</td><td>0</td><td><span class="tag red">不计分</span></td></tr>
+              </tbody>
+            </table>
+          </article>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="skill-admin">
+        <div class="screen-head">
+          <div>
+            <p class="eyebrow">06_skill_management.png rebuilt as HTML</p>
+            <h2 data-inline-editable>Skill 管理与权重配置</h2>
+            <p>管理 Skill 生命周期、Review 规则、权重和审计，不让低价值 Skill 刷分。</p>
+          </div>
+          <div class="button-row">
+            <button class="secondary-btn" data-action="toast" data-message="测试任务已创建">测试 Skill</button>
+            <button class="secondary-btn" data-nav-target="calculation" data-context="weight-guide">查看权重公式</button>
+            <button class="primary-btn" data-action="toast" data-message="上架申请已提交，等待审批">申请上架</button>
+          </div>
+        </div>
+
+        <div class="content-grid skill-grid">
+          <article class="panel">
+            <h3>Skill 列表</h3>
+            <table class="data-table compact">
+              <thead><tr><th>Skill</th><th>风险</th><th>状态</th><th>通过率</th></tr></thead>
+              <tbody>
+                <tr><td>智能分析报告生成</td><td><span class="tag orange">P1</span></td><td>已上架</td><td>86%</td></tr>
+                <tr><td>合同风险初筛</td><td><span class="tag red">P0</span></td><td>测试中</td><td>强审</td></tr>
+                <tr><td>会议纪要结构化</td><td><span class="tag green">Low</span></td><td>已上架</td><td>96%</td></tr>
+              </tbody>
+            </table>
+          </article>
+          <article class="panel wide">
+            <h3>当前 Skill 配置</h3>
+            <div class="form-grid">
+              <label>Skill 名称<input value="智能分析报告生成"></label>
+              <label>版本<input value="v2.3"></label>
+              <label>风险等级<select><option>P1 强制 Review</option></select></label>
+              <label>Skill 权重<input value="1.15"></label>
+              <label>低价值计分上限<input value="20 分 / 日"></label>
+              <label>Review 规则<select><option>多人评审，2/3 通过</option></select></label>
+              <label class="span-2">输入要求<textarea>经营数据、预算文档、分析口径说明。禁止上传未脱敏客户隐私。</textarea></label>
+            </div>
+          </article>
+          <article class="panel wide">
+            <h3>生命周期</h3>
+            <div class="timeline">
+              <span class="done">创建</span><span class="done">测试</span><span class="done">审批</span><span class="current">已上架</span><span>下线 / 回滚</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="calculation">
+        <div class="screen-head">
+          <div>
+            <p class="eyebrow">score_v1_2026_05 engineering spec</p>
+            <h2 data-inline-editable>权重计算引擎</h2>
+            <p>把看板上的贡献分、Skill 权重、Review 维度、封顶和反刷分口径拆成可落库、可复算、可审计的工程规则。</p>
+          </div>
+          <div class="button-row">
+            <button class="secondary-btn" data-nav-target="skill-admin">返回 Skill 管理</button>
+            <button class="primary-btn" data-nav-target="efficiency">查看效率看板</button>
+          </div>
+        </div>
+
+        <div class="metric-grid four">
+          <article class="metric-card"><span>公式版本</span><strong>v1</strong><em>score_v1_2026_05</em></article>
+          <article class="metric-card"><span>预估贡献</span><strong>86.4</strong><em>候选态，不入账</em></article>
+          <article class="metric-card"><span>入账条件</span><strong>Review</strong><em>通过或低风险自动通过</em></article>
+          <article class="metric-card"><span>封顶策略</span><strong>20</strong><em>低价值 Skill 分 / 日</em></article>
+        </div>
+
+        <div class="content-grid calc-grid">
+          <article class="panel wide">
+            <div class="panel-head">
+              <h3>单次贡献分公式</h3>
+              <span class="tag blue">每次入账保存公式快照</span>
+            </div>
+            <div class="formula-box">
+              credited_score = min(saved_hours * points_per_hour * task_complexity_coef * business_weight * skill_weight * quality_coef * reuse_coef * anti_gaming_coef, remaining_daily_cap)
+            </div>
+            <p class="muted">候选结果先用历史质量系数估算；Review 通过后改用实际 Review 质量系数确认入账。</p>
+          </article>
+
+          <article class="panel">
+            <h3>本例 86.4 拆解</h3>
+            <table class="data-table compact">
+              <thead><tr><th>字段</th><th>值</th><th>来源</th></tr></thead>
+              <tbody>
+                <tr><td>基准工时</td><td>8.0h</td><td>任务类型基准库</td></tr>
+                <tr><td>实际耗时</td><td>0.87h</td><td>系统事件 / 补录复核</td></tr>
+                <tr><td>节省工时</td><td>7.13h</td><td>8.0 - 0.87</td></tr>
+                <tr><td>基础点数</td><td>10 / h</td><td>公式版本配置</td></tr>
+                <tr><td>复杂度系数</td><td>1.00</td><td>标准任务</td></tr>
+                <tr><td>业务权重</td><td>1.00</td><td>常规运营分析</td></tr>
+                <tr><td>Skill 权重</td><td>1.15</td><td>管理员审批生效</td></tr>
+                <tr><td>历史质量系数</td><td>1.054</td><td>滚动 Review 质量</td></tr>
+                <tr><td>预估贡献</td><td>86.4</td><td>7.13 * 10 * 1.15 * 1.054</td></tr>
+              </tbody>
+            </table>
+          </article>
+
+          <article class="panel">
+            <h3>Skill 权重建议</h3>
+            <div class="formula-box small">
+              1 + 0.20*通过率 + 0.20*节省工时 + 0.15*复用率 - 0.20*风险惩罚 - 0.15*失败惩罚
+            </div>
+            <table class="data-table compact">
+              <thead><tr><th>因子</th><th>计算窗口</th><th>作用</th></tr></thead>
+              <tbody>
+                <tr><td>Review 通过率</td><td>30 / 90 天</td><td>提高高质量 Skill 权重</td></tr>
+                <tr><td>中位节省工时</td><td>90 天</td><td>衡量真实效率收益</td></tr>
+                <tr><td>验证复用率</td><td>90 天</td><td>衡量组织沉淀价值</td></tr>
+                <tr><td>P0/P1 命中</td><td>30 天</td><td>风险越高权重越低</td></tr>
+                <tr><td>执行失败率</td><td>30 天</td><td>失败越多权重越低</td></tr>
+              </tbody>
+            </table>
+          </article>
+
+          <article class="panel">
+            <h3>Review 质量权重</h3>
+            <table class="data-table compact">
+              <thead><tr><th>维度</th><th>权重</th><th>工程含义</th></tr></thead>
+              <tbody>
+                <tr><td>完整性</td><td>40%</td><td>覆盖任务目标、证据、结论</td></tr>
+                <tr><td>准确性</td><td>25%</td><td>数据、口径、推理正确</td></tr>
+                <tr><td>可用性</td><td>20%</td><td>能进入业务流程</td></tr>
+                <tr><td>复用价值</td><td>10%</td><td>可沉淀 SOP / Case / Prompt</td></tr>
+                <tr><td>合规安全</td><td>5%</td><td>权限、隐私、对外发布安全</td></tr>
+              </tbody>
+            </table>
+          </article>
+
+          <article class="panel">
+            <h3>封顶与反刷分</h3>
+            <table class="data-table compact">
+              <thead><tr><th>场景</th><th>系数 / 结果</th><th>处理</th></tr></thead>
+              <tbody>
+                <tr><td>P0 拦截</td><td>0</td><td>不计分，写风险事件</td></tr>
+                <tr><td>未通过 Review</td><td>0</td><td>不生成确认分</td></tr>
+                <tr><td>相似重复任务</td><td>0.5 或 0</td><td>进入异常队列</td></tr>
+                <tr><td>低价值超封顶</td><td>剩余额度</td><td>超出部分不入账</td></tr>
+                <tr><td>评审利益冲突</td><td>0</td><td>重新分派评审</td></tr>
+              </tbody>
+            </table>
+          </article>
+
+          <article class="panel wide">
+            <h3>工程落库对象</h3>
+            <div class="check-grid small">
+              <div class="check pass"><strong>ScoreRecord</strong><span>保存 raw_score、credited_score、状态和解释</span></div>
+              <div class="check pass"><strong>formula_snapshot</strong><span>保存公式版本、输入值、权重和封顶结果</span></div>
+              <div class="check pass"><strong>skill_metric_snapshots</strong><span>保存 Skill 通过率、复用率、失败率和风险率</span></div>
+              <div class="check pass"><strong>AuditLog</strong><span>记录权重调整、审批、复算预览和人工修正</span></div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="knowledge">
+        <div class="screen-head">
+          <div>
+            <p class="eyebrow">07_knowledge_repository.png rebuilt as HTML</p>
+            <h2 data-inline-editable>知识沉淀 / 组织资产库</h2>
+            <p>通过评审的结果才能沉淀为 Prompt、SOP、Case、失败模式或评审经验。</p>
+          </div>
+          <div class="button-row">
+            <button class="secondary-btn" data-action="open-drawer" data-drawer="knowledge">沉淀规则</button>
+            <button class="primary-btn" data-action="toast" data-message="已发布知识资产：经营分析报告 SOP">发布知识</button>
+          </div>
+        </div>
+
+        <div class="metric-grid four">
+          <article class="metric-card"><span>知识资产</span><strong>126</strong><em class="up">+12 本周</em></article>
+          <article class="metric-card"><span>复用率</span><strong>27%</strong><em class="up">+4%</em></article>
+          <article class="metric-card"><span>Top Case</span><strong>34</strong><em class="up">已验证</em></article>
+          <article class="metric-card"><span>待审核</span><strong>19</strong><em class="warn">需处理</em></article>
+        </div>
+
+        <div class="content-grid knowledge-grid">
+          <article class="panel">
+            <h3>知识资产筛选</h3>
+            <div class="form-grid single">
+              <label>知识类型<select><option>全部</option><option>Prompt</option><option>SOP</option><option>Case</option><option>失败模式</option></select></label>
+              <label>来源 Skill<select><option>智能分析报告生成</option></select></label>
+              <label>状态<select><option>已发布</option><option>待审核</option></select></label>
+            </div>
+          </article>
+          <article class="panel wide">
+            <h3>知识资产库</h3>
+            <div class="card-grid">
+              <button class="asset-card" data-action="toast" data-message="已打开：经营分析报告 SOP"><strong>经营分析报告 SOP</strong><span>来源任务 TASK-001 / 复用 18</span></button>
+              <button class="asset-card"><strong>客户会议纪要 Prompt</strong><span>来源 Skill 纪要结构化 / 复用 32</span></button>
+              <button class="asset-card"><strong>失败模式：数据口径不一致</strong><span>评审经验 / 复用 7</span></button>
+            </div>
+          </article>
+          <article class="panel wide">
+            <h3>复用记录</h3>
+            <table class="data-table compact">
+              <thead><tr><th>知识资产</th><th>复用任务</th><th>复用人</th><th>质量表现</th></tr></thead>
+              <tbody>
+                <tr><td>经营分析报告 SOP</td><td>月度经营分析</td><td>赵六</td><td><span class="tag green">通过</span></td></tr>
+                <tr><td>会议纪要 Prompt</td><td>客户会议总结</td><td>钱七</td><td><span class="tag green">通过</span></td></tr>
+              </tbody>
+            </table>
+          </article>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="reports">
+        <div class="screen-head">
+          <div>
+            <p class="eyebrow">08_reports_export.png rebuilt as HTML</p>
+            <h2 data-inline-editable>报表导出中心</h2>
+            <p>导出前确认统计口径、范围和敏感明细策略，导出动作写入审计。</p>
+          </div>
+          <div class="button-row">
+            <button class="secondary-btn" data-action="toast" data-message="报表预览已刷新">预览</button>
+            <button class="primary-btn" data-action="export-report">导出 Excel / PDF</button>
+          </div>
+        </div>
+
+        <div class="content-grid reports-grid">
+          <article class="panel">
+            <h3>报表模板</h3>
+            <div class="stack-list">
+              <button class="list-card selected" data-report="team"><span>团队月报</span><small>主管可见</small></button>
+              <button class="list-card"><span>员工月报</span><small>个人明细</small></button>
+              <button class="list-card"><span>Skill ROI 报表</span><small>平台负责人</small></button>
+              <button class="list-card"><span>Review 质量报表</span><small>评审人 / 主管</small></button>
+            </div>
+          </article>
+          <article class="panel wide">
+            <h3>导出设置</h3>
+            <div class="form-grid">
+              <label>时间范围<input value="2026 年 4 月"></label>
+              <label>部门范围<select><option>数据分析部</option><option>销售运营部</option></select></label>
+              <label>敏感明细策略<select><option>默认脱敏，仅显示摘要</option><option>仅授权审计可见</option></select></label>
+              <label>格式<select><option>Excel + PDF</option><option>Excel</option><option>PDF</option></select></label>
+            </div>
+          </article>
+          <article class="panel wide">
+            <h3>报表预览</h3>
+            <div class="metric-grid four inside">
+              <article class="metric-card"><span>AI 任务</span><strong>39</strong></article>
+              <article class="metric-card"><span>节省工时</span><strong>38h</strong></article>
+              <article class="metric-card"><span>通过率</span><strong>76%</strong></article>
+              <article class="metric-card"><span>知识资产</span><strong>23</strong></article>
+            </div>
+            <p class="muted">口径：仅统计已通过 Review 或低风险自动通过任务；P0 拦截内容不计分。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="screen" data-screen="risk-admin">
+        <div class="screen-head">
+          <div>
+            <p class="eyebrow">09_permissions_risk.png rebuilt as HTML</p>
+            <h2 data-inline-editable>权限与风控</h2>
+            <p>统一管理 RBAC、P0/P1/P2 风险规则、审计日志和高风险配置变更。</p>
+          </div>
+          <div class="button-row">
+            <button class="secondary-btn" data-action="toast" data-message="已保存草稿，需二次确认后生效">保存草稿</button>
+            <button class="primary-btn" data-action="open-modal" data-modal="confirmRisk">二次确认</button>
+          </div>
+        </div>
+
+        <div class="metric-grid four">
+          <article class="metric-card"><span>P0 拦截率</span><strong>100%</strong><em class="up">目标达成</em></article>
+          <article class="metric-card"><span>越权拦截</span><strong>19</strong><em class="warn">本月</em></article>
+          <article class="metric-card"><span>导出审计</span><strong>4</strong><em class="warn">待复核</em></article>
+          <article class="metric-card"><span>规则变更</span><strong>6</strong><em class="up">已留痕</em></article>
+        </div>
+
+        <div class="content-grid risk-grid">
+          <article class="panel">
+            <h3>角色权限</h3>
+            <table class="data-table compact">
+              <thead><tr><th>角色</th><th>数据范围</th><th>导出</th></tr></thead>
+              <tbody>
+                <tr><td>员工</td><td>自己</td><td>个人</td></tr>
+                <tr><td>主管</td><td>本部门</td><td>部门报表</td></tr>
+                <tr><td>HR</td><td>汇总趋势</td><td>脱敏报表</td></tr>
+                <tr><td>管理员</td><td>审计授权</td><td>全部审计</td></tr>
+              </tbody>
+            </table>
+          </article>
+          <article class="panel">
+            <h3>风控规则</h3>
+            <div class="alert-list">
+              <div class="alert danger">P0：敏感数据泄露、违法违规、越权访问，直接拦截。</div>
+              <div class="alert warn">P1：客户材料、合同财务、对外发布内容，强制 Review。</div>
+              <div class="alert">P2：一般内部材料，提示后保存。</div>
+            </div>
+          </article>
+          <article class="panel wide">
+            <h3>审计日志</h3>
+            <table class="data-table compact">
+              <thead><tr><th>时间</th><th>操作人</th><th>对象</th><th>动作</th><th>结果</th></tr></thead>
+              <tbody>
+                <tr><td>10:21</td><td>系统</td><td>合同风险初筛</td><td>P0 拦截</td><td>已记录</td></tr>
+                <tr><td>10:12</td><td>王五</td><td>团队月报</td><td>导出</td><td>已脱敏</td></tr>
+                <tr><td>09:44</td><td>管理员</td><td>Review 权限</td><td>修改</td><td>二次确认</td></tr>
+              </tbody>
+            </table>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="drawer" id="contextDrawer" aria-hidden="true">
+    <div class="drawer-panel">
+      <button class="close-btn" data-action="close-drawer">关闭</button>
+      <h3 id="drawerTitle">证据链</h3>
+      <p id="drawerBody">任务、Skill 版本、Review 记录、公式快照和报表口径会在这里展示。</p>
+    </div>
+  </div>
+
+  <div class="modal" id="confirmRisk" aria-hidden="true">
+    <div class="modal-card">
+      <h3>确认高风险配置变更</h3>
+      <p>该变更会影响 P0/P1 风险处理策略。确认后立即生效，并写入审计日志。</p>
+      <div class="button-row">
+        <button class="secondary-btn" data-action="close-modal">取消</button>
+        <button class="primary-btn" data-action="confirm-risk">确认并留痕</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>

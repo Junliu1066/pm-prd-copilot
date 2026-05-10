@@ -1,0 +1,55 @@
+{
+  "project_id": "fitness-app-mvp",
+  "artifact": "prototype_reference_analysis",
+  "created_at": "2026-04-24T00:00:00+08:00",
+  "skill": "prototype-reference-analyzer",
+  "reference_inventory": [
+    {
+      "reference_id": "ref-user-20260424-001",
+      "source_type": "user_provided_reference",
+      "source_path_or_url": "conversation://user-provided-prd-prototype-example-20260424",
+      "collected_at": "2026-04-24",
+      "relevant_for": "PRD 原型图表达方式：多手机页面并排、标题编号、箭头标注页面跳转、低保真页面结构。",
+      "human_verification_required": true
+    }
+  ],
+  "borrowable_patterns": [
+    {
+      "pattern": "用 2-3 个手机线框并排展示核心路径，而不是先铺完整页面地图。",
+      "why_useful": "符合用户要求的“先预览再改动”，能让用户先判断页面结构和路径是否正确。",
+      "target_output": "prototype_preview"
+    },
+    {
+      "pattern": "每个手机上方用编号 + 页面名称，页面之间用箭头和短文案说明触发动作。",
+      "why_useful": "适合 PRD 审阅，能直接看出点击哪里进入下一步。",
+      "target_output": "prototype_preview"
+    },
+    {
+      "pattern": "低保真表达优先：手机框、模块区块、按钮、状态提示、关键数据，不做视觉设计细节。",
+      "why_useful": "降低修改成本，避免在 PRD 阶段过早陷入 UI 视觉细节。",
+      "target_output": "prototype_preview"
+    }
+  ],
+  "do_not_copy": [
+    {
+      "element": "参考图中的具体业务内容、活动报名文案、支付流程和品牌样式。",
+      "reason": "这些不属于健身 App 组间歇闹钟场景，且参考图只用于结构借鉴。"
+    },
+    {
+      "element": "高保真视觉、具体图标资产、精细手机壳素材。",
+      "reason": "当前阶段需要低保真 PRD 原型，重点是流程、页面结构和交互反馈。"
+    }
+  ],
+  "recommended_prototype_style": {
+    "fidelity": "low_fi",
+    "canvas_style": "横向手机线框 storyboard，先画 3 个关键页面。",
+    "screen_style": "Android 首发，但预览阶段不绑定 Material 细节；只表达顶部标题、核心信息区、主按钮、底部/次级动作。",
+    "annotation_style": "页面之间用蓝色箭头标注动作，例如“点击开始组间歇”“计时结束提醒”。",
+    "review_notes": "先让用户确认组间歇闹钟路径和页面结构，确认后再扩展完整全流程原型。"
+  },
+  "trace_notes": [
+    {
+      "note": "本参考来自用户在对话中提供的 PRD 原型图示例，只作为结构表达参考。"
+    }
+  ]
+}

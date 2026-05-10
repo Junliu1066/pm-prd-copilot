@@ -1,0 +1,526 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="4550" viewBox="0 0 1800 4550">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f8fafc"/>
+      <stop offset="54%" stop-color="#eef6f6"/>
+      <stop offset="100%" stop-color="#f7f4ec"/>
+    </linearGradient>
+    <linearGradient id="top" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#102033"/>
+      <stop offset="100%" stop-color="#18404a"/>
+    </linearGradient>
+    <linearGradient id="primary" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0f766e"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <filter id="shadow" x="-12%" y="-12%" width="124%" height="124%">
+      <feDropShadow dx="0" dy="8" stdDeviation="11" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <style>
+      .title { font: 800 40px "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #102033; letter-spacing: 0; }
+      .subtitle { font: 500 17px "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #526173; letter-spacing: 0; }
+      .legend { font: 700 14px "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #334155; letter-spacing: 0; }
+      .stage { font: 800 18px "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #0f172a; letter-spacing: 0; }
+      .screen { fill: #ffffff; stroke: #d7e0ea; stroke-width: 1.3; filter: url(#shadow); }
+      .topbar { fill: url(#top); }
+      .nav { font: 800 15px "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #f8fafc; letter-spacing: 0; }
+      .h1 { font: 800 20px "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #0f172a; letter-spacing: 0; }
+      .h2 { font: 800 15px "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #0f172a; letter-spacing: 0; }
+      .body { font: 500 13px "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #334155; letter-spacing: 0; }
+      .small { font: 500 11px "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #64748b; letter-spacing: 0; }
+      .tiny { font: 500 10px "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #64748b; letter-spacing: 0; }
+      .button { font: 800 13px "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #ffffff; letter-spacing: 0; }
+      .chipText { font: 700 11px "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #164e63; letter-spacing: 0; }
+      .screenId { font: 800 12px "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif; fill: #ffffff; letter-spacing: 0; }
+      .card { fill: #ffffff; stroke: #d9e2ec; stroke-width: 1.1; }
+      .field { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.1; }
+      .primary { fill: url(#primary); }
+      .secondary { fill: #f8fafc; stroke: #0f766e; stroke-width: 1.2; }
+      .chip { fill: #e0f2fe; stroke: #7dd3fc; stroke-width: 1; }
+      .chipGreen { fill: #dcfce7; stroke: #86efac; stroke-width: 1; }
+      .chipAmber { fill: #fef3c7; stroke: #fcd34d; stroke-width: 1; }
+      .chipRose { fill: #ffe4e6; stroke: #fda4af; stroke-width: 1; }
+      .line { stroke: #cbd5e1; stroke-width: 1.2; }
+      .barBg { fill: #e2e8f0; }
+      .teal { fill: #0f766e; }
+      .blue { fill: #2563eb; }
+      .amber { fill: #d97706; }
+      .rose { fill: #e11d48; }
+      .slate { fill: #475569; }
+      .arrow { stroke: #64748b; stroke-width: 2; fill: none; marker-end: url(#arrowHead); }
+      .rail { stroke: #cbd5e1; stroke-width: 2; fill: none; stroke-dasharray: 7 7; }
+    </style>
+    <marker id="arrowHead" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M1,1 L8,5 L1,9 Z" fill="#64748b"/>
+    </marker>
+  </defs>
+
+  <rect width="1800" height="4550" fill="url(#bg)"/>
+  <text class="title" x="72" y="78">毕业答辩辅导智能体 · 全量低保真原型图</text>
+  <text class="subtitle" x="74" y="112">覆盖 MVP、二期个人效率增强、三期导师/机构协作、最终平台化候选能力。MVP 仍是一期开发范围，其余页面为后续阶段原型。</text>
+  <rect x="1328" y="50" width="390" height="50" rx="8" fill="#ffffff" stroke="#d7e0ea"/>
+  <text class="legend" x="1350" y="80">18 个页面/状态 · Web/H5 低保真 · 按阶段分层</text>
+
+  <path class="rail" d="M608 178 V4420"/>
+  <path class="rail" d="M1196 178 V4420"/>
+
+  <!-- Row labels -->
+  <text class="stage" x="72" y="168">一期 MVP：文字版答辩训练闭环</text>
+  <text class="stage" x="72" y="1508">二期：个人训练效率增强</text>
+  <text class="stage" x="72" y="2848">三期：导师与机构协作</text>
+  <text class="stage" x="72" y="3528">最终：平台化候选能力</text>
+
+  <!-- P1 -->
+  <g transform="translate(70,190)">
+    <rect class="screen" width="500" height="600" rx="16"/>
+    <rect class="topbar" width="500" height="54" rx="16"/>
+    <rect x="0" y="38" width="500" height="16" fill="#18404a"/>
+    <text class="screenId" x="22" y="33">P1</text>
+    <text class="nav" x="250" y="33" text-anchor="middle">新建训练</text>
+    <text class="h1" x="28" y="92">创建一次模拟答辩</text>
+    <text class="small" x="28" y="116">录入论文资料，判断个性化训练能力</text>
+    <rect class="field" x="28" y="140" width="444" height="48" rx="8"/>
+    <text class="tiny" x="46" y="160">论文题目</text>
+    <text class="body" x="46" y="181">基于学习行为的答辩训练工具</text>
+    <rect class="field" x="28" y="204" width="211" height="48" rx="8"/>
+    <text class="tiny" x="46" y="224">学历层次</text>
+    <text class="body" x="46" y="245">本科</text>
+    <rect class="field" x="261" y="204" width="211" height="48" rx="8"/>
+    <text class="tiny" x="279" y="224">论文类型</text>
+    <text class="body" x="279" y="245">设计 / 应用</text>
+    <rect class="field" x="28" y="268" width="444" height="86" rx="8"/>
+    <text class="tiny" x="46" y="289">摘要 / 目录 / 方法 / 结论</text>
+    <text class="small" x="46" y="318">至少补充 2 项，支持论文事实追问</text>
+    <line class="line" x1="46" y1="334" x2="420" y2="334"/>
+    <text class="h2" x="28" y="392">资料完整度</text>
+    <rect class="chipAmber" x="132" y="373" width="54" height="28" rx="8"/>
+    <text class="chipText" x="159" y="392" text-anchor="middle">中</text>
+    <text class="small" x="28" y="420">可个性化提问，事实性内容仍需用户核验。</text>
+    <text class="h2" x="28" y="464">训练模式</text>
+    <rect class="chip" x="28" y="482" width="92" height="30" rx="8"/>
+    <text class="chipText" x="74" y="502" text-anchor="middle">基础核验</text>
+    <rect class="chipGreen" x="132" y="482" width="92" height="30" rx="8"/>
+    <text class="chipText" x="178" y="502" text-anchor="middle">方法证据</text>
+    <rect class="chipRose" x="236" y="482" width="92" height="30" rx="8"/>
+    <text class="chipText" x="282" y="502" text-anchor="middle">压力反驳</text>
+    <rect class="primary" x="28" y="535" width="444" height="42" rx="8"/>
+    <text class="button" x="250" y="562" text-anchor="middle">开始生成问题</text>
+  </g>
+
+  <!-- P2 -->
+  <g transform="translate(650,190)">
+    <rect class="screen" width="500" height="600" rx="16"/>
+    <rect class="topbar" width="500" height="54" rx="16"/>
+    <rect x="0" y="38" width="500" height="16" fill="#18404a"/>
+    <text class="screenId" x="22" y="33">P2</text>
+    <text class="nav" x="250" y="33" text-anchor="middle">模拟答辩</text>
+    <rect class="chipGreen" x="28" y="78" width="88" height="28" rx="8"/>
+    <text class="chipText" x="72" y="97" text-anchor="middle">第 2 / 6 题</text>
+    <rect class="chip" x="128" y="78" width="88" height="28" rx="8"/>
+    <text class="chipText" x="172" y="97" text-anchor="middle">研究方法</text>
+    <text class="small" x="230" y="96">追问强度：中</text>
+    <rect class="card" x="28" y="128" width="444" height="116" rx="8"/>
+    <text class="tiny" x="50" y="154">老师问题</text>
+    <text class="h2" x="50" y="182">你为什么选择这个研究方法？</text>
+    <text class="body" x="50" y="207">它能回答你的核心研究问题吗？</text>
+    <text class="small" x="50" y="229">考察点：方法选择是否匹配研究问题</text>
+    <rect class="field" x="28" y="264" width="444" height="96" rx="8"/>
+    <text class="tiny" x="50" y="286">我的回答</text>
+    <text class="small" x="50" y="315">我选择问卷法，因为它比较常用...</text>
+    <line class="line" x1="50" y1="338" x2="426" y2="338"/>
+    <rect class="primary" x="28" y="382" width="444" height="42" rx="8"/>
+    <text class="button" x="250" y="409" text-anchor="middle">提交回答</text>
+    <rect class="card" x="28" y="446" width="444" height="72" rx="8"/>
+    <circle class="amber" cx="50" cy="474" r="7"/>
+    <text class="h2" x="66" y="479">智能追问</text>
+    <text class="small" x="50" y="500">请结合论文对象说明：为什么问卷法比访谈法更适合？</text>
+    <rect class="card" x="28" y="536" width="444" height="42" rx="8"/>
+    <text class="small" x="50" y="562">评分预览：证据意识偏弱，需补充章节或数据。</text>
+  </g>
+
+  <!-- P3 -->
+  <g transform="translate(1230,190)">
+    <rect class="screen" width="500" height="600" rx="16"/>
+    <rect class="topbar" width="500" height="54" rx="16"/>
+    <rect x="0" y="38" width="500" height="16" fill="#18404a"/>
+    <text class="screenId" x="22" y="33">P3</text>
+    <text class="nav" x="250" y="33" text-anchor="middle">单题复盘</text>
+    <text class="h1" x="28" y="92">这题为什么扣分</text>
+    <text class="small" x="28" y="116">原问题、原回答、评分原因、示范改写</text>
+    <rect class="card" x="28" y="140" width="444" height="76" rx="8"/>
+    <text class="tiny" x="50" y="164">原回答问题</text>
+    <text class="body" x="50" y="191">只说“方法常用”，没有说明与研究问题的关系。</text>
+    <rect class="card" x="28" y="234" width="444" height="110" rx="8"/>
+    <text class="tiny" x="50" y="258">五维评分</text>
+    <text class="body" x="50" y="286">熟悉度 3.0  逻辑性 3.5  证据意识 2.0</text>
+    <text class="body" x="50" y="314">反思能力 3.0  表达能力 3.5</text>
+    <rect class="card" x="28" y="364" width="444" height="116" rx="8"/>
+    <text class="tiny" x="50" y="388">示范改写</text>
+    <text class="body" x="50" y="416">我选择问卷法，是因为本研究需要收集</text>
+    <text class="body" x="50" y="441">较多学生的共性反馈。</text>
+    <text class="small" x="50" y="466">待补充：第三章样本量、题项来源、信效度说明。</text>
+    <rect class="secondary" x="28" y="510" width="210" height="42" rx="8"/>
+    <text class="chipText" x="133" y="537" text-anchor="middle">补充资料</text>
+    <rect class="primary" x="262" y="510" width="210" height="42" rx="8"/>
+    <text class="button" x="367" y="537" text-anchor="middle">下一题</text>
+  </g>
+
+  <!-- P4 -->
+  <g transform="translate(70,860)">
+    <rect class="screen" width="500" height="600" rx="16"/>
+    <rect class="topbar" width="500" height="54" rx="16"/>
+    <rect x="0" y="38" width="500" height="16" fill="#18404a"/>
+    <text class="screenId" x="22" y="33">P4</text>
+    <text class="nav" x="250" y="33" text-anchor="middle">训练报告</text>
+    <text class="h1" x="28" y="92">本次训练完成</text>
+    <text class="small" x="28" y="116">6 题 · 2 次追问 · 平均 3.2 / 5</text>
+    <rect class="card" x="28" y="140" width="444" height="142" rx="8"/>
+    <text class="tiny" x="50" y="164">五维表现</text>
+    <text class="small" x="50" y="193">熟悉度</text><rect class="barBg" x="128" y="183" width="290" height="10" rx="5"/><rect class="teal" x="128" y="183" width="210" height="10" rx="5"/>
+    <text class="small" x="50" y="224">逻辑性</text><rect class="barBg" x="128" y="214" width="290" height="10" rx="5"/><rect class="blue" x="128" y="214" width="232" height="10" rx="5"/>
+    <text class="small" x="50" y="255">证据意识</text><rect class="barBg" x="128" y="245" width="290" height="10" rx="5"/><rect class="amber" x="128" y="245" width="128" height="10" rx="5"/>
+    <rect class="card" x="28" y="306" width="444" height="104" rx="8"/>
+    <text class="tiny" x="50" y="330">薄弱模块</text>
+    <rect class="chipRose" x="50" y="348" width="92" height="28" rx="8"/><text class="chipText" x="96" y="367" text-anchor="middle">证据意识</text>
+    <rect class="chipAmber" x="154" y="348" width="92" height="28" rx="8"/><text class="chipText" x="200" y="367" text-anchor="middle">方法解释</text>
+    <text class="small" x="50" y="394">建议优先复练研究方法、数据来源、结果结论。</text>
+    <rect class="card" x="28" y="432" width="444" height="78" rx="8"/>
+    <text class="tiny" x="50" y="456">复练计划</text>
+    <text class="body" x="50" y="484">下一轮推荐 5 题：方法证据、压力追问、不足反思。</text>
+    <rect class="secondary" x="28" y="535" width="210" height="42" rx="8"/>
+    <text class="chipText" x="133" y="562" text-anchor="middle">导出摘要</text>
+    <rect class="primary" x="262" y="535" width="210" height="42" rx="8"/>
+    <text class="button" x="367" y="562" text-anchor="middle">开始复练</text>
+  </g>
+
+  <!-- P5 -->
+  <g transform="translate(650,860)">
+    <rect class="screen" width="500" height="600" rx="16"/>
+    <rect class="topbar" width="500" height="54" rx="16"/>
+    <rect x="0" y="38" width="500" height="16" fill="#18404a"/>
+    <text class="screenId" x="22" y="33">P5</text>
+    <text class="nav" x="250" y="33" text-anchor="middle">复练训练</text>
+    <text class="h1" x="28" y="92">围绕薄弱点复练</text>
+    <text class="small" x="28" y="116">题目由上一轮低分模块加权生成</text>
+    <rect class="card" x="28" y="140" width="444" height="92" rx="8"/>
+    <text class="tiny" x="50" y="164">复练来源</text>
+    <text class="body" x="50" y="192">上一轮：证据意识 2.0 / 方法解释 2.5</text>
+    <text class="small" x="50" y="216">本轮题目 5 道，单题最多 1 次追问。</text>
+    <rect class="card" x="28" y="252" width="444" height="116" rx="8"/>
+    <text class="tiny" x="50" y="276">复练题</text>
+    <text class="h2" x="50" y="304">你的样本量如何支撑研究结论？</text>
+    <text class="small" x="50" y="332">系统要求：必须说明数据来源、样本范围、局限。</text>
+    <rect class="field" x="28" y="390" width="444" height="82" rx="8"/>
+    <text class="tiny" x="50" y="413">复练回答</text>
+    <line class="line" x1="50" y1="440" x2="420" y2="440"/>
+    <line class="line" x1="50" y1="463" x2="360" y2="463"/>
+    <rect class="secondary" x="28" y="500" width="210" height="42" rx="8"/>
+    <text class="chipText" x="133" y="527" text-anchor="middle">查看上次问题</text>
+    <rect class="primary" x="262" y="500" width="210" height="42" rx="8"/>
+    <text class="button" x="367" y="527" text-anchor="middle">提交复练</text>
+  </g>
+
+  <!-- P6 -->
+  <g transform="translate(1230,860)">
+    <rect class="screen" width="500" height="600" rx="16"/>
+    <rect class="topbar" width="500" height="54" rx="16"/>
+    <rect x="0" y="38" width="500" height="16" fill="#18404a"/>
+    <text class="screenId" x="22" y="33">P6</text>
+    <text class="nav" x="250" y="33" text-anchor="middle">资料管理 / 删除</text>
+    <text class="h1" x="28" y="92">管理论文资料</text>
+    <text class="small" x="28" y="116">查看已保存资料，支持删除和重新补充</text>
+    <rect class="card" x="28" y="142" width="444" height="110" rx="8"/>
+    <text class="tiny" x="50" y="166">当前资料</text>
+    <text class="body" x="50" y="194">论文题目、摘要、目录、研究方法、结论</text>
+    <text class="small" x="50" y="220">完整度：中 · 最近训练：2026-04-25</text>
+    <rect class="card" x="28" y="276" width="444" height="110" rx="8"/>
+    <circle class="rose" cx="50" cy="306" r="7"/>
+    <text class="h2" x="66" y="311">删除影响</text>
+    <text class="small" x="50" y="340">删除后将无法继续查看个性化报告，已导出的摘要不受影响。</text>
+    <text class="small" x="50" y="365">模型不会再使用已删除资料生成追问。</text>
+    <rect class="secondary" x="28" y="430" width="210" height="42" rx="8"/>
+    <text class="chipText" x="133" y="457" text-anchor="middle">补充资料</text>
+    <rect class="chipRose" x="262" y="430" width="210" height="42" rx="8"/>
+    <text class="chipText" x="367" y="457" text-anchor="middle">删除资料</text>
+  </g>
+
+  <!-- P7 -->
+  <g transform="translate(70,1530)">
+    <rect class="screen" width="500" height="600" rx="16"/>
+    <rect class="topbar" width="500" height="54" rx="16"/>
+    <rect x="0" y="38" width="500" height="16" fill="#18404a"/>
+    <text class="screenId" x="22" y="33">P7</text>
+    <text class="nav" x="250" y="33" text-anchor="middle">PPT / 章节输入</text>
+    <text class="h1" x="28" y="92">按页生成答辩问题</text>
+    <text class="small" x="28" y="116">粘贴 PPT 大纲或论文章节，系统按页提问</text>
+    <rect class="field" x="28" y="140" width="444" height="118" rx="8"/>
+    <text class="tiny" x="50" y="164">PPT 大纲</text>
+    <text class="small" x="50" y="192">1. 研究背景</text>
+    <text class="small" x="50" y="218">2. 研究方法</text>
+    <text class="small" x="50" y="244">3. 结果与结论</text>
+    <rect class="card" x="28" y="282" width="444" height="112" rx="8"/>
+    <text class="tiny" x="50" y="306">页级问题预览</text>
+    <text class="body" x="50" y="334">第 2 页：为什么这个方法适合你的问题？</text>
+    <text class="small" x="50" y="360">系统会绑定页码、模块和追问方向。</text>
+    <rect class="chip" x="28" y="420" width="120" height="30" rx="8"/>
+    <text class="chipText" x="88" y="440" text-anchor="middle">按页训练</text>
+    <rect class="chipGreen" x="162" y="420" width="120" height="30" rx="8"/>
+    <text class="chipText" x="222" y="440" text-anchor="middle">按章节训练</text>
+    <rect class="primary" x="28" y="512" width="444" height="42" rx="8"/>
+    <text class="button" x="250" y="539" text-anchor="middle">生成页级问题</text>
+  </g>
+
+  <!-- P8 -->
+  <g transform="translate(650,1530)">
+    <rect class="screen" width="500" height="600" rx="16"/>
+    <rect class="topbar" width="500" height="54" rx="16"/>
+    <rect x="0" y="38" width="500" height="16" fill="#18404a"/>
+    <text class="screenId" x="22" y="33">P8</text>
+    <text class="nav" x="250" y="33" text-anchor="middle">历史趋势</text>
+    <text class="h1" x="28" y="92">多轮训练变化</text>
+    <text class="small" x="28" y="116">至少完成两轮后显示趋势解释</text>
+    <rect class="card" x="28" y="140" width="444" height="178" rx="8"/>
+    <text class="tiny" x="50" y="164">五维趋势</text>
+    <polyline points="70,275 145,250 220,238 295,210 390,190" stroke="#0f766e" stroke-width="4" fill="none"/>
+    <polyline points="70,288 145,284 220,265 295,258 390,232" stroke="#2563eb" stroke-width="4" fill="none"/>
+    <line class="line" x1="60" y1="292" x2="420" y2="292"/>
+    <line class="line" x1="60" y1="180" x2="60" y2="292"/>
+    <text class="small" x="70" y="306">第1轮</text><text class="small" x="360" y="306">第4轮</text>
+    <rect class="card" x="28" y="344" width="444" height="112" rx="8"/>
+    <text class="tiny" x="50" y="368">趋势解释</text>
+    <text class="body" x="50" y="396">证据意识提升明显，但反思能力仍低。</text>
+    <text class="small" x="50" y="424">建议下一轮继续练“不足与改进”模块。</text>
+    <rect class="primary" x="28" y="510" width="444" height="42" rx="8"/>
+    <text class="button" x="250" y="537" text-anchor="middle">进入专项复练</text>
+  </g>
+
+  <!-- P9 -->
+  <g transform="translate(1230,1530)">
+    <rect class="screen" width="500" height="600" rx="16"/>
+    <rect class="topbar" width="500" height="54" rx="16"/>
+    <rect x="0" y="38" width="500" height="16" fill="#18404a"/>
+    <text class="screenId" x="22" y="33">P9</text>
+    <text class="nav" x="250" y="33" text-anchor="middle">专项复练</text>
+    <text class="h1" x="28" y="92">选择薄弱模块</text>
+    <text class="small" x="28" y="116">指定模块后生成更集中的训练题单</text>
+    <rect class="chipRose" x="28" y="146" width="116" height="34" rx="8"/><text class="chipText" x="86" y="168" text-anchor="middle">证据意识</text>
+    <rect class="chipAmber" x="160" y="146" width="116" height="34" rx="8"/><text class="chipText" x="218" y="168" text-anchor="middle">不足反思</text>
+    <rect class="chip" x="292" y="146" width="116" height="34" rx="8"/><text class="chipText" x="350" y="168" text-anchor="middle">表达能力</text>
+    <rect class="card" x="28" y="214" width="444" height="126" rx="8"/>
+    <text class="tiny" x="50" y="238">题单设置</text>
+    <text class="body" x="50" y="266">题数：5 题 · 追问：最多 1 轮</text>
+    <text class="body" x="50" y="294">难度：中 · 优先绑定历史低分题型</text>
+    <rect class="card" x="28" y="366" width="444" height="98" rx="8"/>
+    <text class="tiny" x="50" y="390">题目不足时</text>
+    <text class="small" x="50" y="418">使用相近模块补齐，并标记为“相近模块题”。</text>
+    <rect class="primary" x="28" y="510" width="444" height="42" rx="8"/>
+    <text class="button" x="250" y="537" text-anchor="middle">开始专项复练</text>
+  </g>
+
+  <!-- P10 -->
+  <g transform="translate(70,2200)">
+    <rect class="screen" width="500" height="600" rx="16"/>
+    <rect class="topbar" width="500" height="54" rx="16"/>
+    <rect x="0" y="38" width="500" height="16" fill="#18404a"/>
+    <text class="screenId" x="22" y="33">P10</text>
+    <text class="nav" x="250" y="33" text-anchor="middle">导出复习清单</text>
+    <text class="h1" x="28" y="92">生成低风险摘要</text>
+    <text class="small" x="28" y="116">只导出训练表现和复练建议，不导出完整论文资料</text>
+    <rect class="card" x="28" y="144" width="444" height="132" rx="8"/>
+    <text class="tiny" x="50" y="168">导出内容</text>
+    <text class="body" x="50" y="196">低分题、评分原因、待补充依据、复练题单</text>
+    <text class="small" x="50" y="224">默认隐藏摘要、目录、原始回答全文。</text>
+    <rect class="card" x="28" y="306" width="444" height="112" rx="8"/>
+    <circle class="rose" cx="50" cy="336" r="7"/>
+    <text class="h2" x="66" y="341">隐私提醒</text>
+    <text class="small" x="50" y="370">导出文件可能包含学习表现，请谨慎分享给第三方。</text>
+    <rect class="secondary" x="28" y="500" width="210" height="42" rx="8"/>
+    <text class="chipText" x="133" y="527" text-anchor="middle">预览摘要</text>
+    <rect class="primary" x="262" y="500" width="210" height="42" rx="8"/>
+    <text class="button" x="367" y="527" text-anchor="middle">导出</text>
+  </g>
+
+  <!-- P11 -->
+  <g transform="translate(650,2200)">
+    <rect class="screen" width="500" height="600" rx="16"/>
+    <rect class="topbar" width="500" height="54" rx="16"/>
+    <rect x="0" y="38" width="500" height="16" fill="#18404a"/>
+    <text class="screenId" x="22" y="33">P11</text>
+    <text class="nav" x="250" y="33" text-anchor="middle">题库标签管理</text>
+    <text class="h1" x="28" y="92">扩展专业题库</text>
+    <text class="small" x="28" y="116">按模块、专业、论文类型维护问题标签</text>
+    <rect class="card" x="28" y="142" width="444" height="128" rx="8"/>
+    <text class="tiny" x="50" y="166">标签分布</text>
+    <rect class="chip" x="50" y="190" width="86" height="28" rx="8"/><text class="chipText" x="93" y="209" text-anchor="middle">研究方法</text>
+    <rect class="chipGreen" x="148" y="190" width="86" height="28" rx="8"/><text class="chipText" x="191" y="209" text-anchor="middle">数据来源</text>
+    <rect class="chipAmber" x="246" y="190" width="86" height="28" rx="8"/><text class="chipText" x="289" y="209" text-anchor="middle">创新贡献</text>
+    <text class="small" x="50" y="248">用于降低重复率，提高专业贴合度。</text>
+    <rect class="card" x="28" y="300" width="444" height="116" rx="8"/>
+    <text class="tiny" x="50" y="324">质检规则</text>
+    <text class="body" x="50" y="352">每题必须有主问题、追问、考察点、回答要点。</text>
+    <text class="small" x="50" y="380">缺少标签的问题不会进入正式抽题池。</text>
+    <rect class="primary" x="28" y="512" width="444" height="42" rx="8"/>
+    <text class="button" x="250" y="539" text-anchor="middle">保存标签规则</text>
+  </g>
+
+  <!-- P12 -->
+  <g transform="translate(1230,2200)">
+    <rect class="screen" width="500" height="600" rx="16"/>
+    <rect class="topbar" width="500" height="54" rx="16"/>
+    <rect x="0" y="38" width="500" height="16" fill="#18404a"/>
+    <text class="screenId" x="22" y="33">P12</text>
+    <text class="nav" x="250" y="33" text-anchor="middle">学生授权</text>
+    <text class="h1" x="28" y="92">授权导师查看报告</text>
+    <text class="small" x="28" y="116">学生主动授权，导师才能查看训练摘要</text>
+    <rect class="card" x="28" y="144" width="444" height="112" rx="8"/>
+    <text class="tiny" x="50" y="168">授权范围</text>
+    <text class="body" x="50" y="196">训练报告、薄弱模块、复练建议</text>
+    <text class="small" x="50" y="224">默认不展示完整论文资料和原始回答全文。</text>
+    <rect class="card" x="28" y="286" width="444" height="108" rx="8"/>
+    <text class="tiny" x="50" y="310">有效期</text>
+    <text class="body" x="50" y="338">7 天 / 30 天 / 本学期</text>
+    <text class="small" x="50" y="366">学生可随时撤销授权。</text>
+    <rect class="secondary" x="28" y="500" width="210" height="42" rx="8"/>
+    <text class="chipText" x="133" y="527" text-anchor="middle">取消</text>
+    <rect class="primary" x="262" y="500" width="210" height="42" rx="8"/>
+    <text class="button" x="367" y="527" text-anchor="middle">确认授权</text>
+  </g>
+
+  <!-- P13 -->
+  <g transform="translate(70,2870)">
+    <rect class="screen" width="500" height="600" rx="16"/>
+    <rect class="topbar" width="500" height="54" rx="16"/>
+    <rect x="0" y="38" width="500" height="16" fill="#18404a"/>
+    <text class="screenId" x="22" y="33">P13</text>
+    <text class="nav" x="250" y="33" text-anchor="middle">导师任务台</text>
+    <text class="h1" x="28" y="92">创建班级训练任务</text>
+    <text class="small" x="28" y="116">导师只配置训练任务，不编辑学生论文资料</text>
+    <rect class="card" x="28" y="144" width="444" height="98" rx="8"/>
+    <text class="tiny" x="50" y="168">班级</text>
+    <text class="body" x="50" y="196">2026 届本科论文答辩 1 班 · 42 人</text>
+    <text class="small" x="50" y="220">已授权可查看报告：28 人</text>
+    <rect class="card" x="28" y="270" width="444" height="126" rx="8"/>
+    <text class="tiny" x="50" y="294">训练任务</text>
+    <text class="body" x="50" y="322">模式：全流程模拟 · 题数：8 题</text>
+    <text class="body" x="50" y="350">截止：答辩前 3 天</text>
+    <text class="small" x="50" y="376">未授权学生只能收到任务，不会共享报告。</text>
+    <rect class="primary" x="28" y="510" width="444" height="42" rx="8"/>
+    <text class="button" x="250" y="537" text-anchor="middle">发布训练任务</text>
+  </g>
+
+  <!-- P14 -->
+  <g transform="translate(650,2870)">
+    <rect class="screen" width="500" height="600" rx="16"/>
+    <rect class="topbar" width="500" height="54" rx="16"/>
+    <rect x="0" y="38" width="500" height="16" fill="#18404a"/>
+    <text class="screenId" x="22" y="33">P14</text>
+    <text class="nav" x="250" y="33" text-anchor="middle">授权学生报告</text>
+    <text class="h1" x="28" y="92">查看学生训练摘要</text>
+    <text class="small" x="28" y="116">只展示授权范围内的训练结果</text>
+    <rect class="card" x="28" y="144" width="444" height="112" rx="8"/>
+    <text class="tiny" x="50" y="168">学生表现</text>
+    <text class="body" x="50" y="196">平均分 3.4 / 5 · 完成 2 轮训练</text>
+    <text class="small" x="50" y="224">薄弱：证据意识、创新贡献、不足反思</text>
+    <rect class="card" x="28" y="286" width="444" height="126" rx="8"/>
+    <text class="tiny" x="50" y="310">辅导建议</text>
+    <text class="body" x="50" y="338">建议课后重点问：结论来源、样本局限、创新边界。</text>
+    <text class="small" x="50" y="366">AI 评语需导师人工确认后再发送。</text>
+    <rect class="secondary" x="28" y="500" width="210" height="42" rx="8"/>
+    <text class="chipText" x="133" y="527" text-anchor="middle">查看授权范围</text>
+    <rect class="primary" x="262" y="500" width="210" height="42" rx="8"/>
+    <text class="button" x="367" y="527" text-anchor="middle">写辅导备注</text>
+  </g>
+
+  <!-- P15 -->
+  <g transform="translate(1230,2870)">
+    <rect class="screen" width="500" height="600" rx="16"/>
+    <rect class="topbar" width="500" height="54" rx="16"/>
+    <rect x="0" y="38" width="500" height="16" fill="#18404a"/>
+    <text class="screenId" x="22" y="33">P15</text>
+    <text class="nav" x="250" y="33" text-anchor="middle">班级批量报告</text>
+    <text class="h1" x="28" y="92">班级薄弱点汇总</text>
+    <text class="small" x="28" y="116">默认脱敏，只显示组织层趋势</text>
+    <rect class="card" x="28" y="144" width="444" height="150" rx="8"/>
+    <text class="tiny" x="50" y="168">模块分布</text>
+    <text class="small" x="50" y="198">证据意识</text><rect class="barBg" x="132" y="188" width="280" height="10" rx="5"/><rect class="rose" x="132" y="188" width="222" height="10" rx="5"/>
+    <text class="small" x="50" y="230">方法解释</text><rect class="barBg" x="132" y="220" width="280" height="10" rx="5"/><rect class="amber" x="132" y="220" width="180" height="10" rx="5"/>
+    <text class="small" x="50" y="262">答辩表达</text><rect class="barBg" x="132" y="252" width="280" height="10" rx="5"/><rect class="teal" x="132" y="252" width="124" height="10" rx="5"/>
+    <rect class="card" x="28" y="326" width="444" height="116" rx="8"/>
+    <text class="tiny" x="50" y="350">完成率</text>
+    <text class="body" x="50" y="378">已完成：31 / 42 · 未完成：11</text>
+    <text class="small" x="50" y="406">样本少于 5 人时不展示细分模块。</text>
+    <rect class="primary" x="28" y="510" width="444" height="42" rx="8"/>
+    <text class="button" x="250" y="537" text-anchor="middle">导出脱敏报告</text>
+  </g>
+
+  <!-- P16 -->
+  <g transform="translate(70,3550)">
+    <rect class="screen" width="500" height="600" rx="16"/>
+    <rect class="topbar" width="500" height="54" rx="16"/>
+    <rect x="0" y="38" width="500" height="16" fill="#18404a"/>
+    <text class="screenId" x="22" y="33">P16</text>
+    <text class="nav" x="250" y="33" text-anchor="middle">语音训练</text>
+    <text class="h1" x="28" y="92">口头回答模拟</text>
+    <text class="small" x="28" y="116">需授权麦克风，拒绝后回到文字训练</text>
+    <rect class="card" x="28" y="144" width="444" height="138" rx="8"/>
+    <text class="tiny" x="50" y="168">当前问题</text>
+    <text class="h2" x="50" y="196">请用 2 分钟概括你的论文。</text>
+    <text class="small" x="50" y="226">系统反馈：转文字、结构、语速、停顿，不做情绪绝对判断。</text>
+    <circle cx="250" cy="360" r="58" fill="#e0f2fe" stroke="#7dd3fc" stroke-width="3"/>
+    <rect class="teal" x="226" y="333" width="48" height="72" rx="24"/>
+    <text class="small" x="206" y="444">正在录音 01:18 / 02:00</text>
+    <rect class="secondary" x="28" y="508" width="210" height="42" rx="8"/>
+    <text class="chipText" x="133" y="535" text-anchor="middle">改为文字</text>
+    <rect class="primary" x="262" y="508" width="210" height="42" rx="8"/>
+    <text class="button" x="367" y="535" text-anchor="middle">提交语音</text>
+  </g>
+
+  <!-- P17 -->
+  <g transform="translate(650,3550)">
+    <rect class="screen" width="500" height="600" rx="16"/>
+    <rect class="topbar" width="500" height="54" rx="16"/>
+    <rect x="0" y="38" width="500" height="16" fill="#18404a"/>
+    <text class="screenId" x="22" y="33">P17</text>
+    <text class="nav" x="250" y="33" text-anchor="middle">视频模拟</text>
+    <text class="h1" x="28" y="92">模拟现场答辩</text>
+    <text class="small" x="28" y="116">视频能力灰度，默认不进入 MVP</text>
+    <rect class="card" x="28" y="144" width="444" height="220" rx="8"/>
+    <rect x="54" y="174" width="392" height="156" rx="8" fill="#111827"/>
+    <circle cx="250" cy="252" r="48" fill="#334155"/>
+    <text class="button" x="250" y="258" text-anchor="middle">摄像头预览</text>
+    <text class="small" x="54" y="348">权限拒绝时：显示文字训练入口。</text>
+    <rect class="card" x="28" y="394" width="444" height="84" rx="8"/>
+    <text class="tiny" x="50" y="418">复盘内容</text>
+    <text class="body" x="50" y="446">回答结构、时间控制、打断回应；不做情绪绝对判断。</text>
+    <rect class="primary" x="28" y="512" width="444" height="42" rx="8"/>
+    <text class="button" x="250" y="539" text-anchor="middle">开始视频模拟</text>
+  </g>
+
+  <!-- P18 -->
+  <g transform="translate(1230,3550)">
+    <rect class="screen" width="500" height="600" rx="16"/>
+    <rect class="topbar" width="500" height="54" rx="16"/>
+    <rect x="0" y="38" width="500" height="16" fill="#18404a"/>
+    <text class="screenId" x="22" y="33">P18</text>
+    <text class="nav" x="250" y="33" text-anchor="middle">学校规范库 / 组织看板</text>
+    <text class="h1" x="28" y="92">平台化质量管理</text>
+    <text class="small" x="28" y="116">规范有来源，组织看板默认脱敏</text>
+    <rect class="card" x="28" y="144" width="444" height="132" rx="8"/>
+    <text class="tiny" x="50" y="168">学校规范库</text>
+    <text class="body" x="50" y="196">选择学校 / 学院 / 答辩规范版本</text>
+    <text class="small" x="50" y="224">缺来源或未核验的规范不可用于训练。</text>
+    <rect class="chipGreen" x="50" y="240" width="112" height="26" rx="8"/><text class="chipText" x="106" y="258" text-anchor="middle">已核验来源</text>
+    <rect class="card" x="28" y="306" width="444" height="132" rx="8"/>
+    <text class="tiny" x="50" y="330">组织质量看板</text>
+    <text class="body" x="50" y="358">按学院/班级查看完成率、薄弱模块和趋势。</text>
+    <text class="small" x="50" y="386">样本过少时隐藏细分数据，防止识别个人。</text>
+    <rect class="primary" x="28" y="510" width="444" height="42" rx="8"/>
+    <text class="button" x="250" y="537" text-anchor="middle">查看脱敏趋势</text>
+  </g>
+
+  <rect x="70" y="4248" width="1660" height="196" rx="12" fill="#ffffff" stroke="#d7e0ea"/>
+  <text class="h2" x="102" y="4290">阶段边界说明</text>
+  <text class="body" x="102" y="4324">一期只实现 P1-P6 的文字训练、复练和资料删除闭环；P7-P11 属于二期个人效率增强；P12-P15 属于三期协作；P16-P18 属于最终平台化候选能力。</text>
+  <text class="body" x="102" y="4358">所有后续页面都是产品原型，不代表当前开发承诺。进入对应阶段前，需要重新经过 Codex 开发文档、发送前审核和人工确认。</text>
+  <text class="small" x="102" y="4392">异常状态覆盖：资料不足、空回答、模型失败、导出隐私、授权撤销、样本过少、权限拒绝、规范来源缺失。</text>
+</svg>

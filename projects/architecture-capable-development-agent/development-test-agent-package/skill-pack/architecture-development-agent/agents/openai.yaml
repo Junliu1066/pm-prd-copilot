@@ -1,0 +1,4 @@
+interface:
+  display_name: "Development Test Agent"
+  short_description: "Scoped development with A1/A2/A3/B governance gates"
+  default_prompt: "Use $architecture-development-agent to run A1 feasibility review, A2 orchestration, A3 module preflight, scoped implementation, Module B quality gates, and development/testing evidence from an approved development document, task package, bug report, or test plan."

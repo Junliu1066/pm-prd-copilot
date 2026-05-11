@@ -9,11 +9,27 @@
 ## Operating Rules
 
 - Keep this map small. It should point to facts, not duplicate all facts.
+- Keep architecture memory explicit and file-based. A model's private memory, chat context, or app state is not a stable source of truth.
+- Prefer Markdown, YAML, JSON, and images for durable knowledge so the user can inspect, search, version, move, and reuse it with any AI or tool.
 - Use it before changing stable rules, memory, workflow, harness, skill, automation, templates, or project lifecycle rules.
 - Every stable module should be able to show a closed loop: input, action, artifact, owner, validation, feedback, and approval boundary.
 - Mark a module as `partial_loop` or `open_loop` when a critical closure part is missing.
 - Mark a node as `partial_loop / stale_map_node` when its source file changed but this map was not reconciled.
 - Red/green tests may be executable tests or acceptance checks, but they must state what fails and what proves the path works.
+
+## File-Based Memory Principles
+
+The knowledge map follows a file-first personalization and architecture-memory model:
+
+| Principle | Meaning in this repo | Required handling |
+|---|---|---|
+| Explicit | Architecture memory must be visible and inspectable. | Put stable knowledge in approved files; do not rely on hidden model memory. |
+| User-owned | The user controls the knowledge base. | Keep durable memory in the repo or user-owned local files. |
+| File over app | Files are the interoperability layer. | Prefer Markdown, YAML, JSON, and images before a database, SaaS workspace, or custom app. |
+| BYOAI | The knowledge base should work with Codex, Claude, OpenCode, or future models. | Avoid provider-specific assumptions in stable memory. |
+| Auditable | Every memory change needs a source and approval boundary. | Link back to source file, proposal, project closeout, or user-approved preference. |
+
+These principles do not create a new memory system. They constrain how existing memory, proposals, projects, and governance maps should be maintained.
 
 ## Governance Module
 
@@ -53,6 +69,7 @@
 | Long-term preference | `pm-prd-copilot/memory/user_preferences.md` | Approved reusable user preferences only. | Adding project-specific or inferred preferences without explicit approval. | User-approved update, then regression / harness if behavior changes. |
 | Project preference | `memory-cache/projects/{project}/` | Current project continuity and project-only decisions. | Cross-project reuse or automatic long-term promotion. | Project closeout: clear, keep as project evidence, or propose long-term item. |
 | Candidate learning | `docs/proposals/*`, `docs/architecture-inbox/*` | Evidence, reasoning, and proposal material. | Treating candidate material as stable behavior. | Architecture distillation: keep, merge, downgrade, archive candidate, or delete-after-review candidate with approval where required. |
+| Model context | Chat context or provider-side memory | Temporary reasoning aid only. | Treating hidden or non-exportable context as durable architecture memory. | Convert useful learning into an explicit file and route through approval or distillation. |
 
 ## Change Impact Checklist
 

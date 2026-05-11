@@ -46,6 +46,19 @@ The kernel routes work to existing mechanisms:
 | Harness / eval | `harness/` and eval suites | Prefer conditional checks and minimal false-positive boundaries. |
 | Candidate learning | `docs/proposals/` and `docs/architecture-inbox/` | Keep as candidate until distilled and approved. |
 
+## File-First Architecture Memory
+
+Architecture memory must stay explicit, inspectable, user-owned, and model-portable.
+
+| Principle | Kernel rule | Risk prevented |
+|---|---|---|
+| Explicit memory | Long-lived knowledge must be visible in files, not hidden in model memory. | Unknown or unreviewable behavior changes. |
+| User-owned data | Architecture memory belongs in the local repo or user-controlled files. | Lock-in to one AI provider or app. |
+| File over app | Prefer Markdown, YAML, JSON, and images before databases or product UI. | Overbuilding storage and making knowledge hard to migrate. |
+| BYOAI | Any capable AI should be able to read the same files and continue the work. | Architecture becoming dependent on one model's private memory. |
+
+The kernel may use model context for execution, but model context is not a stable source of truth. Stable memory must be written to approved files through the normal approval boundary.
+
 ## Architecture Distillation Mechanism / 架构蒸馏机制
 
 Do not use a simple exit mechanism for new ideas. Use architecture distillation.

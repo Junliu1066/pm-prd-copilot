@@ -16,6 +16,7 @@ It manages:
 - impact analysis before stable architecture changes
 - stale-map detection
 - memory boundary checks
+- explicit file-based memory ownership checks
 - closure review for stable modules
 - red/green or substitute acceptance checks for governance changes
 
@@ -106,6 +107,7 @@ The module must separate:
 - project memory: current project continuity only
 - proposals: candidate knowledge only
 - architecture inbox: reusable architecture feedback candidates only
+- model context: temporary reasoning aid only, not durable architecture memory
 
 It must block these mistakes:
 
@@ -113,6 +115,21 @@ It must block these mistakes:
 - proposal treated as stable policy
 - temporary staging or commit notes treated as reusable guidance
 - closeout learning applied across projects without user approval
+- hidden model memory, chat-only context, or app-only state treated as the source of truth
+
+## File-First Memory Governance
+
+Durable architecture memory must be explicit, user-owned, file-based, portable across AI tools, and auditable.
+
+| Check | Requirement |
+|---|---|
+| Explicit | The knowledge can be opened and inspected as a file. |
+| User-owned | The durable copy is in the repo or user-controlled local files. |
+| Portable | The format is broadly usable, such as Markdown, YAML, JSON, or images. |
+| AI-agnostic | Codex, Claude, OpenCode, or future models can read the same material. |
+| Source-linked | The memory points back to a source file, proposal, closeout, or explicit user approval. |
+
+If a useful learning exists only in chat or a provider's hidden memory, it is not stable. Convert it into an explicit candidate file first, then run the normal approval or architecture distillation path.
 
 ## Closure Standard
 

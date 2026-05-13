@@ -1,0 +1,12 @@
+{
+  "source_id": "openai-chatgpt-release-notes",
+  "vendor": "openai",
+  "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes",
+  "fetched_at": "2026-05-13T05:11:28.915827+00:00",
+  "stage": "fetch",
+  "status": "ok",
+  "likely_cause": "",
+  "next_action": "",
+  "http_status": 200,
+  "bytes": 501524
+}

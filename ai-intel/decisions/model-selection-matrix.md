@@ -19,5 +19,5 @@ Use this document as a curated decision surface, not as ground truth.
 - anthropic: Newsroom - Introducing Claude Opus 4.7 [newsroom_watch] (verification required)
 - google: Release notes - Released gemini-3.1-flash-lite , the generally available (GA) version of Gemini 3.1 Flash-Lite , optimized for speed, scale, and cost efficiency. [release_notes] (verification required)
 - google: Gemini deprecations - Gemini 3 models [deprecation_watch] (verification required)
-- openai: ChatGPT — Release Notes - Trusted contact in ChatGPT [release_notes] (verification required)
+- openai: ChatGPT — Release Notes - More images in answers for Free users [release_notes] (verification required)
 <!-- LATEST_UPDATES_END -->

@@ -1,0 +1,12 @@
+{
+  "source_id": "anthropic-news",
+  "vendor": "anthropic",
+  "url": "https://www.anthropic.com/news",
+  "fetched_at": "2026-05-14T05:09:03.282833+00:00",
+  "stage": "fetch",
+  "status": "ok",
+  "likely_cause": "",
+  "next_action": "",
+  "http_status": 200,
+  "bytes": 366199
+}

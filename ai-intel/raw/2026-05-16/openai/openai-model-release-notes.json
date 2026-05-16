@@ -1,0 +1,12 @@
+{
+  "source_id": "openai-model-release-notes",
+  "vendor": "openai",
+  "url": "https://help.openai.com/en/articles/9624314-model-release-notes",
+  "fetched_at": "2026-05-16T04:54:35.626363+00:00",
+  "stage": "fetch",
+  "status": "ok",
+  "likely_cause": "",
+  "next_action": "",
+  "http_status": 200,
+  "bytes": 138917
+}

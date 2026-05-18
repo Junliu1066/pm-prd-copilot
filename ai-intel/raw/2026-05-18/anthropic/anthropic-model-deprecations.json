@@ -1,0 +1,12 @@
+{
+  "source_id": "anthropic-model-deprecations",
+  "vendor": "anthropic",
+  "url": "https://docs.anthropic.com/en/docs/about-claude/model-deprecations",
+  "fetched_at": "2026-05-18T05:45:56.026936+00:00",
+  "stage": "fetch",
+  "status": "ok",
+  "likely_cause": "",
+  "next_action": "",
+  "http_status": 200,
+  "bytes": 680396
+}
